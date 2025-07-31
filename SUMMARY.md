@@ -35,7 +35,7 @@
     - [External Calls](developers/script-builder/external-calls.md)
   - [Compiler (TOMB)](developers/compiler/README.md)  <!-- Has its own SUMMARY.md -->
   - [SDKs](developers/sdks/README.md)  <!-- Each SDK has its own SUMMARY.md -->
-    - [C# SDK](developers/sdks/csharp/README.md)
+    - [C# SDK](developers/sdks/csharp/)
     - [C++ SDK](developers/sdks/cpp/README.md)
     - [Python SDK](developers/sdks/python/README.md)
     - [TypeScript SDK](developers/sdks/ts/README.md)
