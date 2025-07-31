@@ -57,9 +57,3 @@ To develop dApps on Phantasma, it is recommended to run a Phantasma node locally
 {% content-ref url="https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/R8cwxG1GemgWzI9QGpRt/" %}
 [C++](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/R8cwxG1GemgWzI9QGpRt/)
 {% endcontent-ref %}
-
-## Godot
-
-{% content-ref url="https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/z2Adcens80jFEMmm2A0E/" %}
-[Godot](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/z2Adcens80jFEMmm2A0E/)
-{% endcontent-ref %}

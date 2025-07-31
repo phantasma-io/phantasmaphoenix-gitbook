@@ -1,2 +1,0 @@
-# João "Tek" Novo
-

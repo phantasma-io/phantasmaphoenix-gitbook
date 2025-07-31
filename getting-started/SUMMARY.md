@@ -10,5 +10,4 @@
 ## Resources
 
 * [👻 About Phantasma](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/lwkVZ26cO8XlV9uPYJEg/)
-* [🧑‍🤝‍🧑 For new Soldiers](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/NlhUdsGfZegXYkh1Vrs4/)
 * [🖥️ For Developers](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/PmRIerRvyRSGopMwjYP3/)

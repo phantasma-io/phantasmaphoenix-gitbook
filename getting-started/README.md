@@ -20,14 +20,6 @@ Come and take a look of the Phantasma Ecosystem.
 [About Phantasma](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/lwkVZ26cO8XlV9uPYJEg/)
 {% endcontent-ref %}
 
-## You're a new Soldier?
-
-Don't waste any time and view what you can do, transfer token, all that good stuff!
-
-{% content-ref url="https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/NlhUdsGfZegXYkh1Vrs4/" %}
-[Souldiers](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/NlhUdsGfZegXYkh1Vrs4/)
-{% endcontent-ref %}
-
 ## For Developers
 
 Looking for the proper tools for the job, don't go any further!

@@ -63,5 +63,4 @@
 
 * [Resources](resources/resources.md)
 * [👻 Getting Started](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/QnFdaRxVGz7feA9U277Y/)
-* [🧑‍🤝‍🧑 For new Soldiers](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/NlhUdsGfZegXYkh1Vrs4/)
 * [👨‍💻 For Developers](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/PmRIerRvyRSGopMwjYP3/)

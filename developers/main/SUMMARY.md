@@ -33,10 +33,8 @@
     * [TS / JS SDK](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/RORNvFR5HzZFv2kjw71s/)
     * [Unity](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/NflWwWSAG32PDRVUpqmp/)
     * [Unreal](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/R8cwxG1GemgWzI9QGpRt/)
-    * [Godot](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/z2Adcens80jFEMmm2A0E/)
   * [🔗 Blockchain](tools-and-sdks/tools-and-sdks/blockchain/README.md)
     * [Chain](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/ATrtiH72JP18S0lWPw5W/)
-    * [Explorer](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/YOctWPglTZ1wroq6KHMS/)
 
 ## 📹 Tutorials
 
@@ -46,4 +44,3 @@
 
 * [👻 Getting Started](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/QnFdaRxVGz7feA9U277Y/)
 * [👻 About Phantasma](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/lwkVZ26cO8XlV9uPYJEg/)
-* [🧑‍🤝‍🧑 For new Soldiers](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/NlhUdsGfZegXYkh1Vrs4/)

@@ -1,2 +1,0 @@
-# Sérgio "Relfos" Flores
-

@@ -1,2 +1,0 @@
-# Claiming KCAL
-
