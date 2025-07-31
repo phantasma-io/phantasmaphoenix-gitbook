@@ -1,9 +1,5 @@
 # Community
 
-{% hint style="info" %}
-**Good to know:** your product docs aren't just a reference of all your features! use them to encourage folks to perform certain actions and discover the value in your product.
-{% endhint %}
-
 ## Telegram
 
 {% embed url="https://t.me/phantasma_io" %}
@@ -26,12 +22,6 @@ Medium
 
 {% embed url="https://github.com/Phantasma-io" %}
 Github
-{% endembed %}
-
-## Reddit
-
-{% embed url="https://www.reddit.com/r/phantasma/" %}
-Reddit
 {% endembed %}
 
 ## Youtube
