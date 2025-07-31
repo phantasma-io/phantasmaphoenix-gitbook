@@ -10,7 +10,7 @@ The first thing to do is to create an instance of the **PhantasmaAPI.**
 
 ### Testnet Configurations
 
-* RPC URL -> https://testnet.phantasma.io/rpc
+* RPC URL -> https://testnet.phantasma.info/rpc
 * Peers URL -> undefined
 * Nexus Name -> testnet
 

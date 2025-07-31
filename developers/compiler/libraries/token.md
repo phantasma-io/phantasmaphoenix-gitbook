@@ -2,7 +2,7 @@
 
 {% hint style="info" %}
 The Token library allows contracts to create and transfer fungible tokens.\
-While some of the methods here also work for non-fungible tokens, see also the [NFT](https://docs.phantasma.io/#nft-library) library.
+While some of the methods here also work for non-fungible tokens, see also the [NFT](https://docs.phantasma.info/#nft-library) library.
 {% endhint %}
 
 | Method                                                                                                                           | Return type | Description                                                                                                                                                                          |

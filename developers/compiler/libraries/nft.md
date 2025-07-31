@@ -1,7 +1,7 @@
 # NFT
 
 {% hint style="info" %}
-The NFT library exposes methods that allow minting, burning, [infusing](https://docs.phantasma.io/#nft-infusion) and transfering Phantasma NFTs.
+The NFT library exposes methods that allow minting, burning, [infusing](https://docs.phantasma.info/#nft-infusion) and transfering Phantasma NFTs.
 {% endhint %}
 
 | Method                                                                                                  | Return type | Description                                                                               |

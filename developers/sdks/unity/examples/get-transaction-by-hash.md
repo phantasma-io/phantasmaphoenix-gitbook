@@ -5,7 +5,7 @@ This example demonstrates fetching a transaction's details by its hash. The `Get
 ```csharp
 public void GetTransaction(string hash, Action<Transaction> callback)
 {
-    PhantasmaAPI api = new PhantasmaAPI("https://testnet.phantasma.io/rpc");
+    PhantasmaAPI api = new PhantasmaAPI("https://testnet.phantasma.info/rpc");
     StartCoroutine(api.GetTransaction(hash, callback));
 }
 ```

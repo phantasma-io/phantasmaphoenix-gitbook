@@ -39,7 +39,7 @@ All the arguments that can be used.
 
 Go to the Phantasma HUB where you can deploy your contract and do much more than that!
 
-{% embed url="https://contract.phantasma.io/" %}
+{% embed url="https://contract.phantasma.info/" %}
 Phantasma - Hub
 {% endembed %}
 

@@ -1,7 +1,7 @@
 # Task
 
 {% hint style="info" %}
-The Task library exposes methods to start and stop [tasks](https://docs.phantasma.io/#chain-tasks).
+The Task library exposes methods to start and stop [tasks](https://docs.phantasma.info/#chain-tasks).
 {% endhint %}
 
 | Method                                                                                | Return type | Description                                                                                                    |

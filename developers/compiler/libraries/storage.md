@@ -1,7 +1,7 @@
 # Storage
 
 {% hint style="info" %}
-The Storage library allows a contract to interact with contract storage and also the decentralized [file storage](https://docs.phantasma.io/#chain-storage) of Phantasma.
+The Storage library allows a contract to interact with contract storage and also the decentralized [file storage](https://docs.phantasma.info/#chain-storage) of Phantasma.
 {% endhint %}
 
 | Method                                                                                                             | Return type | Description                                                                                                                                                                                                                    |

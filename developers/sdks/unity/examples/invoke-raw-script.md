@@ -5,7 +5,7 @@ This example shows how to call the blockchain directly to get information using 
 ```csharp
 public void InvokeRawScript()
 {
-    PhantasmaAPI api = new PhantasmaAPI("https://testnet.phantasma.io/rpc");
+    PhantasmaAPI api = new PhantasmaAPI("https://testnet.phantasma.info/rpc");
     var toAddress = Address.FromText("P2KKEjZK7AbcKZjuZMsWKKgEjNzeGtr2zBiV7qYJHxNXvUa");
     ScriptBuilder sb = new ScriptBuilder();
     var script = sb.

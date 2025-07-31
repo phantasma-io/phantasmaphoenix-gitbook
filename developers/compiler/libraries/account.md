@@ -1,7 +1,7 @@
 # Account
 
 {% hint style="info" %}
-The Account library exposes methods to handle Phantasma [accounts](https://docs.phantasma.io/#chain-accounts).
+The Account library exposes methods to handle Phantasma [accounts](https://docs.phantasma.info/#chain-accounts).
 {% endhint %}
 
 | Method                                                               | Return type | Description                                                                                                                                                                                                                                                                   |

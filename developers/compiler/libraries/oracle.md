@@ -1,7 +1,7 @@
 # Oracle
 
 {% hint style="info" %}
-The Oracle library exposes access to the [oracle](https://docs.phantasma.io/#chain-oracles) features of Phantasma
+The Oracle library exposes access to the [oracle](https://docs.phantasma.info/#chain-oracles) features of Phantasma
 {% endhint %}
 
 | Method                                                             | Return type | Description                                                                                       |

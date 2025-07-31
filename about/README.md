@@ -15,7 +15,7 @@ SmartNFTs are NFTs with dynamic properties that can change based on certain cond
 
 Phantasma has an easy-to-use connector between dApps, wallets and blockchain via Phantasma Link.
 
-##Community & Resources
+## Community & Resources
 
 ### Site
 
@@ -65,20 +65,20 @@ Twitter
 Facebook
 {% endembed %}
 
-##Other resources
+## Other resources
 
-That would be the series of blog posts on our website that you could pick bits and pieces from: [https://phantasma.info/news/](https://phantasma.io/news/)&#x20;
+That would be the series of blog posts on our website that you could pick bits and pieces from: [https://phantasma.info/news/](https://phantasma.info/news/)&#x20;
 
 Like some of these:
 
-&#x20;[https://phantasma.info/the-phantasmafied-metaverse/](https://phantasma.io/the-phantasmafied-metaverse/)&#x20;
+&#x20;[https://phantasma.info/the-phantasmafied-metaverse/](https://phantasma.info/the-phantasmafied-metaverse/)&#x20;
 
 [https://phantasma.info/phantasma-a-certified-carbon-negative-blockchain/](https://phantasma.info/phantasma-a-certified-carbon-negative-blockchain/)
 
-[https://phantasma.info/the-phantasma-token-economy/](https://phantasma.io/the-phantasma-token-economy/)&#x20;
+[https://phantasma.info/the-phantasma-token-economy/](https://phantasma.info/the-phantasma-token-economy/)&#x20;
 
-[https://phantasma.info/phantasma-decentralized-smart-nfts/](https://phantasma.io/phantasma-decentralized-smart-nfts/)&#x20;
+[https://phantasma.info/phantasma-decentralized-smart-nfts/](https://phantasma.info/phantasma-decentralized-smart-nfts/)&#x20;
 
-[https://phantasma.info/post-maintenance-recap/](https://phantasma.io/post-maintenance-recap/)&#x20;
+[https://phantasma.info/post-maintenance-recap/](https://phantasma.info/post-maintenance-recap/)&#x20;
 
-[https://phantasma.info/nftfusion/](https://phantasma.io/nftfusion/)&#x20;
+[https://phantasma.info/nftfusion/](https://phantasma.info/nftfusion/)&#x20;

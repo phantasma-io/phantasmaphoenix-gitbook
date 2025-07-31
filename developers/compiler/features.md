@@ -11,20 +11,20 @@ TOMB generates code that runs in the PhantasmaVM, and supports multiple programm
 ## Supported Features
 
 * Smart contracts and Non-contract Scripts (eg: transactions, raw invokes)
-* Numbers, strings ([Example](https://docs.phantasma.io/#tomb-example_strings)), bools, timestamps, addresses, hashes and decimals ([Example](https://docs.phantasma.io/#tomb-example_decimals))
+* Numbers, strings ([Example](https://docs.phantasma.info/#tomb-example_strings)), bools, timestamps, addresses, hashes and decimals ([Example](https://docs.phantasma.info/#tomb-example_decimals))
 * Constants
-* Enums ([Example](https://docs.phantasma.io/#tomb-example_enums))
-* Global and local variables ([Example](https://docs.phantasma.io/#tomb-example_simple_counter))
-* Array indexing ([Example](https://docs.phantasma.io/#tomb-example_string_manipulation))
+* Enums ([Example](https://docs.phantasma.info/#tomb-example_enums))
+* Global and local variables ([Example](https://docs.phantasma.info/#tomb-example_simple_counter))
+* Array indexing ([Example](https://docs.phantasma.info/#tomb-example_string_manipulation))
 * Bitshifting and logical operators
 * Contract constructors, methods and triggers
-* Contract public methods ([Example](https://docs.phantasma.io/#tomb-example_simple_sum))
+* Contract public methods ([Example](https://docs.phantasma.info/#tomb-example_simple_sum))
 * Return values
-* Collections (Maps ([Example](https://docs.phantasma.io/#tomb-example_map)) and lists)
+* Collections (Maps ([Example](https://docs.phantasma.info/#tomb-example_map)) and lists)
 * Generic types
-* If ... Else ([Example](https://docs.phantasma.io/#tomb-example_conditions))
+* If ... Else ([Example](https://docs.phantasma.info/#tomb-example_conditions))
 * While ... and Do ... While loops
-* Switch .. case ([Example](https://docs.phantasma.io/#tomb-example_switch_case))
+* Switch .. case ([Example](https://docs.phantasma.info/#tomb-example_switch_case))
 * Break and Continue
 * Throw Exceptions
 * Uninitialized globals validation

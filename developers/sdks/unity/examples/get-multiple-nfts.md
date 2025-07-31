@@ -5,7 +5,7 @@ This example demonstrates how to fetch multiple NFTs at once using the `GetNFTs(
 ```csharp
 public void GetNFTs()
 {
-    PhantasmaAPI api = new PhantasmaAPI("https://testnet.phantasma.io/rpc");
+    PhantasmaAPI api = new PhantasmaAPI("https://testnet.phantasma.info/rpc");
     var symbol = "CROWN";
     var IDs = new String[] { "" };
     StartCoroutine(api.GetNFTs(symbol, IDs, (nfts) =>

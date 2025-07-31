@@ -1,7 +1,7 @@
 # Leaderboard
 
 {% hint style="info" %}
-The leaderboard library exposes methods that allow to create and manipulate [leaderboards](https://docs.phantasma.io/#chain-leaderboards).
+The leaderboard library exposes methods that allow to create and manipulate [leaderboards](https://docs.phantasma.info/#chain-leaderboards).
 {% endhint %}
 
 | Method                                                                           | Return type | Description                                                                              |

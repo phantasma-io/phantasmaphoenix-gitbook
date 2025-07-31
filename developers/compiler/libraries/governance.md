@@ -1,7 +1,7 @@
 # Governance
 
 {% hint style="info" %}
-The Governance library allows to interact with the decentralized [governance](https://docs.phantasma.io/#chain-governance) of Phantasma.
+The Governance library allows to interact with the decentralized [governance](https://docs.phantasma.info/#chain-governance) of Phantasma.
 {% endhint %}
 
 | Method                                                                           | Return type | Description                                                                                                                        |

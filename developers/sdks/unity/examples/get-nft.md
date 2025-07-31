@@ -5,7 +5,7 @@ This example shows how to fetch an NFT's details using the `GetNFT()` method fro
 ```csharp
 public void GetNFT()
 {
-     PhantasmaAPI api = new PhantasmaAPI("https://testnet.phantasma.io/rpc");
+     PhantasmaAPI api = new PhantasmaAPI("https://testnet.phantasma.info/rpc");
      var symbol = "CROWN";
      var ID = "";
      StartCoroutine(api.GetNFT(symbol, ID, (nft) =>
