@@ -2,7 +2,6 @@
 
 - [About]
   - [About](about/README.md)
-  - [What We Do](about/what-we-do.md)
   - [Our Features](about/our-features.md)
   - [Community]
     - [22 Racing Series](about/community/dapps/22-racing-series.md)

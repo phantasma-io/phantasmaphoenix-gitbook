@@ -15,6 +15,10 @@ SmartNFTs are NFTs with dynamic properties that can change based on certain cond
 
 Phantasma has an easy-to-use connector between dApps, wallets and blockchain via Phantasma Link.
 
+Please view this short 2 minutes video overview of our chain:
+
+{% embed url="https://www.youtube.com/watch?v=g3m22SF-9WM" %}
+
 ## Community & Resources
 
 ### Site
