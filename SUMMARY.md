@@ -1,10 +1,9 @@
 # Summary
 
-- [Getting Started](getting-started/README.md)
-  - [What We Do](getting-started/overview/what-we-do.md)
-  - [Our Features](getting-started/overview/our-features.md)
-
-- [About](about/README.md)
+- [About]
+  - [About](about/README.md)
+  - [What We Do](about/what-we-do.md)
+  - [Our Features](about/our-features.md)
   - [Community](about/community/README.md)
     - [22 Racing Series](about/community/dapps/22-racing-series.md)
     - [Blood Rune](about/community/dapps/blood-rune.md)
