@@ -1,0 +1,27 @@
+---
+description: TOMB smart contract compiler for Phantasma platform.
+cover: .gitbook/assets/tomb.jpeg
+coverY: 0
+---
+
+# 👋 Tomb
+
+## Description <a href="#description" id="description"></a>
+
+TOMB is a custom programming language created for developing smart contracts for the Phantasma Blockchain.
+
+## Want to jump right in?
+
+Feeling like an eager beaver? Jump in to the quick start docs and get making your first smart contract:
+
+{% content-ref url="quick-start.md" %}
+[quick-start.md](quick-start.md)
+{% endcontent-ref %}
+
+## Want to deep dive?
+
+Dive a little deeper and start exploring our Libraries  to get an idea of everything that's possible to do with tomb:
+
+{% content-ref url="features/features.md" %}
+[features.md](features/features.md)
+{% endcontent-ref %}

@@ -1,0 +1,47 @@
+# Fungible Token
+
+{% hint style="info" %}
+**Remember**: While creating you **Fungible Token (FT)** to see all the avaible properties that a token can have, it's in [Basics > Properties](../../../basics/basics/properties.md) .
+{% endhint %}
+
+Showcases how to implement a fungible token (eg: the Phantasma equivalent to an Ethereum ERC20).
+
+{% code lineNumbers="true" %}
+```csharp
+token DOG { // this defines the token symbol as DOG
+	import Runtime;
+
+	property name:string = "Dog Token";
+
+	property isFungible: bool = true;
+
+	property isDivisible: bool = true;
+	property decimals:number = 8; // required only if isDivisible is true
+	
+	property isTransferable: bool = true;
+	property isBurnable: bool = true;
+	
+	property isFinite: bool = false;
+	//property maxSupply: number = 1000000; // required only if isFinite is true
+	
+	global _admin: address;
+	
+	constructor(owner:address)	{
+       		_admin = owner;
+	}
+
+	// allows the token to be upgraded later, remove this trigger if you want a imutable fungible token
+	trigger onUpgrade(from:address) 
+	{
+		Runtime.expect(Runtime.isWitness(_admin), "witness failed");
+		return;
+	}
+	
+	// its possible to also add more triggers, custom methods etc
+}
+```
+{% endcode %}
+
+###
+
+\

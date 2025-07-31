@@ -1,0 +1,43 @@
+# Calls
+
+### Call contract from another contract
+
+Example showcasing calling contract storage directly from another contract.\
+Basic version where another storage map is called, and this value is incremented and stored in another contract storage.\
+
+
+{% code lineNumbers="true" %}
+```csharp
+contract test {
+
+	import Map;
+	import Storage;
+	import Call;
+
+	global counters: storage_map<number, number>;
+
+	private getContractCount(tokenId:number):number {
+	
+		local count:number := Call.interop<number>("Map.Get",  "OTHERCONTRACT", "_storageMap", tokenId, $TYPE_OF(number));
+		return count;
+		
+	}
+
+	public updateCount(tokenID:number) {
+	
+		local contractCounter:number := this.getContractCount(tokenID);
+		contractCounter += 1;
+		counters.set(tokenID, contractCounter);
+		
+	}
+
+	public getCount(tokenID:number):number {
+	
+		local temp:number := counters.get(tokenID);
+		return temp;
+		
+	}
+}
+```
+{% endcode %}
+
