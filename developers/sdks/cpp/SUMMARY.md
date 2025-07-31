@@ -1,14 +1,8 @@
-# Table of contents
+# Summary
 
-* [👋 Welcome!](README.md)
-* [🎆 Quick Start](quick-start.md)
+- [C++ SDK Overview](README.md)
+- [Quick Start](quick-start.md)
 
-## Low Level API
+## Low-Level API
 
-* [Low-Level API: The Nuts and Bolts of Phantasma](low-level-api/low-level-api-the-nuts-and-bolts-of-phantasma.md)
-
-## Resources
-
-* [👻 Getting Started](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/QnFdaRxVGz7feA9U277Y/)
-* [👻 About Phantasma](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/lwkVZ26cO8XlV9uPYJEg/)
-* [👨‍💻 For Developers](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/PmRIerRvyRSGopMwjYP3/)
+- [The Nuts and Bolts of Phantasma](low-level-api/low-level-api-the-nuts-and-bolts-of-phantasma.md)
