@@ -9,14 +9,14 @@
 
 ## Basics
 
-* [🚩 Basics](basics/basics/README.md)
-  * [Default types](basics/basics/default-types/README.md)
-    * [Available macros](basics/basics/default-types/available-macros.md)
-  * [Variable declaration](basics/basics/variable-declaration.md)
-  * [Call method](basics/basics/call-method.md)
-  * [Library Importing](basics/basics/library-importing.md)
-  * [Trigger's](basics/basics/triggers.md)
-  * [Properties](basics/basics/properties.md)
+* [🚩 Basics](basics/README.md)
+  * [Default types](basics/default-types/README.md)
+    * [Available macros](basics/default-types/available-macros.md)
+  * [Variable declaration](basics/variable-declaration.md)
+  * [Call method](basics/call-method.md)
+  * [Library Importing](basics/library-importing.md)
+  * [Trigger's](basics/triggers.md)
+  * [Properties](basics/properties.md)
 
 ## Features
 

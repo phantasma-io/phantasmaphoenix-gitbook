@@ -22,12 +22,6 @@ The Phantasma Virtual Machine is on a way comparable to Ethereum Virtual Machine
 [opcodes.md](opcodes.md)
 {% endcontent-ref %}
 
-## **Assembler**
-
-{% content-ref url="assembler.md" %}
-[assembler.md](assembler.md)
-{% endcontent-ref %}
-
 ## **Interop**
 
 {% content-ref url="interop.md" %}

@@ -4,8 +4,8 @@
 For more information check the **Trigger's page**
 {% endhint %}
 
-{% content-ref url="../../../basics/basics/triggers.md" %}
-[triggers.md](../../../basics/basics/triggers.md)
+{% content-ref url="../../../basics/triggers.md" %}
+[triggers.md](../../../basics/triggers.md)
 {% endcontent-ref %}
 
 ### Trigger On Upgrade

@@ -77,7 +77,7 @@ let script = scriptBuilder
 
 ### Call Interop
 
-This method is used to Call an Internal Operation in the blockchain, you can check the list of possible Internal Operations that you can call [here](https://app.gitbook.com/s/PmRIerRvyRSGopMwjYP3/phantasma-scriptbuilder/phantasma-scriptbuilder-class-documentation/external-calls).
+This method is used to Call an Internal Operation in the blockchain, you can check the list of possible Internal Operations that you can call [here](https://app.gitbook.com/s/PmRIerRvyRSGopMwjYP3/phantasma-scriptbuilder/external-calls).
 
 **Parameters**
 

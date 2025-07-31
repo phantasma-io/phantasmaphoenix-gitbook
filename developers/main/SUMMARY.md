@@ -17,28 +17,23 @@
 
 ## Phantasma ScriptBuilder
 
-* [📝 Phantasma ScriptBuilder Class Documentation](phantasma-scriptbuilder/phantasma-scriptbuilder-class-documentation/README.md)
-  * [Examples](phantasma-scriptbuilder/phantasma-scriptbuilder-class-documentation/examples.md)
-  * [External Calls](phantasma-scriptbuilder/phantasma-scriptbuilder-class-documentation/external-calls.md)
+* [📝 Phantasma ScriptBuilder Class Documentation](phantasma-scriptbuilder/README.md)
+  * [Examples](phantasma-scriptbuilder/examples.md)
+  * [External Calls](phantasma-scriptbuilder/external-calls.md)
 
 ## Tools and sdk's
 
-* [🖥️ Tools and SDK's](tools-and-sdks/tools-and-sdks/README.md)
-  * [📜 Smart Contracts](tools-and-sdks/tools-and-sdks/smart-contracts/README.md)
-    * [How to Deploy](tools-and-sdks/tools-and-sdks/smart-contracts/how-to-deploy.md)
+* [🖥️ Tools and SDK's](tools-and-sdks/README.md)
+  * [📜 Smart Contracts](tools-and-sdks/smart-contracts/README.md)
+    * [How to Deploy](tools-and-sdks/smart-contracts/how-to-deploy.md)
     * [TOMB](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/ZhV34bhMgs6q5hfAZoLS/)
-    * [Solidity](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/jeLBbi9T3jsSfnyjirl8/)
-  * [🛠️ Phantasma SDK's](tools-and-sdks/tools-and-sdks/phantasma-sdks/README.md)
+  * [🛠️ Phantasma SDK's](tools-and-sdks/phantasma-sdks/README.md)
     * [C# SDK](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/I7N4jCuh7CmzeMTZFzbi/)
     * [TS / JS SDK](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/RORNvFR5HzZFv2kjw71s/)
     * [Unity](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/NflWwWSAG32PDRVUpqmp/)
     * [Unreal](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/R8cwxG1GemgWzI9QGpRt/)
-  * [🔗 Blockchain](tools-and-sdks/tools-and-sdks/blockchain/README.md)
+  * [🔗 Blockchain](tools-and-sdks/blockchain/README.md)
     * [Chain](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/ATrtiH72JP18S0lWPw5W/)
-
-## 📹 Tutorials
-
-* [Tutorial](tutorials/tutorial.md)
 
 ## Resources
 

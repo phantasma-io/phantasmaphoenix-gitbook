@@ -20,8 +20,8 @@ For development porpuses it's best to have your local chain, so you can test eve
 Are you looking for creating your own smart contract?
 {% endhint %}
 
-{% content-ref url="../tools-and-sdks/tools-and-sdks/smart-contracts/" %}
-[smart-contracts](../tools-and-sdks/tools-and-sdks/smart-contracts/)
+{% content-ref url="../tools-and-sdks/smart-contracts/" %}
+[smart-contracts](../tools-and-sdks/smart-contracts/)
 {% endcontent-ref %}
 
 ## Phantasma Hub
@@ -62,7 +62,7 @@ In this section you can see all of the important URLs for the testnet, this usef
 Explore our wide selection of Phantasma blockchain SDKs available for platforms like Unity, Typescript, and C++. These tools empower you to innovate and integrate with the Phantasma ecosystem, irrespective of your preferred development environment. Click to unleash the potential of decentralized technology.
 {% endhint %}
 
-{% content-ref url="../tools-and-sdks/tools-and-sdks/phantasma-sdks/" %}
-[phantasma-sdks](../tools-and-sdks/tools-and-sdks/phantasma-sdks/)
+{% content-ref url="../tools-and-sdks/phantasma-sdks/" %}
+[phantasma-sdks](../tools-and-sdks/phantasma-sdks/)
 {% endcontent-ref %}
 

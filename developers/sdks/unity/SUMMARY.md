@@ -11,7 +11,7 @@
 
 * [🔗 Phantasma Link Client](features-and-functionality/phantasma-link-client.md)
 * [☁️ PhantasmaAPI](features-and-functionality/phantasmaapi.md)
-* [📝 Scriptbuilder](https://app.gitbook.com/s/PmRIerRvyRSGopMwjYP3/phantasma-scriptbuilder/phantasma-scriptbuilder-class-documentation)
+* [📝 Scriptbuilder](https://app.gitbook.com/s/PmRIerRvyRSGopMwjYP3/phantasma-scriptbuilder)
 
 ## Tutorials and Examples
 

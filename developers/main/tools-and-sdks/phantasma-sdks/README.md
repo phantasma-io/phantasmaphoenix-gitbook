@@ -6,8 +6,8 @@ One of the many challenges that blockchain developers face today is lack of tool
 **Important:** One class that is used across all SDK's is the **ScriptBuilder,** this class allows you to create a step by step interaction on the chain. This class is really important for the interactions!&#x20;
 {% endhint %}
 
-{% content-ref url="../../../phantasma-scriptbuilder/phantasma-scriptbuilder-class-documentation/" %}
-[phantasma-scriptbuilder-class-documentation](../../../phantasma-scriptbuilder/phantasma-scriptbuilder-class-documentation/)
+{% content-ref url="../../../phantasma-scriptbuilder/" %}
+[phantasma-scriptbuilder](../../../phantasma-scriptbuilder/)
 {% endcontent-ref %}
 
 ## External Calls
@@ -16,8 +16,8 @@ One of the many challenges that blockchain developers face today is lack of tool
 **Note:** ExtCalls or InteropCalls or Internal Operations are ways to interact with the chain, this is very usefully when creating a script to call the chain with the **ScriptBuilder**
 {% endhint %}
 
-{% content-ref url="../../../phantasma-scriptbuilder/phantasma-scriptbuilder-class-documentation/external-calls.md" %}
-[external-calls.md](../../../phantasma-scriptbuilder/phantasma-scriptbuilder-class-documentation/external-calls.md)
+{% content-ref url="../../../phantasma-scriptbuilder/external-calls.md" %}
+[external-calls.md](../../../phantasma-scriptbuilder/external-calls.md)
 {% endcontent-ref %}
 
 #### **Supported Languages**

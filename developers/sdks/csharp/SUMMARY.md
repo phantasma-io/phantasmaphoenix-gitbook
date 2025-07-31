@@ -6,14 +6,6 @@
 ## Setup
 
 * [🛠️ Setup](setup/setup.md)
-* [Phantasma RPC Client](setup/phantasma-rpc-client.md)
-
-## Examples
-
-* [Examples](examples/examples/README.md)
-  * [Transaction](examples/examples/transaction.md)
-  * [Get Data](examples/examples/get-data.md)
-  * [Using a Wallet](examples/examples/using-a-wallet.md)
 
 ## Resources
 
