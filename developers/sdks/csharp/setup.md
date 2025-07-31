@@ -1,9 +1,5 @@
 # 🛠️ Setup
 
-{% hint style="info" %}
-**Good to know:** Now to enable your app to interact with the Phantasma Blockchain is easy than ever before.
-{% endhint %}
-
 On your project, just import our **Nugget Packages.**
 
 There's **Phantasma.Core, Phantasma.Business, Phantasma.Tendermint, Phatnasma.Tendermint.RPC**
