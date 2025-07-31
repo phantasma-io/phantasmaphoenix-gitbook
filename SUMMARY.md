@@ -4,7 +4,7 @@
   - [About](about/README.md)
   - [What We Do](about/what-we-do.md)
   - [Our Features](about/our-features.md)
-  - [Community](about/community/README.md)
+  - [Community]
     - [22 Racing Series](about/community/dapps/22-racing-series.md)
     - [Blood Rune](about/community/dapps/blood-rune.md)
     - [Ghostmarket](about/community/dapps/ghostmarket.md)
@@ -16,7 +16,6 @@
     - [Inflation](about/economy/inflation.md)
     - [Fees](about/economy/fees.md)
     - [Exchanges](about/economy/exchanges.md)
-  - [Resources](about/resources.md)
 
 - [Developers](developers/README.md)
   - [Quick Start](developers/quick-start.md)
