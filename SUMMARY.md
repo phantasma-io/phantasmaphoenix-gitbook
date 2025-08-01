@@ -3,15 +3,13 @@
 - [About]
   - [About](about/README.md)
   - [Our Features](about/our-features.md)
-  - [Community]
-    - [22 Racing Series](about/community/dapps/22-racing-series.md)
-    - [Blood Rune](about/community/dapps/blood-rune.md)
-    - [Ghostmarket](about/community/dapps/ghostmarket.md)
-    - [Pavillion](about/community/dapps/pavillion.md)
+  - [Dapps]
+    - [22 Racing Series](about/dapps/22-racing-series.md)
+    - [Blood Rune](about/dapps/blood-rune.md)
+    - [Ghostmarket](about/dapps/ghostmarket.md)
+    - [Pavillion](about/dapps/pavillion.md)
   - [Economy](about/economy/dual-token-system.md)
-    - [Block Producers](about/economy/block-producers-bp/README.md)
-      - [Active Block Producer](about/economy/block-producers-bp/active-block-producer.md)
-      - [Standby Block Producer](about/economy/block-producers-bp/standby-block-producer.md)
+    - [Block Producers](about/economy/block-producer.md)
     - [Inflation](about/economy/inflation.md)
     - [Fees](about/economy/fees.md)
     - [Exchanges](about/economy/exchanges.md)

@@ -1,9 +1,5 @@
 # ✨ Our Features
 
-{% hint style="info" %}
-Feature's? What's that?
-{% endhint %}
-
 ## Smart NFT's
 
 We were one of the firsts blockchain's to have programmable NFT's
