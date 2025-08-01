@@ -12,7 +12,7 @@ Are you looking for creating your own smart contract?
 {% endhint %}
 
 {% content-ref url="developers/blockchain/smart-contracts/" %}
-[smart-contracts](developers/blockchain/smart-contracts/)
+Smart Contracts
 {% endcontent-ref %}
 
 ## Connecting to the Chain (API's)
@@ -61,5 +61,5 @@ Explore our wide selection of Phantasma blockchain SDKs available for platforms 
 {% endhint %}
 
 {% content-ref url="developers/sdks/" %}
-[phantasma-sdks](developers/sdks/)
+Software Development Kits
 {% endcontent-ref %}
