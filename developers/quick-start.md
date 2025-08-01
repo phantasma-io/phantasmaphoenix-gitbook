@@ -11,9 +11,7 @@ coverY: 0
 Are you looking for creating your own smart contract?
 {% endhint %}
 
-{% content-ref url="developers/blockchain/smart-contracts/" %}
-Smart Contracts
-{% endcontent-ref %}
+[Smart Contracts](/developers/blockchain/smart-contracts/)
 
 ## Connecting to the Chain (API's)
 
@@ -60,6 +58,7 @@ REST and RPC interfaces use same names for endpoints and arguments. This way RES
 Explore our wide selection of Phantasma blockchain SDKs available for platforms like Unity, Typescript, and C++. These tools empower you to innovate and integrate with the Phantasma ecosystem, irrespective of your preferred development environment. Click to unleash the potential of decentralized technology.
 {% endhint %}
 
-{% content-ref url="developers/sdks/" %}
+
+{% content-ref url="/developers/sdks/" %}
 Software Development Kits
 {% endcontent-ref %}
