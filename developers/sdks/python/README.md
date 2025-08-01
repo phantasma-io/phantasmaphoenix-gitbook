@@ -1,5 +1,5 @@
 ---
-cover: .gitbook/assets/pythonsdk.jpeg
+cover: .gitbook/assets/gitbook-banner-pha-phoenix-python-sdk.png
 coverY: 0
 ---
 

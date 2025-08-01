@@ -1,5 +1,5 @@
 ---
-cover: .gitbook/assets/tssdk.jpeg
+cover: .gitbook/assets/gitbook-banner-pha-phoenix-ts-js-sdk.png
 coverY: 0
 ---
 

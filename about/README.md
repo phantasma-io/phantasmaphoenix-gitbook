@@ -1,5 +1,5 @@
 ---
-cover: .gitbook/assets/welcometophantasma.jpeg
+cover: .gitbook/assets/gitbook-banner-pha-phoenix-welcome.png
 coverY: 0
 ---
 

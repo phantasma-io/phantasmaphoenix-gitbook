@@ -1,5 +1,5 @@
 ---
-cover: .gitbook/assets/unitysdk.jpeg
+cover: .gitbook/assets/gitbook-banner-pha-phoenix-unity-sdk.png
 coverY: 0
 ---
 

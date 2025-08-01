@@ -1,4 +1,9 @@
-# 🛠️ Setup
+---
+cover: .gitbook/assets/gitbook-banner-pha-phoenix-csharp-sdk.png
+coverY: 0
+---
+
+# Setup
 
 On your project, just import our **Nugget Packages.**
 
