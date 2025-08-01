@@ -8,4 +8,4 @@ For a project building on top of Phantasma that needs its own token, a fee of $1
 
 dApp providers may charge additional fees for using their products, such as GhostMarket and uMint's KCAL fees for creating NFTs.
 
-For the full details, please refer to this article on the [Phantasma Token Economy](https://medium.com/phantasticphantasma/the-phantasma-token-economy-45c76ae6b24e).\
+For the full details, please refer to this article on the [Phantasma Token Economy](https://medium.com/phantasticphantasma/the-phantasma-token-economy-45c76ae6b24e).

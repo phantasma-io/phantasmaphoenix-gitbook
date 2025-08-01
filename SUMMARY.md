@@ -9,10 +9,10 @@
     - [Ghostmarket](about/dapps/ghostmarket.md)
     - [Pavillion](about/dapps/pavillion.md)
   - [Economy](about/economy/dual-token-system.md)
-    - [Block Producers](about/economy/block-producer.md)
-    - [Inflation](about/economy/inflation.md)
     - [Fees](about/economy/fees.md)
     - [Exchanges](about/economy/exchanges.md)
+    - [Inflation](about/economy/inflation.md)
+    - [Block Producers](about/economy/block-producer.md)
 
 - [Developers](developers/README.md)
   - [Quick Start](developers/quick-start.md)

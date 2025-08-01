@@ -9,5 +9,3 @@ Earning fuel tokens through staking the governance token allows anyone to use th
 **KCAL** fuels everything in the Phantasma ecosystem, and is needed for every single type of transaction on the blockchain, giving it a wide range of use cases. In short, anything that happens on the Phantasma blockchain consumes KCAL, and everything that happens on the Phantasma blockchain burns KCAL; Transactions, staking, unstaking, claiming KCAL, cross chain swap transactions, cosmic swaps between native Phantasma assets, minting non-fungible tokens, deploying smart contracts, deploying new tokens and more.
 
 For the full details, please refer to this article on the [Phantasma Token Economy](https://medium.com/phantasticphantasma/the-phantasma-token-economy-45c76ae6b24e).
-
-\
