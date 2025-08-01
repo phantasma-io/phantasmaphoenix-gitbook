@@ -1,5 +1,5 @@
 ---
-cover: .gitbook/assets/Developers.jpeg
+cover: .gitbook/assets/gitbook-banner-pha-phoenix-dev-tools.png
 coverY: 0
 ---
 
