@@ -1,10 +1,10 @@
 ---
-description: TOMB smart contract compiler for Phantasma platform.
-cover: .gitbook/assets/tomb.jpeg
+description: Phoenix smart contract compiler for Phantasma Phoenix platform.
+cover: .gitbook/assets/gitbook-banner-pha-phoenix-phoenix-compiler.png
 coverY: 0
 ---
 
-# 👋 Tomb
+# Phoenix compiler
 
 ## Description <a href="#description" id="description"></a>
 
