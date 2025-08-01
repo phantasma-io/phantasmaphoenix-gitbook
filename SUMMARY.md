@@ -16,7 +16,7 @@
 
 - [Developers]
   - [Quick Start](developers/quick-start.md)
-  - [Blockchain](developers/blockchain/basic-concepts.md)
+  - [Blockchain]
     - [Chain](developers/blockchain/chain/README.md)
       - [Virtual Machine Architecture](developers/blockchain/chain/information/virtual-machine/architecture.md)
       - [Interop](developers/blockchain/chain/information/virtual-machine/interop.md)
@@ -171,6 +171,7 @@
       - [Sending a Transaction](developers/sdks/ts/frontend/examples/sending-a-transaction.md)
     - [Unity SDK](developers/sdks/unity/README.md)
       - [Unity SDK Overview](developers/sdks/unity/README.md)
+      - [Basic Concepts](developers/sdks/unity/basic-concepts.md)
       - [Installation](developers/sdks/unity/installation.md)
       - [Phantasma API](developers/sdks/unity/features-and-functionality/phantasmaapi.md)
       - [Phantasma Link Client](developers/sdks/unity/features-and-functionality/phantasma-link-client.md)

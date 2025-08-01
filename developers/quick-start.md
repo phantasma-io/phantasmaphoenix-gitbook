@@ -11,7 +11,9 @@ coverY: 0
 Are you looking for creating your own smart contract?
 {% endhint %}
 
-[Smart Contracts](/developers/blockchain/smart-contracts/)
+{% content-ref url="/developers/blockchain/smart-contracts/" %}
+Smart Contracts
+{% endcontent-ref %}
 
 ## Connecting to the Chain (API's)
 
