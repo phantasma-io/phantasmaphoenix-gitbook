@@ -2,29 +2,51 @@
 
 On your project, just import our **Nugget Packages.**
 
-There's **Phantasma.Core, Phantasma.Business, Phantasma.Tendermint, Phatnasma.Tendermint.RPC**
+Full list of packages is available on our Nuget page:
+https://www.nuget.org/profiles/Phantasma.info
 
-For almost every project the most used ones will be:
+| Package name                           | Description       |
+| ---------------------------------------| ----------------- |
+| [https://www.nuget.org/packages/PhantasmaPhoenix.Core](PhantasmaPhoenix.Core) | Core types and utilities for Phantasma Phoenix SDK |
+| [https://www.nuget.org/packages/PhantasmaPhoenix.Cryptography](PhantasmaPhoenix.Cryptography) | Cryptographic primitives and utilities for the Phantasma Phoenix SDK |
+| [https://www.nuget.org/packages/PhantasmaPhoenix.Cryptography.Legacy](PPhantasmaPhoenix.Cryptography.Legacy) | Legacy cryptographic primitives and utilities for the Phantasma Phoenix SDK. Deprecated, but still used in certain scenarios |
+| [https://www.nuget.org/packages/PhantasmaPhoenix.InteropChains.Legacy](PhantasmaPhoenix.InteropChains.Legacy) | Address generation and basic utilities for Neo2 and Ethereum chains, used for external wallet compatibility in the Phantasma Phoenix SDK. Deprecated, but still used in certain scenarios |
+| [https://www.nuget.org/packages/PhantasmaPhoenix.Link](PhantasmaPhoenix.Link) | Lightweight WebSocket-based server implementation for the Phantasma Link protocol. Allows dApps to connect with Phantasma wallets |
+| [https://www.nuget.org/packages/PhantasmaPhoenix.NFT](PhantasmaPhoenix.NFT) | Utilities for parsing NFT ROM data and accessing metadata in Phantasma |
+| [https://www.nuget.org/packages/PhantasmaPhoenix.Protocol](PhantasmaPhoenix.Protocol) | Protocol types, enums, and constants for the Phantasma Phoenix SDK  |
+| [https://www.nuget.org/packages/PhantasmaPhoenix.RPC](PhantasmaPhoenix.RPC) | Provides client-side types and helpers for interacting with the Phantasma Phoenix blockchain RPC and REST APIs |
+| [https://www.nuget.org/packages/PhantasmaPhoenix.VM](PhantasmaPhoenix.VM) | Virtual machine implementation and script execution utilities for Phantasma Phoenix SDK |
 
-* **Phantasma.Core**
-* **Phantasma.Business**
 
-Because those two packages contains the most relevant information, such as, Address's and all of the Core types used in the Phantasma Blockchain. There's also the specific class for preparing a Transaction and Sending it to the chain.
-
-## Import Nugget
-
-* Phantasma.Business -> [https://www.nuget.org/packages/Phantasma.Business](https://www.nuget.org/packages/Phantasma.Business)
-* Phantasma.Core -> [https://www.nuget.org/packages/Phantasma.Core](https://www.nuget.org/packages/Phantasma.Core)
-* Phantasma.Tendermint -> [https://www.nuget.org/packages/Phantasma.Tendermint](https://www.nuget.org/packages/Phantasma.Tendermint)
-* Phantasma.Tendermint.RPC -> [https://www.nuget.org/packages/Phantasma.Tendermint.RPC](https://www.nuget.org/packages/Phantasma.Tendermint.RPC)
 
 To import the **nugget,** you can use the nugget window on the **Visual Studio** or **Rider.**&#x20;
 
-Or use the command line&#x20;
+Or use the command line:
 
 ```
-dotnet add package Phantasma.Core --version 1.0.3
-dotnet add package Phantasma.Business --version 1.0.5
-dotnet add package Phantasma.Tendermint --version 1.0.1
-dotnet add package Phantasma.Tendermint.RPC --version 1.0.0
+dotnet add package PhantasmaPhoenix.Core
+```
+```
+dotnet add package PhantasmaPhoenix.Cryptography
+```
+```
+dotnet add package PhantasmaPhoenix.Cryptography.Legacy
+```
+```
+dotnet add package PhantasmaPhoenix.InteropChains.Legacy
+```
+```
+dotnet add package PhantasmaPhoenix.Link
+```
+```
+dotnet add package PhantasmaPhoenix.NFT
+```
+```
+dotnet add package PhantasmaPhoenix.Protocol
+```
+```
+dotnet add package PhantasmaPhoenix.RPC
+```
+```
+dotnet add package PhantasmaPhoenix.VM
 ```

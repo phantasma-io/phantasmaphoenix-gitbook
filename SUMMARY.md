@@ -48,8 +48,6 @@
     - [Trigger Examples](developers/compiler/examples/trigger-examples.md)
   - [SDKs](developers/sdks/README.md)
     - [C# SDK](developers/sdks/csharp)
-      - [C# SDK Overview](developers/sdks/csharp/README.md)
-      - [Quick Start](developers/sdks/csharp/quick-start.md)
       - [Setup](developers/sdks/csharp/setup.md)
     - [C++ SDK](developers/sdks/cpp/README.md)
       - [C++ SDK Overview](developers/sdks/cpp/README.md)
