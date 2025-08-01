@@ -14,7 +14,7 @@
     - [Inflation](about/economy/inflation.md)
     - [Block Producers](about/economy/block-producer.md)
 
-- [Developers](developers/README.md)
+- [Developers]
   - [Quick Start](developers/quick-start.md)
   - [Blockchain](developers/blockchain/basic-concepts.md)
     - [Chain](developers/blockchain/chain/README.md)
