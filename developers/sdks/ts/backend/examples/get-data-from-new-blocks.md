@@ -4,8 +4,8 @@ This shows how to get a program to go **block** by block until it finds a event 
 
 It's possible to add more **validation**, such as check for the **address**, the **symbol** that was **received** etc.
 
-```typescript
-import { PhantasmaAPI, Transaction, Block, getTokenEventData } from "phantasma-ts";
+```ts
+import { PhantasmaAPI, Transaction, Block, getTokenEventData } from "phantasma-sdk-ts";
 
 const CHAIN_NAME = "main"; // This is the name of the chain, please don't change it.
 const NETWORK_API_URL = "https://testnet.phantasma.info/rpc"; // for mainnet this should be https://pharpc1.phantasma.info/rpc
@@ -13,7 +13,7 @@ const NETWORK_PEER_URL = undefined; // this the peers URL to get the list of pee
 const NEXUS_NAME = "testnet"; // For mainnet use this "mainnet"
 const API = new PhantasmaAPI(
   NETWORK_API_URL, 
-  NETWORK_PEER_URL, 
+  NETWORK_PEER_URL as any, 
   NEXUS_NAME 
 );
 
@@ -23,7 +23,7 @@ const API = new PhantasmaAPI(
  * @param symbol Symbol received
  * @param amount Amount of the symbol received
  */
-function onTransactionReceived(address, symbol, amount) {}
+function onTransactionReceived(address: string, symbol: string, amount: string) {}
 
 // Function that periodically checks the height of the chain and fetches the latest block if the height has increased
 async function CheckForNewBlocks() {

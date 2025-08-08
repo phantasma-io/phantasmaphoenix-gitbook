@@ -2,8 +2,8 @@
 
 Here's an example how to make a Token transfer in a backend using typescript.
 
-```typescript
-import {PhantasmaKeys, ScriptBuilder, Transaction, PhantasmaAPI } from 'phantasma-ts';
+```ts
+import {PhantasmaKeys, ScriptBuilder, Transaction, PhantasmaAPI, Base16, Address } from 'phantasma-sdk-ts';
 async function TransferTokens() {
   let wif = "";
   let keys = PhantasmaKeys.fromWIF(wif);
@@ -42,8 +42,8 @@ async function TransferTokens() {
     ));
 
   let transaction = new Transaction(
-    NEXUS_NAME, //Nexus Name
-    CHAIN_NAME //Chain
+    "testnet", //Nexus Name
+    "main", //Chain
     myScript, //In string format
     expiration, //Date Object
     payload //Extra Info to attach to Transaction in Serialized Hex

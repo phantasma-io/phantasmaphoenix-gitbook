@@ -14,7 +14,7 @@ Here's how to import the wallet keys.
 
 Here we'll create the script that will be sending the transaction.
 
-```typescript
+```ts
 /**
  * Send a transaction
  * @param transaction Transaction to send already signed

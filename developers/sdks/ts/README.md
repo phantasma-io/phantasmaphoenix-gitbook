@@ -10,12 +10,12 @@ coverY: 0
 TS library will help you in development for Web dApps, it can integrate with React and other typescript based libs.
 
 {% hint style="info" %}
-Some information regarding this sdk can be find here: [https://github.com/phantasma-io/phantasma-ts](https://github.com/phantasma-io/phantasma-ts)
+Information about ts sdk: [https://github.com/phantasma-io/phantasma-ts](https://github.com/phantasma-io/phantasma-ts)
 {% endhint %}
 
 ## Want to jump right in?
 
-Feeling ready? Jump in to the quick start docs and get making your first dapp connection:
+Jump in to the quick start docs and get making your first dapp connection:
 
 {% content-ref url="quick-start.md" %}
 [quick-start.md](quick-start.md)

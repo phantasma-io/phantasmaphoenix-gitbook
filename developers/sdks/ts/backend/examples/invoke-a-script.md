@@ -7,18 +7,13 @@ Also you need to know how to setup the **PhantasmaAPI,** to be able to call it C
 {% endhint %}
 
 ```javascript
-import { PhantasmaAPI, ScriptBuilder } from "phantasma-ts";
-const CHAIN_NAME = "main"; // This is the name of the chain, please don't change it.
-const NETWORK_API_URL = "https://testnet.phantasma.info/rpc"; // for mainnet this should be https://pharpc1.phantasma.info/rpc
-const NETWORK_PEER_URL = undefined; // this the peers URL to get the list of peers, if not provided it will use the default one "https://peers.phantasma.info/"
+import { PhantasmaAPI, ScriptBuilder } from "phantasma-sdk-ts";
+const CHAIN_NAME = "main";
+const NETWORK_API_URL = "https://testnet.phantasma.info/rpc";
+const NETWORK_PEER_URL = undefined;
 const NEXUS_NAME = "testnet"; // For mainnet use this "mainnet"
-const API = new PhantasmaAPI(
-  NETWORK_API_URL, 
-  NETWORK_PEER_URL, 
-  NEXUS_NAME 
-);
 
-let RPC = new PhantasmaAPI('https://testnet.phantasma.info/rpc', undefined, 'testnet');
+let RPC = new PhantasmaAPI('https://testnet.phantasma.info/rpc', undefined as any, 'testnet');
 
 async function GetMasterCount(){
     let sb = new ScriptBuilder();
@@ -28,7 +23,7 @@ async function GetMasterCount(){
 
     let myScript = sb.str;
 
-    let txResult = await RPC.invokeRawScript(myScript);
+    let txResult = await RPC.invokeRawScript(CHAIN_NAME, myScript);
     // this will return the data in a VMObject in Base16, you need to decode it.
     return txResult;
 }

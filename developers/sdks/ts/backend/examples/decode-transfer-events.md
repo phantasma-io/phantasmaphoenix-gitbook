@@ -1,13 +1,13 @@
 # Decode Transfer Events
 
 
-
 {% hint style="info" %}
 The **Data** is inside the **TokenSent** and **TokenReceived** Events
 {% endhint %}
 
-```typescript
-import {getTokenEventData} from 'phantasma-ts':
+```ts
+import {getTokenEventData} from 'phantasma-sdk-ts';
 let data = "044B43414C07005039278C0400046D61696E"; // this data should be inside the transaction event data
-getTokenEventData(data);
+let event_data = getTokenEventData(data);
+console.log(event_data);
 ```

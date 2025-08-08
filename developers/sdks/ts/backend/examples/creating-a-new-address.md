@@ -2,7 +2,7 @@
 
 This is just a simple way to create a new wallet.
 
-```javascript
+```ts
 import {  PhantasmaKeys } from 'phantasma-sdk-ts';
 
 const wallet = PhantasmaKeys.generate(); // This will generate a new wallet / WIF.
