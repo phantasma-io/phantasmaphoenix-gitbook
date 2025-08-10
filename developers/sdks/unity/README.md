@@ -11,7 +11,7 @@ Welcome to Phantasma Unity SDK! Here you'll find all the documentation you need 
 
 ## Want to jump right in?
 
-Feeling like an eager beaver? Jump in to the quick start docs and get making your first request:
+Jump in to the quick start docs and get making your first request:
 
 {% content-ref url="getting-started/installation.md" %}
 [installation.md](getting-started/installation.md)

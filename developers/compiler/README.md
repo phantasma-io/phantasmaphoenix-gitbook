@@ -12,7 +12,7 @@ TOMB is a custom programming language created for developing smart contracts for
 
 ## Want to jump right in?
 
-Feeling like an eager beaver? Jump in to the quick start docs and get making your first smart contract:
+Jump in to the quick start docs and get making your first smart contract:
 
 {% content-ref url="quick-start.md" %}
 [quick-start.md](quick-start.md)
