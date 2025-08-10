@@ -2,6 +2,10 @@
 description: Get some data from the blockchain
 ---
 
+{% hint style="warning" %}
+This functionality is not yet available and will be released according to the [roadmap](https://phantasma.info/blockchain#roadmap)
+{% endhint %}
+
 # Invoking a Script
 
 {% hint style="info" %}

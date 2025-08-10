@@ -1,4 +1,8 @@
-# 📜 Smart Contracts
+# Smart Contracts
+
+{% hint style="warning" %}
+This functionality is not yet available and will be released according to the [roadmap](https://phantasma.info/blockchain#roadmap)
+{% endhint %}
 
 A smart contract can be written in language called **Phoenix Smart Language**
 

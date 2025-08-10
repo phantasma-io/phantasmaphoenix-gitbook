@@ -1,5 +1,9 @@
 # Invoke a Script
 
+{% hint style="warning" %}
+This functionality is not yet available and will be released according to the [roadmap](https://phantasma.info/blockchain#roadmap)
+{% endhint %}
+
 {% hint style="info" %}
 Before Invoking a Script, learn how to create one, [**here**](../../shared-methods/scriptbuilder/create-a-script.md)**.**
 
