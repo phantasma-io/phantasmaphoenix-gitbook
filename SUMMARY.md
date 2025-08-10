@@ -49,6 +49,7 @@
   - [SDKs](developers/sdks/README.md)
     - [C# SDK](developers/sdks/csharp/README.md)
       - [Setup](developers/sdks/csharp/setup.md)
+      - [Godot](/developers/sdks/csharp/godot.md)
       - Examples
         - [Generate Key](developers/sdks/csharp/examples/generate-key.md)
         - [Public Key From Private](developers/sdks/csharp/examples/public-key-from-private.md)

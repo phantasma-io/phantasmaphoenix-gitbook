@@ -4,6 +4,7 @@ coverY: 0
 ---
 # Getting started
 - [Setup](/developers/sdks/csharp/setup.md)
+- [Godot](/developers/sdks/csharp/godot.md)
 
 # Examples
 
