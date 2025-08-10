@@ -4,6 +4,10 @@ cover: .gitbook/assets/gitbook-banner-pha-phoenix-phoenix-compiler.png
 coverY: 0
 ---
 
+{% hint style="warning" %}
+This functionality is not yet available and will be released according to the [roadmap](https://phantasma.info/blockchain#roadmap)
+{% endhint %}
+
 # Phoenix compiler
 
 ## Description <a href="#description" id="description"></a>
