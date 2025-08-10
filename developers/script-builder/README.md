@@ -122,5 +122,3 @@ ScriptBuilder sb = new ScriptBuilder();
 sb.CallNFT("NFT", seriesID, "MyMethod", arg1, arg2, arg3);
 byte[] script = sb.EndScript();
 ```
-
-\
