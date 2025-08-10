@@ -1,5 +1,5 @@
 ---
-cover: .gitbook/assets/gitbook-banner-pha-phoenix-csharp-sdk.png
+cover: .gitbook/assets/gitbook-banner-pha-phoenix-godot-sdk.png
 coverY: 0
 ---
 # Using a Standard C# SDK in Godot (Godot .NET)
