@@ -1,6 +1,10 @@
 # Setup
 
-On your project, just import our **Nuget Packages.**
+In your project, just import our **Nuget Packages.**
+
+{% hint style="info" %}
+**Important:** Before the Phoenix chain update, a different set of NuGet packages was used. These packages are now obsolete and strictly deprecated. Use the new package set instead.
+{% endhint %}
 
 Full list of packages is available on our Nuget page:
 https://www.nuget.org/profiles/Phantasma.info

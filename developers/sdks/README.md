@@ -30,25 +30,25 @@ External Calls
 ## C# SDK / Godot Engine
 
 {% content-ref url="/developers/sdks/csharp/" %}
-C# SDK / Godot Engine
+C# SDK
 {% endcontent-ref %}
 
 ## Typescript / Javascript SDK
 
 {% content-ref url="/developers/sdks/ts/" %}
-Typescript / Javascript SDK
+Typescript
 {% endcontent-ref %}
 
 ## Unity SDK / Unity Engine
 
 {% content-ref url="/developers/sdks/unity/" %}
-Unity SDK / Unity Engine
+Unity SDK
 {% endcontent-ref %}
 
 ## C++ / Unreal Engine
 
 {% content-ref url="/developers/sdks/cpp/" %}
-C++ / Unreal Engine
+C++
 {% endcontent-ref %}
 
 ## Python

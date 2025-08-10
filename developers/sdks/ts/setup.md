@@ -1,10 +1,14 @@
 # 🛠️ Setup
 
 {% hint style="info" %}
-First thing to install in your project is the Phantasma-ts, so you can build a quick connection to your desired blockchain! 🤪&#x20;
+First thing to install in your project is the Phantasma-ts, so you can build a quick connection to your desired blockchain!
 {% endhint %}
 
 ## Installation
+
+{% hint style="info" %}
+**Important:** Before the Phoenix chain update, a different package was used. This package is now obsolete and strictly deprecated. Use the new package instead.
+{% endhint %}
 
 ### On your typescript based Project
 
