@@ -3,7 +3,7 @@ cover: .gitbook/assets/gitbook-banner-pha-phoenix-unity-sdk.png
 coverY: 0
 ---
 
-# 👋 Unity SDK
+# Unity SDK
 
 ## Description
 
