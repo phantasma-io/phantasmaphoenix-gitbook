@@ -1,3 +1,7 @@
+---
+cover: .gitbook/assets/gitbook-banner-pha-phoenix-csharp-sdk.png
+coverY: 0
+---
 # Using a Standard C# SDK in Godot (Godot .NET)
 
 > This page shows how to add and use any regular C#/.NET SDK (distributed as a NuGet package or a DLL) inside a Godot 4 project that uses C#. It assumes you’re using the **.NET build** of the Godot editor.
