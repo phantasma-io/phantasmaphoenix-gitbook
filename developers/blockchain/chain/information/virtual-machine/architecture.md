@@ -3,6 +3,6 @@
 The Phantasma VM is a simple contained register-based virtual machine that executes scripts for the transactions (and also other situations).\
 Besides the registers, it also contains an additional stack that is used to pass arguments from a context to another.\
 The support for multiple contexts is used to provide isolation between different parts of the code, increasing the VM security.\
-The builtin registers allows to implement turing complete languages, including loops and private sub-routines, as implemented in [TOMB](http://localhost/#section-tomb). In order to access features specific to Phantasma, interactions with external code are possible via the "interop" calls system, which also uses the stack to pass arguments and call native methods (currently implemented in C#)
+The builtin registers allows to implement turing complete languages, including loops and private sub-routines, as implemented in Phoenix Smart Language. In order to access features specific to Phantasma, interactions with external code are possible via the "interop" calls system, which also uses the stack to pass arguments and call native methods (currently implemented in C#)
 
 For deeper diving, the code implementation of the Phantasma Virtual Machine is available at [Github](https://github.com/phantasma-io/PhantasmaChain/blob/master/Phantasma.VM).

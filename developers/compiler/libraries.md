@@ -31,7 +31,7 @@ The Account library exposes methods to handle Phantasma [accounts](https://docs.
 ## Array
 
 {% hint style="info" %}
-The Array library exposes methods to manipulate arrays. It is also possible to manipulate arrays directly via TOMB array variables.
+The Array library exposes methods to manipulate arrays. It is also possible to manipulate arrays directly via Phoenix Smart Language array variables.
 {% endhint %}
 
 | Method                                               | Return type | Description                                                          |

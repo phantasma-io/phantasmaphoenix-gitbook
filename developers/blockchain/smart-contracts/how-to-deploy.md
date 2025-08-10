@@ -7,7 +7,7 @@ description: Here, we will provide information on how to deploy your Smart Contr
 {% hint style="info" %}
 **Are you ready?** Do you have your smart contract ready? the **.pvm** & **.abi** file?
 
-If not, go and compile it with Tomb Compiler.
+If not, go and compile it with Phoenix Smart Language Compiler.
 {% endhint %}
 
 ## Using Cman

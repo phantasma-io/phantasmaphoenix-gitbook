@@ -1,13 +1,13 @@
 # 📜 Smart Contracts
 
-A smart contract can be written in language called **Tomb**
+A smart contract can be written in language called **Phoenix Smart Language**
 
-## Tomb
+## Phoenix Smart Language
 
-For writing it in **TOMB**, take a look at the documentation.
+For writing it in **PSL**, take a look at the documentation.
 
 {% content-ref url="/developers/compiler" %}
-Phoenix Compiler
+Phoenix Smart Language Compiler
 {% endcontent-ref %}
 
 ## Deploy your smart contract

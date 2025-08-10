@@ -348,7 +348,7 @@ contract test {
 
 ## Returning multiple values
 
-It is possible in TOMB to return multiple results from a single method.
+It is possible in Phoenix Smart Language to return multiple results from a single method.
 The method return type must be marked with an asterisk, then multiple returns can be issued.
 A return without expression will terminate the method execution.
 
@@ -744,7 +744,7 @@ contract test {
 
 ## Type interface in variable declarations
 
-It is possible to let TOMB compiler auto-detect type of a local variable if you omit the type and provide an initialization expression.
+It is possible to let Phoenix Smart Language compiler auto-detect type of a local variable if you omit the type and provide an initialization expression.
 
 
 {% code lineNumbers="true" %}

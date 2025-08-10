@@ -28,7 +28,7 @@
   - [Script Builder](developers/script-builder/README.md)
     - [Examples](developers/script-builder/examples.md)
     - [External Calls](developers/script-builder/external-calls.md)
-  - [Compiler (TOMB)](developers/compiler/README.md)
+  - [Compiler (PSL)](developers/compiler/README.md)
     - [Compiler Overview](developers/compiler/README.md)
     - [Quick Start](developers/compiler/quick-start.md)
     - [Setup](developers/compiler/setup.md)

@@ -2,7 +2,7 @@
 
 ### Value assignment
 
-On the earlier versions of TOMB, the assignment of values to the variables used `:=`and that changed to only using the `=`V
+On the earlier versions of Phoenix Smart Language (formerly TOMB), the assignment of values to the variables used `:=`and that changed to only using the `=`V
 
 ## Global variables
 

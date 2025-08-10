@@ -1,6 +1,6 @@
 # 🎆 Quick Start
 
-## Required software to run the TOMB Compiler
+## Required software to run the Phoenix Smart Language Compiler
 
 {% hint style="info" %}
 Install both, the **SDK** and **Runtime**
@@ -10,7 +10,7 @@ Install both, the **SDK** and **Runtime**
 Dotnet 6
 {% endembed %}
 
-## Setup TOMB
+## Setup Phoenix Smart Language
 
 {% content-ref url="getting-set-up/setup.md" %}
 [setup.md](getting-set-up/setup.md)
