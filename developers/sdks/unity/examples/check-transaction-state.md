@@ -5,7 +5,7 @@ This example demonstrates how to check the status of a blockchain transaction
 ```csharp
 public void CheckTransactionState()
 {
-    // Access the initialized Phantasma API instance
+    // Initialize PhantasmaAPI instance
     var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc");
 
     // Transaction hash to monitor

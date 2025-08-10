@@ -5,7 +5,7 @@ This example demonstrates how to claim all KCAL tokens earned from SOUL staking
 ```csharp
 public void ClaimKcal()
 {
-    // Access the initialized Phantasma API instance
+    // Initialize PhantasmaAPI instance
     var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc");
 
     // Load private key

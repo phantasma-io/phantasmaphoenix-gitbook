@@ -5,7 +5,7 @@ This example demonstrates how to query specific token balance for a given addres
 ```csharp
 public void GetAddressTokenBalance()
 {
-    // Access the initialized Phantasma API instance
+    // Initialize PhantasmaAPI instance
     var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc");
 
     // Address to check balance for

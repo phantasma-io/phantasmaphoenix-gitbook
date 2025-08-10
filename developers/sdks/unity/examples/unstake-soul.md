@@ -5,7 +5,7 @@ This example demonstrates how to unstake SOUL tokens
 ```csharp
 public void UnstakeSoul()
 {
-    // Access the initialized Phantasma API instance
+    // Initialize PhantasmaAPI instance
     var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc");
 
     // Load private key

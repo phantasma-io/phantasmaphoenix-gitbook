@@ -5,7 +5,7 @@ This example demonstrates how to transfer fungible tokens
 ```csharp
 public void SendToken()
 {
-    // Access the initialized Phantasma API instance
+    // Initialize PhantasmaAPI instance
     var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc");
 
     // Load private key

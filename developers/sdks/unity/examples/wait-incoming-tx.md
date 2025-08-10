@@ -8,7 +8,7 @@ private readonly Dictionary<string, uint> _tokenDecimals = new(StringComparer.Or
 
 public void WaitIncomingTx_ReadBlocks()
 {
-    // Access the initialized Phantasma API instance
+    // Initialize PhantasmaAPI instance
     var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc");
 
     // Address to monitor
