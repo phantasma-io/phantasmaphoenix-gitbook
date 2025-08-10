@@ -1,6 +1,6 @@
 # Summary
 
-- [About]
+- About
   - [About](about/README.md)
   - [Our Features](about/our-features.md)
   - [Dapps]
@@ -14,9 +14,9 @@
     - [Inflation](about/economy/inflation.md)
     - [Block Producers](about/economy/block-producer.md)
 
-- [Developers]
+- Developers
   - [Quick Start](developers/quick-start.md)
-  - [Blockchain]
+  - Blockchain
     - [Chain](developers/blockchain/chain/README.md)
       - [Virtual Machine Architecture](developers/blockchain/chain/information/virtual-machine/architecture.md)
       - [Interop](developers/blockchain/chain/information/virtual-machine/interop.md)
@@ -49,7 +49,7 @@
   - [SDKs](developers/sdks/README.md)
     - [C# SDK](developers/sdks/csharp/README.md)
       - [Setup](developers/sdks/csharp/setup.md)
-      - [Examples]
+      - Examples
         - [Generate Key](developers/sdks/csharp/examples/generate-key.md)
         - [Public Key From Private](developers/sdks/csharp/examples/public-key-from-private.md)
         - [Get Address Balances](developers/sdks/csharp/examples/get-address-balances.md)
