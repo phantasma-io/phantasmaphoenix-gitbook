@@ -38,7 +38,7 @@ It can be used like this.
 ```javascript
 let script = scriptBuilder
     .AllowGas(fromAddress.Text, Address.Null, gasPrice, gasLimit)
-    .CallInterop("Runtime.TransferTokens", [fromAddress.Text, toAddress, tokenSymbol, amount]) 
+    .CallInterop("Runtime.TransferTokens", [fromAddress.Text, toAddress, tokenSymbol, amount])
     .SpendGas(fromAddress.Text)
     .EndScript();
 ```
@@ -70,14 +70,14 @@ An example on how it could be used.
 ```javascript
 let script = scriptBuilder
     .AllowGas(fromAddress.Text, Address.Null, gasPrice, gasLimit)
-    .CallInterop("Runtime.TransferTokens", [fromAddress.Text, toAddress, tokenSymbol, amount]) 
+    .CallInterop("Runtime.TransferTokens", [fromAddress.Text, toAddress, tokenSymbol, amount])
     .SpendGas(fromAddress.Text)
     .EndScript();
 ```
 
 ### Call Interop
 
-This method is used to Call an Internal Operation in the blockchain, you can check the list of possible Internal Operations that you can call [here](https://app.gitbook.com/s/PmRIerRvyRSGopMwjYP3/phantasma-scriptbuilder/external-calls).
+This method is used to Call an Internal Operation in the blockchain, you can check the list of possible Internal Operations that you can call [here](/developers/script-builder/external-calls.md).
 
 **Parameters**
 
@@ -89,7 +89,7 @@ In this example we'll be checking the **Runtime.TransferTokens**
 ```javascript
 let script = scriptBuilder
     .AllowGas(fromAddress.Text, Address.Null, gasPrice, gasLimit)
-    .CallInterop("Runtime.TransferTokens", [fromAddress.Text, toAddress, tokenSymbol, amount]) 
+    .CallInterop("Runtime.TransferTokens", [fromAddress.Text, toAddress, tokenSymbol, amount])
     .SpendGas(fromAddress.Text)
     .EndScript();
 ```
@@ -118,7 +118,7 @@ Example:
 ```javascript
 let script = scriptBuilder
     .AllowGas(fromAddress.Text, Address.Null, gasPrice, gasLimit)
-    .CallContract("stake", "Stake", [fromAddress.Text, amount]) 
+    .CallContract("stake", "Stake", [fromAddress.Text, amount])
     .SpendGas(fromAddress.Text)
     .EndScript();
 ```

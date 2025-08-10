@@ -6,8 +6,8 @@ A smart contract can be written in language called **Tomb**
 
 For writing it in **TOMB**, take a look at the documentation.
 
-{% content-ref url="https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/ZhV34bhMgs6q5hfAZoLS/" %}
-[TOMB](https://app.gitbook.com/o/Q8K3pmN5XcsqVNuR7JDi/s/ZhV34bhMgs6q5hfAZoLS/)
+{% content-ref url="/developers/compiler" %}
+Phoenix Compiler
 {% endcontent-ref %}
 
 ## Deploy your smart contract
