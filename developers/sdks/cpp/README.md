@@ -1,34 +1,66 @@
-# 👋 Welcome!
+# Introduction
 
-## 🚀 Welcome to the Phantasma C++ SDK: Where Code Meets Blockchain Fun! 🎉
+This C++ SDK provides tools to interact with the Phantasma blockchain.
+It includes modules for cryptography, blockchain data structures, network communication, and adapters for different underlying SDKs.
 
-Hello and welcome to the not-so-secret world of the Phantasma C++ SDK! This is not your ordinary, run-of-the-mill documentation. Here, we mix the serious business of blockchain with the delightful quirks of C++ to offer you a guide that's both informative and amusing. Think of this as your all-access pass to integrating blockchain technology with the elegance (and occasional eccentricities) of C++.
+The SDK is designed for developers who want to integrate Phantasma into their C++ applications, offering both low-level JSON-RPC message builders and high-level API calls.
 
-### 🎯 Why This Documentation Exists (Apart from World Domination)
+**Key Features:**
+- Complete cryptographic primitives (Ed25519, hashing, encryption)
+- Transaction building and signing
+- JSON-RPC request/response handling
+- Adapters for CURL, cpprestsdk, sodium, and more
+- Cross-platform support (unavailable at the moment)
 
-> 💡 **Mission Statement:** Empower developers to harness the power of the Phantasma blockchain with the magic of C++.
+# Architecture Overview
 
-Our mission is simple yet ambitious: to empower you, the noble developers, in harnessing the almighty power of the Phantasma blockchain with the language we all have a love-hate relationship with – C++. Whether you're a seasoned blockchain guru, a C++ aficionado, or someone who accidentally found themselves coding in C++ and can't find the way out, this guide is for you!
+The SDK is organized into the following main modules:
 
-### 🌟 Phantasma: The Blockchain That Parties Like a C++
+- **PhantasmaAPI**: High-level API for interacting with the blockchain
+- **PhantasmaJsonAPI**: Low-level JSON message builders and parsers
+- **Cryptography**: Key pairs, hashing, signatures, and encryption
+- **Blockchain**: Transaction and block structures
+- **Adapters**: Implementations for networking, JSON parsing, and cryptography
 
-Phantasma is not your average blockchain. It's like that one friend who is good at everything – secure, speedy, and scalable (and doesn't brag about it). With its smart contracts, decentralized goodies, and a knack for playing nice with other blockchains, it's the life of the crypto party!
+# Getting Started
 
-### 🛠 The Quirky World of Phantasma C++ SDK
+The SDK supports multiple backends. **Include an adapter BEFORE `PhantasmaAPI.h`**:
 
-* **👓 Low-Level API for High-Level Fun**: Dive deep into the guts of blockchain with our low-level API. It’s like having a backstage pass to the blockchain show!
-* **🎩 High-Level API for When You're Too Cool for the Details**: For those days when you want the blockchain glory without the nitty-gritty.
-* **📚 'Single Header' Approach**: Because why complicate life with multiple files?
-* **🎁 Surprises in Every Corner**: From account twirling to transaction tango, we've got features that’ll make you say, "Wow, I can do that with C++?"
+- `Adapters/PhantasmaAPI_rapidjson.h` + `Adapters/PhantasmaAPI_curl.h` (RapidJSON + libcurl)
+- or `Adapters/PhantasmaAPI_cpprest.h` (Microsoft CppRestSDK)
 
-### 🎯 Who Should Read This (Hint: You!)
+```cpp
+// JSON + HTTP backends first
+#include "Adapters/PhantasmaAPI_rapidjson.h"
+#include "Adapters/PhantasmaAPI_curl.h"
 
-* **💻 C++ Developers with a Blockchain Twist**: You know who you are – you dream in code and blockchain is your playground.
-* **🔗 Blockchain Buffs Craving a C++ Flavor**: Ready to add a sprinkle of C++ to your blockchain recipe? We've got the perfect SDK for you.
-* **🏗 Software Architects Building the Future**: You’re the visionaries, the dreamers. We're just here to hand you the right C++ tools.
+// Then the generated API
+#include "PhantasmaAPI.h"
 
-### 🧭 Navigating This Rollercoaster of Information
+using namespace phantasma;
+using namespace phantasma::rpc;
 
-Strap in and get ready for a journey through the world of Phantasma C++ SDK. We’ve got everything from the “Hello World” of blockchain to the mind-bending concepts that'll make you a C++ and blockchain wizard. And don't worry, we'll keep the C++ puns coming to keep you entertained!
+int main() {
+    HttpClient http("https://your-node-url"); // provided by adapter
+    PhantasmaAPI api(http);
 
-Happy coding, and may the source be with you! 🌌
+    PhantasmaError err{};
+    Account me = api.GetAccount("P2K...address", &err);
+    if (err.code != 0) {
+        // handle err.message
+    }
+}
+```
+
+> If you use the CppRestSDK adapter, include **only** `Adapters/PhantasmaAPI_cpprest.h` before `PhantasmaAPI.h`.
+
+Build system notes:
+- Requires a C++17 compiler
+- Link with `curl` when using the CURL adapter
+- Add RapidJSON headers when using the RapidJSON adapter
+- Add CppRestSDK when using the cpprest adapter
+
+[Low-level API](/developers/sdks/cpp/low-level-api.md)
+[High-level API](/developers/sdks/cpp/high-level-api.md)
+[Data models](/developers/sdks/cpp/data-models.md)
+[Cryptography](/developers/sdks/cpp/cryptography.md)

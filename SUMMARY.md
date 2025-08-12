@@ -97,9 +97,10 @@
         - [Burn Tokens](/developers/sdks/unity/examples/burn-tokens.md)
 
     - [C++ SDK](developers/sdks/cpp/README.md)
-      - [C++ SDK Overview](developers/sdks/cpp/README.md)
-      - [Quick Start](developers/sdks/cpp/quick-start.md)
-      - [The Nuts and Bolts of Phantasma](developers/sdks/cpp/low-level-api/low-level-api-the-nuts-and-bolts-of-phantasma.md)
+      - [Low-level API](/developers/sdks/cpp/low-level-api.md)
+      - [High-level API](/developers/sdks/cpp/high-level-api.md)
+      - [Data models](/developers/sdks/cpp/data-models.md)
+      - [Cryptography](/developers/sdks/cpp/cryptography.md)
     - [Python SDK](developers/sdks/python/README.md)
       - [Python SDK Overview](developers/sdks/python/README.md)
       - [AccountResult](developers/sdks/python/api-models/accountresult.md)
