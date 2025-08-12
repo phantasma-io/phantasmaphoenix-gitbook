@@ -3,6 +3,11 @@
 This example demonstrates how to transfer fungible tokens
 
 ```csharp
+using PhantasmaPhoenix.Core;
+using PhantasmaPhoenix.Cryptography;
+using PhantasmaPhoenix.RPC;
+using PhantasmaPhoenix.VM;
+
 public void SendToken()
 {
 	// Initialize PhantasmaAPI instance

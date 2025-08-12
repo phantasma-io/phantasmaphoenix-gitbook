@@ -3,6 +3,10 @@
 This example demonstrates how to query specific token balance for a given address
 
 ```csharp
+using Newtonsoft.Json;
+using PhantasmaPhoenix.Core;
+using PhantasmaPhoenix.RPC;
+
 public void GetAddressTokenBalance()
 {
 	// Initialize PhantasmaAPI instance

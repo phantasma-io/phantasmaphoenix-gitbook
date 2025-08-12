@@ -3,6 +3,11 @@
 This example demonstrates how to monitor incoming transactions
 
 ```csharp
+using PhantasmaPhoenix.Core;
+using PhantasmaPhoenix.Cryptography;
+using PhantasmaPhoenix.Protocol;
+using PhantasmaPhoenix.RPC;
+
 // In-memory cache mapping token symbol to its decimals
 private static readonly Dictionary<string, uint> _tokenDecimals = new(StringComparer.OrdinalIgnoreCase);
 

@@ -3,6 +3,12 @@
 This example demonstrates how to stake SOUL tokens
 
 ```csharp
+using PhantasmaPhoenix.Core;
+using PhantasmaPhoenix.Cryptography;
+using PhantasmaPhoenix.Protocol;
+using PhantasmaPhoenix.RPC;
+using PhantasmaPhoenix.VM;
+
 public void StakeSoul()
 {
 	// Initialize PhantasmaAPI instance

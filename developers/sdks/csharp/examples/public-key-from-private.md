@@ -3,6 +3,8 @@
 This example demonstrates how to extract a public key from a private key
 
 ```csharp
+using PhantasmaPhoenix.Cryptography;
+
 public void PublicKeyFromPrivate()
 {
 	// Load private key

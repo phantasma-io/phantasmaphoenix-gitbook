@@ -3,6 +3,9 @@
 This example demonstrates how to fetch all token balances for a given address
 
 ```csharp
+using Newtonsoft.Json;
+using PhantasmaPhoenix.RPC;
+
 public void GetAddressBalances()
 {
 	// Initialize PhantasmaAPI instance

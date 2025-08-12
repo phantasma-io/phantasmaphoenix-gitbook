@@ -3,6 +3,12 @@
 This example demonstrates how to unstake SOUL tokens
 
 ```csharp
+using PhantasmaPhoenix.Core;
+using PhantasmaPhoenix.Cryptography;
+using PhantasmaPhoenix.Protocol;
+using PhantasmaPhoenix.RPC;
+using PhantasmaPhoenix.VM;
+
 public void UnstakeSoul()
 {
 	// Initialize PhantasmaAPI instance
