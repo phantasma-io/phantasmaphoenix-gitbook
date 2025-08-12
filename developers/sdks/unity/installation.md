@@ -1,25 +1,29 @@
-# ⚙️ Installation
-
-### Installation
+# Installation
 
 This guide will walk you through the process of installing the Phantasma Unity SDK and setting up the wallet connection in your Unity project. The Phantasma Unity SDK is a UPM library that allows you to interact with the Phantasma blockchain from your Unity project.
 
-#### Importing the Phantasma Unity SDK to Your Project
+## Importing the Phantasma Unity SDK to your project
 
-1. Open your Unity project.
-2. Navigate to `Window > Package Manager` from the top menu.
-3. In the Package Manager window, click the `+` button in the top left corner.
-4. Select `Add package from git URL`.
-5. Enter the following git URL: `https://github.com/phantasma-io/Phantasma-UnitySDK.git` and click `Add`.
-6. The Phantasma Unity SDK will now be imported into your project.
+* Open your Unity project.
+* Navigate to `Window > Package Manager` from the top menu.
+* In the Package Manager window, click the `+` button in the top left corner.
+* Select `Install package from git URL...`.
+* Enter one of the following git URLs:
+  * To install PhantasmaPhoenix.Unity.Core package: `https://github.com/phantasma-io/Phantasma-UnitySDK.git?path=PhantasmaPhoenix.Unity.Core`
+  * To install PhantasmaPhoenix.Unity.LinkClient package: `https://github.com/phantasma-io/Phantasma-UnitySDK.git?path=PhantasmaPhoenix.Unity.LinkClient`
+* And click `Add`.
+* The Phantasma Unity SDK will now be imported into your project.
 
-#### Connecting to the Wallet via the SDK
+{% hint style="info" %}
+**Note:** To install specific version of package add commit hash of this version to the end of git link, separating it from the rest of the link with # sign: https://github.com/phantasma-io/Phantasma-UnitySDK.git?path=PhantasmaPhoenix.Unity.Core#d011152db4d212e3787628334c6ebd6ce31cea47
+{% endhint %}
+
+## Connecting to the Wallet via the SDK
 
 1. Set up your Unity scene.
 2. Add the `PhantasmaLinkClient` prefab to your scene.
 3. Configure the following settings in the `PhantasmaLinkClient` inspector:
    * **Nexus**: Choose the appropriate Nexus based on your deployment target:
-     * For local node development, set the Nexus to `localnet`.
      * For testnet deployment, set the Nexus to `testnet`.
      * For mainnet deployment, set the Nexus to `mainnet`.
    * **DappID**: Set the DappID to your Dapp's contract name. This will be displayed when a user logs in to your Dapp.
@@ -29,7 +33,7 @@ This guide will walk you through the process of installing the Phantasma Unity S
      * For Phantasma, select `ED25519`.
      * For Ethereum, select `ECDSA`.
 
-#### Connecting to the Wallet via the SDK (Android)
+## Connecting to the Wallet via the SDK (Android)
 
 1. Follow the same steps as mentioned in the "Connecting to the Wallet via the SDK" section.
 2. Add the `PhantasmaLinkClientPlugin` prefab to your scene.
