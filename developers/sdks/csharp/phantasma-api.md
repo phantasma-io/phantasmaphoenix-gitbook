@@ -46,8 +46,6 @@ Gets account information for multiple addresses
 **Returns**
 - array of `AccountResult` or `null`
 
-> Implementation detail: addresses are joined into a comma separated string internally
-
 ---
 
 ### `Task<string?> LookUpNameAsync(string name)`
@@ -63,7 +61,9 @@ Looks up an address by name
 
 ## Auction
 
-> **Unavailable** — This functionality is currently disabled and will be re‑enabled according to the roadmap: https://phantasma.info/blockchain#roadmap
+{% hint style="warning" %}
+This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
+{% endhint %}
 
 ### `Task<int> GetAuctionsCountAsync(string chainAddressOrName, string symbol)`
 Gets the number of auctions currently available in the market contract for a given token
@@ -149,8 +149,6 @@ Gets a block by chain and height
 **Returns**
 - block data or `null`
 
-> Note: the RPC expects height as string. This wrapper converts the `long` value accordingly
-
 ---
 
 ### `Task<BlockResult?> GetLatestBlockAsync(string chain)`
@@ -178,7 +176,9 @@ Gets a transaction by block hash and transaction index
 
 ## Chain
 
-> **Unavailable** — This functionality is currently disabled and will be re‑enabled according to the roadmap: https://phantasma.info/blockchain#roadmap
+{% hint style="warning" %}
+This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
+{% endhint %}
 
 ### `Task<ChainResult[]?> GetChainsAsync()`
 Gets an array of all chains deployed on Phantasma
@@ -190,7 +190,9 @@ Gets an array of all chains deployed on Phantasma
 
 ## Contract
 
-> **Unavailable** — This functionality is currently disabled and will be re‑enabled according to the roadmap: https://phantasma.info/blockchain#roadmap
+{% hint style="warning" %}
+This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
+{% endhint %}
 
 ### `Task<ContractResult?> GetContractAsync(string contractName)`
 Gets contract metadata by name from the main chain
@@ -213,7 +215,9 @@ Gets all contracts deployed on the main chain
 
 ## Leaderboard
 
-> **Unavailable** — This functionality is currently disabled and will be re‑enabled according to the roadmap: https://phantasma.info/blockchain#roadmap
+{% hint style="warning" %}
+This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
+{% endhint %}
 
 ### `Task<LeaderboardResult?> GetLeaderboardAsync(string name)`
 Gets a leaderboard by name
@@ -228,7 +232,9 @@ Gets a leaderboard by name
 
 ## Nexus
 
-> **Unavailable** — This functionality is currently disabled and will be re‑enabled according to the roadmap: https://phantasma.info/blockchain#roadmap
+{% hint style="warning" %}
+This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
+{% endhint %}
 
 ### `Task<NexusResult?> GetNexusAsync()`
 Gets nexus metadata including an array of all chains deployed on Phantasma
@@ -240,7 +246,9 @@ Gets nexus metadata including an array of all chains deployed on Phantasma
 
 ## Organization
 
-> **Unavailable** — This functionality is currently disabled and will be re‑enabled according to the roadmap: https://phantasma.info/blockchain#roadmap
+{% hint style="warning" %}
+This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
+{% endhint %}
 
 ### `Task<OrganizationResult?> GetOrganizationAsync(string id)`
 Gets organization data by id
@@ -309,7 +317,9 @@ Gets the token balance for a given address and token symbol
 ### `Task<TokenDataResult?> GetTokenDataAsync(string symbol, string tokenId)`
 Gets token data for a specific token id
 
-> **Partially implemented** — some features may be missing or incomplete. See the roadmap: https://phantasma.info/blockchain#roadmap
+{% hint style="warning" %}
+**Partially implemented** - some features may be missing or incomplete. See the [roadmap](https://phantasma.info/blockchain#roadmap)
+{% endhint %}
 
 **Parameters**
 - `symbol` — token symbol
@@ -323,7 +333,9 @@ Gets token data for a specific token id
 ### `Task<TokenDataResult?> GetNFTAsync(string symbol, string tokenId, bool loadProperties)`
 Gets NFT data and optionally loads properties
 
-> **Partially implemented** — some features may be missing or incomplete. See the roadmap: https://phantasma.info/blockchain#roadmap
+{% hint style="warning" %}
+**Partially implemented** - some features may be missing or incomplete. See the [roadmap](https://phantasma.info/blockchain#roadmap)
+{% endhint %}
 
 **Parameters**
 - `symbol` — NFT symbol
@@ -338,7 +350,9 @@ Gets NFT data and optionally loads properties
 ### `Task<TokenDataResult[]?> GetNFTsAsync(string symbol, string[] tokenIds)`
 Gets NFT data for multiple token ids
 
-> **Unavailable** — This functionality is currently disabled and will be re‑enabled according to the roadmap: https://phantasma.info/blockchain#roadmap
+{% hint style="warning" %}
+This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
+{% endhint %}
 
 **Parameters**
 - `symbol` — NFT symbol
@@ -401,7 +415,9 @@ Broadcasts a transaction in hexadecimal encoding
 ### `Task<ScriptResult?> InvokeRawScriptAsync(string chain, string scriptData)`
 Invokes a VM script without state changes and returns its result
 
-> **Unavailable** — This functionality is currently disabled and will be re‑enabled according to the roadmap: https://phantasma.info/blockchain#roadmap
+{% hint style="warning" %}
+This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
+{% endhint %}
 
 **Parameters**
 - `chain` — chain name
@@ -454,7 +470,9 @@ Builds, signs and broadcasts a transaction with a binary payload
 
 ## Storage
 
-> **Unavailable** — This functionality is currently disabled and will be re‑enabled according to the roadmap: https://phantasma.info/blockchain#roadmap
+{% hint style="warning" %}
+This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
+{% endhint %}
 
 ### `Task<ArchiveResult?> GetArchiveAsync(string hash)`
 Gets archive metadata by its hash

@@ -1,7 +1,7 @@
 # Mint an NFT
 
 {% hint style="warning" %}
-This functionality is not yet available and will be released according to the [roadmap](https://phantasma.info/blockchain#roadmap)
+This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
 {% endhint %}
 
 This example demonstrates how to mint an NFT on the Phantasma blockchain. A transaction script is created and sent using the `SendTransaction()` method from the `PhantasmaLinkClient` class.

@@ -1,7 +1,7 @@
 # Get NFT
 
 {% hint style="warning" %}
-This functionality is not yet available and will be released according to the [roadmap](https://phantasma.info/blockchain#roadmap)
+This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
 {% endhint %}
 
 This example shows how to fetch an NFT's details using the `GetNFT()` method from the `PhantasmaAPI` class. The NFT details are then logged to the console.

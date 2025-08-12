@@ -1,7 +1,7 @@
 # Get Multiple NFTs
 
 {% hint style="warning" %}
-This functionality is not yet available and will be released according to the [roadmap](https://phantasma.info/blockchain#roadmap)
+This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
 {% endhint %}
 
 This example demonstrates how to fetch multiple NFTs at once using the `GetNFTs()` method from the `PhantasmaAPI` class. The number of fetched NFTs is then logged to the console.

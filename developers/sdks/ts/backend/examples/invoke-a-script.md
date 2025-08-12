@@ -1,7 +1,7 @@
 # Invoke a Script
 
 {% hint style="warning" %}
-This functionality is not yet available and will be released according to the [roadmap](https://phantasma.info/blockchain#roadmap)
+This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
 {% endhint %}
 
 {% hint style="info" %}
