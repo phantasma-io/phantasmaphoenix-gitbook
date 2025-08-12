@@ -6,6 +6,9 @@ coverY: 0
 - [Setup](/developers/sdks/csharp/setup.md)
 - [Godot](/developers/sdks/csharp/godot.md)
 
+# Interacting with the chain
+- [High-level API](/developers/sdks/csharp/phantasma-api.md)
+
 # Examples
 
 - [Generate Key](/developers/sdks/csharp/examples/generate-key.md)

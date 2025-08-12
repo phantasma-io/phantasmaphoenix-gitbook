@@ -51,6 +51,7 @@
     - [C# SDK](developers/sdks/csharp/README.md)
       - [Setup](developers/sdks/csharp/setup.md)
       - [Godot](/developers/sdks/csharp/godot.md)
+      - [High-level API](/developers/sdks/csharp/phantasma-api.md)
       - Examples
         - [Generate Key](developers/sdks/csharp/examples/generate-key.md)
         - [Public Key From Private](developers/sdks/csharp/examples/public-key-from-private.md)
