@@ -21,7 +21,7 @@ Support is planned according to the [roadmap](https://phantasma.info/blockchain#
 **Cons:**
 - **Security risk:** if your storage is compromised, the key is exposed.
 - You are responsible for implementing secure storage and backup.
-- Not compatible with hardware wallets (e.g., Ledger) when they require secure signing.
+- Not compatible with hardware wallets (e.g., Ledger).
 
 ### **B. Wallet-controlled private key (via Phantasma Link)**
 - The private key is **never stored in your app**.
@@ -35,7 +35,7 @@ Support is planned according to the [roadmap](https://phantasma.info/blockchain#
 
 **Cons:**
 - Requires wallet installation/configuration.
-- Transactions may require explicit user approval.
+- Transactions require explicit user approval.
 
 ## Choosing the Right Approach
 
@@ -54,7 +54,7 @@ If you choose the **application-controlled** approach (working directly with the
 ## Security Notes
 - **Never** hardcode private keys in source code or binaries.
 - If storing locally, protect the private key using all available security measures, such as strong encryption, a good password, and secure platform storage when possible.
-- Users should be able to back up their private keys (or seed phrases) and restore them when needed. Export must be secure and intentional, using encryption, passwords, or offline methods.
+- Users should be able to back up their private keys (or seed phrases) and restore them when needed. Export must be secure and intentional.
 - Treat a private key like a password - leaking it compromises all assets.
 
 ## Quick summary
