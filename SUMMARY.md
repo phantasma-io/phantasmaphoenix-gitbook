@@ -16,6 +16,7 @@
 
 - Developers
   - [Quick Start](developers/quick-start.md)
+  - [Private Key Guideline](developers/private-key-guideline.md)
   - Blockchain
     - [Chain](developers/blockchain/chain/README.md)
       - [Virtual Machine Architecture](developers/blockchain/chain/information/virtual-machine/architecture.md)
