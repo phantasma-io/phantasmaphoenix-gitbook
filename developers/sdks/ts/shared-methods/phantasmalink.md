@@ -1,4 +1,4 @@
-# 🔗 PhantasmaLink
+# Phantasma Link
 
 ### Introduction
 

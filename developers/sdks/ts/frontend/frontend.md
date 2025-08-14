@@ -1,4 +1,4 @@
-# 🖥️ Frontend
+# Frontend
 
 Here we will talk about the PhantasmaLink.
 
@@ -8,34 +8,13 @@ Here we will talk about the PhantasmaLink.
 
 For more information check the page bellow.
 
-{% content-ref url="../shared-methods/phantasmalink.md" %}
-[phantasmalink.md](../shared-methods/phantasmalink.md)
+{% content-ref url="/developers/sdks/ts/shared-methods/phantasmalink.md" %}
+Phantasma Link
 {% endcontent-ref %}
 
 ## Frontend
-
-{% hint style="info" %}
-Check the example, if you want to see implementation you can check this repositories
-
-* [https://github.com/phantasma-io/Phantasma-Hub](https://github.com/phantasma-io/Phantasma-Hub)
-{% endhint %}
-
 Check the example code that we have here
 
-{% content-ref url="examples/" %}
-[examples](examples/)
-{% endcontent-ref %}
-
-## Backend
-
-{% hint style="info" %}
-Check the example, if you want to see implementation you can check this repositories
-
-* [https://github.com/phantasma-io/phantasma-node-examples](https://github.com/phantasma-io/phantasma-node-examples)
-* [https://github.com/phantasma-io/Phantasma-Blocks](https://github.com/phantasma-io/Phantasma-Blocks)
-* [https://github.com/phantasma-io/Phantasma-Airdrop](https://github.com/phantasma-io/Phantasma-Airdrop)
-{% endhint %}
-
-{% content-ref url="../backend/backend.md" %}
-[backend.md](../backend/backend.md)
-{% endcontent-ref %}
+[Connect to the Wallet](/developers/sdks/ts/frontend/examples/connect-to-the-wallet.md)
+[Invoking a Script](/developers/sdks/ts/frontend/examples/invoking-a-script.md)
+[Sending a Transaction](/developers/sdks/ts/frontend/examples/sending-a-transaction.md)

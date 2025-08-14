@@ -1,4 +1,4 @@
-# ☁️ PhantasmaAPI
+# PhantasmaAPI
 
 {% hint style="info" %}
 Here's how to setup a simple connection to the Phantasma Blockchain API
