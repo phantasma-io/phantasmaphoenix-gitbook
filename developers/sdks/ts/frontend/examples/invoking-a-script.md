@@ -28,7 +28,7 @@ Invoking a Script doesn't need the user to accept anything.
 
 {% code overflow="wrap" lineNumbers="true" %}
 ```typescript
-import { PhantasmaLink, Transaction, ScriptBuilder } from "phantasma-ts";
+import { PhantasmaLink, Transaction, ScriptBuilder } from "phantasma-sdk-ts";
 
 const CHAIN_NAME = "main"; // This is the name of the chain, please don't change it.
 

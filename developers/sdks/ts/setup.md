@@ -1,8 +1,4 @@
-# 🛠️ Setup
-
-{% hint style="info" %}
-First thing to install in your project is the Phantasma-ts, so you can build a quick connection to your desired blockchain!
-{% endhint %}
+# Setup
 
 ## Installation
 
@@ -18,20 +14,16 @@ Use the package manager [npm](https://docs.npmjs.com/downloading-and-installing-
 npm install phantasma-sdk-ts
 ```
 
-{% hint style="success" %}
-I know, is that easy to install it.
-{% endhint %}
-
 ## Backend or Frontend?
 
-For using it in the **backend**, you should take a look at this:
+For using it in the **backend**, you should take a look at this guide:
 
-{% content-ref url="../backend/backend.md" %}
-[backend.md](../backend/backend.md)
+{% content-ref url="/developers/sdks/ts/backend/backend.md" %}
+Backend Guide
 {% endcontent-ref %}
 
-For using it in the **frontend** and **connect** to the wallets (**Poltergeist**/**Ecto**), take a look at this:
+For using it in the **frontend** and **connect** to the wallets (**Poltergeist**/**Ecto**), take a look at this guide:
 
-{% content-ref url="../frontend/frontend.md" %}
-[frontend.md](../frontend/frontend.md)
+{% content-ref url="/developers/sdks/ts/frontend/frontend.md" %}
+Frontend Guide
 {% endcontent-ref %}

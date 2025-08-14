@@ -1,13 +1,13 @@
 # ⚙️ Backend
 
 {% hint style="info" %}
-**Keep in mind,** both the backend and frontend make use of the **phantasma-ts** library.
+**Keep in mind,** both the backend and frontend make use of the **phantasma-sdk-ts** library.
 
 you can check the **source code** and make **pull request** to improve it!
 {% endhint %}
 
 {% embed url="https://github.com/phantasma-io/phantasma-ts/" %}
-phantasma-ts source code
+phantasma-sdk-ts source code
 {% endembed %}
 
 ## Backend

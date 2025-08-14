@@ -16,7 +16,7 @@ After sending the transaction, you might receive a popup on the wallet that you'
 
 The `signTx` is the method that will call the Wallet for the user to **accept** or **reject** the transaction.
 
-<pre class="language-typescript" data-overflow="wrap" data-line-numbers><code class="lang-typescript">import { PhantasmaLink, ScriptBuilder, Address, Base16 } from 'phantasma-ts';
+<pre class="language-typescript" data-overflow="wrap" data-line-numbers><code class="lang-typescript">import { PhantasmaLink, ScriptBuilder, Address, Base16 } from 'phantasma-sdk-ts';
 
 let gasPrice = 100000;
 <strong>let gasLimit = 210000;

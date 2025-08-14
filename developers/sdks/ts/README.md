@@ -3,32 +3,30 @@ cover: .gitbook/assets/gitbook-banner-pha-phoenix-ts-js-sdk.png
 coverY: 0
 ---
 
-# 👋 Phantasma - TS
+# TS SDK
 
 ## Description
 
-TS library will help you in development for Web dApps, it can integrate with React and other typescript based libs.
+The TS SDK helps you build Web dApps and integrates seamlessly with React and other TypeScript-based libraries.
 
 {% hint style="info" %}
-Information about ts sdk: [https://github.com/phantasma-io/phantasma-ts](https://github.com/phantasma-io/phantasma-ts)
+Git repository: [https://github.com/phantasma-io/phantasma-ts](https://github.com/phantasma-io/phantasma-ts)
 {% endhint %}
 
-## Want to jump right in?
+## Installation
 
-Jump in to the quick start docs and get making your first dapp connection:
-
-{% content-ref url="quick-start.md" %}
-[quick-start.md](quick-start.md)
+{% content-ref url="/developers/sdks/ts/setup.md" %}
+Setup
 {% endcontent-ref %}
 
-## Want to deep dive?
+## Building a backend in TypeScript
 
-Dive a little deeper and start exploring either the **frontend** or the **backend** is up to you where you start:
-
-{% content-ref url="frontend/frontend.md" %}
-[frontend.md](frontend/frontend.md)
+{% content-ref url="/developers/sdks/ts/backend/backend.md" %}
+Backend Guide
 {% endcontent-ref %}
 
-{% content-ref url="backend/backend.md" %}
-[backend.md](backend/backend.md)
+## Connecting to the blockchain via wallet
+
+{% content-ref url="/developers/sdks/ts/frontend/frontend.md" %}
+Frontend Guide
 {% endcontent-ref %}
