@@ -12,9 +12,11 @@ For more information check the page bellow.
 Phantasma Link
 {% endcontent-ref %}
 
-## Frontend
+## Examples
 Check the example code that we have here
 
 [Connect to the Wallet](/developers/sdks/ts/frontend/examples/connect-to-the-wallet.md)
+
 [Invoking a Script](/developers/sdks/ts/frontend/examples/invoking-a-script.md)
+
 [Sending a Transaction](/developers/sdks/ts/frontend/examples/sending-a-transaction.md)

@@ -10,8 +10,7 @@ you can check the **source code** and make **pull request** to improve it!
 phantasma-sdk-ts source code
 {% endembed %}
 
-## Backend
-
+## Examples
 Check all the examples and the source code of already implemented projects to give some in ideas how to get started.
 
 [Create a Transaction](/developers/sdks/ts/backend/examples/create-a-transaction.md)
