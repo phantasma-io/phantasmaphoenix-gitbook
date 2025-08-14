@@ -17,6 +17,9 @@
 - Developers
   - [Quick Start](developers/quick-start.md)
   - [Private Key Guideline](developers/private-key-guideline.md)
+
+<!--
+## TODO unhide once updated
   - Blockchain
     - [Chain](developers/blockchain/chain/README.md)
       - [Virtual Machine Architecture](developers/blockchain/chain/information/virtual-machine/architecture.md)
@@ -25,6 +28,8 @@
       - [Types](developers/blockchain/chain/information/virtual-machine/types.md)
     - [Smart Contracts](developers/blockchain/smart-contracts/README.md)
       - [How to Deploy](developers/blockchain/smart-contracts/how-to-deploy.md)
+-->
+
   - [Link Client](developers/link-client/link-client.md)
   - [Script Builder](developers/script-builder/README.md)
     - [Examples](developers/script-builder/examples.md)
