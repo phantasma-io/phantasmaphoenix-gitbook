@@ -48,6 +48,7 @@
       - Examples
         - [Generate Key](developers/sdks/csharp/examples/generate-key.md)
         - [Public Key From Private](developers/sdks/csharp/examples/public-key-from-private.md)
+        - [Seed Phrase](/developers/sdks/csharp/examples/seed-phrase.md)
         - [Get Address Balances](developers/sdks/csharp/examples/get-address-balances.md)
         - [Get Address Token Balance](developers/sdks/csharp/examples/get-address-token-balance.md)
         - [Send Token](developers/sdks/csharp/examples/send-token.md)
