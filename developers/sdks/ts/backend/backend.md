@@ -39,6 +39,8 @@ Check all the examples and the source code of already implemented projects to gi
 
 [Transfer Tokens](/developers/sdks/ts/backend/examples/transfer-tokens.md)
 
+[Create New Carbon Token](/developers/sdks/ts/backend/examples/create-carbon-token.md)
+
 {% hint style="info" %}
 Check the example, if you want to see implementation you can check this repositories
 
