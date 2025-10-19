@@ -31,7 +31,7 @@ import {
 
 ### Initialize Deployer Keys
 
-In the following examples, we will use the deployer’s `PhantasmaKeys` keypair and its Bytes32 public key.
+In the following examples, we will use the deployer’s `PhantasmaKeys` keypair and its `Bytes32` public key.
 
 ```ts
   // Initialize PhantasmaKeys using WIF-encoded private key
@@ -87,8 +87,9 @@ You can call the constructor without arguments to use default values.
 Broadcast transaction to the network.
 
 ```ts
-  const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, cfg.nexus);
+  const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, "testnet");
 
+  // Use sendCarbonTransaction() to call Carbon methods
   const txHash = await rpc.sendCarbonTransaction(tx);
 ````
 
