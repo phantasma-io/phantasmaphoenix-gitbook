@@ -14,12 +14,10 @@ These are the imports typically required for creating a Carbon token series:
 ```ts
 import {
   Bytes32,
-  CarbonBlob,
   CreateSeriesFeeOptions,
   CreateTokenSeriesTxHelper,
   getRandomPhantasmaId,
   SeriesInfoBuilder,
-  SignedTxMsg,
   PhantasmaAPI,
   PhantasmaKeys,
 } from "phantasma-sdk-ts";
@@ -40,11 +38,21 @@ In the following examples, we will use the deployer’s `PhantasmaKeys` keypair 
 
 `SeriesInfoBuilder` helps construct the class describing the series being created.
 
+`maxMint` and `maxSupply`, which are passed to `SeriesInfoBuilder.build()`, limit the number of NFTs that can be minted in the following way:
+Each time you mint an NFT, both the mint and supply counters increase by one.
+If you burn an NFT, the supply counter decreases by one.
+
+For example:
+
+* `maxMint = 20` → only 20 NFTs will ever be created.
+
+* `maxMint = 0`, `maxSupply = 20` → minting can continue as long as there are fewer than 20 existing (non-burned) NFTs at the moment.
+
 ```ts
   // First we need to generate a new random Phantasma ID for the new series
   const newPhantasmaSeriesId = await getRandomPhantasmaId();
 
-  const info = SeriesInfoBuilder.Build(
+  const info = SeriesInfoBuilder.build(
     newPhantasmaSeriesId,
     0, // maxMint
     0, // maxSupply
@@ -82,7 +90,7 @@ You can call the constructor without arguments to use default values.
 
 ### Broadcast the Transaction
 
-Broadcast transaction to the network.
+Broadcast the transaction to the network.
 
 ```ts
   const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, "testnet");
@@ -100,9 +108,8 @@ This ID can later be used to mint new NFTs.
   // Wait for transaction confirmation...
 
   if (success) {
-    const tokenId = CreateTokenSeriesTxHelper.parseResult(result);
+    const seriesId = CreateTokenSeriesTxHelper.parseResult(result);
   } else {
     // Handle transaction failure
   }
-}
 ```

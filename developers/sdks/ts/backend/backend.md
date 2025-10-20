@@ -43,6 +43,8 @@ Check all the examples and the source code of already implemented projects to gi
 
 [Create New Carbon Token Series](/developers/sdks/ts/backend/examples/create-carbon-token-series.md)
 
+[Mint New Carbon NFT](/developers/sdks/ts/backend/examples/mint-carbon-nft.md)
+
 {% hint style="info" %}
 Check the example, if you want to see implementation you can check this repositories
 

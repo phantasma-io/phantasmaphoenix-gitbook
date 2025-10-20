@@ -6,6 +6,8 @@ For more advanced scenarios, Phantasma Phoenix also provides Smart NFTs, which i
 
 Both Carbon NFTs and Smart NFTs support infusion and all standard NFT operations - they are mintable, transferable, burnable, and tradable.
 
+Carbon NFTs can be upgraded to Smart NFTs by embedding a TOMB (PhantasmaVM) contract within their Carbon metadata.
+
 ## Creating a New Carbon Token
 
 The following code snippet demonstrates how to create a new Carbon token.
@@ -17,11 +19,9 @@ These are the imports typically required for creating a Carbon token:
 ```ts
 import {
   Bytes32,
-  CarbonBlob,
   CreateTokenFeeOptions,
   CreateTokenTxHelper,
   IntX,
-  SignedTxMsg,
   PhantasmaAPI,
   PhantasmaKeys,
   TokenInfoBuilder,
@@ -84,7 +84,7 @@ You can call the constructor without arguments to use default values.
 
 ### Broadcast the Transaction
 
-Broadcast transaction to the network.
+Broadcast the transaction to the network.
 
 ```ts
   const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, "testnet");
@@ -106,5 +106,4 @@ This ID can later be used to create token series and mint new NFTs.
   } else {
     // Handle transaction failure
   }
-}
 ```
