@@ -92,3 +92,27 @@ Broadcast the transaction to the network.
   // Use sendCarbonTransaction() to call Carbon methods
   const txHash = await rpc.sendCarbonTransaction(tx);
 ````
+
+### Parse the Result
+
+After the transaction is mined and its result becomes available, parse it to obtain the new Carbon NFT address.
+This address can later be used for infusion.
+
+The method `MintNonFungibleTxHelper.parseResult()` returns an array of minted NFT addresses -
+in this case, it will contain a single element.
+
+```ts
+  // Wait for transaction confirmation...
+
+  if (success) {
+    const carbonNftAddresses = MintNonFungibleTxHelper.parseResult(
+      carbonTokenId,
+      result,
+    );
+    console.log(
+      `Deployed NFT with phantasma ID ${newPhantasmaNftId} and carbon NFT address ${carbonNftAddresses[0]}`
+    );
+  } else {
+    console.log("Could not mint NFT");
+  }
+```
