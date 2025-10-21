@@ -3,7 +3,7 @@
 ## Installation
 
 {% hint style="info" %}
-**Important:** Before the Phoenix chain update, a different package was used. This package is now obsolete and strictly deprecated. Use the new package instead.
+**Important:** Before the Phoenix chain update, a different package **phatasma-ts** was used. This package is now obsolete and strictly deprecated. Use the new package instead.
 {% endhint %}
 
 ### On your typescript based Project
