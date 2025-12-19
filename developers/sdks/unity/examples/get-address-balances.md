@@ -14,6 +14,9 @@ public void GetAddressBalances()
     // Request account information including all token balances
     StartCoroutine(api.GetAccount(address, (accountResult) =>
         {
+           // Convert full account result to readable JSON for logging
+           var json = JsonConvert.SerializeObject(accountResult, Formatting.Indented);
+
            // Output all token balances including NFTs and fungible tokens
            Debug.Log($"[Balance] balances for {address}: {json}");
         },

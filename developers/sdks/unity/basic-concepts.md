@@ -14,7 +14,7 @@ Phantasma is a blockchain platform designed for fast, secure, and scalable decen
 
 #### Wallet Connection
 
-Connecting to a wallet is a crucial step in any DApp, as it allows users to manage their assets and interact with the Phantasma blockchain. The SDK provides a simple and secure way to connect to the wallet via the `PhantasmaLinkClient` prefab, which supports different nexus configurations and wallet endpoints depending on your deployment target (localnet, testnet, or mainnet).
+Connecting to a wallet is a crucial step in any DApp, as it allows users to manage their assets and interact with the Phantasma blockchain. The SDK provides a simple and secure way to connect to the wallet via the `PhantasmaLinkClient` prefab, which supports different nexus configurations and wallet endpoints depending on your deployment target (simnet, testnet, or mainnet).
 
 #### Smart Contracts
 
@@ -34,7 +34,7 @@ The `ScriptBuilder` is a powerful tool provided by the Phantasma SDK that allows
 
 #### SendRawTransaction
 
-`SendRawTransaction` is a method provided by the Phantasma Unity SDK that allows you to interact with the Phantasma blockchain in a way that can change its state. This method is used to perform actions such as transferring assets or invoking smart contracts that modify the blockchain's data. When you use `SendRawTransaction`, the transaction is signed and broadcasted to the network, and if it is successfully executed, it results in an updated state on the blockchain.
+`SendRawTransaction` is a method provided by the Phantasma Unity SDK that allows you to interact with the Phantasma blockchain in a way that can change its state. This method is used to perform actions such as transferring assets or invoking smart contracts that modify the blockchain's data. When you use `SendRawTransaction`, you broadcast a signed transaction to the network, and if it is successfully executed, it results in an updated state on the blockchain.
 
 #### InvokeRawScript
 

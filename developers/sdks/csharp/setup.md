@@ -18,6 +18,7 @@ https://www.nuget.org/profiles/Phantasma.info
 | [PhantasmaPhoenix.Link](https://www.nuget.org/packages/PhantasmaPhoenix.Link) | Lightweight WebSocket-based server implementation for the Phantasma Link protocol. Allows dApps to connect with Phantasma wallets |
 | [PhantasmaPhoenix.NFT](https://www.nuget.org/packages/PhantasmaPhoenix.NFT) | Utilities for parsing NFT ROM data and accessing metadata in Phantasma |
 | [PhantasmaPhoenix.Protocol](https://www.nuget.org/packages/PhantasmaPhoenix.Protocol) | Protocol types, enums, and constants for the Phantasma Phoenix SDK  |
+| [PhantasmaPhoenix.Protocol.Carbon](https://www.nuget.org/packages/PhantasmaPhoenix.Protocol.Carbon) | Carbon protocol types and helpers for scriptless (Carbon) transactions |
 | [PhantasmaPhoenix.RPC](https://www.nuget.org/packages/PhantasmaPhoenix.RPC) | Provides client-side types and helpers for interacting with the Phantasma Phoenix blockchain RPC and REST APIs |
 | [PhantasmaPhoenix.VM](https://www.nuget.org/packages/PhantasmaPhoenix.VM) | Virtual machine implementation and script execution utilities for Phantasma Phoenix SDK |
 
@@ -47,6 +48,9 @@ dotnet add package PhantasmaPhoenix.NFT
 ```
 ```
 dotnet add package PhantasmaPhoenix.Protocol
+```
+```
+dotnet add package PhantasmaPhoenix.Protocol.Carbon
 ```
 ```
 dotnet add package PhantasmaPhoenix.RPC

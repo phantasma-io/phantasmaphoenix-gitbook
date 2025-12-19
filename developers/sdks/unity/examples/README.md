@@ -27,17 +27,17 @@
 
 ### General
 
-- [Get Account Balances](/developers/sdks/unity/examples/get-account-balances.md)
-- [Logging In to the Wallet](/developers/sdks/unity/examples/logging-in-to-the-wallet.md)
-- [Send a Transaction](/developers/sdks/unity/examples/send-a-transaction.md)
-- [Transfer Tokens](/developers/sdks/unity/examples/transfer-tokens.md)
-- [Mint Tokens](/developers/sdks/unity/examples/mint-tokens.md)
+- [Get Account Balances](/developers/sdks/unity/examples/link/get-account-balances.md)
+- [Logging In to the Wallet](/developers/sdks/unity/examples/link/logging-in-to-the-wallet.md)
+- [Send a Transaction](/developers/sdks/unity/examples/link/send-a-transaction.md)
+- [Transfer Tokens](/developers/sdks/unity/examples/link/transfer-tokens.md)
+- [Mint Tokens](/developers/sdks/unity/examples/link/mint-tokens.md)
 
 ### NFTs
 
-- [Send an NFT](/developers/sdks/unity/examples/send-an-nft.md)
-- [Mint an NFT](/developers/sdks/unity/examples/mint-an-nft.md)
-- [Infuse an NFT](/developers/sdks/unity/examples/infuse-an-nft.md)
-- [Update an NFT's RAM](/developers/sdks/unity/examples/update-an-nfts-ram.md)
-- [Burn an NFT](/developers/sdks/unity/examples/burn-an-nft.md)
-- [Burn Tokens](/developers/sdks/unity/examples/burn-tokens.md)
+- [Send an NFT](/developers/sdks/unity/examples/link/send-an-nft.md)
+- [Mint an NFT](/developers/sdks/unity/examples/link/mint-an-nft.md)
+- [Infuse an NFT](/developers/sdks/unity/examples/link/infuse-an-nft.md)
+- [Update an NFT's RAM](/developers/sdks/unity/examples/link/update-an-nfts-ram.md)
+- [Burn an NFT](/developers/sdks/unity/examples/link/burn-an-nft.md)
+- [Burn Tokens](/developers/sdks/unity/examples/link/burn-tokens.md)

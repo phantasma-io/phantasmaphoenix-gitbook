@@ -12,7 +12,7 @@ using PhantasmaPhoenix.VM;
 public void StakeSoul()
 {
 	// Initialize PhantasmaAPI instance
-	var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc");
+	var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null);
 
 	// Load private key
 	var keys = PhantasmaKeys.FromWIF("PK_in_WIF_format");
@@ -55,7 +55,7 @@ public void StakeSoul()
 	}
 
 	// Signing transaction with private key and sending it to the chain
-	var hashText = await api.SignAndSendTransactionAsync(keys, nexus, script, chain, "example7-tx-payload");
+	var hashText = await api.SignAndSendTransactionAsync(keys, nexus, script, "main", "example7-tx-payload");
 	if (!string.IsNullOrEmpty(hashText))
 	{
 		Console.WriteLine($"Transaction was sent, hash: {hashText}");

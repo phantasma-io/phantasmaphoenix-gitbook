@@ -5,7 +5,7 @@
 #### Variables
 
 * `public static PhantasmaLinkClient Instance { get; private set; }`: Singleton instance of PhantasmaLinkClient.
-* `public int Version = 2;`: The version of the Phantasma Link Client.
+* `public int Version = 2;`: The recommended Link protocol version.
 * `public string DappID = "demo";`: The ID of the decentralized application.
 * `public string Host = "localhost:7090";`: The host and port of the Phantasma Link server.
 * `public PlatformKind Platform = PlatformKind.Phantasma;`: The blockchain platform to use.
@@ -14,7 +14,8 @@
 * `public int GasLimit = 100000;`: The gas limit for transactions.
 * `public bool Ready { get; private set; }`: Indicates if the Phantasma Link Client is ready.
 * `public bool Enabled { get; private set; }`: Indicates if the Phantasma Link Client is enabled.
-* `public string Nexus { get; private set; }`: The Phantasma blockchain Nexus.
+* `public bool Busy { get; private set; }`: Indicates if the client is processing a request.
+* `public string Nexus { get; private set; }`: The configured nexus (default is `simnet` for local node builds).
 * `public string Wallet { get; private set; }`: The wallet address.
 * `public string Token { get; private set; }`: The Session token to the wallet.
 * `public string Name { get; private set; }`: The wallet name.
@@ -26,6 +27,7 @@
 #### Methods
 
 * `public decimal GetBalance(string symbol);`: Returns the balance of a specified token symbol.
+* `public string[] GetNFTs(string symbol);`: Returns owned NFT IDs for a specified symbol.
 * `public void Login(Action<bool, string> callback = null);`: Logs in the user to the wallet and triggers the callback upon completion.
 * `public void ReloadAccount(Action<bool, string> callback = null);`: Reloads the user's account data and triggers the callback upon completion.
 * `public void Logout();`: Logs out the user from the wallet.

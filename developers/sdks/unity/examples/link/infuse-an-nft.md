@@ -12,12 +12,12 @@ public void InfuseNFT()
     if (!PhantasmaLinkClient.Instance.IsLogged) return;
 
     ScriptBuilder sb = new ScriptBuilder();
-    var userAddress = Address.FromText(PhantasmaLinkClient.Instance.Address);
+    var userAddress = Address.Parse(PhantasmaLinkClient.Instance.Address);
     var symbol = "CROWN";
     var tokenID = new BigInteger("190000000");
     var infuseSymbol = "SOUL"; // IT could be an NFT
     var infuseAmount = UnitConversion.ToBigInteger(1, 8);
-    var payload = Base16.Decode("OurDappExample");
+    var payload = System.Text.Encoding.UTF8.GetBytes("OurDappExample");
     var script = sb.AllowGas(userAddress, Address.Null, PhantasmaLinkClient.Instance.GasPrice, PhantasmaLinkClient.Instance.GasLimit ).
         CallInterop("Runtime.InfuseToken", userAddress, symbol, tokenID, infuseSymbol, infuseAmount).
         SpendGas(userAddress).

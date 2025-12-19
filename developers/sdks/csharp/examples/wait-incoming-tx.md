@@ -14,14 +14,14 @@ private static readonly Dictionary<string, uint> _tokenDecimals = new(StringComp
 public void WaitIncomingTx_ReadBlocks()
 {
 	// Initialize PhantasmaAPI instance
-	var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc");
+	var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null);
 
 	// Address to monitor
 	var address = "P2K...";
 
 	using var cts = new CancellationTokenSource();
 	Console.CancelKeyPress += (_, e) => { e.Cancel = true; cts.Cancel(); };
-	await WaitIncomingTransfers(api, address, null, "main", cts.Token);
+	await WaitIncomingTransfers(api, address, "main", cts.Token);
 }
 
 public static async Task WaitIncomingTransfers(PhantasmaAPI api, string address, string chain, CancellationToken ct)

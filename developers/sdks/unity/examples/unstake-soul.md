@@ -49,7 +49,7 @@ public void UnstakeSoul()
     }
 
     // Sign and send the transaction using the generated script and optional payload comment
-    StartCoroutine(api.SignAndSendTransaction(keys, nexus, script, "main", "example7-tx-payload",
+    StartCoroutine(api.SignAndSendTransaction(keys, nexus, script, "main", "example8-tx-payload",
         // Callback on success
         (txHash, encodedTx) =>
         {

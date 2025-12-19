@@ -10,13 +10,16 @@ using PhantasmaPhoenix.VM;
 public void ClaimKcal()
 {
 	// Initialize PhantasmaAPI instance
-	var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc");
+	var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null);
 
 	// Load private key
 	var keys = PhantasmaKeys.FromWIF("PK_in_WIF_format");
 
 	// Get transaction sender's address from private key
 	var senderAddress = keys.Address;
+
+	// Target chain Nexus name (e.g. "testnet" or "mainnet")
+	var nexus = "testnet";
 
 	// TODO: Adapt to new fee model
 	// Use these values for now
@@ -47,7 +50,7 @@ public void ClaimKcal()
 	}
 
 	// Signing transaction with private key and sending it to the chain
-	var hashText = await api.SignAndSendTransactionAsync(keys, nexus, script, chain, "example9-tx-payload");
+	var hashText = await api.SignAndSendTransactionAsync(keys, nexus, script, "main", "example9-tx-payload");
 	if (!string.IsNullOrEmpty(hashText))
 	{
 		Console.WriteLine($"Transaction was sent, hash: {hashText}");

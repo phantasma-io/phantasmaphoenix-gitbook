@@ -10,7 +10,7 @@ This example shows how to call the blockchain directly to get information using 
 public void InvokeRawScript()
 {
     PhantasmaAPI api = new PhantasmaAPI("https://testnet.phantasma.info/rpc");
-    var toAddress = Address.FromText("P2KKEjZK7AbcKZjuZMsWKKgEjNzeGtr2zBiV7qYJHxNXvUa");
+    var toAddress = Address.Parse("P2KKEjZK7AbcKZjuZMsWKKgEjNzeGtr2zBiV7qYJHxNXvUa");
     ScriptBuilder sb = new ScriptBuilder();
     var script = sb.
         CallContract("stake", "getStake", toAddress).
@@ -18,7 +18,7 @@ public void InvokeRawScript()
     var scriptEncoded = Base16.Encode(script);
     StartCoroutine(api.InvokeRawScript("main", scriptEncoded, scriptResult =>
     {
-        Debug.Log(scriptResult.results.Length);
+        Debug.Log(scriptResult.Results.Length);
     }));
 }
 ```

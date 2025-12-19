@@ -8,11 +8,10 @@ public void BurnTokens()
     if (!PhantasmaLinkClient.Instance.IsLogged) return;
 
     ScriptBuilder sb = new ScriptBuilder();
-    var userAddress = Address.FromText(PhantasmaLinkClient.Instance.Address);
-    var toAddress = Address.FromText("P2KKEjZK7AbcKZjuZMsWKKgEjNzeGtr2zBiV7qYJHxNXvUa");
+    var userAddress = Address.Parse(PhantasmaLinkClient.Instance.Address);
     var symbol = "NSYM";
     var amount = new BigInteger("1000000000000");
-    var payload = Base16.Decode("OurDappExample");
+    var payload = System.Text.Encoding.UTF8.GetBytes("OurDappExample");
     var script = sb.AllowGas(userAddress, Address.Null, PhantasmaLinkClient.Instance.GasPrice, PhantasmaLinkClient.Instance.GasLimit ).
         CallInterop("Runtime.BurnTokens", userAddress, symbol, amount).
         SpendGas(userAddress).

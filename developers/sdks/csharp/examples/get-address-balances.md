@@ -9,7 +9,7 @@ using PhantasmaPhoenix.RPC;
 public void GetAddressBalances()
 {
 	// Initialize PhantasmaAPI instance
-	var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc");
+	var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null);
 
 	// Address to query
 	var address = "P2K...";

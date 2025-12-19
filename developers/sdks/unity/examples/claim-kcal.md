@@ -56,7 +56,8 @@ public void ClaimKcal()
                 Debug.Log($"Transaction was sent, hash: {txHash}. Check transaction status using GetTransaction() call");
 
                 // Start polling to track transaction execution status on-chain
-                StartCoroutine(Example06_CheckTransactionState.CheckTxStateLoop(txHash, null));
+                // CheckTxStateLoop() implementation is available in "Check Transaction State" example
+                StartCoroutine(CheckTxStateLoop(api, txHash, null));
                 return;
             }
             else

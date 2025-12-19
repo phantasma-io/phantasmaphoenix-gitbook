@@ -12,7 +12,7 @@ using PhantasmaPhoenix.VM;
 public void UnstakeSoul()
 {
 	// Initialize PhantasmaAPI instance
-	var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc");
+	var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null);
 
 	// Load private key
 	var keys = PhantasmaKeys.FromWIF("PK_in_WIF_format");
@@ -23,7 +23,7 @@ public void UnstakeSoul()
 	// Target chain Nexus name (e.g. "testnet" or "mainnet")
 	var nexus = "testnet";
 
-	// Amount to stake
+	// Amount to unstake
 	var amount = 0.01m;
 
 	// Not used right now, use as is
@@ -41,7 +41,7 @@ public void UnstakeSoul()
 
 		// Add instruction to unstake tokens, converting human-readable amount to chain format
 		sb.CallContract("stake", "Unstake", senderAddress,
-			UnitConversion.ToBigInteger(amountSoul, DomainSettings.StakingTokenDecimals));
+			UnitConversion.ToBigInteger(amount, DomainSettings.StakingTokenDecimals));
 
 		// Spend gas necessary for transaction execution
 		sb.SpendGas(senderAddress);
@@ -55,7 +55,7 @@ public void UnstakeSoul()
 	}
 
 	// Signing transaction with private key and sending it to the chain
-	var hashText = await api.SignAndSendTransactionAsync(keys, nexus, script, chain, "example8-tx-payload");
+	var hashText = await api.SignAndSendTransactionAsync(keys, nexus, script, "main", "example8-tx-payload");
 	if (!string.IsNullOrEmpty(hashText))
 	{
 		Console.WriteLine($"Transaction was sent, hash: {hashText}");

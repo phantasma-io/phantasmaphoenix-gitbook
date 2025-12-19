@@ -10,7 +10,7 @@ public void GetBalances()
     PhantasmaAPI api = new PhantasmaAPI("https://testnet.phantasma.info/rpc");
     StartCoroutine(api.GetAccount(PhantasmaLinkClient.Instance.Address, account =>
     {
-        Debug.Log(account.balances.Length);
+        Debug.Log(account.Balances.Length);
     }));
 }
 ```

@@ -11,7 +11,7 @@ using PhantasmaPhoenix.VM;
 public void SendToken()
 {
 	// Initialize PhantasmaAPI instance
-	var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc");
+	var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null);
 
 	// Load private key
 	var keys = PhantasmaKeys.FromWIF("PK_in_WIF_format");
@@ -31,6 +31,12 @@ public void SendToken()
 	// Amount to send
 	var amount = 0.01m;
 
+	var token = await api.GetTokenAsync(symbol) ?? throw new Exception("Token not found");
+	if (!token.IsFungible())
+	{
+		throw new Exception("Token is not fungible");
+	}
+
 	// Not used right now, use as is
 	var feePrice = 100000; // TODO: Adapt to new fee model.
 	var feeLimit = 21000; // TODO: Adapt to new fee model.
@@ -45,7 +51,7 @@ public void SendToken()
 		sb.AllowGas(senderAddress, Address.Null, feePrice, feeLimit);
 
 		// Add instruction to transfer tokens from sender to destination, converting human-readable amount to chain format
-		sb.TransferTokens(symbol, senderAddress, Address.Parse(destination),
+		sb.TransferTokens(symbol, senderAddress, Address.Parse(destinationAddress),
 			UnitConversion.ToBigInteger(amount, token.Decimals));
 
 		// Spend gas necessary for transaction execution
@@ -60,7 +66,7 @@ public void SendToken()
 	}
 
 	// Signing transaction with private key and sending it to the chain
-	var txHash = await api.SignAndSendTransactionAsync(keys, nexus, script, chain, "example5-tx-payload");
+	var txHash = await api.SignAndSendTransactionAsync(keys, nexus, script, "main", "example5-tx-payload");
 	if (!string.IsNullOrEmpty(txHash))
 	{
 		Console.WriteLine($"Transaction was sent, hash: {txHash}");

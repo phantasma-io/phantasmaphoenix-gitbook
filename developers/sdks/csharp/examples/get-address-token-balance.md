@@ -10,7 +10,7 @@ using PhantasmaPhoenix.RPC;
 public void GetAddressTokenBalance()
 {
 	// Initialize PhantasmaAPI instance
-	var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc");
+	var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null);
 
 	// Address to check balance for
 	var address = "P2K...";

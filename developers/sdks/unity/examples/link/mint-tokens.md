@@ -12,11 +12,11 @@ public void MintTokens()
     if (!PhantasmaLinkClient.Instance.IsLogged) return;
 
     ScriptBuilder sb = new ScriptBuilder();
-    var userAddress = Address.FromText(PhantasmaLinkClient.Instance.Address);
-    var toAddress = Address.FromText("P2KKEjZK7AbcKZjuZMsWKKgEjNzeGtr2zBiV7qYJHxNXvUa");
+    var userAddress = Address.Parse(PhantasmaLinkClient.Instance.Address);
+    var toAddress = Address.Parse("P2KKEjZK7AbcKZjuZMsWKKgEjNzeGtr2zBiV7qYJHxNXvUa");
     var symbol = "NSYM";
     var amount = new BigInteger("190000000");
-    var payload = Base16.Decode("OurDappExample");
+    var payload = System.Text.Encoding.UTF8.GetBytes("OurDappExample");
     var script = sb.AllowGas(userAddress, Address.Null, PhantasmaLinkClient.Instance.GasPrice, PhantasmaLinkClient.Instance.GasLimit ).
         CallInterop("Runtime.MintTokens", userAddress, toAddress, symbol, amount).
         SpendGas(userAddress).

@@ -14,7 +14,7 @@ public static async Task CheckTransactionState(string txHash, Action<ExecutionSt
 	}
 
 	// Initialize PhantasmaAPI instance
-	var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc");
+	var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null);
 
 	// Flag to stop polling loop once the transaction is finalized
 	bool done = false;

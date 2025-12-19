@@ -412,6 +412,17 @@ Broadcasts a transaction in hexadecimal encoding
 
 ---
 
+### `Task<string?> SendCarbonTransactionAsync(string txData)`
+Broadcasts a Carbon transaction in hexadecimal encoding
+
+**Parameters**
+- `txData` — hex encoded Carbon transaction bytes
+
+**Returns**
+- transaction hash text or `null`
+
+---
+
 ### `Task<ScriptResult?> InvokeRawScriptAsync(string chain, string scriptData)`
 Invokes a VM script without state changes and returns its result
 
@@ -425,6 +436,18 @@ This functionality is currently disabled and will be re‑enabled according to t
 
 **Returns**
 - script invocation result or `null`
+
+---
+
+### `Task<string?> SignAndSendCarbonTransactionAsync(IKeyPair keys, TxMsg txMsg)`
+Signs, serializes, and broadcasts a Carbon transaction
+
+**Parameters**
+- `keys` — key pair used to sign the Carbon transaction
+- `txMsg` — Carbon `TxMsg` struct
+
+**Returns**
+- transaction hash text or `null`
 
 ---
 

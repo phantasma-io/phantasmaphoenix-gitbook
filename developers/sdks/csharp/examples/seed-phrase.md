@@ -18,7 +18,7 @@ public void SeedPhraseExample()
 	if (pk == null || errorMessage != null)
 	{
 		Console.WriteLine($"Error occured: {errorMessage}");
-		return Task.CompletedTask;
+		return;
 	}
 
 	// Create keypair from new private key

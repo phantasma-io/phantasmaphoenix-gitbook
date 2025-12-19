@@ -24,6 +24,7 @@ This guide will walk you through the process of installing the Phantasma Unity S
 2. Add the `PhantasmaLinkClient` prefab to your scene.
 3. Configure the following settings in the `PhantasmaLinkClient` inspector:
    * **Nexus**: Choose the appropriate Nexus based on your deployment target:
+     * For local node deployments, set the Nexus to `simnet`.
      * For testnet deployment, set the Nexus to `testnet`.
      * For mainnet deployment, set the Nexus to `mainnet`.
    * **DappID**: Set the DappID to your Dapp's contract name. This will be displayed when a user logs in to your Dapp.
