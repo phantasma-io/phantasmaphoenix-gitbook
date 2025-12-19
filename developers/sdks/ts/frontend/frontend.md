@@ -1,19 +1,29 @@
 # Frontend
 
-Here we will talk about the PhantasmaLink.
+Use the TS SDK to connect to wallets and ask users to sign transactions from the browser.
 
-## PhantasmaLink
+## Wallet Integration
 
-**PhantasmaLink** is a core connecting piece that allows you to interact with Phantasma based Wallets. **PhantasmaLink** is a building block to help you connect with wallets.
-
-For more information check the page bellow.
+You can work directly with **PhantasmaLink** or use the wrapper **EasyConnect**.
 
 {% content-ref url="/developers/sdks/ts/shared-methods/phantasmalink.md" %}
 Phantasma Link
 {% endcontent-ref %}
 
+{% hint style="info" %}
+EasyConnect wraps PhantasmaLink and adds helpers like `signCarbonTransaction`.
+{% endhint %}
+
+## Recommended Flow
+
+1. Connect to a wallet (Poltergeist or Ecto).
+2. Build a script with `ScriptBuilder`.
+3. Call `signTx` (or `signCarbonTxAndBroadcast` for Carbon transactions).
+4. Use `getTransaction` to confirm results.
+
+For Carbon token flows, see [Carbon Workflows](../carbon-workflows.md).
+
 ## Examples
-Check the example code that we have here
 
 [Connect to the Wallet](/developers/sdks/ts/frontend/examples/connect-to-the-wallet.md)
 

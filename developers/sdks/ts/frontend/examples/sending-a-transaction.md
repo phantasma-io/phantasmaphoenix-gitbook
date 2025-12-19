@@ -1,4 +1,4 @@
-# Sending a transaction
+# Sending a Transaction
 
 {% hint style="info" %}
 After sending the transaction, you might receive a popup on the wallet that you're using to allow the transaction to go through.
@@ -8,38 +8,68 @@ After sending the transaction, you might receive a popup on the wallet that you'
 **Need** **help** understanding how to create a Script ( a call to a blockchain to execute a chain of commands ) ? Check the following page.
 {% endhint %}
 
-{% content-ref url="../../shared-methods/scriptbuilder/create-a-script.md" %}
-[create-a-script.md](../../shared-methods/scriptbuilder/create-a-script.md)
+{% content-ref url="../../shared-methods/script-builder.md" %}
+[script-builder.md](../../shared-methods/script-builder.md)
 {% endcontent-ref %}
 
-## Using Phantasma Link
+## Using PhantasmaLink
 
-The `signTx` is the method that will call the Wallet for the user to **accept** or **reject** the transaction.
+The `signTx` method asks the wallet to sign and broadcast the transaction.
 
-<pre class="language-typescript" data-overflow="wrap" data-line-numbers><code class="lang-typescript">import { PhantasmaLink, ScriptBuilder, Address, Base16 } from 'phantasma-sdk-ts';
+```ts
+import { Address, DomainSettings, PhantasmaLink, ScriptBuilder } from "phantasma-sdk-ts";
 
-let gasPrice = 100000;
-<strong>let gasLimit = 210000;
-</strong>
-// Link variable is from the Connect to the Wallet example.
+const Link = new PhantasmaLink("My Dapp", true);
 
-if (!Link.account) {
-    // Account not logged in.
-    return;
-}
+Link.login(
+  (success) => {
+    if (!success) return;
 
-const from = Address.FromText(String(Link.account.address));
+    // Link variable is from the Connect to the Wallet example.
+    if (!Link.account) {
+      // Account not logged in.
+      return;
+    }
 
-const payload = Base16.encode('Example.' + contractName);
-const sb = new ScriptBuilder();
-const myScript = sb.AllowGas(from, Address.Null, gasPrice, gasLimit)
-    .CallContract(contractName, contractMethod, args)
-    .SpendGas(from)
-    .EndScript();
+    const gasPrice = DomainSettings.DefaultMinimumGasFee;
+    const gasLimit = 21000;
 
-Link.signTx(myScript, payload, async function (txHash) {
-    console.log(txHash);
-function () {
-    // Error On Sending the transaction.
-});
-</code></pre>
+    const contractName = "stake";
+    const contractMethod = "Claim";
+    const args = [Link.account.address, Link.account.address];
+
+    const from = Address.FromText(Link.account.address);
+
+    const script = new ScriptBuilder()
+      .BeginScript()
+      .AllowGas(from, Address.Null, gasPrice, gasLimit)
+      .CallContract(contractName, contractMethod, args)
+      .SpendGas(from)
+      .EndScript();
+
+    const payload = `Example.${contractName}`; // raw string, NOT base16
+
+    Link.signTx(
+      script,
+      payload,
+      (result) => {
+        if (result?.hash) {
+          console.log("Transaction hash:", result.hash);
+        } else {
+          console.log("signTx result:", result);
+        }
+      },
+      (error) => {
+        // Error On Sending the transaction.
+        console.error("Transaction failed:", error);
+      }
+    );
+  },
+  (error) => {
+    console.error("Login failed:", error);
+  },
+  4,
+  "phantasma",
+  "poltergeist"
+);
+```

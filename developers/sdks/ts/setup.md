@@ -3,12 +3,10 @@
 ## Installation
 
 {% hint style="info" %}
-**Important:** Before the Phoenix chain update, a different package **phatasma-ts** was used. This package is now obsolete and strictly deprecated. Use the new package instead.
+**Important:** Before the Phoenix chain update, the package **phantasma-ts** was used. It is now deprecated. Use **phantasma-sdk-ts** instead.
 {% endhint %}
 
-### On your typescript based Project
-
-Use the package manager [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) to install phatasma-sdk-ts.
+### In a TypeScript project
 
 ```
 npm install phantasma-sdk-ts
@@ -16,13 +14,13 @@ npm install phantasma-sdk-ts
 
 ## Backend or Frontend?
 
-For using it in the **backend**, you should take a look at this guide:
+For backend usage, see:
 
 {% content-ref url="/developers/sdks/ts/backend/backend.md" %}
 Backend Guide
 {% endcontent-ref %}
 
-For using it in the **frontend** and **connect** to the wallets (**Poltergeist**/**Ecto**), take a look at this guide:
+For frontend usage with Poltergeist/Ecto:
 
 {% content-ref url="/developers/sdks/ts/frontend/frontend.md" %}
 Frontend Guide

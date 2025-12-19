@@ -1,37 +1,37 @@
 # PhantasmaAPI
 
 {% hint style="info" %}
-Here's how to setup a simple connection to the Phantasma Blockchain API
+Use `PhantasmaAPI` to call RPC endpoints directly from Node or the browser.
 {% endhint %}
 
-The first thing to do is to create an instance of the **PhantasmaAPI.**
+## Constructor
 
-* It will receive as parameters, the **RPC URL,** the **Peers URL** or **undefined,** and the **Nexus Name**
+`new PhantasmaAPI(rpcUrl, peersUrlJson, nexus)`
 
-### Testnet Configurations
+- `rpcUrl`: full RPC endpoint (for example `https://testnet.phantasma.info/rpc`).
+- `peersUrlJson`: optional peers JSON for auto-selecting the fastest RPC.
+- `nexus`: `"testnet"` or `"mainnet"`.
 
-* RPC URL -> https://testnet.phantasma.info/rpc
-* Peers URL -> undefined
-* Nexus Name -> testnet
+## Testnet Example
 
-It should look like this
+```ts
+import { PhantasmaAPI } from "phantasma-sdk-ts";
 
-```javascript
-import { PhantasmaAPI } from 'phantasma-sdk-ts';
-let phantasmaAPI = new PhantasmaAPI('https://testnet.phantasma.info/rpc', undefined as any, 'testnet');
+const rpcUrl = "https://testnet.phantasma.info/rpc";
+const peersUrl = "https://peers.phantasma.info/testnet-getpeers.json";
+const api = new PhantasmaAPI(rpcUrl, peersUrl, "testnet");
 ```
 
-### Mainnet Configurations
+## Mainnet Example
 
-* RPC URL -> It can used anyone of this
-  * [https://pharpc1.phantasma.info/rpc](https://pharpc1.phantasma.info/rpc)
-  * [https://pharpc2.phantasma.info/rpc](https://pharpc2.phantasma.info/rpc)
-* Peers URL -> [https://peers.phantasma.info/getpeers.json](https://peers.phantasma.info/getpeers.json)
-* Nexus Name -> mainnet
+```ts
+import { PhantasmaAPI } from "phantasma-sdk-ts";
 
-It should look like this
-
-```javascript
-import { PhantasmaAPI } from 'phantasma-sdk-ts';
-let phantasmaAPI = new PhantasmaAPI('https://pharpc1.phantasma.info/rpc', undefined as any, 'mainnet');
+const rpcUrl = "https://pharpc1.phantasma.info/rpc";
+const peersUrl = "https://peers.phantasma.info/mainnet-getpeers.json";
+const api = new PhantasmaAPI(rpcUrl, peersUrl, "mainnet");
 ```
+
+{% hint style="info" %}
+If you do not want automatic RPC selection, pass `undefined` for `peersUrlJson`.
+{% endhint %}

@@ -27,8 +27,8 @@ This example is using the PhantasmaLink
 Invoking a Script doesn't need the user to accept anything.
 
 {% code overflow="wrap" lineNumbers="true" %}
-```typescript
-import { PhantasmaLink, Transaction, ScriptBuilder } from "phantasma-sdk-ts";
+```ts
+import { PhantasmaLink, ScriptBuilder } from "phantasma-sdk-ts";
 
 const CHAIN_NAME = "main"; // This is the name of the chain, please don't change it.
 
@@ -36,15 +36,27 @@ let contractName = "mycontract";
 let contractMethod = "getMyInfo";
 let args = ["arg1", "arg2"]; // this is just a example of arguments.
 
+const Link = new PhantasmaLink("My Dapp", true);
 
-const sb = new ScriptBuilder();
-const myScript = sb.BeginScript()
-    .CallContract(contractName, contractMethod, args)
-    .EndScript();
+Link.login(
+  (success) => {
+    if (!success) return;
 
-Link.invokeScript(myScript, (result) => {
-    // Handle the Data returned here.
-});
+    const sb = new ScriptBuilder();
+    const myScript = sb.BeginScript()
+      .CallContract(contractName, contractMethod, args)
+      .EndScript();
 
+    Link.invokeScript(myScript, (result) => {
+      // Handle the Data returned here.
+    });
+  },
+  (error) => {
+    console.error("Login failed:", error);
+  },
+  4,
+  "phantasma",
+  "poltergeist"
+);
 ```
 {% endcode %}

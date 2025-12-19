@@ -27,6 +27,7 @@ export async function transferSoulTokens() {
 
   // const nexus = "mainnet";
   const nexus = "testnet";
+  const chain = "main";
 
   const amountFloat = 1.01; // 1.01 SOUL, sample value
   let senderWif = "YOUR_WIF"; //Private key in WIF format
@@ -36,7 +37,7 @@ export async function transferSoulTokens() {
   let keys = PhantasmaKeys.fromWIF(senderWif);
   let senderAddress = keys.Address;
 
-  let recepientAddress = "P2KHhbVZWDv1ZLLoJccN3PUAb9x9BqRnUyH3ZEhu5YwBeJQ";
+  let recepientAddress = "P2K...";
 
   // Creating RPC connection
   let rpc = new PhantasmaAPI(rpcUrl, null, nexus);
@@ -63,16 +64,16 @@ export async function transferSoulTokens() {
 
   // Set expiration date
   let expiration = Math.floor(Date.now() / 1000) + 30;
-  let expiration_date = new Date(expiration * 1000);
+  let expirationDate = new Date(expiration * 1000);
 
   let payload = Base16.encode("sdk-ts");
 
   // Creating New Transaction Object
   let transaction = new Transaction(
     nexus,
-    "main",
+    chain,
     script,
-    expiration_date,
+    expirationDate,
     payload,
   );
 
@@ -119,7 +120,7 @@ export async function transferSoulTokens() {
         console.log("Transaction succeeded");
         return { success: true, result: txInfo.result };
       } else {
-        // Unknown state name -> log and continue polling
+        // Unknown ExecutionState value -> log and continue polling
         console.log("Unknown ExecutionState value:", stateStr);
       }
     } catch (err) {

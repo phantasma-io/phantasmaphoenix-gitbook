@@ -1,87 +1,90 @@
 # Phantasma Link
 
-### Introduction
+## Overview
 
-PhantasmaLink is a core component designed for interacting with Phantasma-based wallets. It acts as a foundational block for connecting with wallets.&#x20;
+PhantasmaLink connects your dApp to a Phantasma wallet (Poltergeist/Ecto) over a local WebSocket and lets the user sign transactions.
 
-### Class Initialization
+## Initialization
 
-PhantasmaLink is a class, and to use it, you must first create an instance of the class.
+```ts
+import { PhantasmaLink, ProofOfWork } from "phantasma-sdk-ts";
 
-```javascript
-let dappID = "Dapp Name"; // Name for the connection
-let consoleLogging = true; // Enable console logging for debugging (default: true)
+const link = new PhantasmaLink("My Dapp", true);
 
-let Link = new PhantasmaLink(dappID, consoleLogging);
+link.login(
+  (success) => {
+    if (success) {
+      console.log("Connected address:", link.account?.address);
+    }
+  },
+  (error) => {
+    console.error("Login failed:", error);
+  },
+  4, // protocol version
+  "phantasma", // platform
+  "poltergeist" // providerHint: "poltergeist" or "ecto"
+);
 ```
 
-### Vocabulary
+## Key Methods
 
-* **Callback:** A function called after a successful operation.
-* **onErrorCallback:** A function called after a failed operation.
-* **Script:** Instructions for PhantasmaChain within a transaction object. See ScriptBuilder for more details.
-* **Nexus:** The Phantasma chain in use, either 'mainnet' or 'testnet'.
-* **Payload:** Additional data attached to a transaction object.
-* **ProviderHint:** Informs PhantasmaLink about the intended wallet for connection.
+- `login(onLogin, onError, version = 4, platform = "phantasma", providerHint = "poltergeist")`
+- `invokeScript(script, callback)` for read-only calls.
+- `signTx(script, payload, callback, onError, pow = ProofOfWork.None, signature = "Ed25519")`
+- `signData(data, callback, onError)`
+- `getPeer(callback, onError)`
+- `toggleMessageLogging()`
+- `signCarbonTxAndBroadcast(txMsg, callback, onError)` for Carbon transactions.
 
-### Functions
+{% hint style="info" %}
+If you prefer a wrapper, use `EasyConnect` (it exposes `signCarbonTransaction` and handles login setup).
+{% endhint %}
 
-1. **login(onLoginCallback, onErrorCallback, providerHint):**
-   * Purpose: Initiates login.
-   * Parameters:
-     * `providerHint`: Can be 'ecto' or 'poltergeist'.
-2. **invokeScript(script, callback):**
-   * Executes a read-only script operation on the Phantasma Blockchain.
-3. **signTx(nexus, script, payload, callback, onErrorCallback):**
-   * Signs a transaction through the wallet.
-4. **signTxPow(nexus, script, payload, proofOfWork, callback, onErrorCallback):**
-   * Signs a transaction with Proof of Work attached.
-5. **getPeer(callback, onErrorCallback):**
-   * Retrieves the peer list for the connected network.
-6. **signData(data, callback, onErrorCallback):**
-   * Signs data through the wallet.
-7. **toggleMessageLogging():**
-   * Toggles console message logging.
-8. **dappID():**
-   * Returns the Dapp ID.
-9. **sendLinkRequest(request, callback):**
-   * Internal use for sending wallet instructions through a socket.
-10. **createSocket(), retry(), disconnect(message):**
-    * Internal functions for socket management.
+{% hint style="info" %}
+Carbon signing requires Phantasma Link protocol version 4 or higher.
+{% endhint %}
 
-### ProofOfWork Enumeration
+{% hint style="info" %}
+`payload` in `signTx` is a raw string. The SDK encodes it internally, so do not pass a pre-encoded hex string.
+{% endhint %}
 
-Defines levels of proof of work:
+{% hint style="info" %}
+`script` must be a hex string produced by `ScriptBuilder.EndScript()`.
+{% endhint %}
 
-```javascript
+## Sending a Transaction
+
+```ts
+import { Address, DomainSettings, ScriptBuilder } from "phantasma-sdk-ts";
+
+const from = Address.FromText(link.account.address);
+const gasPrice = DomainSettings.DefaultMinimumGasFee;
+const gasLimit = 21000;
+
+const script = new ScriptBuilder()
+  .BeginScript()
+  .AllowGas(from, Address.Null, gasPrice, gasLimit)
+  .CallContract("stake", "Claim", [from, from])
+  .SpendGas(from)
+  .EndScript();
+
+link.signTx(
+  script,
+  "Example.stake",
+  (result) => console.log("tx hash:", result?.hash),
+  (error) => console.error(error)
+);
+```
+
+## Proof of Work
+
+```ts
 enum ProofOfWork {
-    None = 0,
-    Minimal = 5,
-    Moderate = 15,
-    Hard = 19,
-    Heavy = 24,
-    Extreme = 30
+  None = 0,
+  Minimal = 5,
+  Moderate = 15,
+  Hard = 19,
+  Heavy = 24,
+  Extreme = 30,
 }
 ```
-
-### Usage Examples
-
-Provide code snippets and examples demonstrating how to use the various functions of PhantasmaLink.
-
-#### Login to a wallet
-
-{% content-ref url="../frontend/examples/connect-to-the-wallet.md" %}
-[connect-to-the-wallet.md](../frontend/examples/connect-to-the-wallet.md)
-{% endcontent-ref %}
-
-#### Invoking a Script
-
-{% content-ref url="../frontend/examples/invoking-a-script.md" %}
-[invoking-a-script.md](../frontend/examples/invoking-a-script.md)
-{% endcontent-ref %}
-
-#### Sending a Transaction
-
-{% content-ref url="../frontend/examples/sending-a-transaction.md" %}
-[sending-a-transaction.md](../frontend/examples/sending-a-transaction.md)
-{% endcontent-ref %}

@@ -1,17 +1,25 @@
 # Backend
 
-{% hint style="info" %}
-**Keep in mind,** both the backend and frontend make use of the **phantasma-sdk-ts** library.
+Use the TS SDK in Node.js or server-side tooling to build scripts, sign transactions with private keys, and call RPC directly.
 
-you can check the **source code** and make **pull request** to improve it!
+## Recommended Flow
+
+1. Create a `PhantasmaAPI` instance.
+2. Build a script with `ScriptBuilder`.
+3. Create and sign a `Transaction`.
+4. Broadcast with `sendRawTransaction` and poll `getTransaction` for execution state.
+
+For Carbon token flows, use the Carbon helpers and `sendCarbonTransaction`.
+
+{% hint style="info" %}
+Start with the step-by-step guide: [Quickstart](../quickstart.md).
 {% endhint %}
 
-{% embed url="https://github.com/phantasma-io/phantasma-ts/" %}
-phantasma-sdk-ts source code
-{% endembed %}
+{% hint style="info" %}
+For Carbon token flows, see [Carbon Workflows](../carbon-workflows.md).
+{% endhint %}
 
 ## Examples
-Check all the examples and the source code of already implemented projects to give some in ideas how to get started.
 
 [Create a Transaction](/developers/sdks/ts/backend/examples/create-a-transaction.md)
 
@@ -46,7 +54,7 @@ Check all the examples and the source code of already implemented projects to gi
 [Mint New Carbon NFT](/developers/sdks/ts/backend/examples/mint-carbon-nft.md)
 
 {% hint style="info" %}
-Check the example, if you want to see implementation you can check this repositories
+If you want to see full projects, check:
 
 * [https://github.com/phantasma-io/phantasma-node-examples](https://github.com/phantasma-io/phantasma-node-examples)
 * [https://github.com/phantasma-io/Phantasma-Blocks](https://github.com/phantasma-io/Phantasma-Blocks)

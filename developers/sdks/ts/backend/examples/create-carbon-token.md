@@ -26,6 +26,7 @@ import {
   PhantasmaKeys,
   TokenInfoBuilder,
   TokenMetadataBuilder,
+  TokenSchemasBuilder,
 } from "phantasma-sdk-ts";
 ````
 
@@ -35,7 +36,7 @@ In the following examples, we will use the deployer’s `PhantasmaKeys` keypair 
 
 ```ts
   // Initialize PhantasmaKeys using WIF-encoded private key
-  const txSender = PhantasmaKeys.fromWIF("KwPpBSByydVKqStGHAnZzQofCqhDmD2bfRgc9BmZqM3ZmsdWJw4d");
+  const txSender = PhantasmaKeys.fromWIF("YOUR_WIF");
   // Get the public key from the keypair
   const senderPubKey = new Bytes32(txSender.PublicKey);
 ````
@@ -45,13 +46,23 @@ In the following examples, we will use the deployer’s `PhantasmaKeys` keypair 
 `TokenInfoBuilder` helps construct the class describing the token being deployed.
 
 ```ts
+  const tokenSchemas = TokenSchemasBuilder.prepareStandard(true);
+
+  const metadata = TokenMetadataBuilder.buildAndSerialize({
+    name: "My NFT",
+    description: "Example NFT",
+    icon: "data:image/png;base64,...",
+    url: "https://example.com",
+  });
+
   const info = TokenInfoBuilder.build(
     "MYNFT", // New token symbol
     IntX.fromI64(0n), // Maximum token supply, or 0 for unlimited supply
     true, // Whether the token is non-fungible (NFT) or not (fungible). Currently, only NFTs are supported
     0, // Token decimals (always 0 for NFTs)
     senderPubKey, // Public key of the token creator
-    TokenMetadataBuilder.buildAndSerialize(cfg.tokenMetadataFields), // Optional metadata fields (key and value are strings only for now)
+    metadata, // Optional metadata fields (key and value are strings only for now)
+    tokenSchemas,
   );
 ````
 
@@ -74,11 +85,12 @@ You can call the constructor without arguments to use default values.
 `CreateTokenTxHelper` simplifies the process of building and signing the token creation transaction.
 
 ```ts
+  const maxData = 1_000_000_000n;
   const tx = CreateTokenTxHelper.buildTxAndSignHex(
     info, // TokenInfo instance built with TokenInfoBuilder
     txSender, // Keypair used to sign the transaction
     feeOptions, // Fee options defined above
-    1000000000 // Create token max data (use this default value if unsure)
+    maxData // Create token max data (use this default value if unsure)
   );
 ````
 
@@ -87,7 +99,7 @@ You can call the constructor without arguments to use default values.
 Broadcast the transaction to the network.
 
 ```ts
-  const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, "testnet");
+  const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", undefined as any, "testnet");
 
   // Use sendCarbonTransaction() to call Carbon methods
   const txHash = await rpc.sendCarbonTransaction(tx);
@@ -100,10 +112,15 @@ This ID can later be used to create token series and mint new NFTs.
 
 ```ts
   // Wait for transaction confirmation...
+  const txInfo = await rpc.getTransaction(txHash);
 
-  if (success) {
-    const tokenId = CreateTokenTxHelper.parseResult(result);
+  if (txInfo.state === "Halt") {
+    const tokenId = CreateTokenTxHelper.parseResult(txInfo.result);
   } else {
     // Handle transaction failure
   }
 ```
+
+{% hint style="info" %}
+For frontend signing, build a `TxMsg` via `CreateTokenTxHelper.buildTx(...)` and use `PhantasmaLink.signCarbonTxAndBroadcast` or `EasyConnect.signCarbonTransaction`.
+{% endhint %}

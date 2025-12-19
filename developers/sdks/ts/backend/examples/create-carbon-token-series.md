@@ -16,10 +16,12 @@ import {
   Bytes32,
   CreateSeriesFeeOptions,
   CreateTokenSeriesTxHelper,
-  getRandomPhantasmaId,
+  MetadataField,
   SeriesInfoBuilder,
   PhantasmaAPI,
   PhantasmaKeys,
+  TokenSchemasBuilder,
+  getRandomPhantasmaId,
 } from "phantasma-sdk-ts";
 ````
 
@@ -29,7 +31,7 @@ In the following examples, we will use the deployer’s `PhantasmaKeys` keypair 
 
 ```ts
   // Initialize PhantasmaKeys using WIF-encoded private key
-  const txSender = PhantasmaKeys.fromWIF("KwPpBSByydVKqStGHAnZzQofCqhDmD2bfRgc9BmZqM3ZmsdWJw4d");
+  const txSender = PhantasmaKeys.fromWIF("YOUR_WIF");
   // Get the public key from the keypair
   const senderPubKey = new Bytes32(txSender.PublicKey);
 ````
@@ -49,15 +51,28 @@ For example:
 * `maxMint = 0`, `maxSupply = 20` → minting can continue as long as there are fewer than 20 existing (non-burned) NFTs at the moment.
 
 ```ts
+  const tokenSchemas = TokenSchemasBuilder.prepareStandard(true);
+  const seriesSchema = tokenSchemas.seriesMetadata;
+
+  // Metadata fields must match the series schema.
+  const metadata: MetadataField[] = [
+    { name: "name", value: "My Series" },
+    { name: "description", value: "Series description" },
+    { name: "imageURL", value: "https://example.com/cover.png" },
+    { name: "infoURL", value: "https://example.com/info" },
+    { name: "royalties", value: 10000000 },
+  ];
+
   // First we need to generate a new random Phantasma ID for the new series
   const newPhantasmaSeriesId = await getRandomPhantasmaId();
 
   const info = SeriesInfoBuilder.build(
+    seriesSchema,
     newPhantasmaSeriesId,
     0, // maxMint
     0, // maxSupply
     senderPubKey, // Public key of the series creator
-    new Uint8Array(), // Optional metadata shared by all NFTs in the series
+    metadata, // Optional metadata shared by all NFTs in the series
   );
 ````
 
@@ -79,12 +94,15 @@ You can call the constructor without arguments to use default values.
 `CreateTokenSeriesTxHelper` simplifies the process of building and signing the series creation transaction.
 
 ```ts
+  const carbonTokenId = 123n; // BigInt(CreateTokenTxHelper.parseResult(...))
+  const maxData = 100_000_000n;
+
   const tx = CreateTokenSeriesTxHelper.buildTxAndSignHex(
     carbonTokenId, // Carbon token ID to which the new series will be attached
     info, // SeriesInfo instance built with SeriesInfoBuilder
     txSender, // Keypair used to sign the transaction
     feeOptions, // Fee options defined above
-    100000000, // Create series max data (use this default value if unsure)
+    maxData, // Create series max data (use this default value if unsure)
   );
 ````
 
@@ -93,7 +111,7 @@ You can call the constructor without arguments to use default values.
 Broadcast the transaction to the network.
 
 ```ts
-  const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, "testnet");
+  const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", undefined as any, "testnet");
 
   // Use sendCarbonTransaction() to call Carbon methods
   const txHash = await rpc.sendCarbonTransaction(tx);
@@ -106,10 +124,15 @@ This ID can later be used to mint new NFTs.
 
 ```ts
   // Wait for transaction confirmation...
+  const txInfo = await rpc.getTransaction(txHash);
 
-  if (success) {
-    const seriesId = CreateTokenSeriesTxHelper.parseResult(result);
+  if (txInfo.state === "Halt") {
+    const seriesId = CreateTokenSeriesTxHelper.parseResult(txInfo.result);
   } else {
     // Handle transaction failure
   }
 ```
+
+{% hint style="info" %}
+If you already have schemas from RPC (`getToken`), convert them with `vmStructSchemaFromRpcResult`.
+{% endhint %}

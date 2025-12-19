@@ -3,29 +3,41 @@ cover: .gitbook/assets/gitbook-banner-pha-phoenix-ts-js-sdk.png
 coverY: 0
 ---
 
-# TS SDK
+# TypeScript SDK
 
-## Description
-
-The TS SDK helps you build Web dApps and integrates seamlessly with React and other TypeScript-based libraries.
+The TS SDK helps you build dApps, server tools, and wallet integrations for Phantasma.
 
 {% hint style="info" %}
-Git repository: [https://github.com/phantasma-io/phantasma-ts](https://github.com/phantasma-io/phantasma-ts)
+Repository: [https://github.com/phantasma-io/phantasma-ts](https://github.com/phantasma-io/phantasma-ts)
 {% endhint %}
 
-## Installation
+## Start Here
 
 {% content-ref url="/developers/sdks/ts/setup.md" %}
 Setup
 {% endcontent-ref %}
 
-## Building a backend in TypeScript
+{% content-ref url="/developers/sdks/ts/quickstart.md" %}
+Quickstart
+{% endcontent-ref %}
+
+## Core Documentation
+
+{% content-ref url="/developers/sdks/ts/api-overview.md" %}
+API Overview
+{% endcontent-ref %}
+
+{% content-ref url="/developers/sdks/ts/carbon-workflows.md" %}
+Carbon Workflows
+{% endcontent-ref %}
+
+## Backend
 
 {% content-ref url="/developers/sdks/ts/backend/backend.md" %}
 Backend Guide
 {% endcontent-ref %}
 
-## Connecting to the blockchain via wallet
+## Frontend
 
 {% content-ref url="/developers/sdks/ts/frontend/frontend.md" %}
 Frontend Guide
