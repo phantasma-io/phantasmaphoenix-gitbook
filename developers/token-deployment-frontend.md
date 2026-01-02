@@ -44,7 +44,7 @@ Data fee is added on top based on payload size:
 5. Click **Deploy Token** and confirm the transaction in the wallet.
 
 <a id="symbol-rules"></a>
-### Symbol rules (very strict)
+### Symbol rules
 
 - Only uppercase Latin letters A-Z.
 - Length: 1 to 255 characters (current chain limit).
