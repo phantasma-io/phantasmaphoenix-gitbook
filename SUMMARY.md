@@ -18,6 +18,7 @@
   - [Quick Start](developers/quick-start.md)
   - [Private Key Guideline](developers/private-key-guideline.md)
   - [Link Client](developers/link-client/link-client.md)
+  - [Token Deployment UI](developers/token-deployment-frontend.md)
   - [Script Builder](developers/script-builder/README.md)
     - [Examples](developers/script-builder/examples.md)
     - [External Calls](developers/script-builder/external-calls.md)
