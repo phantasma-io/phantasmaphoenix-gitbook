@@ -15,25 +15,47 @@ If the wallet nexus does not match the site, you will see data from one network 
 ## Before you start
 
 - Use a Phantasma Link wallet (Poltergeist Lite or compatible) with Carbon support.
-- Make sure you have enough KCAL for deployment and minting fees (see "Fees and KCAL" below).
+- Make sure you have enough KCAL for gas and enough SOUL for data escrow (maxData). The UI shows both in the Fees & limits panels (see the Fees section below).
 - Prepare a small token icon as a base64 data URI (PNG, JPEG, or WebP). Size limits are listed below.
 
 <a id="fees-kcal"></a>
-## Fees and KCAL (default estimates)
+## Fees: KCAL + SOUL (default estimates)
 
 These are user-facing estimates based on current UI defaults; on-chain governance can change them. Always confirm the final fee shown by the wallet before signing.
 
-Estimated base fee (without data fee):
+Each tab has a **Fees & limits** panel. It shows **Estimated totals (max)**:
+- **KCAL**: max gas (`maxGas`) calculated from the fee values you enter.
+- **SOUL**: max data (`maxData`) cap for storage escrow.
+
+These are maximums. The final amounts are computed on-chain and shown by the wallet. Unused gas or data escrow is refunded.
+
+### KCAL gas (computation + bandwidth)
+
+Estimated base fee (KCAL only, without SOUL data escrow):
 - Create token: about 10,000 to 20,000 KCAL, depending on symbol length.
   - length 1 -> 20,000.01 KCAL
   - length 4 -> 11,250.01 KCAL
   - length 10 -> 10,019.54125 KCAL
   - Each extra symbol character halves the symbol fee, so longer symbols are slightly cheaper (within the range above).
 - Create series: about 2,500.01 KCAL
-- Mint NFT: about 0.001 KCAL (per NFT, plus data fee)
+- Mint NFT: about 0.001 KCAL (per NFT, plus SOUL data escrow)
 
-Data fee is added on top based on payload size:
-- Data fee depends on payload size and network config; the wallet shows the final amount.
+KCAL covers execution cost and bandwidth (payload/result/events sizes). The wallet shows the final KCAL fee before signing.
+
+### SOUL data escrow (maxData)
+
+SOUL data escrow pays for permanent storage growth. It is not based on payload size.
+
+How it works (chain behavior):
+- Storage growth is measured in rows of 1024 bytes (1 KiB) of key/value data.
+- For each state change, the key size and value size are added and rounded up to the next 1024-byte block (1 KiB).
+- Only increases in row count are charged; deletions can refund SOUL.
+- `dataFee = rowsAdded * dataEscrowPerRow` where `dataEscrowPerRow` is a governance parameter.
+- The transaction sets `TxMsg.maxData` as the maximum SOUL escrow. If `dataFee > maxData`, the transaction is aborted.
+
+UI specifics:
+- **Max data (SOUL)** expects an integer in SOUL base units (1 SOUL = 100,000,000 base units).
+- **Estimated totals (max)** shows both the human SOUL value and the base units for clarity.
 
 ## Deploy a token
 
