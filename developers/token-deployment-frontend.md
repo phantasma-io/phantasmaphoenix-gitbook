@@ -6,9 +6,9 @@ The Token Deployment frontend lets you deploy Carbon fungible/NFT tokens, create
 
 Use the site that matches your target network and switch your wallet to the same Phantasma nexus (Settings -> Nexus in PGL):
 
-- Mainnet: https://deploy.phantasma.info (wallet nexus: Main Net)
-- Testnet: https://deploy-testnet.phantasma.info (wallet nexus: Test Net)
-- Devnet: https://deploy-devnet.phantasma.info (wallet nexus: Dev Net)
+- Mainnet: [https://deploy.phantasma.info](https://deploy.phantasma.info) (wallet nexus: Main Net)
+- Testnet: [https://deploy-testnet.phantasma.info](https://deploy-testnet.phantasma.info) (wallet nexus: Test Net)
+- Devnet: [https://deploy-devnet.phantasma.info](https://deploy-devnet.phantasma.info) (wallet nexus: Dev Net)
 
 If the wallet nexus does not match the site, you will see data from one network but sign on another. That causes inconsistent results or failed transactions. Always align them.
 
@@ -16,7 +16,7 @@ If the wallet nexus does not match the site, you will see data from one network 
 
 - Use a Phantasma Link wallet (Poltergeist Lite or compatible) with Carbon support.
 - Make sure you have enough KCAL for deployment and minting fees (see "Fees and KCAL" below).
-- Prepare a small token icon as a base64 data URI (PNG or JPEG). Size limits are listed below.
+- Prepare a small token icon as a base64 data URI (PNG, JPEG, or WebP). Size limits are listed below.
 
 <a id="fees-kcal"></a>
 ## Fees and KCAL (default estimates)
@@ -60,12 +60,12 @@ Token metadata is stored on-chain and is **required** for all tokens. All values
 
 Required fields:
 - `name` - display name
-- `icon` - base64 data URI, `data:image/png|jpeg;base64,...`
+- `icon` - base64 data URI, `data:image/png|jpeg|webp;base64,...`
 - `url` - project URL
 - `description` - short description
 
 Icon rules:
-- Only PNG or JPEG data URIs are supported.
+- Only PNG, JPEG, or WebP data URIs are supported.
 - The base64 payload must be valid and non-empty.
 - Phantasma Link enforces a ~64 KB transaction size limit. The UI caps icon payloads at 30,000 base64 chars (about 22.5 KB), but you should still keep the icon small (roughly <= 22 KB) to avoid rejection.
 
