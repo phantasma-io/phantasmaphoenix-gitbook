@@ -14,7 +14,7 @@ If the wallet nexus does not match the site, you will see data from one network 
 
 ## Before you start
 
-- Use a Phantasma Link wallet (Poltergeist Lite or compatible) with Carbon support.
+- Use a Phantasma Link [wallet](https://phantasma.info/blockchain/#wallets) (Poltergeist Lite or compatible) with Carbon support.
 - Make sure you have enough KCAL for gas and enough SOUL for data escrow (maxData). The UI shows both in the Fees & limits panels (see the Fees section below).
 - Prepare a small token icon as a base64 data URI (PNG, JPEG, or WebP). Size limits are listed below.
 
