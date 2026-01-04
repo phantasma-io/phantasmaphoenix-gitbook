@@ -4,21 +4,34 @@ Use the TS SDK to connect to wallets and ask users to sign transactions from the
 
 ## Wallet Integration
 
-You can work directly with **PhantasmaLink** or use the wrapper **EasyConnect**.
+Phantasma Link is the base connection layer.  
+On top of it you can use `EasyConnect` (wrapper) or `@phantasma/connect-react` (React wrapper).
+
+## Wallet Connection Layers
+
+| Layer | Package | Use when | Docs |
+| --- | --- | --- | --- |
+| PhantasmaLink | `phantasma-sdk-ts` | You want the direct, low-level API | [Phantasma Link](/developers/sdks/ts/shared-methods/phantasmalink.md) |
+| EasyConnect | `phantasma-sdk-ts` | You want a smaller wrapper + Carbon signing helper | [EasyConnect](/developers/sdks/ts/shared-methods/easyconnect.md) |
+| @phantasma/connect-react | `@phantasma/connect-react` | You want a React-first wrapper and UI widget | [React Wallet Connection](/developers/sdks/ts/frontend/connect-react.md) |
 
 {% content-ref url="/developers/sdks/ts/shared-methods/phantasmalink.md" %}
 Phantasma Link
 {% endcontent-ref %}
 
-{% hint style="info" %}
-EasyConnect wraps PhantasmaLink and adds helpers like `signCarbonTransaction`.
-{% endhint %}
+{% content-ref url="/developers/sdks/ts/shared-methods/easyconnect.md" %}
+EasyConnect
+{% endcontent-ref %}
+
+{% content-ref url="/developers/sdks/ts/frontend/connect-react.md" %}
+React Wallet Connection
+{% endcontent-ref %}
 
 ## Recommended Flow
 
 1. Connect to a wallet (Poltergeist or Ecto).
 2. Build a script with `ScriptBuilder`.
-3. Call `signTx` (or `signCarbonTxAndBroadcast` for Carbon transactions).
+3. Call `signTx` (or `signCarbonTxAndBroadcast` / `signCarbonTransaction` for Carbon transactions).
 4. Use `getTransaction` to confirm results.
 
 For Carbon token flows, see [Carbon Workflows](../carbon-workflows.md).

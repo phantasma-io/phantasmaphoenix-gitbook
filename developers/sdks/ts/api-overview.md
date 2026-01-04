@@ -33,13 +33,18 @@ Manages keypairs and signing.
 - `PhantasmaKeys.generate()`
 - `.Address` gives an `Address` object
 
-### PhantasmaLink / EasyConnect
+### PhantasmaLink / EasyConnect / React
 Wallet integration for frontend apps.
 
 - `PhantasmaLink.login(...)`
 - `PhantasmaLink.signTx(...)` for VM transactions
 - `PhantasmaLink.signCarbonTxAndBroadcast(...)` for Carbon transactions
 - `EasyConnect.signCarbonTransaction(...)` wraps Carbon signing + broadcast
+- `@phantasma/connect-react` wraps `EasyConnect` for React and provides `PhaConnectState` and `PhaAccountWidgetV1`
+
+See:
+- [EasyConnect](/developers/sdks/ts/shared-methods/easyconnect.md)
+- [React Wallet Connection](/developers/sdks/ts/frontend/connect-react.md)
 
 ### Decoder and Event Helpers
 Decode VM results and event payloads.

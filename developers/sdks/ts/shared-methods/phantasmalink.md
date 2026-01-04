@@ -2,7 +2,15 @@
 
 ## Overview
 
-PhantasmaLink connects your dApp to a Phantasma wallet (Poltergeist/Ecto) over a local WebSocket and lets the user sign transactions.
+PhantasmaLink connects your dApp to a Phantasma wallet (Poltergeist/Ecto) and lets the user sign transactions.
+
+## Defaults and connection details
+
+- Default host: `localhost:7090` (WebSocket URL: `ws://localhost:7090/phantasma`).
+- Default chain: `main`.
+- `login` defaults: `version = 4`, `platform = "phantasma"`, `providerHint = "poltergeist"`.
+
+If `window.PhantasmaLinkSocket` exists and `providerHint` is not `poltergeist`, the SDK uses that socket instead of a raw WebSocket.
 
 ## Initialization
 
@@ -26,33 +34,51 @@ link.login(
 );
 ```
 
+## Account data
+
+After a successful login, `link.account` contains:
+
+- `alias`
+- `name`
+- `address`
+- `avatar`
+- `platform`
+- `external`
+- `balances`
+- `files`
+
 ## Key Methods
 
 - `login(onLogin, onError, version = 4, platform = "phantasma", providerHint = "poltergeist")`
 - `invokeScript(script, callback)` for read-only calls.
 - `signTx(script, payload, callback, onError, pow = ProofOfWork.None, signature = "Ed25519")`
-- `signData(data, callback, onError)`
+- `signData(data, callback, onError, signature = "Ed25519")`
+- `signTxSignature(tx, callback, onError, signature = "Ed25519")`
 - `getPeer(callback, onError)`
 - `toggleMessageLogging()`
 - `signCarbonTxAndBroadcast(txMsg, callback, onError)` for Carbon transactions.
+- `disconnect(triggered)`
 
 {% hint style="info" %}
-If you prefer a wrapper, use `EasyConnect` (it exposes `signCarbonTransaction` and handles login setup).
+If you prefer a wrapper, use [EasyConnect](/developers/sdks/ts/shared-methods/easyconnect.md).  
+For React, use [React Wallet Connection](/developers/sdks/ts/frontend/connect-react.md).
 {% endhint %}
 
-{% hint style="info" %}
-Carbon signing requires Phantasma Link protocol version 4 or higher.
-{% endhint %}
+## Formats and limits
 
-{% hint style="info" %}
-`payload` in `signTx` is a raw string. The SDK encodes it internally, so do not pass a pre-encoded hex string.
-{% endhint %}
-
-{% hint style="info" %}
-`script` must be a hex string produced by `ScriptBuilder.EndScript()`.
-{% endhint %}
+- `script` must be a hex string produced by `ScriptBuilder.EndScript()`.
+- `invokeScript` requires `script.length < 8192`.
+- `signTx` requires `script.length < 65536`.
+- `signTx` `payload` handling:
+  - If `payload` is `null`, the SDK uses the default hex for `"Phantasma-ts"`.
+  - If `payload` is a string, the SDK encodes it internally; do not pass pre-encoded hex.
+- `signData` expects Base16-encoded data and requires `data.length < 1024`.
+- `signTxSignature` expects a Base16-encoded serialized transaction and requires `tx.length < 1024`.
+- `signCarbonTxAndBroadcast` requires Phantasma Link v4+, a valid `txMsg`, and a serialized hex length `< 65536`.
 
 ## Sending a Transaction
+
+Assumes `link` is already connected via `login`.
 
 ```ts
 import { Address, DomainSettings, ScriptBuilder } from "phantasma-sdk-ts";
@@ -73,6 +99,52 @@ link.signTx(
   "Example.stake",
   (result) => console.log("tx hash:", result?.hash),
   (error) => console.error(error)
+);
+```
+
+## Signing Data
+
+Assumes `link` is already connected via `login`.
+
+```ts
+const messageHex = "48656c6c6f"; // "Hello" in Base16
+
+link.signData(
+  messageHex,
+  (result) => console.log("signData result:", result),
+  (error) => console.error("signData failed:", error)
+);
+```
+
+## Signing a Transaction Signature
+
+Assumes `link` is already connected via `login`.
+
+```ts
+const txHex = "<BASE16_SERIALIZED_TRANSACTION>";
+
+link.signTxSignature(
+  txHex,
+  (result) => console.log("signTxSignature result:", result),
+  (error) => console.error("signTxSignature failed:", error)
+);
+```
+
+## Signing and Broadcasting a Carbon Transaction
+
+Assumes `link` is already connected via `login`.
+
+Build a `TxMsg` using the Carbon helpers (see [Carbon Workflows](/developers/sdks/ts/carbon-workflows.md)), then sign:
+
+```ts
+import { CreateTokenTxHelper } from "phantasma-sdk-ts";
+
+const txMsg = CreateTokenTxHelper.buildTx(tokenInfo, creatorPublicKey);
+
+link.signCarbonTxAndBroadcast(
+  txMsg,
+  (result) => console.log("Carbon tx result:", result),
+  (error) => console.error("Carbon signing failed:", error)
 );
 ```
 

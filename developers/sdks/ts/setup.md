@@ -12,6 +12,12 @@
 npm install phantasma-sdk-ts
 ```
 
+### React wrapper (optional)
+
+```
+npm install @phantasma/connect-react
+```
+
 ## Backend or Frontend?
 
 For backend usage, see:

@@ -1,5 +1,11 @@
 # Connect to the wallet
 
+{% hint style="info" %}
+This example uses `PhantasmaLink`. For `EasyConnect` or the React wrapper, see:
+- [EasyConnect](/developers/sdks/ts/shared-methods/easyconnect.md)
+- [React Wallet Connection](/developers/sdks/ts/frontend/connect-react.md)
+{% endhint %}
+
 ## Using PhantasmaLink
 
 This is a simple example on how to connect to a wallet.
