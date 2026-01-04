@@ -60,6 +60,7 @@ After a successful login, `link.account` contains:
 - `disconnect(triggered)`
 
 {% hint style="info" %}
+For the layer map and quick choice, see [Wallet Connection](/developers/sdks/ts/frontend/wallet-connection.md).  
 If you prefer a wrapper, use [EasyConnect](/developers/sdks/ts/shared-methods/easyconnect.md).  
 For React, use [React Wallet Connection](/developers/sdks/ts/frontend/connect-react.md).
 {% endhint %}

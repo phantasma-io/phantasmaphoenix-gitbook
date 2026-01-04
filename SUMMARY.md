@@ -99,8 +99,6 @@
       - [API Overview](developers/sdks/ts/api-overview.md)
       - [Carbon Workflows](developers/sdks/ts/carbon-workflows.md)
       - [Phantasma API](/developers/sdks/ts/shared-methods/phantasmaapi.md)
-      - [Phantasma Link](/developers/sdks/ts/shared-methods/phantasmalink.md)
-      - [EasyConnect](/developers/sdks/ts/shared-methods/easyconnect.md)
       - [Script Builder](/developers/sdks/ts/shared-methods/script-builder.md)
       - [Backend Guide](developers/sdks/ts/backend/backend.md)
         - Examples
@@ -122,6 +120,9 @@
           - [Mint New Carbon NFT](developers/sdks/ts/backend/examples/mint-carbon-nft.md)
           - [Infuse an NFT](developers/sdks/ts/backend/examples/infuse-nft.md)
       - [Frontend Guide](developers/sdks/ts/frontend/frontend.md)
+        - [Wallet Connection](developers/sdks/ts/frontend/wallet-connection.md)
+        - [Phantasma Link](/developers/sdks/ts/shared-methods/phantasmalink.md)
+        - [EasyConnect](/developers/sdks/ts/shared-methods/easyconnect.md)
         - [React Wallet Connection](developers/sdks/ts/frontend/connect-react.md)
         - Examples
           - [Connect to the Wallet](developers/sdks/ts/frontend/examples/connect-to-the-wallet.md)

@@ -43,6 +43,8 @@ Wallet integration for frontend apps.
 - `@phantasma/connect-react` wraps `EasyConnect` for React and provides `PhaConnectState` and `PhaAccountWidgetV1`
 
 See:
+- [Wallet Connection](/developers/sdks/ts/frontend/wallet-connection.md)
+- [Phantasma Link](/developers/sdks/ts/shared-methods/phantasmalink.md)
 - [EasyConnect](/developers/sdks/ts/shared-methods/easyconnect.md)
 - [React Wallet Connection](/developers/sdks/ts/frontend/connect-react.md)
 

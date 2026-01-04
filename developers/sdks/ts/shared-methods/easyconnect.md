@@ -4,11 +4,15 @@
 
 `EasyConnect` is a small wrapper around `PhantasmaLink` from `phantasma-sdk-ts`. It manages login and exposes helpers for signing transactions.
 
+{% hint style="info" %}
+For the layer map and quick choice, see [Wallet Connection](/developers/sdks/ts/frontend/wallet-connection.md).
+{% endhint %}
+
 ## When to use
 
 - Frontend apps that want a smaller API than `PhantasmaLink`.
 - Carbon signing via `signCarbonTransaction`.
-- Non-React projects (for React, see `@phantasma/connect-react`).
+- Non-React projects (for React, see [@phantasma/connect-react](/developers/sdks/ts/frontend/connect-react.md)).
 
 ## Install
 

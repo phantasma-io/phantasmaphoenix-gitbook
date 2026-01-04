@@ -2,8 +2,12 @@
 
 ## Overview
 
-`@phantasma/connect-react` is a React wrapper around `EasyConnect` (from `phantasma-sdk-ts`).  
+`@phantasma/connect-react` is a React wrapper around [EasyConnect](/developers/sdks/ts/shared-methods/easyconnect.md) (from `phantasma-sdk-ts`).  
 It provides a MobX state class and a ready-to-use connect widget.
+
+{% hint style="info" %}
+For the layer map and quick choice, see [Wallet Connection](/developers/sdks/ts/frontend/wallet-connection.md).
+{% endhint %}
 
 ## Install
 
