@@ -119,6 +119,7 @@
           - [Create New Carbon Token](developers/sdks/ts/backend/examples/create-carbon-token.md)
           - [Create New Carbon Token Series](developers/sdks/ts/backend/examples/create-carbon-token-series.md)
           - [Mint New Carbon NFT](developers/sdks/ts/backend/examples/mint-carbon-nft.md)
+          - [Infuse an NFT](developers/sdks/ts/backend/examples/infuse-nft.md)
       - [Frontend Guide](developers/sdks/ts/frontend/frontend.md)
         - Examples
           - [Connect to the Wallet](developers/sdks/ts/frontend/examples/connect-to-the-wallet.md)

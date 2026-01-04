@@ -53,6 +53,8 @@ For Carbon token flows, see [Carbon Workflows](../carbon-workflows.md).
 
 [Mint New Carbon NFT](/developers/sdks/ts/backend/examples/mint-carbon-nft.md)
 
+[Infuse an NFT](/developers/sdks/ts/backend/examples/infuse-nft.md)
+
 {% hint style="info" %}
 If you want to see full projects, check:
 
