@@ -42,6 +42,7 @@ Here is a high-level comparison between a contract-based asset model and Carbon'
 ## How to use Carbon
 
 - Use the Token Deployment UI to deploy tokens, create NFT series, mint NFTs, and infuse NFTs without writing code.
+- Start with the short, user-friendly guide: [Token Deployment UI](/about/token-deployment-ui.md).
 - Connect a wallet that supports signing Carbon transactions.
 - For advanced workflows, the SDKs let you build and sign Carbon transactions directly.
 
