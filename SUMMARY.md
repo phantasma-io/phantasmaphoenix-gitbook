@@ -3,6 +3,7 @@
 - About
   - [About](about/README.md)
   - [Our Features](about/our-features.md)
+  - [Carbon](about/carbon.md)
   - Dapps
     - [22 Racing Series](about/dapps/22-racing-series.md)
     - [Blood Rune](about/dapps/blood-rune.md)
