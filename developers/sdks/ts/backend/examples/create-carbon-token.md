@@ -1,12 +1,10 @@
 # Creation of New Carbon Tokens
 
-All Phantasma Phoenix tokens are built upon Carbon tokens at their core. Carbon tokens operate without the need for smart contracts - their metadata is stored within specialized hierarchical structures defined by schemas. These tokens are managed using low-level Carbon-level chain methods, which are purpose-built for speed and efficiency. Manipulating Carbon tokens requires no VM execution or scripting.
+{% hint style="info" %}
+For a non-technical overview of Carbon and SmartNFTs, see [Carbon: Native Assets on Phantasma Phoenix](/about/carbon.md).
+{% endhint %}
 
-For more advanced scenarios, Phantasma Phoenix also provides Smart NFTs, which include attached smart contracts.
-
-Both Carbon NFTs and Smart NFTs support infusion and all standard NFT operations - they are mintable, transferable, burnable, and tradable.
-
-Carbon NFTs can be upgraded to Smart NFTs by embedding a TOMB (PhantasmaVM) contract within their Carbon metadata.
+This page focuses on the technical steps to create a Carbon token.
 
 ## Creating a New Carbon Token
 

@@ -6,7 +6,11 @@ description: Carbon is the native asset runtime for tokens and NFTs on Phantasma
 
 Carbon is the native asset layer for Phantasma Phoenix. It defines how tokens and NFTs are created, stored, and transferred directly by the chain.
 
-Carbon is a 4th-generation asset runtime. In Carbon, you do not deploy a contract to create a token. You build a Carbon transaction and sign it with a wallet. That is the model: simple for users, native to the chain.
+All Phantasma Phoenix tokens are built on Carbon at their core. Carbon tokens do not require smart contracts: their metadata lives in schema-defined hierarchical structures, and the chain manages these assets through low-level Carbon methods built for speed and efficiency. Manipulating Carbon tokens requires no VM execution or scripting.
+
+For more advanced scenarios, Phantasma Phoenix also provides SmartNFTs with attached smart contracts. Both Carbon NFTs and SmartNFTs support infusion and the full set of NFT operations (mint, transfer, burn, trade). A Carbon NFT can be upgraded to a SmartNFT by embedding a TOMB (PhantasmaVM) contract in its Carbon metadata, enabling NFTs that evolve and update their content based on defined rules.
+
+Below is a quick look at what makes Carbon different and how the 4th-generation asset model works.
 
 ## What makes Carbon different
 
