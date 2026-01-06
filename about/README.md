@@ -5,13 +5,11 @@ coverY: 0
 
 ## Phantasma Phoenix Blockchain
 
-Phantasma Phoenix is eco & user friendly  blockchain  for content distribution of Smart Digital Assets that is fast, secure and decentralized.
+Phantasma Phoenix is a decentralized, feature-rich Layer-1 blockchain, enhanced by the Phantasma Phoenix upgrade, which delivers improved performance, scalability, and developer experience. Implemented in C# and C++, Phantasma is the blockchain of choice for game developers and real-time applications, offering streamlined tools for creating and managing fungible and non-fungible tokens without smart-contract complexity. Its asset layer is built around Carbon at the core, which is a native asset runtime where tokens and NFTs are created, stored, and transferred directly by the chain without deploying custom smart contracts. SmartNFTs then extend that foundation with smart-contract-driven logic that lets NFTs evolve and update their content based on defined rules.
 
-With its innovative staking mechanism, dual token system, sustainable tokenomics model and advanced eco-friendly smartNFTs. The chain is designed to be used for digital goods & services for communications, entertainment, marketplaces and on-chain storage solutions for dApp creators and enterprise clients.
+With its innovative staking mechanism, dual-token system (SOUL and KCAL), sustainable tokenomics, and Carbon and SmartNFT technologies, Phantasma provides an eco-friendly and highly efficient framework for digital goods and services, gaming, entertainment, marketplaces, communications, and on-chain storage solutions for both dApp creators and enterprise clients.
 
-Phantasma has low minting and transaction fees because of its smartNFT technology that has been built on chain level and its pledge to become the first certified carbon negative blockchain.
-
-SmartNFTs are NFTs with dynamic properties that can change based on certain conditions. They provide game developers the opportunity to make dynamic in-game items decentralized, which is not possible with traditional NFTs. They also allow for time-based NFTs, multi-layered NFTs, infused NFTs and locked content within an NFT that can only be accessed by the owner of the NFT. The NFTs can be minted on-demand at a fraction of the costs compared to other blockchains.
+Live on mainnet since October 2019, Phantasma is a fast-growing infrastructure platform for gaming and NFTs, built to compete for leading positions as adoption accelerates, while combining low minting and transaction fees with advanced NFT functionality built directly at the protocol level. It is also the first certified carbon-negative blockchain.
 
 Phantasma has an easy-to-use connector between dApps, wallets and blockchain via Phantasma Link.
 
