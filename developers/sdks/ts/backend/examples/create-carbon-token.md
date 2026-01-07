@@ -59,7 +59,7 @@ In the following examples, we will use the deployer’s `PhantasmaKeys` keypair 
     true, // Whether the token is non-fungible (NFT) or not (fungible). Currently, only NFTs are supported
     0, // Token decimals (always 0 for NFTs)
     senderPubKey, // Public key of the token creator
-    metadata, // Optional metadata fields (key and value are strings only for now)
+    metadata, // Token metadata (required for all tokens; values are strings)
     tokenSchemas,
   );
 ````

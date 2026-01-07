@@ -64,6 +64,10 @@ For Carbon tokens, use helpers under `core/types/Carbon`:
 
 These helpers build `TxMsg` objects or signed hex suitable for `sendCarbonTransaction`.
 
+Use `TokenSchemasBuilder.prepareStandard(sharedMetadata)` for default schemas, or `TokenSchemasBuilder.fromJson(json)` for custom schemas
+(field types are `VmType` name strings like `String`, `Int32`, `Bytes32`, `Array_String`).
+See [Schema JSON Reference](schema-json-reference.md).
+
 ## Schema Conversion Helpers
 
 RPC returns schema results as plain objects. Convert them to SDK schema types using:

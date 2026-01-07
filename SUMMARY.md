@@ -100,6 +100,7 @@
       - [Quickstart](developers/sdks/ts/quickstart.md)
       - [API Overview](developers/sdks/ts/api-overview.md)
       - [Carbon Workflows](developers/sdks/ts/carbon-workflows.md)
+      - [Schema JSON Reference](developers/sdks/ts/schema-json-reference.md)
       - [Phantasma API](/developers/sdks/ts/shared-methods/phantasmaapi.md)
       - [Script Builder](/developers/sdks/ts/shared-methods/script-builder.md)
       - [Backend Guide](developers/sdks/ts/backend/backend.md)

@@ -72,7 +72,7 @@ For example:
     0, // maxMint
     0, // maxSupply
     senderPubKey, // Public key of the series creator
-    metadata, // Optional metadata shared by all NFTs in the series
+    metadata, // Series metadata (required; must match schema)
   );
 ````
 

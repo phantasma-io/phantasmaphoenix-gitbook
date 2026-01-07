@@ -5,12 +5,64 @@ Carbon tokens are native, VM-less assets. For NFTs, Carbon provides fast token c
 ## Prerequisites
 
 - Symbol must be uppercase A-Z (for example `MYNFT`).
-- Token metadata is required and must include `name`, `icon`, `url`, `description`.
-- `icon` must be a base64 data URI (PNG/JPEG/SVG).
+- Token metadata is required for all tokens and must include `name`, `icon`, `url`, `description`.
+- `icon` must be a base64 data URI (PNG/JPEG/WebP).
 - NFT tokens require schemas (series, ROM, RAM) via `TokenSchemasBuilder`.
 
+## Token schemas: standard vs custom
+
+Use `TokenSchemasBuilder.prepareStandard(sharedMetadata)` when you only need the standard NFT fields and no custom ROM/RAM.
+
+- `sharedMetadata = true` puts standard fields in **series metadata** (shared by all NFTs).
+- `sharedMetadata = false` puts standard fields in **ROM** (per NFT).
+- RAM schema is empty by default. With an empty RAM schema, the SDK sets `DynamicExtras`,
+  so extra RAM fields can be serialized. When you define RAM fields, only those fields
+  are serialized, and any extra RAM fields are dropped (not readable or updatable later).
+
+Use `TokenSchemasBuilder.fromJson(json)` when you need custom fields or want full control of the schema.
+
+Schema JSON format:
+
+{% content-ref url="schema-json-reference.md" %}
+[Schema JSON Reference](schema-json-reference.md)
+{% endcontent-ref %}
+
+```json
+{
+  "seriesMetadata": [
+    { "name": "name", "type": "String" },
+    { "name": "description", "type": "String" },
+    { "name": "imageURL", "type": "String" },
+    { "name": "infoURL", "type": "String" },
+    { "name": "royalties", "type": "Int32" }
+  ],
+  "rom": [
+    { "name": "artist", "type": "String" },
+    { "name": "album", "type": "String" }
+  ],
+  "ram": [
+    { "name": "level", "type": "Int32" }
+  ]
+}
+```
+
+Rules:
+- `seriesMetadata`, `rom`, and `ram` must be JSON arrays of `{name, type}` objects.
+  (These arrays are not related to `Array_*` field types.)
+- `type` must be a `VmType` name string (for example `String`, `Int32`, `Bytes32`, `Array_String`).
+  See the [Schema JSON Reference](schema-json-reference.md).
+- Do not include system fields `_i`, `mode`, `rom` — the builder adds them automatically.
+- Standard NFT fields (`name`, `description`, `imageURL`, `infoURL`, `royalties`) must be declared
+  in either **series metadata** or the NFT **ROM schema** (at least one of the two).
+- Field names are case-sensitive.
+
+### Token metadata vs NFT metadata
+
+- **Token metadata** (`name`, `icon`, `url`, `description`) is required for all tokens and is built with `TokenMetadataBuilder`.
+- **NFT metadata** (series/ROM) is defined by the schema and uses standard fields plus any custom fields.
+
 {% hint style="info" %}
-If you fetch schemas from RPC (`getToken`), convert them using `vmStructSchemaFromRpcResult` before passing to builders.
+If you fetch schemas from RPC (`getToken`), convert them using `vmStructSchemaFromRpcResult` before passing to builders. Do not rebuild schemas with `prepareStandard`.
 {% endhint %}
 
 ## 1) Create a Carbon Token (NFT)

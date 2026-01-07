@@ -52,6 +52,7 @@ In the following examples, we will use the deployer’s `PhantasmaKeys` keypair 
     { name: "infoURL", value: "https://example.com/nft" }, // NFT information URL
     { name: "royalties", value: 10000000 }, // NFT royalties. 10000000 = 1%
   ];
+  // All ROM fields defined in the schema are required; missing or wrong-case names will throw.
 
   // First we need to generate a new random Phantasma ID for the new NFT
   const newPhantasmaNftId = await getRandomPhantasmaId();
