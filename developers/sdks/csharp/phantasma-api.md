@@ -59,6 +59,72 @@ Looks up an address by name
 
 ---
 
+### `Task<CursorPaginatedResult<BalanceResult[]>?> GetAccountFungibleTokensAsync(string account, string tokenSymbol = "", ulong carbonTokenId = 0, uint pageSize = 10, string cursor = "", bool checkAddressReservedByte = true)`
+Gets fungible token balances owned by an address (cursor pagination)
+
+**Parameters**
+- `account` — account address
+- `tokenSymbol` — token symbol filter (optional, cannot be used together with `carbonTokenId`)
+- `carbonTokenId` — Carbon token id filter (optional, cannot be used together with `tokenSymbol`)
+- `pageSize` — items per page
+- `cursor` — cursor for the next page
+- `checkAddressReservedByte` — `true` to validate address reserved byte
+
+**Returns**
+- cursor paginated balances or `null`
+
+---
+
+### `Task<CursorPaginatedResult<TokenDataResult[]>?> GetAccountNFTsAsync(string account, string tokenSymbol = "", ulong carbonTokenId = 0, uint carbonSeriesId = 0, uint pageSize = 10, string cursor = "", bool extended = false, bool checkAddressReservedByte = true)`
+Gets NFTs owned by an address (cursor pagination)
+
+**Parameters**
+- `account` — account address
+- `tokenSymbol` — token symbol filter (optional)
+- `carbonTokenId` — Carbon token id filter (optional)
+- `carbonSeriesId` — Carbon series id filter (optional)
+- `pageSize` — items per page
+- `cursor` — cursor for the next page
+- `extended` — `true` to include properties
+- `checkAddressReservedByte` — `true` to validate address reserved byte
+
+**Returns**
+- cursor paginated NFT data or `null`
+
+---
+
+### `Task<CursorPaginatedResult<TokenResult[]>?> GetAccountOwnedTokensAsync(string account, string tokenSymbol = "", ulong carbonTokenId = 0, uint pageSize = 10, string cursor = "", bool checkAddressReservedByte = true)`
+Gets NFT tokens for which the account owns at least one NFT instance (cursor pagination)
+
+**Parameters**
+- `account` — account address
+- `tokenSymbol` — token symbol filter (optional)
+- `carbonTokenId` — Carbon token id filter (optional)
+- `pageSize` — items per page
+- `cursor` — cursor for the next page
+- `checkAddressReservedByte` — `true` to validate address reserved byte
+
+**Returns**
+- cursor paginated token data or `null`
+
+---
+
+### `Task<CursorPaginatedResult<TokenSeriesResult[]>?> GetAccountOwnedTokenSeriesAsync(string account, string tokenSymbol = "", ulong carbonTokenId = 0, uint pageSize = 10, string cursor = "", bool checkAddressReservedByte = true)`
+Gets NFT series for which the account owns at least one NFT instance (cursor pagination)
+
+**Parameters**
+- `account` — account address
+- `tokenSymbol` — token symbol filter (optional)
+- `carbonTokenId` — Carbon token id filter (optional)
+- `pageSize` — items per page
+- `cursor` — cursor for the next page
+- `checkAddressReservedByte` — `true` to validate address reserved byte
+
+**Returns**
+- cursor paginated series data or `null`
+
+---
+
 ## Auction
 
 {% hint style="warning" %}
@@ -117,10 +183,11 @@ Gets the latest block height for a chain
 
 ---
 
-### `Task<int> GetBlockTransactionCountByHashAsync(string blockHash)`
+### `Task<int> GetBlockTransactionCountByHashAsync(string chainAddressOrName, string blockHash)`
 Gets the number of transactions in a block by block hash
 
 **Parameters**
+- `chainAddressOrName` — chain address or name
 - `blockHash` — block hash
 
 **Returns**
@@ -188,6 +255,18 @@ Gets an array of all chains deployed on Phantasma
 
 ---
 
+### `Task<ChainResult?> GetChainAsync(string name = "main", bool extended = true)`
+Gets chain information by name
+
+**Parameters**
+- `name` — chain name
+- `extended` — `true` to include extended data
+
+**Returns**
+- chain data or `null`
+
+---
+
 ## Contract
 
 {% hint style="warning" %}
@@ -199,6 +278,18 @@ Gets contract metadata by name from the main chain
 
 **Parameters**
 - `contractName` — contract name
+
+**Returns**
+- contract data or `null`
+
+---
+
+### `Task<ContractResult?> GetContractByAddressAsync(string chainAddressOrName, string contractAddress)`
+Gets contract metadata by address from a specific chain
+
+**Parameters**
+- `chainAddressOrName` — chain address or name
+- `contractAddress` — contract address
 
 **Returns**
 - contract data or `null`
@@ -293,11 +384,65 @@ Gets token metadata by symbol
 
 ---
 
+### `Task<TokenResult?> GetTokenAsync(string symbol, bool extended, ulong carbonTokenId)`
+Gets token metadata by symbol or Carbon token id
+
+**Parameters**
+- `symbol` — token symbol (optional when using `carbonTokenId`)
+- `extended` — `true` to include extended data
+- `carbonTokenId` — Carbon token id (optional when using `symbol`)
+
+**Returns**
+- token data or `null`
+
+---
+
 ### `Task<TokenResult[]?> GetTokensAsync()`
 Gets an array of all tokens deployed on Phantasma
 
 **Returns**
 - array of token metadata or `null`
+
+---
+
+### `Task<TokenResult[]?> GetTokensAsync(bool extended, string? ownerAddress = null)`
+Gets an array of all tokens deployed on Phantasma with optional owner filtering
+
+**Parameters**
+- `extended` — `true` to include extended data
+- `ownerAddress` — optional owner address filter
+
+**Returns**
+- array of token metadata or `null`
+
+---
+
+### `Task<CursorPaginatedResult<TokenSeriesResult[]>?> GetTokenSeriesAsync(string symbol = "", ulong carbonTokenId = 0, uint pageSize = 10, string cursor = "")`
+Gets token series for a token (cursor pagination)
+
+**Parameters**
+- `symbol` — token symbol (optional when using `carbonTokenId`)
+- `carbonTokenId` — Carbon token id (optional when using `symbol`)
+- `pageSize` — items per page
+- `cursor` — cursor for the next page
+
+**Returns**
+- cursor paginated series data or `null`
+
+---
+
+### `Task<CursorPaginatedResult<TokenDataResult[]>?> GetTokenNFTsAsync(ulong carbonTokenId, uint carbonSeriesId = 0, uint pageSize = 10, string cursor = "", bool extended = false)`
+Gets NFTs for a token (cursor pagination)
+
+**Parameters**
+- `carbonTokenId` — Carbon token id
+- `carbonSeriesId` — Carbon series id filter (optional)
+- `pageSize` — items per page
+- `cursor` — cursor for the next page
+- `extended` — `true` to include properties
+
+**Returns**
+- cursor paginated NFT data or `null`
 
 ---
 
@@ -317,10 +462,6 @@ Gets the token balance for a given address and token symbol
 ### `Task<TokenDataResult?> GetTokenDataAsync(string symbol, string tokenId)`
 Gets token data for a specific token id
 
-{% hint style="warning" %}
-**Partially implemented** - some features may be missing or incomplete. See the [roadmap](https://phantasma.info/blockchain#roadmap)
-{% endhint %}
-
 **Parameters**
 - `symbol` — token symbol
 - `tokenId` — token id
@@ -328,14 +469,13 @@ Gets token data for a specific token id
 **Returns**
 - token data or `null`
 
+**Notes**
+- On current Carbon nodes this is a deprecated alias for `GetNFTAsync(symbol, tokenId, loadProperties: false)`.
+
 ---
 
 ### `Task<TokenDataResult?> GetNFTAsync(string symbol, string tokenId, bool loadProperties)`
 Gets NFT data and optionally loads properties
-
-{% hint style="warning" %}
-**Partially implemented** - some features may be missing or incomplete. See the [roadmap](https://phantasma.info/blockchain#roadmap)
-{% endhint %}
 
 **Parameters**
 - `symbol` — NFT symbol
@@ -347,16 +487,13 @@ Gets NFT data and optionally loads properties
 
 ---
 
-### `Task<TokenDataResult[]?> GetNFTsAsync(string symbol, string[] tokenIds)`
+### `Task<TokenDataResult[]?> GetNFTsAsync(string symbol, IEnumerable<string> tokenIds, bool extended = false)`
 Gets NFT data for multiple token ids
-
-{% hint style="warning" %}
-This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
-{% endhint %}
 
 **Parameters**
 - `symbol` — NFT symbol
-- `tokenIds` — array of token ids
+- `tokenIds` — token ids
+- `extended` — `true` to load properties
 
 **Returns**
 - array of NFT data or `null`

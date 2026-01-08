@@ -4,10 +4,11 @@ This example demonstrates how to claim all KCAL tokens earned from SOUL staking
 
 ```csharp
 using PhantasmaPhoenix.Cryptography;
+using PhantasmaPhoenix.Protocol;
 using PhantasmaPhoenix.RPC;
 using PhantasmaPhoenix.VM;
 
-public void ClaimKcal()
+public static async Task ClaimKcal()
 {
 	// Initialize PhantasmaAPI instance
 	var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null);
@@ -23,8 +24,8 @@ public void ClaimKcal()
 
 	// TODO: Adapt to new fee model
 	// Use these values for now
-	var feePrice = 100000;
-	var feeLimit = 21000;
+	var feePrice = DomainSettings.DefaultMinimumGasFee;
+	var feeLimit = Transaction.DefaultGasLimit;
 
 	byte[] script;
 	try

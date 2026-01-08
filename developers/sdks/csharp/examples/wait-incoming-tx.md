@@ -11,7 +11,7 @@ using PhantasmaPhoenix.RPC;
 // In-memory cache mapping token symbol to its decimals
 private static readonly Dictionary<string, uint> _tokenDecimals = new(StringComparer.OrdinalIgnoreCase);
 
-public void WaitIncomingTx_ReadBlocks()
+public static async Task WaitIncomingTx_ReadBlocks()
 {
 	// Initialize PhantasmaAPI instance
 	var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null);

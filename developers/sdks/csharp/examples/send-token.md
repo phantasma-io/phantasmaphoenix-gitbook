@@ -5,10 +5,11 @@ This example demonstrates how to transfer fungible tokens
 ```csharp
 using PhantasmaPhoenix.Core;
 using PhantasmaPhoenix.Cryptography;
+using PhantasmaPhoenix.Protocol;
 using PhantasmaPhoenix.RPC;
 using PhantasmaPhoenix.VM;
 
-public void SendToken()
+public static async Task SendToken()
 {
 	// Initialize PhantasmaAPI instance
 	var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null);
@@ -37,9 +38,10 @@ public void SendToken()
 		throw new Exception("Token is not fungible");
 	}
 
-	// Not used right now, use as is
-	var feePrice = 100000; // TODO: Adapt to new fee model.
-	var feeLimit = 21000; // TODO: Adapt to new fee model.
+	// TODO: Adapt to new fee model
+	// Use these values for now
+	var feePrice = DomainSettings.DefaultMinimumGasFee;
+	var feeLimit = Transaction.DefaultGasLimit;
 
 	byte[] script;
 	try

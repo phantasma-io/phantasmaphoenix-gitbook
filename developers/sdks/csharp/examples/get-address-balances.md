@@ -6,7 +6,7 @@ This example demonstrates how to fetch all token balances for a given address
 using Newtonsoft.Json;
 using PhantasmaPhoenix.RPC;
 
-public void GetAddressBalances()
+public static async Task GetAddressBalances()
 {
 	// Initialize PhantasmaAPI instance
 	var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null);

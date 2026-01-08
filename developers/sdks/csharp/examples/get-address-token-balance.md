@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using PhantasmaPhoenix.Core;
 using PhantasmaPhoenix.RPC;
 
-public void GetAddressTokenBalance()
+public static async Task GetAddressTokenBalance()
 {
 	// Initialize PhantasmaAPI instance
 	var api = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null);
