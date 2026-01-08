@@ -7,5 +7,3 @@ Smart contract and token deployment comes at an increased cost, pegged to a fiat
 For a project building on top of Phantasma that needs its own token, a fee of $100 in its KCAL equivalent is charged on token creation — also this 100% burned. The same applies to artists and others who wish to deploy their own NFT minting smart contract to be able to mint $ARTISTNAME NFTs instead of the default $GHOST NFTs native to GhostMarket.
 
 dApp providers may charge additional fees for using their products, such as GhostMarket and uMint's KCAL fees for creating NFTs.
-
-For the full details, please refer to this article on the [Phantasma Token Economy](https://medium.com/phantasticphantasma/the-phantasma-token-economy-45c76ae6b24e).
