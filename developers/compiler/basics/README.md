@@ -1,12 +1,12 @@
 ---
-description: Learn the basics of Phoenix Smart Language
+description: Learn the basics of TOMB
 ---
 
 # 🚩 Basics
 
 ## Default Types
 
-Getting to know the default types of that exists on **Phoenix Smart Language**
+Getting to know the default types available in **TOMB**.
 
 {% content-ref url="default-types/" %}
 [default-types](default-types/)
@@ -30,7 +30,7 @@ How to call internal methods inside the Smart Contract
 
 ## Import a new Library from the Libs
 
-How to Import Libraries from the libs that **Phoenix Smart Language** has
+How to import the standard libraries available in **TOMB**
 
 {% content-ref url="library-importing.md" %}
 [library-importing.md](library-importing.md)

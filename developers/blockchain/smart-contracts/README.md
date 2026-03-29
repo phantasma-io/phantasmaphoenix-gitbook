@@ -7,7 +7,7 @@ Smart-contract workflows fall into two broad groups:
 - token-backed contracts bound to an uppercase token symbol
 
 {% content-ref url="/developers/compiler" %}
-Phoenix Smart Language Compiler
+TOMB Compiler
 {% endcontent-ref %}
 
 ## Deployment flows
@@ -20,11 +20,11 @@ Phoenix Smart Language Compiler
 For the current deployment tooling:
 
 {% content-ref url="/developers/tools/pha-deploy.md" %}
-[pha-deploy.md](/developers/tools/pha-deploy.md)
+pha-deploy
 {% endcontent-ref %}
 
 For the deployment flow overview:
 
 {% content-ref url="how-to-deploy.md" %}
-[how-to-deploy.md](how-to-deploy.md)
+How to Deploy
 {% endcontent-ref %}

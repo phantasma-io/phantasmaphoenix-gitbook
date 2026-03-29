@@ -1,5 +1,5 @@
 ---
-description: Basic setup of the Phoenix Smart Language Compiler
+description: Basic setup for the TOMB compiler
 ---
 
 # Setup

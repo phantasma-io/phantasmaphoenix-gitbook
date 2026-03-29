@@ -2,7 +2,7 @@
 
 ### Value assignment
 
-On the earlier versions of Phoenix Smart Language (formerly TOMB), the assignment of values to the variables used `:=`and that changed to only using the `=`V
+Earlier TOMB syntax allowed `:=` for assignment. In the current compiler surface, assignment uses only `=`.
 
 ## Global variables
 
@@ -33,4 +33,3 @@ contract test {
 }
 ```
 {% endcode %}
-

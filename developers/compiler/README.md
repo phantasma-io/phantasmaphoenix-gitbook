@@ -1,10 +1,10 @@
 ---
-description: Phoenix smart contract compiler for Phantasma Phoenix platform.
+description: TOMB smart-contract compiler for the current Phantasma VM.
 cover: .gitbook/assets/gitbook-banner-pha-phoenix-phoenix-compiler.png
 coverY: 0
 ---
 
-# Phoenix compiler
+# TOMB Compiler
 
 ## Description <a href="#description" id="description"></a>
 
@@ -43,7 +43,7 @@ For the current deployment tooling, see:
 Jump in to the quick start docs and get making your first smart contract:
 
 {% content-ref url="quick-start.md" %}
-[quick-start.md](quick-start.md)
+Quick Start
 {% endcontent-ref %}
 
 ## Want to deep dive?
@@ -51,5 +51,5 @@ Jump in to the quick start docs and get making your first smart contract:
 Dive deeper into the language surface and standard libraries:
 
 {% content-ref url="features.md" %}
-[features.md](features.md)
+Features
 {% endcontent-ref %}
