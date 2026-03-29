@@ -1,71 +1,66 @@
-# Trigger's
+# Triggers
 
-There's a list of available triggers that you can use. They should start with “on” and then the trigger name, for example onMint. They can be `Account` Triggers, `Token` Triggers or `Organization` Triggers.
+Triggers are special methods invoked by the runtime on lifecycle events.
 
-### **On the `Account` triggers it has:**
+In TOMB source they are written as `trigger onSomething(...)`.
 
-1. `OnMint`: This methods will be triggers when you mint.
-2. `OnBurn`: This method will be triggered when you burn that token.
-3. `OnSend`: This method will be triggered when sending that token.
-4. `OnReceive`: This method will be triggered when receiving that token.
-5. `OnWitness`: This method will be triggered when you want to prove that was your account to validate that Transaction.
-6. `OnUpgrade`: This method will be triggered when upgrading that contract/token.
-7. `OnMigrate`: This method will be triggered when migrating.
+The compiler accepts only the trigger names and signatures it currently implements. If you use an unknown trigger name, compilation fails.
 
-***
+## Token triggers
 
-### **On the `Token` triggers it has:**
+Currently accepted token trigger names:
 
-1. `OnMint`: This method will be triggered when a token is minted.
-2. `OnBurn`: This method will be triggered when a token is burned.
-3. `OnSend`: This method will be triggered when a token is sent.
-4. `OnReceive`: This method will be triggered when a token is received.
-5. `OnInfuse`: This method will be triggered when a token is infused.
-6. `OnUpgrade`: This method will be triggered when a contract is upgraded.
-7. `OnSeries`: This method will be triggered when a series is created.
-8. `OnWrite`: This method will be triggered when NFT.Write is called. (When NFT ram is being updated)
-9. `OnMigrate`: This method will be triggered when token is migrated.
-10. `OnKill`: This method will be triggered when you want to destroy/delete the token.
+- `onMint`
+- `onBurn`
+- `onSend`
+- `onReceive`
+- `onInfuse`
+- `onAttach`
+- `onUpgrade`
+- `onSeries`
+- `onWrite`
+- `onMigrate`
+- `onKill`
 
-***
+## Shared trigger signatures
 
-### **On the `Organization` triggers it has:**
+### `onMint`, `onBurn`, `onSend`, `onReceive`, `onInfuse`
 
-1. `OnAdd`: This method will be triggered when adding a contract to the chain.
-2. `OnRemove`: This method will be triggered when removing a contract from the chain.
-3. `OnUpgrade`: This method will be triggered when upgrading a contract in the chain.
-
-***
-
-### **Relavent information.**
-
-`onMint`, `onBurn`, `onSeed` and `onReceive` share the same parameters,\
-&#xNAN;_&#x41;ddress_, _Address_, _string_ and a _number_.
-
-```
-trigger onMint(from:address, to:address, symbol:string, tokenID:number) 
-trigger onBurn(from:address, to:address, symbol:string, tokenID:number)
-trigger onSeed(from:address, to:address, symbol:string, amount:number)
-trigger onReceive(from:address, to:address, symbol:string, amount:number)  
+```csharp
+trigger onMint(from: address, to: address, symbol: string, value: number)
+trigger onBurn(from: address, to: address, symbol: string, value: number)
+trigger onSend(from: address, to: address, symbol: string, value: number)
+trigger onReceive(from: address, to: address, symbol: string, value: number)
+trigger onInfuse(from: address, to: address, symbol: string, value: number)
 ```
 
-***
+The fourth argument is a `number`. Depending on the runtime flow, it may represent an amount or a token identifier.
 
-`onWitness`, `onSeries`, `onUpgrade` and `OnKill` share the same parameter,\
-&#xNAN;_&#x41;ddress_.
+### `onWitness`, `onSeries`, `onKill`, `onAttach`, `onUpgrade`
 
+```csharp
+trigger onWitness(from: address)
+trigger onSeries(from: address)
+trigger onKill(from: address)
+trigger onAttach(from: address)
+trigger onUpgrade(from: address)
 ```
-trigger onWitness(from:address)
-trigger onSeries(from:address)
-trigger onUpgrade(from:address) 
-trigger onKill(from:address) 
+
+### `onMigrate`
+
+```csharp
+trigger onMigrate(from: address, to: address)
 ```
 
-***
+### `onWrite`
 
-`onMigrate` parameters are,\
-&#xNAN;_&#x41;ddress_ and _Address_.
+```csharp
+trigger onWrite(from: address, data: any)
+```
 
-```
-trigger onMigrate(from:address, to:address)
-```
+## Practical notes
+
+- `onAttach` is for token-backed contract attachment flows.
+- `onUpgrade` is the lifecycle hook for later code updates.
+- Token-backed contracts should not assume every compiler-accepted trigger is available in every old network snapshot. Validate against the target chain.
+- For current attach/create flows, token-backed contracts must satisfy validator-side token admission rules such as the required `onMint` surface.

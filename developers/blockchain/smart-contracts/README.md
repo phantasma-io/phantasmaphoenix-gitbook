@@ -1,26 +1,29 @@
 # Smart Contracts
 
-{% hint style="warning" %}
-This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
-{% endhint %}
+Phantasma supports VM smart contracts. In the current toolchain, contracts are authored in TOMB source files and compiled with `pha-tomb`.
 
-A smart contract can be written in language called **Phoenix Smart Language**
-
-## Phoenix Smart Language
-
-For writing it in **PSL**, take a look at the documentation.
+Smart-contract workflows fall into two broad groups:
+- standalone custom contracts
+- token-backed contracts bound to an uppercase token symbol
 
 {% content-ref url="/developers/compiler" %}
 Phoenix Smart Language Compiler
 {% endcontent-ref %}
 
-## Deploy your smart contract
+## Deployment flows
 
-{% hint style="info" %}
-After writting your smart contract, what's next?
+- standalone lowercase custom contract -> deploy with `contract deploy`
+- new uppercase token-backed contract -> create with `--create-token`
+- existing token + new VM code -> `contract attach`
+- later contract code update -> `contract upgrade`
 
-Let's deploy it on the chain!
-{% endhint %}
+For the current deployment tooling:
+
+{% content-ref url="/developers/tools/pha-deploy.md" %}
+[pha-deploy.md](/developers/tools/pha-deploy.md)
+{% endcontent-ref %}
+
+For the deployment flow overview:
 
 {% content-ref url="how-to-deploy.md" %}
 [how-to-deploy.md](how-to-deploy.md)

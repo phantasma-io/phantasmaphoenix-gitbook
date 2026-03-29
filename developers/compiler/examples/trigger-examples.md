@@ -1,9 +1,29 @@
 # Trigger Examples
 
+## Trigger OnAttach
+
+{% hint style="info" %}
+This trigger runs when VM code is attached to an already existing token through the token attach flow.
+{% endhint %}
+
+```csharp
+token TEST {
+    import Runtime;
+
+    global attached: bool;
+
+    trigger onAttach(from:address)
+    {
+        Runtime.expect(Runtime.isWitness(from), "witness failed");
+        attached = true;
+    }
+}
+```
+
 ## Trigger OnUpgrade
 
 {% hint style="info" %}
-This method will be **triggered** when a **contract** / **token** is **upgraded**.
+This method runs when a contract or token-backed contract is upgraded.
 
 Keep in mind that if you don't implement this method it's not possible to upgrade it.
 
@@ -33,16 +53,16 @@ contract test {
 ## Trigger OnMint
 
 {% hint style="info" %}
-This method will be **triggered** when a token is **minted**.
+This method runs when a token is minted.
 {% endhint %}
 
-In this example, this token will check the symbol, the address that called, and check it was called from within the contract and reject anything else.
+In this example, the contract validates the symbol and the caller context.
 
 {% code lineNumbers="true" fullWidth="true" %}
 ```csharp
 token TEST {
     import Runtime;
-    trigger onMint(from:address, to:address, symbol:string, tokenID:number)
+    trigger onMint(from:address, to:address, symbol:string, value:number)
     {
         local contractSymbol: string = $THIS_SYMBOL;
         local thisAddr : address = $THIS_ADDRESS;
@@ -61,7 +81,7 @@ token TEST {
 This method will be **triggered** when a token is **burned**.
 {% endhint %}
 
-In this example, this contract only burn if it's the owner and reject anything else.
+In this example, the contract only allows the owner path.
 
 {% code lineNumbers="true" %}
 ```csharp
@@ -83,7 +103,7 @@ contract test {
 This method will be **triggered** when a series is **created.**
 {% endhint %}
 
-In this example, this contract when a series is created will check if it was the owner that did it and reject anything else.
+In this example, the contract checks that the owner initiated the series creation path.
 
 {% code lineNumbers="true" %}
 ```csharp
@@ -106,7 +126,7 @@ contract test {
 This method will be **triggered** when a token is **infused**.
 {% endhint %}
 
-In this example, this token will only accept being infused with the same token and reject anything else.
+In this example, the token only accepts infusion with the same symbol.
 
 {% code lineNumbers="true" %}
 ```csharp
@@ -125,7 +145,7 @@ token TEST {
 ## Trigger OnWrite
 
 {% hint style="info" %}
-This method will be **triggered** when **NFT.Write** is called. (When **NFT** ram is being updated)
+This method runs when NFT RAM is updated.
 {% endhint %}
 
 In this example, this token will only be able to be updated if it's the owner that called the change  and reject anything else.

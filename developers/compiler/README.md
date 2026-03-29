@@ -4,15 +4,39 @@ cover: .gitbook/assets/gitbook-banner-pha-phoenix-phoenix-compiler.png
 coverY: 0
 ---
 
-{% hint style="warning" %}
-This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
-{% endhint %}
-
 # Phoenix compiler
 
 ## Description <a href="#description" id="description"></a>
 
-Phoenix Smart Language (PSL) is a custom programming language created for developing smart contracts for the Phantasma Blockchain.
+The current Phantasma smart-contract compiler is `pha-tomb`.
+
+Use it to compile `.tomb` source files into:
+- `.pvm` VM bytecode
+- `.abi` interface metadata
+- optional debug and assembly artifacts
+
+`pha-tomb` targets the current Phantasma VM and is the compiler used by the current contract lifecycle tooling.
+
+## What you can build
+
+- standalone custom VM contracts
+- token-backed contracts
+- NFT submodules inside token modules
+- transaction scripts
+- ABI-bearing modules for deployment and tooling
+
+## Deployment model
+
+Compiling a contract is only the first step. After compilation, deployment depends on what you are trying to create:
+
+- standalone custom contract -> deploy with `contract deploy`
+- new token-backed contract -> create with `--create-token`
+- existing token + new VM code -> attach with `contract attach`
+- later code update -> `contract upgrade`
+
+For the current deployment tooling, see:
+- [pha-deploy](../tools/pha-deploy.md)
+- [How to Deploy](../blockchain/smart-contracts/how-to-deploy.md)
 
 ## Want to jump right in?
 
@@ -24,8 +48,8 @@ Jump in to the quick start docs and get making your first smart contract:
 
 ## Want to deep dive?
 
-Dive a little deeper and start exploring our Libraries  to get an idea of everything that's possible to do with Phoenix Smart Language:
+Dive deeper into the language surface and standard libraries:
 
-{% content-ref url="features/features.md" %}
-[features.md](features/features.md)
+{% content-ref url="features.md" %}
+[features.md](features.md)
 {% endcontent-ref %}

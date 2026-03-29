@@ -1,7 +1,7 @@
 # Fungible Token
 
 {% hint style="info" %}
-**Remember**: While creating you **Fungible Token (FT)** to see all the avaible properties that a token can have, it's in [Basics > Properties](../../../basics/basics/properties.md) .
+**Remember**: For the available token properties, see [Basics > Properties](../../basics/properties.md).
 {% endhint %}
 
 Showcases how to implement a fungible token (eg: the Phantasma equivalent to an Ethereum ERC20).

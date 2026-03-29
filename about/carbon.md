@@ -6,17 +6,23 @@ description: Carbon is the native asset runtime for tokens and NFTs on Phantasma
 
 Carbon is the native asset layer for Phantasma Phoenix. It defines how tokens and NFTs are created, stored, and transferred directly by the chain.
 
-All Phantasma Phoenix tokens are built on Carbon at their core. Carbon tokens do not require smart contracts: their metadata lives in schema-defined hierarchical structures, and the chain manages these assets through low-level Carbon methods built for speed and efficiency. Manipulating Carbon tokens requires no VM execution or scripting.
+All Phantasma Phoenix tokens start from Carbon-native asset semantics. Standard asset operations such as token creation, series creation, minting, transfer, burn, and infusion are handled directly by the chain instead of requiring a custom contract for every asset.
 
-For more advanced scenarios, Phantasma Phoenix also provides SmartNFTs with attached smart contracts. Both Carbon NFTs and SmartNFTs support infusion and the full set of NFT operations (mint, transfer, burn, trade). A Carbon NFT can be upgraded to a SmartNFT by embedding a TOMB (PhantasmaVM) contract in its Carbon metadata, enabling NFTs that evolve and update their content based on defined rules.
+For advanced behavior, a token can also be backed by VM code. In practice this means:
+- a new token-backed contract can be installed during token creation
+- VM code can be attached later to an already existing token
+- the attached or created token-backed contract can then be upgraded later
+
+This is different from a standalone custom contract. Carbon token symbols and standalone custom contract names are separate flows.
 
 Below is a quick look at what makes Carbon different and how the 4th-generation asset model works.
 
 ## What makes Carbon different
 
-- **Native asset operations**: Creating, minting, transferring, and burning assets are built-in chain operations, so you do not deploy a custom smart contract just to define a token.
+- **Native asset operations**: Creating, minting, transferring, burning, and creating NFT series are built-in chain operations, so you do not deploy a custom smart contract just to define an asset.
 - **Schema-validated metadata**: NFT metadata is structured and validated by the chain using schemas.
 - **NFT addresses and infusion**: Each NFT has its own Carbon address derived from its token id and instance id. Assets sent to that address become attached to the NFT (nested ownership).
+- **Optional token-backed VM layer**: Advanced tokens can have VM logic attached without changing the fact that the token itself is still a native Carbon asset.
 
 ## 4th-generation asset model
 
@@ -28,8 +34,8 @@ Here is a high-level comparison between a contract-based asset model and Carbon'
 | --- | --- | --- |
 | Execution model | Asset logic runs inside a smart contract | Asset logic is a built-in chain runtime operation |
 | Asset definition | Tokens/NFTs are defined by contract code | Tokens/NFTs are protocol primitives |
-| Deployment step | Requires contract deployment before assets exist | No asset contract deployment; tokens are created by Carbon transactions |
-| Execution path | User-defined bytecode runs in a VM | No user bytecode for asset operations (native runtime calls) |
+| Deployment step | Requires contract deployment before assets exist | Tokens are created by Carbon transactions; optional VM logic can be added through token-backed flows |
+| Execution path | User-defined bytecode runs in a VM | Native asset operations stay native; optional token-backed hooks run in VM when present |
 | Metadata structure | Metadata rules are defined by the contract | Metadata is schema-based (series, ROM, RAM) and validated by the chain |
 | Ownership model | Ownership is stored as contract state (tokenId -> owner) | Each NFT has its own Carbon address; assets can be attached by sending to that address |
 | Performance under load | VM overhead; latency depends on execution logic | Native runtime operations with minimal latency and high throughput |
@@ -42,13 +48,14 @@ Here is a high-level comparison between a contract-based asset model and Carbon'
 - **ROM (immutable)**: Per-item fields that never change after minting.
 - **RAM (mutable)**: Optional per-item fields that can be updated later.
 - **Infusion**: Sending assets to an NFT's address to attach them to the NFT.
+- **Token-backed contract**: Optional VM code bound to a token symbol for advanced lifecycle behavior.
 
 ## How to use Carbon
 
-- Use the Token Deployment UI to deploy tokens, create NFT series, mint NFTs, and infuse NFTs without writing code.
+- Use the Token Deployment UI to deploy tokens, attach token-backed VM contracts, create NFT series, mint NFTs, and infuse NFTs without writing code.
 - Start with the short, user-friendly guide: [Token Deployment UI](/about/token-deployment-ui.md).
 - Connect a wallet that supports signing Carbon transactions.
-- For advanced workflows, the SDKs let you build and sign Carbon transactions directly.
+- For advanced workflows, the SDKs let you build and sign Carbon transactions directly, and VM tooling lets you compile and deploy contract bundles where needed.
 
 ## Want the developer details?
 

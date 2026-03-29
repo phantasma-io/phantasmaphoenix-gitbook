@@ -1,6 +1,85 @@
 # Opcodes
 
--A,B,Index,Length
+This page documents the current Phantasma VM opcode set used by the Carbon validator.
 
-<table><thead><tr><th width="144">Opcode</th><th>Serialization Internal Value</th><th width="128">Arguments</th><th width="240">Description</th><th>Gas cost</th></tr></thead><tbody><tr><td>NOP</td><td>0</td><td></td><td>Does nothing.</td><td>-</td></tr><tr><td>MOVE</td><td>1</td><td>A,B</td><td>Copies reg A to B by reference.</td><td>-</td></tr><tr><td>COPY</td><td>2</td><td>A,B</td><td>Copies reg A to B by value.</td><td>-</td></tr><tr><td>PUSH</td><td>3</td><td>A</td><td>Pushes value of reg A into the stack.</td><td>-</td></tr><tr><td>POP</td><td>4</td><td>A</td><td>Pops a value from the stack and copies it into reg A.</td><td>-</td></tr><tr><td>SWAP</td><td>5</td><td>A,B</td><td>Swaps reg A and B values.</td><td>-</td></tr><tr><td>CALL</td><td>6</td><td>Count,Offset</td><td>Creates a new context with Count registers and jumps to Offset.</td><td>-</td></tr><tr><td>EXTCALL</td><td>7</td><td>A</td><td>Takes a string as method name from reg A and executes an interop call.</td><td>-</td></tr><tr><td>JMP</td><td>8</td><td>A</td><td>Jumps to offset A.</td><td>-</td></tr><tr><td>JMPIF</td><td>9</td><td>A,B</td><td>Jumps to offset A if reg B evaluates to true.</td><td>-</td></tr><tr><td>JMPNOT</td><td>10</td><td>A,B</td><td>Jumps to offset A if reg B evaluates to false.</td><td>-</td></tr><tr><td>RET</td><td>11</td><td>-</td><td>Terminates current context.</td><td>-</td></tr><tr><td>THROW</td><td>12</td><td>A</td><td>Terminates current execution with an VM exception (with contents of reg A).</td><td>-</td></tr><tr><td>LOAD</td><td>13</td><td>A,Type,Data</td><td>Loads the Data of the specified Type into reg A.</td><td>-</td></tr><tr><td>CAST</td><td>14</td><td>A,B,Type</td><td>Casts the value of reg A into the specified Type and stores it in reg B.</td><td>-</td></tr><tr><td>CAT</td><td>15</td><td>A,B,C</td><td>Merges content of reg A and reg B and puts result into reg C.</td><td>-</td></tr><tr><td>RANGE</td><td>16</td><td></td><td>Copies sub-section of reg A based on the specified Index and Length and puts the result into reg B.</td><td>-</td></tr><tr><td>LEFT</td><td>17</td><td>A,B,Length</td><td>Similar as RANGE but with index equals to zero.</td><td>-</td></tr><tr><td>RIGHT</td><td>18</td><td>A,B,Length</td><td>Similar to RANGE but with the index being calculated by subtracting index from the content length of reg A.</td><td>-</td></tr><tr><td>SIZE</td><td>19</td><td>A</td><td>Returns RAM size of reg A.</td><td>-</td></tr><tr><td>COUNT</td><td>20</td><td>A</td><td>Returns number of elements if reg A is a struct, or 1 otherwise.</td><td>-</td></tr><tr><td>NOT</td><td>21</td><td>A,B</td><td>Negates value of reg A and put it into reg B.</td><td>-</td></tr><tr><td>AND</td><td>22</td><td></td><td>Does AND operation of reg A and reg B and puts the result into reg C.</td><td>-</td></tr><tr><td>OR</td><td>23</td><td>A,B,C</td><td>Does OR operation of reg A and reg B and puts the result into reg C.</td><td>-</td></tr><tr><td>XOR</td><td>24</td><td>A,B,C</td><td>Does XOR operation of reg A and reg B and puts the result into reg C.</td><td>-</td></tr><tr><td>EQUAL</td><td>25</td><td>A,B,C</td><td>Does EQUAL operationg of reg A and reg B and puts the result into reg C.</td><td>-</td></tr><tr><td>LT</td><td>26</td><td>A,B,C</td><td>Does LT (less than) operation of reg A and reg B and puts the result into reg C.</td><td>-</td></tr><tr><td>GT</td><td>27</td><td>A,B,C</td><td>Does GT (greater than) operation of reg A and reg B and puts the result into reg C.</td><td>-</td></tr><tr><td>LTE</td><td>28</td><td>A,B,C</td><td>Does LTE (less or equal than) operation of reg A and reg B and puts the result into reg C.</td><td>-</td></tr><tr><td>GTE</td><td>29</td><td>A,B,C</td><td>Does GTE (great or equal than) operation of reg A and reg B and puts the result into reg C.</td><td>-</td></tr><tr><td>INC</td><td>30</td><td>A</td><td>Increments value of reg A.</td><td>-</td></tr><tr><td>DEC</td><td>31</td><td>A</td><td>Decrements value of reg A.</td><td>-</td></tr><tr><td>SIGN</td><td>32</td><td>A,B</td><td>Returns the sign (1, -1 or 0) of reg A and puts it into reg B.</td><td>-</td></tr><tr><td>NEGATE</td><td>33</td><td>A,B</td><td>Inverts the sign (1 or -1) of reg A and puts it into reg B.</td><td>-</td></tr><tr><td>ABS</td><td>34</td><td>A</td><td>Puts the absolute value of reg A into reg B.</td><td>-</td></tr><tr><td>ADD</td><td>35</td><td>A,B,C</td><td>Does ADD operation of reg A and reg B and puts the result into reg C.</td><td>-</td></tr><tr><td>SUB</td><td>36</td><td>A,B,C</td><td>Does SUB operation of reg A and reg B and puts the result into reg C.</td><td>-</td></tr><tr><td>MUL</td><td>37</td><td>A,B,C</td><td>Does MUL operation of reg A and reg B and puts the result into reg C.</td><td>-</td></tr><tr><td>DIV</td><td>38</td><td>A,B,C</td><td>Does DIV operation of reg A and reg B and puts the result into reg C.</td><td>-</td></tr><tr><td>MOD</td><td>39</td><td>A,B,C</td><td>Does MOD operation of reg A and reg B and puts the result into reg C.</td><td>-</td></tr><tr><td>SHL</td><td>40</td><td>A,B,C</td><td>Does SHL operation of reg A and reg B and puts the result into reg C.</td><td>-</td></tr><tr><td>SHR</td><td>41</td><td>A,B,C</td><td>Does SHR operation of reg A and reg B and puts the result into reg C.</td><td>-</td></tr><tr><td>MIN</td><td>42</td><td>A,B,C</td><td>Does MIN operation of reg A and reg B and puts the result into reg C.</td><td>-</td></tr><tr><td>MAX</td><td>43</td><td>A,B,C</td><td>Does MAX operation of reg A and reg B and puts the result into reg C.</td><td>-</td></tr><tr><td>POW</td><td>44</td><td>A,B,C</td><td>Does POW operation of reg A and reg B and puts the result into reg C.</td><td>-</td></tr><tr><td>CTX</td><td>45</td><td>A,B</td><td>Takes a string from reg A, and if validate context name, puts a context instance into reg B.</td><td>-</td></tr><tr><td>SWITCH</td><td>46</td><td>A</td><td>Switches execution to an external context stored in reg A.</td><td>-</td></tr><tr><td>PUT</td><td>47</td><td>A,B,C</td><td>Puts content of reg A into field of reg B, where the field name is reg C.</td><td>-</td></tr><tr><td>GET</td><td>48</td><td>A,B,C</td><td>Puts content of field of reg B into reg A, where the field name is reg C.</td><td>-</td></tr><tr><td>CLEAR</td><td>49</td><td>A</td><td>Clears reg A (makes it have value of type None).</td><td>-</td></tr><tr><td>UNPACK</td><td>50</td><td>A,B</td><td>Unpacks serialized struct stored in reg A and stores the result into reg B.</td><td>-</td></tr><tr><td>PACK</td><td>51</td><td>-</td><td>Unused for now.</td><td>-</td></tr><tr><td>DEBUG</td><td>52</td><td>-</td><td>Triggers a break when attached to a debugger, otherwise equivalent to NOP.</td><td>-</td></tr></tbody></table>
+## Gas Cost Model
 
+The VM assigns a small base gas cost per opcode before any interop-side native work is considered.
+
+The current base costs are:
+
+- `0`
+  - `NOP`, `RET`
+- `1`
+  - most ordinary opcodes
+- `5`
+  - `CALL`, `LOAD`, `PUT`, `GET`
+- `10`
+  - `EXTCALL`, `CTX`
+- `100`
+  - `SWITCH`
+
+## Full Opcode Table
+
+| Opcode | Args | Purpose | Base Gas |
+| --- | --- | --- | ---: |
+| `NOP` | - | Do nothing. | `0` |
+| `MOVE` | `src, dst` | Move a register value by reference semantics. | `1` |
+| `COPY` | `src, dst` | Copy a register value by value semantics. | `1` |
+| `PUSH` | `src` | Push a register value onto the shared stack. | `1` |
+| `POP` | `dst` | Pop the top stack value into a register. | `1` |
+| `SWAP` | `a, b` | Swap two register values. | `1` |
+| `CALL` | `count, offset` | Enter a new execution frame and jump to an offset. | `5` |
+| `EXTCALL` | `reg` | Execute a native interop method named by the register value. | `10` |
+| `JMP` | `offset` | Unconditional jump. | `1` |
+| `JMPIF` | `offset, reg` | Jump if the register evaluates to true. | `1` |
+| `JMPNOT` | `offset, reg` | Jump if the register evaluates to false. | `1` |
+| `RET` | - | Return from the current frame or context. | `0` |
+| `THROW` | `reg` | Abort execution with a VM exception. | `1` |
+| `LOAD` | `dst, type, data` | Load an immediate typed value into a register. | `5` |
+| `CAST` | `src, dst, type` | Convert a value into another VM type. | `1` |
+| `CAT` | `a, b, dst` | Concatenate values into a result. | `1` |
+| `RANGE` | `src, dst, index, length` | Extract a slice from a value. | `1` |
+| `LEFT` | `src, dst, length` | Extract the left-most portion of a value. | `1` |
+| `RIGHT` | `src, dst, length` | Extract the right-most portion of a value. | `1` |
+| `SIZE` | `src, dst` | Return the serialized RAM size of a value. | `1` |
+| `COUNT` | `src, dst` | Return the number of elements in a struct-like value. | `1` |
+| `NOT` | `src, dst` | Boolean negation. | `1` |
+| `AND` | `a, b, dst` | Boolean or bitwise AND depending on value shape. | `1` |
+| `OR` | `a, b, dst` | Boolean or bitwise OR depending on value shape. | `1` |
+| `XOR` | `a, b, dst` | Boolean or bitwise XOR depending on value shape. | `1` |
+| `EQUAL` | `a, b, dst` | Equality comparison. | `1` |
+| `LT` | `a, b, dst` | Less-than comparison. | `1` |
+| `GT` | `a, b, dst` | Greater-than comparison. | `1` |
+| `LTE` | `a, b, dst` | Less-than-or-equal comparison. | `1` |
+| `GTE` | `a, b, dst` | Greater-than-or-equal comparison. | `1` |
+| `INC` | `reg` | Increment a numeric value. | `1` |
+| `DEC` | `reg` | Decrement a numeric value. | `1` |
+| `SIGN` | `src, dst` | Return the sign of a numeric value. | `1` |
+| `NEGATE` | `src, dst` | Negate a numeric value. | `1` |
+| `ABS` | `src, dst` | Return absolute value. | `1` |
+| `ADD` | `a, b, dst` | Addition. | `1` |
+| `SUB` | `a, b, dst` | Subtraction. | `1` |
+| `MUL` | `a, b, dst` | Multiplication. | `1` |
+| `DIV` | `a, b, dst` | Division. | `1` |
+| `MOD` | `a, b, dst` | Modulo. | `1` |
+| `SHL` | `a, b, dst` | Shift left. | `1` |
+| `SHR` | `a, b, dst` | Shift right. | `1` |
+| `MIN` | `a, b, dst` | Return the smaller value. | `1` |
+| `MAX` | `a, b, dst` | Return the larger value. | `1` |
+| `POW` | `a, b, dst` | Exponentiation. | `1` |
+| `CTX` | `src, dst` | Resolve a named execution context. | `10` |
+| `SWITCH` | `reg` | Switch execution into a resolved context. | `100` |
+| `PUT` | `value, target, field` | Write a field into a struct-like target. | `5` |
+| `GET` | `dst, target, field` | Read a field from a struct-like target. | `5` |
+| `CLEAR` | `reg` | Reset a register to `None`. | `1` |
+| `UNPACK` | `src, dst` | Decode a serialized struct-like value. | `1` |
+| `PACK` | - | Reserved; currently unused. | `1` |
+| `DEBUG` | - | Debug breakpoint opcode. In code this is stored as `DEBUG_`. | `1` |
+
+## Notes For Contract Authors
+
+- `EXTCALL` is how VM code reaches native chain functionality such as token transfers, storage helpers, and contract lifecycle operations.
+- `CTX` and `SWITCH` are what make cross-context contract calls and trigger execution possible.
+- `PACK` is still effectively unused in the current implementation.
+- The base opcode gas above is only part of the final transaction cost. Heavy interops can add much larger native gas charges.

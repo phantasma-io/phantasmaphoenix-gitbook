@@ -1,6 +1,108 @@
 # External Calls
 
-All the external / interop calls that can be made using a script builder.
+Script Builder reaches native chain functionality through VM interop calls. In bytecode terms this is the same `EXTCALL` mechanism documented in the VM section, but from a developer point of view it is easier to think of these as named external methods such as:
 
-<table data-view="cards"><thead><tr><th>Method</th><th>Arguments</th><th>Description</th><th>Gas cost</th></tr></thead><tbody><tr><td>Runtime.TransactionHash</td><td>None</td><td>Returns the Transaction Hash</td><td>-</td></tr><tr><td>Runtime.Time</td><td>None</td><td>Returns the Time of the VM</td><td>-</td></tr><tr><td>Runtime.Version</td><td>None</td><td>Returns the Version of the Chain</td><td></td></tr><tr><td>Runtime.GasTarget</td><td>None</td><td>Returns the Gas Target of the execution</td><td>-</td></tr><tr><td>Runtime.Validator</td><td>None</td><td>Returns the Active Validator for that transaction</td><td>-</td></tr><tr><td>Runtime.Context</td><td>None</td><td>Returns the Current context</td><td>-</td></tr><tr><td>Runtime.PreviousContext</td><td>None</td><td>Returns the Previous Context</td><td>-</td></tr><tr><td>Runtime.GenerateUID</td><td>None</td><td>Returns the generated UID</td><td>-</td></tr><tr><td>Runtime.IsWitness</td><td>from: Address</td><td>Returns true of false depending if it's valid or not.</td><td>-</td></tr><tr><td>Runtime.IsTrigger</td><td>None</td><td>Returns If it's a trigger.</td><td>-</td></tr><tr><td>Runtime.IsMinter</td><td>from: Address, symbol: String</td><td>Returns If it's a trigger.</td><td>-</td></tr><tr><td>Runtime.Log</td><td>String</td><td>To log a message on Runtime, Mostly used for Smart Contract </td><td>-</td></tr><tr><td>Runtime.Notify</td><td>EventKind, address, Object</td><td>Emit an Notification on the transaction.</td><td>-</td></tr><tr><td>Runtime.DeployContract</td><td>from : Address,<br>contractName: String,<br>contractScript: Bytes,<br>contractABI: Bytes</td><td>Deploy's a smart contract to the chain.</td><td>-</td></tr><tr><td>Runtime.UpgradeContract</td><td>from : Address,<br>contractName: String,<br>contractScript: Bytes,<br>contractABI: Bytes</td><td>Upgrade's a Token/Smart Contract on the chain.</td><td>-</td></tr><tr><td>Runtime.KillContract</td><td>from : Address, contractName: String</td><td>Remove's a smart contract from the chain.</td><td>-</td></tr><tr><td>Runtime.GetBalance</td><td>from: Address, symbol: String</td><td>Returns the balance for that Address of that symbol.</td><td>-</td></tr><tr><td>Runtime.TransferTokens</td><td>source: Address, destination: Address, symbol: String, <br>amount: Number</td><td>Transfer's a specific amount of tokens from one address to the other.</td><td>-</td></tr><tr><td>Runtime.TransferBalance</td><td>source: Address, destination: Address, symbol: String</td><td>Transfer all of the tokens from one address to the other.</td><td>-</td></tr><tr><td>Runtime.MintTokens</td><td>source: Address, destination: Address, symbol: String, <br>amount: Number</td><td>Mints Tokens</td><td>-</td></tr><tr><td>Runtime.BurnTokens</td><td>source: Address, <br>symbol: String, <br>amount: Number</td><td>Burn tokens</td><td>-</td></tr><tr><td>Runtime.SwapTokens</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Runtime.TransferToken</td><td>source: Address, destination: Address, symbol: String, <br>tokenID: Number</td><td>Transfer NFT to another Address</td><td>-</td></tr><tr><td>Runtime.MintToken</td><td>source: Address, destination: Address, symbol: String, <br>rom: Bytes,<br>ram: Bytes,<br>seriesID: Number</td><td>Mint's a NFT</td><td>-</td></tr><tr><td>Runtime.BurnToken</td><td>source: Address, <br>symbol: String, <br>tokenID: Number</td><td>Burns an NFT</td><td>-</td></tr><tr><td>Runtime.InfuseToken</td><td>source: Address,<br>targetSymbol: String, tokenID: Number, <br>infuseSymbol: String,<br>value: Number</td><td>Infuses an NFT it can be infused with NFT or Tokens</td><td>-</td></tr><tr><td>Runtime.ReadTokenROM</td><td>symbol: String,<br>tokenID: Number</td><td>Read's the Token ROM of an NFT</td><td>-</td></tr><tr><td>Runtime.ReadTokenRAM</td><td>symbol: String,<br>tokenID: Number</td><td>Read's the Token RAM of an NFT</td><td>-</td></tr><tr><td>Runtime.ReadToken</td><td>symbol: String,<br>tokenID: Number</td><td>Read's a Token</td><td>-</td></tr><tr><td>Runtime.WriteToken</td><td>from: Address,<br>symbol: String,<br>tokenID: Number,<br>ram: Bytes</td><td>Write a token (Update NFT)</td><td>-</td></tr><tr><td>Runtime.TokenExists</td><td>symbol: String</td><td>Returns if the Token Exists</td><td>-</td></tr><tr><td>Runtime.GetTokenDecimals</td><td>symbol: String</td><td>Returns the Token Decimals</td><td>-</td></tr><tr><td>Runtime.GetTokenFlags</td><td>symbol: String</td><td>Returns the tokens flags.</td><td>-</td></tr><tr><td>Runtime.GetTokenSupply</td><td>symbol: String</td><td>Returns the Token Supply</td><td></td></tr><tr><td>Runtime.GetAvailableTokenSymbols</td><td>None</td><td>Returns an array with all of the available token symbols</td><td></td></tr><tr><td>Runtime.AESDecrypt</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Runtime.AESEncrypt</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Nexus.BeginInit</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Nexus.EndInit</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Nexus.MigrateToken</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Nexus.CreateToken</td><td>owner: Address,<br>script: Bytes,<br>abi: Bytes</td><td>Creates a Token, not a smart contract.</td><td>-</td></tr><tr><td>Nexus.CreateTokenSeries</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Nexus.CreateChain</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Nexus.CreatePlatform</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Nexus.CreateOrganization</td><td>source: Address,<br>ID: String,<br>name: String,<br>script: Bytes</td><td>Create's an Organization</td><td>-</td></tr><tr><td>Nexus.SetPlatformTokenHash</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Organization.AddMember</td><td>source: Address,<br>name: String,<br>target: Address</td><td>Add Member to an Organization.</td><td>-</td></tr><tr><td>Organization.RemoveMember</td><td>source: Address,<br>name: String,<br>target: Address</td><td>Remove member from an Organization.</td><td>-</td></tr><tr><td>Organization.Kill</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Task.Start</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Task.Stop</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Task.Get</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Task.Current</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Data.Get</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Data.Set</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Data.Delete</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Map.Has</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Map.Get</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Map.Set</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Map.Remove</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Map.Count</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Map.Clear</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Map.Keys</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>List.Get</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>List.Add</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>List.Replace</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>List.RemoveAt</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>List.Count</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>List.Clear</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Account.Name</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Account.LastActivity</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Account.Transactions</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Oracle.Read</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Oracle.Price</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Oracle.Quote</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>ABI()</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Address()</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Hash()</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Timestamp()</td><td>-</td><td>TODO</td><td>-</td></tr></tbody></table>
+- `Runtime.TransferTokens`
+- `Runtime.MintToken`
+- `Nexus.CreateToken`
+- `Data.Get`
+- `Map.Set`
 
+The authoritative behavior is documented in the VM interop reference:
+
+- [../blockchain/chain/information/virtual-machine/interop.md](../blockchain/chain/information/virtual-machine/interop.md)
+
+This page focuses on how to use that surface from script-building code.
+
+## How External Calls Work
+
+At a high level, a script:
+
+1. pushes arguments to the VM stack
+2. pushes the interop method name
+3. executes `EXTCALL`
+
+If you are using a helper library or Script Builder abstraction, it usually hides the raw stack manipulation and gives you a direct helper such as `CallInterop("Runtime.TransferTokens", ...)`.
+
+## Interop Namespaces You Can Rely On Today
+
+The current Carbon validator supports useful working surfaces in these namespaces:
+
+- `Runtime.*`
+  - context helpers, logging, token operations, NFT operations, contract deploy and upgrade
+- `Nexus.*`
+  - token-backed create, token-backed attach, token series creation
+- `Data.*`
+  - scalar contract storage
+- `Map.*`
+  - map-like contract storage
+- `List.*`
+  - list-like contract storage
+- `Account.Name`
+  - governance name lookup
+- constructors
+  - `Address()`, `Hash()`, `Timestamp()`
+
+## Important Working Flows
+
+### Standalone custom contract lifecycle
+
+- `Runtime.DeployContract(from, contractName, script, abi)`
+- `Runtime.UpgradeContract(from, contractName, script, abi)`
+
+Use lowercase custom contract names for these flows.
+
+### Token-backed contract lifecycle
+
+- `Nexus.CreateToken(from, script, abi)`
+- `Nexus.AttachTokenContract(from, symbol, script, abi)`
+- `Runtime.UpgradeContract(from, contractName, script, abi)`
+
+Use these for uppercase token symbols. Do not try to deploy an uppercase token-backed contract through `Runtime.DeployContract`.
+
+### Fungible token operations
+
+- `Runtime.GetBalance`
+- `Runtime.TransferTokens`
+- `Runtime.TransferBalance`
+- `Runtime.MintTokens`
+- `Runtime.BurnTokens`
+
+### NFT operations
+
+- `Runtime.GetOwnerships`
+- `Runtime.TransferToken`
+- `Runtime.MintToken`
+- `Runtime.BurnToken`
+- `Runtime.InfuseToken`
+- `Runtime.ReadToken`
+- `Runtime.ReadTokenROM`
+- `Runtime.ReadTokenRAM`
+- `Runtime.ReadInfusions`
+- `Nexus.CreateTokenSeries`
+
+### Contract storage
+
+- `Data.Get`, `Data.Set`, `Data.Delete`
+- `Map.Has`, `Map.Get`, `Map.Set`, `Map.Remove`, `Map.Count`, `Map.Clear`, `Map.Keys`
+- `List.Get`, `List.Add`, `List.Replace`, `List.RemoveAt`, `List.Count`, `List.Clear`
+
+## Methods That Still Exist In Old Tables But Are Not Ready
+
+Do not write new examples around these yet:
+
+- `Runtime.KillContract`
+- `Runtime.SwapTokens`
+- `Runtime.WriteToken`
+- `Runtime.AESDecrypt`
+- `Runtime.AESEncrypt`
+- `Organization.*`
+- `Oracle.*`
+- `Task.*`
+- several older `Nexus.*` names such as `CreateChain` and `CreateOrganization`
+
+## Practical Advice
+
+- Use the VM interop reference for exact current behavior.
+- If you are building deployment tooling, prefer `pha-deploy` or the Token Deployment UI instead of hand-authoring raw lifecycle scripts unless you actually need low-level control.
+- When you do write raw scripts, separate standalone contract flows from token-backed flows in your own code and documentation. They are different validator paths on purpose.

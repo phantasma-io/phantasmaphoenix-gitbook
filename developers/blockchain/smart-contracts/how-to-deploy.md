@@ -5,62 +5,112 @@ description: Here, we will provide information on how to deploy your Smart Contr
 # How to Deploy
 
 {% hint style="info" %}
-**Are you ready?** Do you have your smart contract ready? the **.pvm** & **.abi** file?
-
-If not, go and compile it with Phoenix Smart Language Compiler.
+Before deployment, compile your source with `pha-tomb` and make sure you have the generated `.pvm` and `.abi` artifacts.
 {% endhint %}
 
-## Using Cman
+## Step 1: decide which flow you actually need
 
-For using Cman, we need to compile it, or download the Published files at the repository.\
-Step by step on how to do it.
+This is the most common source of deployment errors.
 
-1. Download the Published (Compiled) files.
-2. Extract them to a folder.
-3. Enter the folder, open up the terminal or command line there.
-4. Now let's type some commands:
+### Standalone custom contract
 
+Use this for lowercase custom contract names such as `my_contract`.
+
+Tool:
+- `pha-deploy contract deploy`
+
+### New token-backed contract
+
+Use this for uppercase token symbols such as `MYTOKEN`.
+
+Tool:
+- `pha-deploy --create-token`
+
+### Attach VM code to an existing token
+
+Use this when the token already exists on-chain and you now want to bind VM code to it.
+
+Tool:
+- `pha-deploy contract attach`
+
+### Upgrade an existing contract
+
+Use this after the contract already exists on-chain.
+
+Tool:
+- `pha-deploy contract upgrade`
+
+## Step 2: compile the contract
+
+Example:
+
+```bash
+pha-tomb output:./build protocol:19 debug nativecheck:error my_contract.tomb
 ```
-cman.exe deploy --contract "/path/to/the/.pvm" --wif "yourWif" --rpc-url "http://127.0.0.1:5101/rpc" --nexus "testnet"
+
+This generates artifacts under `./build/Output/`.
+
+Typical outputs:
+- `my_contract.pvm`
+- `my_contract.abi`
+- optional `my_contract.debug`
+- optional `my_contract.asm`
+
+## Step 3: deploy with the correct tool
+
+### Standalone custom contract
+
+```bash
+pha-deploy contract deploy \
+  --rpc https://testnet.phantasma.info/rpc \
+  --nexus testnet \
+  --chain main \
+  --wif <wif> \
+  --contract-name my_contract \
+  --script ./build/Output/my_contract.pvm \
+  --abi ./build/Output/my_contract.abi
 ```
 
-### Arguments explanation
+### Upgrade a standalone custom contract
 
-All the arguments that can be used.
+```bash
+pha-deploy contract upgrade \
+  --rpc https://testnet.phantasma.info/rpc \
+  --nexus testnet \
+  --chain main \
+  --wif <wif> \
+  --contract-name my_contract \
+  --script ./build/Output/my_contract.pvm \
+  --abi ./build/Output/my_contract.abi
+```
 
-* `--contract <value>` -> attribute to select the path to the contract .pvm (`/path/to/some/contract.pvm`).
-* `--rpc-url <value>` -> attribute to select the rpc url.
-* `--wif <value>` -> attribute to set the wif of the wallet used to deploy the contact.
-* `--nexus <value>` -> attribute to select the nexus name.
-* `--token` -> attribute to deploy if the smart contract is a token
-* `--update` -> attribute to update the smart contract previously deployed
+### Attach VM code to an existing token
 
-## Using Phantasma HUB
+```bash
+pha-deploy contract attach \
+  --rpc https://testnet.phantasma.info/rpc \
+  --nexus testnet \
+  --chain main \
+  --wif <wif> \
+  --symbol MYTOKEN \
+  --script ./build/Output/MYTOKEN.pvm \
+  --abi ./build/Output/MYTOKEN.abi
+```
 
-Go to the Phantasma HUB where you can deploy your contract and do much more than that!
+### Create a new token-backed contract
 
-{% embed url="https://contract.phantasma.info/" %}
-Phantasma - Hub
-{% endembed %}
+For a new token-backed contract, do not use `contract deploy`.
 
+Use:
+- `pha-deploy --create-token`
 
+See:
+- [pha-deploy](../../tools/pha-deploy.md)
 
-1. Go to the contract Management Tab
+## Important validator rules
 
-<figure><img src="../../../.gitbook/assets/Screenshot 2023-04-14 at 10.27.42.png" alt=""><figcaption><p>Tab</p></figcaption></figure>
-
-2. Now select Deploy contract ( This would be the same for updating the contract )&#x20;
-
-<figure><img src="../../../.gitbook/assets/Screenshot 2023-04-14 at 10.29.10.png" alt=""><figcaption><p>Deploy new contract</p></figcaption></figure>
-
-3. Fill the Contract/Token name, upload the .pvm and .abi files
-
-<figure><img src="../../../.gitbook/assets/Screenshot 2023-04-14 at 10.30.33.png" alt=""><figcaption><p>Fill the data</p></figcaption></figure>
-
-{% hint style="info" %}
-**Don't forget:** Don't forget to connect your wallet and then you can deploy your token or contract.&#x20;
-{% endhint %}
-
-4. Deploy to the chain.
-
-<figure><img src="../../../.gitbook/assets/Screenshot 2023-04-14 at 10.33.36.png" alt=""><figcaption><p>Deploy</p></figcaption></figure>
+- `contract deploy` is for lowercase custom contracts.
+- Uppercase token symbols belong to token-backed flows.
+- `contract attach` expects an already existing token.
+- Token-backed contracts must satisfy token validation rules, including the required trigger surface such as `onMint`.
+- For NFT tokens, series creation is still a separate step after token creation or attach.

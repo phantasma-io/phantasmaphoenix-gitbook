@@ -1,22 +1,24 @@
 # Token Deployment UI
 
-The Token Deployment frontend lets you deploy Carbon fungible/NFT tokens, create NFT series, and mint NFTs without writing code.
+The Token Deployment frontend lets you create native Carbon assets and manage VM contract lifecycle from one screen.
 
 ## Choose the right network
 
-Use the site that matches your target network and switch your wallet to the same Phantasma nexus (Settings -> Nexus in PGL):
+Use the site that matches your target network and switch your wallet to the same Phantasma nexus:
 
 - Mainnet: [https://deploy.phantasma.info](https://deploy.phantasma.info) (wallet nexus: Main Net)
 - Testnet: [https://deploy-testnet.phantasma.info](https://deploy-testnet.phantasma.info) (wallet nexus: Test Net)
 - Devnet: [https://deploy-devnet.phantasma.info](https://deploy-devnet.phantasma.info) (wallet nexus: Dev Net)
 
-If the wallet nexus does not match the site, you will see data from one network but sign on another. That causes inconsistent results or failed transactions. Always align them.
+If the wallet nexus does not match the site, the UI can show data from one network while the wallet tries to sign for another. The current contract lifecycle flow fails fast on this mismatch. Always align them.
 
 ## Before you start
 
-- Use a Phantasma Link [wallet](https://phantasma.info/blockchain/#wallets) (Poltergeist Lite or compatible) with Carbon support.
-- Make sure you have enough KCAL for gas and enough SOUL for data escrow (maxData). The UI shows both in the Fees & limits panels (see the Fees section below).
+- Use a Phantasma Link [wallet](https://phantasma.info/blockchain/#wallets) (Poltergeist Lite or compatible).
+- For contract lifecycle flows, use local socket transport. Current injected wallet transport is not suitable for these PoW-backed VM transactions.
+- Make sure you have enough KCAL for gas and enough SOUL for data escrow (maxData) when working with Carbon token flows. The UI shows both in the Fees & limits panels (see the Fees section below).
 - Prepare a small token icon as a base64 data URI (PNG, JPEG, or WebP). Size limits are listed below.
+- For contract lifecycle flows, prepare matching compiled `.pvm` and `.abi` artifacts from `pha-tomb`.
 
 <a id="fees-kcal"></a>
 ## Fees: KCAL + SOUL (default estimates)
@@ -56,6 +58,15 @@ How it works (chain behavior):
 UI specifics:
 - **Max data (SOUL)** expects an integer in SOUL base units (1 SOUL = 100,000,000 base units).
 - **Estimated totals (max)** shows both the human SOUL value and the base units for clarity.
+
+## Token flows
+
+The **Token** tab covers native Carbon asset flows:
+- deploy a fungible token
+- deploy an NFT token
+- create NFT series
+- mint NFTs
+- infuse NFTs
 
 ## Deploy a token
 
@@ -162,6 +173,80 @@ Royalties input:
 5. If RAM schema exists, fill RAM fields too.
 6. Sign the transaction. The UI will display minted NFT addresses and the Phantasma ID.
 
+## Contract lifecycle
+
+The **Contract** tab is separate from the native Carbon token form. It is used for VM contract lifecycle.
+
+Current flows:
+- **Deploy -> Custom contract**
+- **Deploy -> Attach contract to existing token**
+- **Upgrade -> Custom contract**
+- **Upgrade -> Token-backed contract**
+
+### Use the correct flow
+
+#### Deploy -> Custom contract
+
+Use this for a standalone lowercase custom contract such as `custom_contract`.
+
+This is the frontend equivalent of:
+- `pha-deploy contract deploy`
+
+#### Upgrade -> Custom contract
+
+Use this to upgrade an existing standalone lowercase custom contract.
+
+This is the frontend equivalent of:
+- `pha-deploy contract upgrade`
+
+#### Deploy -> Attach contract to existing token
+
+Use this when the token already exists and you want to bind VM code to it.
+
+This is the frontend equivalent of:
+- `pha-deploy contract attach`
+
+Requirements:
+- select the existing token in the left panel first
+- upload matching `.pvm` and `.abi`
+- the contract must be compatible with the existing token
+- token-backed contracts must implement `onMint`
+
+#### Upgrade -> Token-backed contract
+
+Use this only after VM code is already attached to that token or the token was created through a token-backed contract flow.
+
+The selected token symbol is reused as the contract target during upgrade.
+
+### Contract naming rules
+
+- Custom contract flows expect a lowercase custom contract name.
+- Token-backed flows reuse the selected token symbol.
+- Uppercase token symbols are not custom contract names.
+
+### Contract artifacts
+
+The frontend expects compiled artifacts:
+- `.pvm`
+- `.abi`
+
+The UI reads both files client-side and submits them through the connected wallet.
+
+### Proof of work and transport
+
+Contract lifecycle transactions use the VM transaction envelope and require Proof of Work.
+
+Current practical rule:
+- use local socket transport for these flows
+- avoid injected wallet transport for contract lifecycle
+
+### NFT note
+
+For NFT collections, attaching or upgrading VM code is still separate from series creation:
+- first create the token or attach VM code
+- then create series
+- then mint NFTs
+
 <a id="troubleshooting"></a>
 ## Troubleshooting
 
@@ -169,3 +254,6 @@ Royalties input:
 - **Symbol validation error**: use only A-Z with no digits or symbols.
 - **Icon rejected**: not a valid data URI or the file is too large.
 - **No series available**: create a series first.
+- **Custom contract name rejected**: custom contract flows require lowercase names. Use token attach or token-backed upgrade for uppercase token symbols.
+- **Attach fails with `needs to implement onMint`**: the uploaded token-backed contract does not expose the required `onMint` trigger.
+- **Contract flow says local socket is required**: switch to a local socket wallet session for VM contract lifecycle actions.

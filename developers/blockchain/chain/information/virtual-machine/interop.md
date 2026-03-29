@@ -1,12 +1,186 @@
 # Interop
 
-The interop calls work as a brige that allows the VM scripts to access Phantasma features written in native code.
+Interop calls are the bridge between VM bytecode and native chain functionality. A script uses `EXTCALL` with a method name such as `Runtime.TransferTokens` or `Data.Get`, and the validator handles the real token, NFT, storage, or contract lifecycle operation in native code.
 
-To do an interop call, a script should push all necessary arguments into the stack, put a method name into a register then use the CTX opcode followed by the SWITCH opcode.
+This page reflects the current Carbon validator behavior. It is not a wishlist and it is not an archival Gen2 table.
 
-As interop calls do more work than normal opcodes, the gas cost is usually much larger than simpler operations.
+## How To Think About Interop
 
-For deeper diving, the code implementation of the interop calls is available at [Github](https://github.com/phantasma-io/PhantasmaChain/blob/master/Phantasma.Blockchain/ExtCalls.cs).
+Interop methods fall into three practical buckets:
 
-<table data-view="cards"><thead><tr><th>Method</th><th>Arguments</th><th>Description</th><th>Gas cost</th></tr></thead><tbody><tr><td>Runtime.TransactionHash</td><td>None</td><td>Returns the Transaction Hash</td><td>-</td></tr><tr><td>Runtime.Time</td><td>None</td><td>Returns the Time of the VM</td><td>-</td></tr><tr><td>Runtime.Version</td><td>None</td><td>Returns the Version of the Chain</td><td></td></tr><tr><td>Runtime.GasTarget</td><td>None</td><td>Returns the Gas Target of the execution</td><td>-</td></tr><tr><td>Runtime.Validator</td><td>None</td><td>Returns the Active Validator for that transaction</td><td>-</td></tr><tr><td>Runtime.Context</td><td>None</td><td>Returns the Current context</td><td>-</td></tr><tr><td>Runtime.PreviousContext</td><td>None</td><td>Returns the Previous Context</td><td>-</td></tr><tr><td>Runtime.GenerateUID</td><td>None</td><td>Returns the generated UID</td><td>-</td></tr><tr><td>Runtime.IsWitness</td><td>from: Address</td><td>Returns true of false depending if it's valid or not.</td><td>-</td></tr><tr><td>Runtime.IsTrigger</td><td>None</td><td>Returns If it's a trigger.</td><td>-</td></tr><tr><td>Runtime.IsMinter</td><td>from: Address, symbol: String</td><td>Returns If it's a trigger.</td><td>-</td></tr><tr><td>Runtime.Log</td><td>String</td><td>To log a message on Runtime, Mostly used for Smart Contract </td><td>-</td></tr><tr><td>Runtime.Notify</td><td>EventKind, address, Object</td><td>Emit an Notification on the transaction.</td><td>-</td></tr><tr><td>Runtime.DeployContract</td><td>from : Address,<br>contractName: String,<br>contractScript: Bytes,<br>contractABI: Bytes</td><td>Deploy's a smart contract to the chain.</td><td>-</td></tr><tr><td>Runtime.UpgradeContract</td><td>from : Address,<br>contractName: String,<br>contractScript: Bytes,<br>contractABI: Bytes</td><td>Upgrade's a Token/Smart Contract on the chain.</td><td>-</td></tr><tr><td>Runtime.KillContract</td><td>from : Address, contractName: String</td><td>Remove's a smart contract from the chain.</td><td>-</td></tr><tr><td>Runtime.GetBalance</td><td>from: Address, symbol: String</td><td>Returns the balance for that Address of that symbol.</td><td>-</td></tr><tr><td>Runtime.TransferTokens</td><td>source: Address, destination: Address, symbol: String, <br>amount: Number</td><td>Transfer's a specific amount of tokens from one address to the other.</td><td>-</td></tr><tr><td>Runtime.TransferBalance</td><td>source: Address, destination: Address, symbol: String</td><td>Transfer all of the tokens from one address to the other.</td><td>-</td></tr><tr><td>Runtime.MintTokens</td><td>source: Address, destination: Address, symbol: String, <br>amount: Number</td><td>Mints Tokens</td><td>-</td></tr><tr><td>Runtime.BurnTokens</td><td>source: Address, <br>symbol: String, <br>amount: Number</td><td>Burn tokens</td><td>-</td></tr><tr><td>Runtime.SwapTokens</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Runtime.TransferToken</td><td>source: Address, destination: Address, symbol: String, <br>tokenID: Number</td><td>Transfer NFT to another Address</td><td>-</td></tr><tr><td>Runtime.MintToken</td><td>source: Address, destination: Address, symbol: String, <br>rom: Bytes,<br>ram: Bytes,<br>seriesID: Number</td><td>Mint's a NFT</td><td>-</td></tr><tr><td>Runtime.BurnToken</td><td>source: Address, <br>symbol: String, <br>tokenID: Number</td><td>Burns an NFT</td><td>-</td></tr><tr><td>Runtime.InfuseToken</td><td>source: Address,<br>targetSymbol: String, tokenID: Number, <br>infuseSymbol: String,<br>value: Number</td><td>Infuses an NFT it can be infused with NFT or Tokens</td><td>-</td></tr><tr><td>Runtime.ReadTokenROM</td><td>symbol: String,<br>tokenID: Number</td><td>Read's the Token ROM of an NFT</td><td>-</td></tr><tr><td>Runtime.ReadTokenRAM</td><td>symbol: String,<br>tokenID: Number</td><td>Read's the Token RAM of an NFT</td><td>-</td></tr><tr><td>Runtime.ReadToken</td><td>symbol: String,<br>tokenID: Number</td><td>Read's a Token</td><td>-</td></tr><tr><td>Runtime.WriteToken</td><td>from: Address,<br>symbol: String,<br>tokenID: Number,<br>ram: Bytes</td><td>Write a token (Update NFT)</td><td>-</td></tr><tr><td>Runtime.TokenExists</td><td>symbol: String</td><td>Returns if the Token Exists</td><td>-</td></tr><tr><td>Runtime.GetTokenDecimals</td><td>symbol: String</td><td>Returns the Token Decimals</td><td>-</td></tr><tr><td>Runtime.GetTokenFlags</td><td>symbol: String</td><td>Returns the tokens flags.</td><td>-</td></tr><tr><td>Runtime.AESDecrypt</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Runtime.AESEncrypt</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Nexus.BeginInit</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Nexus.EndInit</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Nexus.MigrateToken</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Nexus.CreateToken</td><td>owner: Address,<br>script: Bytes,<br>abi: Bytes</td><td>Creates a Token, not a smart contract.</td><td>-</td></tr><tr><td>Nexus.CreateTokenSeries</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Nexus.CreateChain</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Nexus.CreatePlatform</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Nexus.CreateOrganization</td><td>source: Address,<br>ID: String,<br>name: String,<br>script: Bytes</td><td>Create's an Organization</td><td>-</td></tr><tr><td>Nexus.SetPlatformTokenHash</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Organization.AddMember</td><td>source: Address,<br>name: String,<br>target: Address</td><td>Add Member to an Organization.</td><td>-</td></tr><tr><td>Organization.RemoveMember</td><td>source: Address,<br>name: String,<br>target: Address</td><td>Remove member from an Organization.</td><td>-</td></tr><tr><td>Organization.Kill</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Task.Start</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Task.Stop</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Task.Get</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Task.Current</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Data.Get</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Data.Set</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Data.Delete</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Map.Has</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Map.Get</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Map.Set</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Map.Remove</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Map.Count</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Map.Clear</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Map.Keys</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>List.Get</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>List.Add</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>List.Replace</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>List.RemoveAt</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>List.Count</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>List.Clear</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Account.Name</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Account.LastActivity</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Account.Transactions</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Oracle.Read</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Oracle.Price</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Oracle.Quote</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>ABI()</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Address()</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Hash()</td><td>-</td><td>TODO</td><td>-</td></tr><tr><td>Timestamp()</td><td>-</td><td>TODO</td><td>-</td></tr></tbody></table>
+- fully implemented and safe to rely on
+- implemented but narrow, with important behavior notes
+- not implemented yet and currently rejected
 
+The rest of this page is organized that way.
+
+## Runtime Context And Utility
+
+These methods are currently available.
+
+| Method | Args | Status | Notes |
+| --- | --- | --- | --- |
+| `Runtime.GasTarget` | none | implemented | Returns the gas target address for the current execution. |
+| `Runtime.Context` | none | implemented | Requires a real current context; rejects if context is not available yet. |
+| `Runtime.PreviousContext` | none | implemented | Returns the parent context name. |
+| `Runtime.IsTrigger` | none | implemented | Returns whether the current execution is inside a trigger path. |
+| `Runtime.GenerateUID` | none | implemented | Monotonic within execution; used to preserve expected UID semantics across interop calls. |
+| `Runtime.Time` | none | implemented | Returns current block time as VM timestamp. |
+| `Runtime.Version` | none | implemented | Returns current VM behavior version. |
+| `Runtime.IsWitness` | `address` | implemented | Checks whether the address is currently witnessed. |
+| `Runtime.Log` | `message` | implemented | Emits a VM-side log line. |
+| `Runtime.Notify` | `eventKind, address, payload` | implemented | Requires a real deployed contract context; emits a contract event payload. |
+
+These names exist in older tables but are not implemented in the current validator and should not be documented as working:
+
+- `Runtime.TransactionHash`
+- `Runtime.Validator`
+- `Runtime.Random`
+- `Runtime.SetSeed`
+- `Runtime.IsMinter`
+
+## Contract Lifecycle
+
+| Method | Args | Status | Notes |
+| --- | --- | --- | --- |
+| `Runtime.DeployContract` | `from, contractName, script, abi` | implemented | Deploys a standalone custom contract. Requires minimal proof of work. Custom names are lowercase. |
+| `Runtime.UpgradeContract` | `from, contractName, script, abi` | implemented | Upgrades an existing deployed contract. Also used later for token-backed contracts after they already exist. Requires minimal proof of work. |
+| `Runtime.KillContract` | `from, contractName` | not implemented | Do not document as a working flow yet. |
+| `Nexus.CreateToken` | `from, script, abi` | implemented | Creates a new token-backed contract from contract metadata. Requires minimal proof of work. |
+| `Nexus.AttachTokenContract` | `from, symbol, script, abi` | implemented | Attaches VM code to an already existing token. Requires minimal proof of work and current validator version support. |
+
+Important lifecycle rules:
+
+- `Runtime.DeployContract` is for standalone custom contracts, not uppercase token symbols.
+- `Nexus.CreateToken` is the install path for a new token-backed contract.
+- `Nexus.AttachTokenContract` is the install path for an existing token that does not yet have VM code attached.
+- `Runtime.UpgradeContract` is the later update path for both standalone contracts and already-installed token-backed contracts.
+- Token-backed create and attach flows require a valid token contract shape. In practice, `onMint` is mandatory.
+
+## Fungible Token Operations
+
+| Method | Args | Status | Notes |
+| --- | --- | --- | --- |
+| `Runtime.GetBalance` | `address, symbol` | implemented | Returns the current fungible balance. |
+| `Runtime.TransferTokens` | `source, destination, symbol, amount` | implemented | Main fungible transfer interop. |
+| `Runtime.TransferBalance` | `source, destination, symbol` | implemented | Transfers the full current balance for that symbol. |
+| `Runtime.MintTokens` | `source, destination, symbol, amount` | implemented | Current Carbon implementation includes trigger-aware atomic behavior. |
+| `Runtime.BurnTokens` | `address, symbol, amount` | implemented | Gas charging changed over time; current validator behavior is the source of truth. |
+| `Runtime.SwapTokens` | - | not implemented | Still rejected. |
+
+## NFT And Token-Backed Operations
+
+| Method | Args | Status | Notes |
+| --- | --- | --- | --- |
+| `Runtime.GetOwnerships` | `address, symbol` | implemented | NFT-only. Returns a deterministic `BigInteger[]`-style VM object of owned Phantasma NFT IDs. |
+| `Runtime.TransferToken` | `source, destination, symbol, tokenID` | implemented | Uses runtime-visible Phantasma NFT IDs, not raw Carbon instance IDs. |
+| `Runtime.MintToken` | `source, destination, symbol, rom, ram, seriesID` | implemented | Uses Phantasma series metadata IDs and preserves VM-facing ROM behavior. Triggers `onMint` when token-backed contract code exists. |
+| `Runtime.BurnToken` | `source, symbol, tokenID` | implemented | NFT burn path. |
+| `Runtime.InfuseToken` | `source, targetSymbol, tokenID, infuseSymbol, value` | implemented | Current docs should describe this as the supported infuse path, not as a TODO. |
+| `Runtime.ReadTokenROM` | `symbol, tokenID` | implemented | Reads runtime-visible ROM. |
+| `Runtime.ReadTokenRAM` | `symbol, tokenID` | implemented | Reads runtime-visible RAM. |
+| `Runtime.ReadToken` | `symbol, tokenID[, fields]` | implemented | Returns a map-like VM object for requested fields. Defaults to `chain,owner,creator,ROM,RAM,tokenID,seriesID,mintID,infusion`. |
+| `Runtime.ReadInfusions` | `symbol, tokenID` | implemented | Rebuilds Phantasma-style infusion view from current Carbon balances. |
+| `Runtime.WriteToken` | `from, symbol, tokenID, ram` | not implemented | Still explicitly left as future parity work. |
+
+For `Runtime.ReadToken` and related NFT interops, the current validator intentionally treats the public Phantasma NFT ID as the runtime identity. Internal Carbon instance IDs stay an internal storage detail.
+
+## Token Metadata And Discovery
+
+| Method | Args | Status | Notes |
+| --- | --- | --- | --- |
+| `Runtime.TokenExists` | `symbol` | implemented | Returns `false` for unknown symbols instead of hard failing. |
+| `Runtime.GetTokenDecimals` | `symbol` | implemented | Reads token decimals from current token metadata. |
+| `Runtime.GetTokenFlags` | `symbol` | implemented | Reads current token flags. |
+| `Runtime.GetTokenOwner` | `symbol` | implemented | Returns the current token owner address object. |
+
+Older public tables sometimes mention `Runtime.GetTokenSupply` or `Runtime.GetAvailableTokenSymbols`. Those methods are not part of the current Carbon VM interop surface and should not be documented as available.
+
+## NFT Series
+
+| Method | Args | Status | Notes |
+| --- | --- | --- | --- |
+| `Nexus.CreateTokenSeries` | `from, symbol, seriesID, maxSupply, mode, script, abi` | implemented | Uses Phantasma metadata `_i` for series identity and validates the caller before running `onSeries`. |
+
+Important notes:
+
+- series creation is separate from token creation or token attach
+- same-token token-backed series flows preserve both token identity and outer user witness where required
+- series metadata persists canonical Phantasma fields for later runtime use
+
+## Contract Storage
+
+These are the storage primitives contract authors rely on most.
+
+| Method | Args | Status | Notes |
+| --- | --- | --- | --- |
+| `Data.Get` | `contractName, field, vmType` | implemented | Reads a contract scalar field and returns a typed default when missing. |
+| `Data.Set` | `field, value` | implemented | Writes into the current deployed contract context only. |
+| `Data.Delete` | `field` | implemented | Deletes a scalar field from the current deployed contract context. |
+| `Map.Has` | `contractName, field, key, keyType` | implemented | Checks whether a map-style entry exists. The current implementation consumes the extra type argument for compatibility even though the existence check itself is key-based. |
+| `Map.Get` | `contractName, field, key, vmType` | implemented | Reads a map entry and returns a typed default when missing. |
+| `Map.Set` | `field, key, value` | implemented | Updates table storage and keeps canonical entry counts. |
+| `Map.Remove` | `field, key` | implemented | Removes an entry and updates count. |
+| `Map.Count` | `contractName, field` | implemented | Returns current entry count. |
+| `Map.Clear` | `field` | implemented | Deletes all entries and resets count. |
+| `Map.Keys` | `contractName, field` | implemented | Returns a byte-array vector of current keys. |
+| `List.Get` | `contractName, field, index, vmType` | implemented | Reads by zero-based index. |
+| `List.Add` | `field, value` | implemented | Appends at the current tail index. |
+| `List.Replace` | `field, index, value` | implemented | Replaces an existing list entry. |
+| `List.RemoveAt` | `field, index` | implemented | Uses compact swap-with-last semantics. |
+| `List.Count` | `contractName, field` | implemented | Returns current list length. |
+| `List.Clear` | `field` | implemented | Deletes list entries and resets count. |
+
+Storage behavior notes:
+
+- write methods operate on the current deployed contract context, not an arbitrary named contract
+- read methods can target another contract by name
+- collection storage uses canonical count tracking under the hood, so imported or malformed storage can still be rejected if it breaks expected layout
+
+## Account And Constructor Helpers
+
+| Method | Args | Status | Notes |
+| --- | --- | --- | --- |
+| `Account.Name` | `address` | implemented | Resolves a name through governance lookup. |
+| `Address()` | `addressLike` | implemented | Builds or normalizes an address object. |
+| `Hash()` | `hashLike` | implemented | Builds a hash object. |
+| `Timestamp()` | `timestampLike` | implemented | Builds a timestamp value. |
+
+These are still not implemented:
+
+- `Account.LastActivity`
+- `Account.Transactions`
+- `ABI()`
+
+## Organization, Oracle, And Task Namespaces
+
+Current Carbon still rejects these as unimplemented:
+
+- `Organization.AddMember`
+- `Organization.RemoveMember`
+- `Organization.Kill`
+- `Oracle.Read`
+- `Oracle.Price`
+- `Oracle.Quote`
+- `Task.Start`
+- `Task.Stop`
+- `Task.Get`
+- `Task.Current`
+- `Nexus.GetGovernanceValue`
+- `Nexus.BeginInit`
+- `Nexus.EndInit`
+- `Nexus.MigrateToken`
+- `Nexus.CreateChain`
+- `Nexus.CreatePlatform`
+- `Nexus.CreateOrganization`
+- `Nexus.SetPlatformTokenHash`
+
+## Developer Guidance
+
+If you are writing new contracts today:
+
+- use `Runtime.DeployContract` and `Runtime.UpgradeContract` for standalone contracts
+- use `Nexus.CreateToken`, `Nexus.AttachTokenContract`, and later `Runtime.UpgradeContract` for token-backed contracts
+- rely on `Data.*`, `Map.*`, and `List.*` for persistent state
+- rely on `Runtime.MintTokens`, `Runtime.TransferTokens`, `Runtime.MintToken`, `Runtime.TransferToken`, `Runtime.ReadToken`, and `Nexus.CreateTokenSeries` for current token and NFT flows
+- do not build new docs or examples around methods that are still rejected with TODO paths

@@ -2,59 +2,45 @@
 
 ## Supported Languages
 
-Phoenix Smart Language Compiler generates code that runs in the PhantasmaVM, and supports multiple programming languages.
+`pha-tomb` currently documents one source language for contract authoring:
 
 | Language  | File Extension | Status                                | Description                                                                                               |
 | --------- | -------------- | ------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| PSL lang  | .psl           | Fully working                         | The original language supported Phoenix Smart Language Compler (the rest of this document samples use it) |
+| TOMB      | .tomb          | Current compiler surface              | The current Phantasma smart-contract source language used by `pha-tomb`. |
 
 ## Supported Features
 
-* Smart contracts and Non-contract Scripts (eg: transactions, raw invokes)
-* Numbers, strings ([Example](https://docs.phantasma.info/#psl-example_strings)), bools, timestamps, addresses, hashes and decimals ([Example](https://docs.phantasma.info/#psl-example_decimals))
-* Constants
-* Enums ([Example](https://docs.phantasma.info/#psl-example_enums))
-* Global and local variables ([Example](https://docs.phantasma.info/#psl-example_simple_counter))
-* Array indexing ([Example](https://docs.phantasma.info/#psl-example_string_manipulation))
-* Bitshifting and logical operators
-* Contract constructors, methods and triggers
-* Contract public methods ([Example](https://docs.phantasma.info/#psl-example_simple_sum))
-* Return values
-* Collections (Maps ([Example](https://docs.phantasma.info/#psl-example_map)) and lists)
-* Generic types
-* If ... Else ([Example](https://docs.phantasma.info/#psl-example_conditions))
-* While ... and Do ... While loops
-* Switch .. case ([Example](https://docs.phantasma.info/#psl-example_switch_case))
-* Break and Continue
-* Throw Exceptions
-* Uninitialized globals validation
-* Custom events
-* Interop and Contract calls
-* Inline asm
-* Structs
-* Import libraries (Runtime, Leaderboard, Token, etc)
-* Comments (single and multi line)
-* Contract tasks
-* ABI generation
+- smart contracts and non-contract scripts
+- numbers, strings, bools, timestamps, addresses, hashes, byte arrays
+- constants, enums, structs
+- global and local variables
+- contract methods, constructors, triggers, events, properties
+- nested NFT submodules inside token modules
+- arrays, maps, lists, generic types
+- `if`, `while`, `do/while`, `for`, `switch`, `break`, `continue`
+- exceptions via `throw`
+- inline assembly
+- interop calls and contract calls
+- ABI generation
+- debug artifact generation
 
-## Planned Features
+## Important caveats
 
-Some of the planned features:
+- `Task` syntax is parsed by the compiler, but the current chain runtime does not expose the full `Task.*` interop surface needed to rely on it in production.
+- `nativecheck` validates against the compiler's pinned Carbon snapshots. Treat warnings and errors there as signal, not noise.
+- Not every compiler-accepted native call is necessarily available on every chain baseline. Always test against the target network.
+- Some helper libraries still have unsupported methods that compile to explicit runtime failure.
 
-* Try .. Catch
-* More...
-* Warnings
-* Debugger support
+## Generated artifacts
 
-## Feature requests
+Depending on module type and flags, `pha-tomb` can emit:
 
-Feature's requested from the Community
+- `.pvm`
+- `.abi`
+- `.debug`
+- `.asm`
+- `.pvm.hex`
+- `.abi.hex`
+- `.tx` / `.tx.hex` for script modules
 
-* Call a function from anywhere in the code
-* Create Classes that can be manipulated
-* Change Struct values of an instanciated struct without needing to recreated
-* Add && and || (currently its or, and)
-* Better support for Arrays, methods like, Array.shuffle() | Array.push() | Array.add() | Array.pop() | Array.shift()
-* Better Math Library, implement methods like, Math.Ceil() | Math.floor()
-* Multiple file support (Before compiling it, to make the code easier to write.)
-* Implement a null types
+For the current CLI shape and output rules, see [Setup](setup.md) and [pha-deploy](../tools/pha-deploy.md).

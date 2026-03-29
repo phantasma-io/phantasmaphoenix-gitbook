@@ -6,7 +6,7 @@ Carbon is the native asset runtime for tokens and NFTs on Phantasma Phoenix. Ass
 
 ## SmartNFTs (dynamic NFTs)
 
-SmartNFTs extend Carbon with smart-contract-driven logic for NFTs that can evolve and update their content based on defined rules. A Carbon NFT can be upgraded to a SmartNFT by embedding a TOMB (PhantasmaVM) contract in its Carbon metadata.
+SmartNFTs extend Carbon with VM-driven logic for NFTs that can evolve and update their content based on defined rules. In the current developer flow, this means using token-backed contract workflows: create a token with VM code, or attach VM code to an existing token, then upgrade that token-backed contract over time if needed.
 
 ## NFT addresses and infusion
 
@@ -37,7 +37,7 @@ Phantasma Link connects dApps to wallets for signing transactions and interactin
 
 ## Tools and SDKs
 
-Use the Token Deployment UI for Carbon workflows: [Token Deployment UI](/about/token-deployment-ui.md). Developers can also build directly with the TypeScript, C#, and Unity SDKs in the developer section.
+Use the Token Deployment UI for Carbon workflows and contract lifecycle actions: [Token Deployment UI](/about/token-deployment-ui.md). Developers can also build directly with the TypeScript, C#, and Unity SDKs, or use `pha-deploy` for repeatable CLI workflows.
 
 ## On-chain storage
 

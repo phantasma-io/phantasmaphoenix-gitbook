@@ -4,33 +4,55 @@ description: Basic setup of the Phoenix Smart Language Compiler
 
 # Setup
 
-## Phoenix Smart Language Compiler Installation
+## Recommended installation
 
-1. Download / clone the repository [https://github.com/phantasma-io/TOMB/tree/tomb-ng](https://github.com/phantasma-io/TOMB/tree/tomb-ng)
-2. Extract it (if you downloaded)
-3. Go to the folder and open a terminal there
-4.  Run
+Install `pha-tomb` as a .NET global tool:
 
-    <pre class="language-bash" data-overflow="wrap"><code class="lang-bash"><strong>dotnet publish
-    </strong></code></pre>
+```bash
+dotnet tool install --global pha-tomb
+dotnet tool update --global pha-tomb
+```
 
-{% hint style="success" %}
-That's it, you have the compiler ready!
+Verify the install:
 
-Now you can add it to the path.
-{% endhint %}
+```bash
+pha-tomb --version
+pha-tomb --help
+```
 
-## Phoenix Smart Language Compiler to PATH
+## Build from source
 
-{% hint style="info" %}
-**Setup Phoenix Smart Language Compiler to the PATH**
+If you want to pin a local compiler build, work on the compiler itself, or avoid whichever global `pha-tomb` is currently first in `PATH`, build it from source.
 
-It's really helpful, so you don't need to always specify the full path to the folder if you have the Phoenix Smart Language compiler in the path
-{% endhint %}
+Source repository:
+- `https://github.com/phantasma-io/TOMB`
+
+Basic source build:
+
+```bash
+git clone https://github.com/phantasma-io/TOMB
+cd TOMB
+dotnet build TombCompiler.sln
+```
+
+Published build:
+
+```bash
+dotnet publish Compiler/TombCompiler.csproj -c Release
+```
+
+Current project notes:
+- executable name: `pha-tomb`
+- target framework: `net10.0`
+- source extension: `.tomb`
+
+## Add the compiler to PATH
+
+This is useful when you want to invoke `pha-tomb` directly without a full path.
 
 ### Windows
 
-On Windows what you should do is:
+Add the directory containing `pha-tomb.exe` to `Path`.
 
 1. Right-click on the Start Button
 2. Select “System” from the context menu.
@@ -39,29 +61,42 @@ On Windows what you should do is:
 5. Click “Environment Variables…”
 6. Click variable called “Path” and click “Edit…”
 7. Click “New”
-8. Enter the path to the folder containing the binary you want on your PATH. To add: C:\PathToPSLC\Compiler\bin\Debug\net6.0\publish
+8. Enter the path to the folder containing `pha-tomb.exe`
 
-Now you can do something like&#x20;
+Example:
 
 ```shell
-PslCompiler.exe myPslContract.psl // From everywhere on Windows
+pha-tomb my_contract.tomb
 ```
 
 ### Linux & MacOS
 
-On Linux and MacOS:
+Add the directory containing `pha-tomb` to `PATH`.
 
-1. On the terminal
-2. ```bash
-   export PATH=$PATH:/pathToPslCompiler/Compiler/bin/Debug/net6.0/publish
-   ```
-3. That's it.
+Example:
 
-```shell
-./PslCompiler.dll myPslContract.psl // From everywhere on Linux/Mac
+```bash
+export PATH="$PATH:/path/to/pha-tomb-directory"
 ```
 
-For more information
+Then you can run:
 
-{% embed url="https://www.baeldung.com/linux/path-variable" %}
+```bash
+pha-tomb my_contract.tomb
+```
 
+## Using a pinned compiler with pha-deploy
+
+When using `pha-deploy contract compile`, you can pin an exact compiler binary instead of relying on `PATH`.
+
+Use either:
+
+```bash
+pha-deploy contract compile --compiler /path/to/pha-tomb ...
+```
+
+or:
+
+```bash
+export PHA_TOMB_PATH=/path/to/pha-tomb
+```

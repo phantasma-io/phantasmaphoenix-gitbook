@@ -2,20 +2,50 @@
 
 ## Overview
 
-PhantasmaLink connects your dApp to a Phantasma wallet (Poltergeist/Ecto) and lets the user sign transactions.
+`PhantasmaLink` is the low-level browser wallet bridge in `phantasma-sdk-ts`. It connects a dApp to a wallet such as Poltergeist or Ecto and exposes the raw Link signing and query methods.
 
-## Defaults and connection details
+Use it when you want direct control over:
 
-- Default host: `localhost:7090` (WebSocket URL: `ws://localhost:7090/phantasma`).
-- Default chain: `main`.
-- `login` defaults: `version = 4`, `platform = "phantasma"`, `providerHint = "poltergeist"`.
+- transport selection
+- wallet authorize flow
+- VM script signing
+- Carbon signing and broadcast
+- prebuilt transaction signing
 
-If `window.PhantasmaLinkSocket` exists and `providerHint` is not `poltergeist`, the SDK uses that socket instead of a raw WebSocket.
+If you want a smaller wrapper, use [EasyConnect](/developers/sdks/ts/shared-methods/easyconnect.md).
+If you want React state and widgets, use [@phantasma/connect-react](/developers/sdks/ts/frontend/connect-react.md).
 
-## Initialization
+## Current Defaults
+
+Constructor defaults in current `phantasma-sdk-ts`:
+
+- host: `localhost:7090`
+- websocket path: `ws://localhost:7090/phantasma`
+- version: `4`
+- chain: `main`
+- nexus: empty until the wallet returns one
+- platform: `poltergeist`
+
+Important change: `nexus` no longer defaults to a fake network value. It is empty until wallet authorize or `getNexus()` returns a real value.
+
+## Transport Selection
+
+`PhantasmaLink` can use two transport styles:
+
+- raw local WebSocket
+- injected `window.PhantasmaLinkSocket`
+
+Current behavior:
+
+- if `window.PhantasmaLinkSocket` exists and `providerHint !== "poltergeist"`, the SDK uses injected transport
+- otherwise it uses raw WebSocket
+
+That means `providerHint = "poltergeist"` is the simple way to force local-socket behavior.
+
+## Basic Login
 
 ```ts
-import { PhantasmaLink, ProofOfWork } from "phantasma-sdk-ts";
+import { PhantasmaLink } from "phantasma-sdk-ts";
 
 const link = new PhantasmaLink("My Dapp", true);
 
@@ -23,119 +53,122 @@ link.login(
   (success) => {
     if (success) {
       console.log("Connected address:", link.account?.address);
+      console.log("Wallet:", link.wallet);
+      console.log("Nexus:", link.nexus);
     }
   },
   (error) => {
     console.error("Login failed:", error);
   },
-  4, // protocol version
-  "phantasma", // platform
-  "poltergeist" // providerHint: "poltergeist" or "ecto"
+  4,
+  "phantasma",
+  "poltergeist"
 );
 ```
 
-## Account data
+## Account And Session Data
 
-After a successful login, `link.account` contains:
+After successful login, these fields are the most useful:
 
-- `alias`
-- `name`
-- `address`
-- `avatar`
-- `platform`
-- `external`
-- `balances`
-- `files`
+- `link.account`
+  - wallet account details such as `address`, `name`, `balances`, `files`
+- `link.wallet`
+  - wallet name returned by the authorize flow
+- `link.nexus`
+  - wallet network returned by authorize or refreshed with `getNexus()`
+- `link.chain`
+  - VM chain used in Link requests, default `main`
 
-## Key Methods
+## Main Methods
 
-- `login(onLogin, onError, version = 4, platform = "phantasma", providerHint = "poltergeist")`
-- `invokeScript(script, callback)` for read-only calls.
-- `signTx(script, payload, callback, onError, pow = ProofOfWork.None, signature = "Ed25519")`
-- `signData(data, callback, onError, signature = "Ed25519")`
-- `signTxSignature(tx, callback, onError, signature = "Ed25519")`
-- `getPeer(callback, onError)`
-- `toggleMessageLogging()`
-- `signCarbonTxAndBroadcast(txMsg, callback, onError)` for Carbon transactions.
-- `disconnect(triggered)`
+| Method | Use |
+| --- | --- |
+| `login(...)` | Open a wallet session and authorize the dApp. |
+| `invokeScript(script, callback)` | Read-only VM script execution through the wallet. |
+| `signTx(script, payload, callback, onError, pow, signature)` | Ask the wallet to sign and send a VM script transaction. |
+| `signTxSignature(tx, callback, onError, signature)` | Ask the wallet to sign an already serialized unsigned transaction. |
+| `signPrebuiltTransaction(tx, callback, onError, signature)` | Build on top of `signTxSignature` and return a ready-to-broadcast signed transaction hex. |
+| `signData(data, callback, onError, signature)` | Ask the wallet to sign arbitrary Base16 data. |
+| `signCarbonTxAndBroadcast(txMsg, callback, onError)` | Sign and broadcast a Carbon transaction message. |
+| `getNexus(callback, onError)` | Query the wallet network and sync `link.nexus`. |
+| `getPeer(callback, onError)` | Query the connected wallet peer. |
+| `disconnect(message)` | Close the session. |
 
-{% hint style="info" %}
-For the layer map and quick choice, see [Wallet Connection](/developers/sdks/ts/frontend/wallet-connection.md).  
-If you prefer a wrapper, use [EasyConnect](/developers/sdks/ts/shared-methods/easyconnect.md).  
-For React, use [React Wallet Connection](/developers/sdks/ts/frontend/connect-react.md).
-{% endhint %}
+## Size Limits And Payload Rules
 
-## Formats and limits
+- `invokeScript` requires `script.length < 8192`
+- `signTx` requires `script.length < 65536`
+- `signData` requires `data.length < 1024`
+- `signTxSignature` requires `tx.length < 65536`
+- `signCarbonTxAndBroadcast` requires serialized tx hex length `< 65536`
 
-- `script` must be a hex string produced by `ScriptBuilder.EndScript()`.
-- `invokeScript` requires `script.length < 8192`.
-- `signTx` requires `script.length < 65536`.
-- `signTx` `payload` handling:
-  - If `payload` is `null`, the SDK uses the default hex for `"Phantasma-ts"`.
-  - If `payload` is a string, the SDK encodes it internally; do not pass pre-encoded hex.
-- `signData` expects Base16-encoded data and requires `data.length < 1024`.
-- `signTxSignature` expects a Base16-encoded serialized transaction and requires `tx.length < 1024`.
-- `signCarbonTxAndBroadcast` requires Phantasma Link v4+, a valid `txMsg`, and a serialized hex length `< 65536`.
+For `signTx` payloads:
 
-## Sending a Transaction
+- if `payload` is `null`, the SDK uses the default hex for `Phantasma-ts`
+- if `payload` is a plain string, the SDK encodes it internally
+- do not pre-encode the payload hex yourself when calling `signTx`
 
-Assumes `link` is already connected via `login`.
+## `signTx` Versus `signPrebuiltTransaction`
+
+These methods solve different problems.
+
+### `signTx(...)`
+
+Use `signTx(...)` when you want the wallet to handle a normal VM transaction from:
+
+- `script`
+- `payload`
+- optional `pow`
+
+This is the usual path for ordinary wallet-driven VM transactions.
+
+### `signPrebuiltTransaction(...)`
+
+Use `signPrebuiltTransaction(...)` when you already have a `Transaction` object and want the wallet to provide only the signature.
+
+This is the right tool when you need to control transaction fields locally before asking the wallet to sign, for example:
+
+- custom expiration
+- custom payload handling
+- pre-mined proof-of-work on a fully assembled transaction
+- raw broadcast through `PhantasmaAPI.sendRawTransaction(...)`
+
+Example:
 
 ```ts
-import { Address, DomainSettings, ScriptBuilder } from "phantasma-sdk-ts";
+import { PhantasmaLink, Transaction } from "phantasma-sdk-ts";
 
-const from = Address.FromText(link.account.address);
-const gasPrice = DomainSettings.DefaultMinimumGasFee;
-const gasLimit = 21000;
+const link = new PhantasmaLink("My Dapp");
+const tx = new Transaction("<nexus>", "<chain>", "<scriptHex>", new Date(), "<payloadHex>");
 
-const script = new ScriptBuilder()
-  .BeginScript()
-  .AllowGas(from, Address.Null, gasPrice, gasLimit)
-  .CallContract("stake", "Claim", [from, from])
-  .SpendGas(from)
-  .EndScript();
-
-link.signTx(
-  script,
-  "Example.stake",
-  (result) => console.log("tx hash:", result?.hash),
-  (error) => console.error(error)
+link.signPrebuiltTransaction(
+  tx,
+  (result) => {
+    console.log("wallet signature:", result.signature);
+    console.log("signed tx hex:", result.signedTx);
+  },
+  (error) => {
+    console.error("signPrebuiltTransaction failed:", error);
+  }
 );
 ```
 
-## Signing Data
+The returned `signedTx` can then be sent through `PhantasmaAPI.sendRawTransaction(...)`.
 
-Assumes `link` is already connected via `login`.
+## `signTxSignature(...)`
 
-```ts
-const messageHex = "48656c6c6f"; // "Hello" in Base16
+`signTxSignature(...)` is lower level than `signPrebuiltTransaction(...)`.
 
-link.signData(
-  messageHex,
-  (result) => console.log("signData result:", result),
-  (error) => console.error("signData failed:", error)
-);
-```
+It accepts:
 
-## Signing a Transaction Signature
+- an unsigned serialized transaction hex
+- a signature type, currently `Ed25519`
 
-Assumes `link` is already connected via `login`.
+The wallet returns a signature payload. `signPrebuiltTransaction(...)` is usually more convenient because it also assembles and verifies the signed transaction for you.
 
-```ts
-const txHex = "<BASE16_SERIALIZED_TRANSACTION>";
+## Carbon Signing
 
-link.signTxSignature(
-  txHex,
-  (result) => console.log("signTxSignature result:", result),
-  (error) => console.error("signTxSignature failed:", error)
-);
-```
-
-## Signing and Broadcasting a Carbon Transaction
-
-Assumes `link` is already connected via `login`.
-
-Build a `TxMsg` using the Carbon helpers (see [Carbon Workflows](/developers/sdks/ts/carbon-workflows.md)), then sign:
+For Carbon-native flows, use `signCarbonTxAndBroadcast(...)`.
 
 ```ts
 import { CreateTokenTxHelper } from "phantasma-sdk-ts";
@@ -149,7 +182,7 @@ link.signCarbonTxAndBroadcast(
 );
 ```
 
-## Proof of Work
+## Proof Of Work Enum
 
 ```ts
 enum ProofOfWork {
@@ -161,3 +194,10 @@ enum ProofOfWork {
   Extreme = 30,
 }
 ```
+
+## Practical Guidance
+
+- Prefer `signTx(...)` for normal wallet-driven VM transactions.
+- Prefer `signPrebuiltTransaction(...)` when your app must control the final transaction bytes before signing.
+- Use `getNexus()` if you need to refresh wallet network state explicitly after connection.
+- Force `providerHint = "poltergeist"` when you need raw local-socket behavior rather than injected transport.

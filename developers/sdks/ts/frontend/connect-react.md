@@ -1,31 +1,48 @@
-# React Wallet Connection (@phantasma/connect-react)
+# React Wallet Connection (`@phantasma/connect-react`)
 
 ## Overview
 
-`@phantasma/connect-react` is a React wrapper around [EasyConnect](/developers/sdks/ts/shared-methods/easyconnect.md) (from `phantasma-sdk-ts`).  
-It provides a MobX state class and a ready-to-use connect widget.
+`@phantasma/connect-react` is the React-first wallet layer on top of `EasyConnect`.
 
-{% hint style="info" %}
-For the layer map and quick choice, see [Wallet Connection](/developers/sdks/ts/frontend/wallet-connection.md).
-{% endhint %}
+Current package version:
+
+- `0.1.0`
+
+It gives you:
+
+- a React context
+- a state container for connect / disconnect / restore
+- transport selection
+- connection diagnostics
+- a ready-made account widget
 
 ## Install
 
-```
+```bash
 npm install @phantasma/connect-react
 ```
 
-## Provider setup
+## Core Pieces
 
-Create a shared `PhaConnectState` and expose it via context:
+The package exports:
+
+- `PhaConnectState`
+- `PhaConnectCtx`
+- `PhaAccountWidgetV1`
+
+`PhaConnectState` is the main object you create and place into context.
+
+## Provider Setup
 
 ```tsx
 import { ReactNode } from "react";
 import { PhaConnectCtx, PhaConnectState } from "@phantasma/connect-react";
 
-export function PhantasmaProvider({ children }: { children: ReactNode }) {
-  const phaConnectState = new PhaConnectState();
+const phaConnectState = new PhaConnectState({
+  transportMode: "auto",
+});
 
+export function PhantasmaProvider({ children }: { children: ReactNode }) {
   return (
     <PhaConnectCtx.Provider value={phaConnectState}>
       {children}
@@ -34,9 +51,32 @@ export function PhantasmaProvider({ children }: { children: ReactNode }) {
 }
 ```
 
-## Built-in widget
+## Connect Options
 
-Use the built-in account widget:
+`PhaConnectState` accepts an optional config object:
+
+```ts
+type ConnectOptions = {
+  requiredVersion?: number;
+  platform?: string;
+  transportMode?: "auto" | "injected" | "local-socket";
+  transportDetectionTimeoutMs?: number;
+  connectAttemptTimeoutMs?: number;
+};
+```
+
+### Transport Modes
+
+- `auto`
+  - detect and choose between injected and local socket
+- `injected`
+  - prefer injected wallet transport
+- `local-socket`
+  - prefer raw local wallet socket
+
+For tooling or UIs that depend on a predictable local wallet path, `local-socket` is often the safer choice.
+
+## Built-In Widget
 
 ```tsx
 import { PhaAccountWidgetV1, PhaConnectState } from "@phantasma/connect-react";
@@ -46,9 +86,9 @@ export function WalletButton({ state }: { state: PhaConnectState }) {
 }
 ```
 
-## Custom UI (MobX-aware)
+## Custom UI
 
-`PhaConnectState` is MobX observable. Wrap your component with `observer` so it re-renders on state changes.
+`PhaConnectState` exposes connection state you can render yourself:
 
 ```tsx
 import { useContext, useEffect } from "react";
@@ -75,16 +115,69 @@ export const WalletStatus = observer(() => {
 });
 ```
 
+## Useful State And Helpers
+
+Common fields and methods on `PhaConnectState`:
+
+- `conn`
+  - current `EasyConnect` instance or `null`
+- `err_msg`
+  - latest error text
+- `is_connecting`
+- `is_connected`
+- `selected_transport_mode`
+- `available_transports`
+- `last_connect_diagnostics`
+- `connect(...)`
+- `connect_with_transport_mode(...)`
+- `set_transport_mode(...)`
+- `disconnect()`
+- `restore()`
+- `refresh_available_transports(...)`
+
+## Diagnostics
+
+`last_connect_diagnostics` is especially useful when you are debugging connection behavior. It records things like:
+
+- configured transport mode
+- selected transport
+- available transports
+- whether fallback was used
+- whether injected transport was detected
+- whether local socket was reachable
+- failure class and failure message
+
+That makes it much easier to explain why a particular wallet path was chosen.
+
+## Restore Behavior
+
+`restore()` uses persisted session config and attempts to reconnect. This is the normal way to restore a previous wallet session after a page reload.
+
 ## Signing
 
-When connected, `pha.conn` is an `EasyConnect` instance.  
-You can use either the wrapper or the underlying `PhantasmaLink`:
+When connected, `pha.conn` is an `EasyConnect` instance. That means you can use:
 
-- VM tx: `pha.conn.link.signTx(...)`
-- Carbon tx: `pha.conn.signCarbonTransaction(...)`
+- `pha.conn.signTransaction(...)`
+- `pha.conn.signCarbonTransaction(...)`
+- `pha.conn.signPrebuiltTransaction(...)`
+- `pha.conn.link.signTx(...)`
+- `pha.conn.link.signPrebuiltTransaction(...)`
 
-If you prefer `async/await`, wrap the callback-style methods with a Promise (same approach as in the EasyConnect page).
+Practical rule:
 
-## Restore behavior
+- normal wallet-driven VM transaction -> `signTransaction(...)`
+- prebuilt VM transaction -> `signPrebuiltTransaction(...)`
+- Carbon `TxMsg` -> `signCarbonTransaction(...)`
 
-`pha.restore()` checks `localStorage` for the `pha-connect-react` key and calls `connect()` if it exists.
+## Relationship To Lower Layers
+
+The stack looks like this:
+
+- `@phantasma/connect-react`
+  - React state and transport orchestration
+- `EasyConnect`
+  - smaller browser wallet wrapper
+- `PhantasmaLink`
+  - low-level Link transport and signing
+
+If the higher layer is not enough for a particular use case, you can always drop down through `pha.conn` and then through `pha.conn.link`.
