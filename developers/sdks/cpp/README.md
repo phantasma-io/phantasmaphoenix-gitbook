@@ -9,8 +9,9 @@ The SDK is designed for developers who want to integrate Phantasma into their C+
 - Complete cryptographic primitives (Ed25519, hashing, encryption)
 - Transaction building and signing
 - JSON-RPC request/response handling
+- Current Carbon RPC helpers for token series, cursor pagination, node build metadata, and VM config
 - Adapters for CURL, cpprestsdk, sodium, and more
-- Cross-platform support (unavailable at the moment)
+- Portable C++17 code with adapter-selected HTTP/JSON/crypto backends
 
 # Architecture Overview
 
@@ -59,6 +60,11 @@ Build system notes:
 - Link with `curl` when using the CURL adapter
 - Add RapidJSON headers when using the RapidJSON adapter
 - Add CppRestSDK when using the cpprest adapter
+
+Compatibility notes:
+- `GetBlockTransactionCountByHash(blockHash, err)` and `GetTransactionByBlockHashAndIndex(blockHash, index, err)` are legacy overloads that default to the `"main"` chain.
+- Prefer the chain-aware overloads for new code: pass `chainAddressOrName` explicitly before the block hash.
+- Carbon token endpoints use `carbonTokenId` / `carbonSeriesId`; pass `0` when resolving by Phantasma symbol or series id only.
 
 [Low-level API](/developers/sdks/cpp/low-level-api.md)
 [High-level API](/developers/sdks/cpp/high-level-api.md)

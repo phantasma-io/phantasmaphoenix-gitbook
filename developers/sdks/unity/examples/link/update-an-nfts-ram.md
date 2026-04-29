@@ -1,10 +1,10 @@
 # Update an NFT's RAM
 
-{% hint style="warning" %}
-The current Carbon validator still does not implement `Runtime.WriteToken(...)`. Keep this page as a legacy reference only; do not expect this example to work on current VM-enabled nodes.
+{% hint style="info" %}
+`Runtime.WriteToken(...)` is implemented by the current Carbon validator. It uses the runtime-visible Phantasma NFT ID, not the internal Carbon instance ID.
 {% endhint %}
 
-This example shows how to update the RAM of an NFT. A transaction script is created and sent using the `SendTransaction()` method from the `PhantasmaLinkClient` class.
+This example shows how to update the RAM of an NFT. A transaction script is created and sent using the `SendTransaction()` method from the `PhantasmaLinkClient` class. If the token has an `onWrite` trigger, the trigger runs before the native RAM update; a failing trigger rolls the write back.
 
 ```csharp
 public void UpdateNFTsRAM()

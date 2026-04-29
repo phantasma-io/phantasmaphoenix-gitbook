@@ -70,9 +70,9 @@ Returns the account name and balance of given address.
 
 **Parameters**
 
-- `account`  
+- `account`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 
 **Example**
@@ -89,9 +89,9 @@ Returns the address that owns a given name.
 
 **Parameters**
 
-- `name`  
+- `name`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 ### GetAddressTransactions
 
@@ -101,13 +101,13 @@ Returns last X transactions of given address. (paginated call)
 
 **Parameters**
 
-- `account`  
+- `account`
   *type:* `const Char*`
-- `page`  
+- `page`
   *type:* `UInt32`
-- `pageSize`  
+- `pageSize`
   *type:* `UInt32`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 
 **Example**
@@ -123,11 +123,11 @@ Get number of transactions in a specific address and chain
 
 **Parameters**
 
-- `account`  
+- `account`
   *type:* `const Char*`
-- `chainInput`  
+- `chainInput`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 ### GetEvents
 
@@ -137,9 +137,9 @@ Reads pending messages from the relay network.
 
 **Parameters**
 
-- `account`  
+- `account`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 
 
@@ -153,22 +153,39 @@ Returns the height of a chain.
 
 **Parameters**
 
-- `chainInput`  
+- `chainInput`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 ### GetBlockTransactionCountByHash
 
-Returns the number of transactions of given block hash or error if given hash is invalid or is not found.
+Returns the number of transactions in a block. The current RPC call is chain-aware.
+The one-argument overload is kept for compatibility and uses `"main"` as the chain.
 
 **Returns:** `Int32`
 
+**Signatures**
+
+```cpp
+Int32 GetBlockTransactionCountByHash(const Char* blockHash, PhantasmaError* out_error = nullptr);
+Int32 GetBlockTransactionCountByHash(const Char* chainAddressOrName, const Char* blockHash, PhantasmaError* out_error = nullptr);
+```
+
 **Parameters**
 
-- `blockHash`  
+- `chainAddressOrName`
   *type:* `const Char*`
-- `nullptr`  
+  Chain name or address. Omit this parameter only when you intentionally want the legacy `"main"` default.
+- `blockHash`
+  *type:* `const Char*`
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
+
+**Example**
+```cpp
+PhantasmaError err{};
+Int32 count = api.GetBlockTransactionCountByHash("main", "ABCD...blockhash", &err);
+```
 ### GetBlockByHash
 
 Returns information about a block by hash.
@@ -177,9 +194,9 @@ Returns information about a block by hash.
 
 **Parameters**
 
-- `blockHash`  
+- `blockHash`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 
 **Example**
@@ -195,9 +212,9 @@ Returns a serialized string, containing information about a block by hash.
 
 **Parameters**
 
-- `blockHash`  
+- `blockHash`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 ### GetBlockByHeight
 
@@ -207,11 +224,11 @@ Returns information about a block by height and chain.
 
 **Parameters**
 
-- `chainInput`  
+- `chainInput`
   *type:* `const Char*`
-- `height`  
+- `height`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 ### GetRawBlockByHeight
 
@@ -221,11 +238,11 @@ Returns a serialized string, in hex format, containing information about a block
 
 **Parameters**
 
-- `chainInput`  
+- `chainInput`
   *type:* `const Char*`
-- `height`  
+- `height`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 
 
@@ -233,18 +250,34 @@ Returns a serialized string, in hex format, containing information about a block
 
 ### GetTransactionByBlockHashAndIndex
 
-Returns the information about a transaction requested by a block hash and transaction index.
+Returns the transaction at a block index. The current RPC call is chain-aware.
+The two-argument overload is kept for compatibility and uses `"main"` as the chain.
 
 **Returns:** `Transaction`
 
+**Signatures**
+
+```cpp
+Transaction GetTransactionByBlockHashAndIndex(const Char* blockHash, Int32 index, PhantasmaError* out_error = nullptr);
+Transaction GetTransactionByBlockHashAndIndex(const Char* chainAddressOrName, const Char* blockHash, Int32 index, PhantasmaError* out_error = nullptr);
+```
+
 **Parameters**
 
-- `blockHash`  
+- `chainAddressOrName`
   *type:* `const Char*`
-- `index`  
+  Chain name or address. Omit this parameter only when you intentionally want the legacy `"main"` default.
+- `blockHash`
+  *type:* `const Char*`
+- `index`
   *type:* `Int32`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
+
+**Example**
+```cpp
+Transaction tx = api.GetTransactionByBlockHashAndIndex("main", "ABCD...blockhash", 0);
+```
 ### SendRawTransaction
 
 Allows to broadcast a signed operation on the network, but it&apos;s required to build it manually.
@@ -253,9 +286,9 @@ Allows to broadcast a signed operation on the network, but it&apos;s required to
 
 **Parameters**
 
-- `txData`  
+- `txData`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 
 **Example**
@@ -272,9 +305,9 @@ Returns information about a transaction by hash.
 
 **Parameters**
 
-- `hashText`  
+- `hashText`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 
 **Example**
@@ -290,9 +323,9 @@ Removes a pending transaction from the mempool.
 
 **Parameters**
 
-- `hashText`  
+- `hashText`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 
 
@@ -306,11 +339,11 @@ Allows to invoke script based on network state, without state changes.
 
 **Parameters**
 
-- `chainInput`  
+- `chainInput`
   *type:* `const Char*`
-- `scriptData`  
+- `scriptData`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 
 **Example**
@@ -330,7 +363,7 @@ Returns an array of all chains deployed in Phantasma.
 
 **Parameters**
 
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 ### GetNexus
 
@@ -340,9 +373,9 @@ Returns info about the nexus.
 
 **Parameters**
 
-- `extended`  
+- `extended`
   *type:* `bool`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 ### GetContract
 
@@ -352,11 +385,41 @@ Returns the ABI interface of specific contract.
 
 **Parameters**
 
-- `chainAddressOrName`  
+- `chainAddressOrName`
   *type:* `const Char*`
-- `contractName`  
+- `contractName`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
+  *type:* `PhantasmaError* out_error =`
+
+### GetContracts
+
+Returns the contract list for a chain.
+
+**Returns:** `PHANTASMA_VECTOR<Contract>`
+
+**Parameters**
+
+- `chainAddressOrName`
+  *type:* `const Char*`
+- `extended`
+  *type:* `bool`
+- `nullptr`
+  *type:* `PhantasmaError* out_error =`
+
+### GetContractByAddress
+
+Returns the ABI interface of a contract by address.
+
+**Returns:** `Contract`
+
+**Parameters**
+
+- `chainAddressOrName`
+  *type:* `const Char*`
+- `contractAddress`
+  *type:* `const Char*`
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 
 
@@ -370,23 +433,106 @@ Returns an array of tokens deployed in Phantasma.
 
 **Parameters**
 
-- `extended`  
+- `extended`
   *type:* `bool`
-- `nullptr`  
+- `ownerAddress`
+  *type:* `const Char*`
+  Optional overload parameter for filtering tokens by owner address.
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
+
+**Signatures**
+
+```cpp
+PHANTASMA_VECTOR<Token> GetTokens(bool extended, PhantasmaError* out_error = nullptr);
+PHANTASMA_VECTOR<Token> GetTokens(bool extended, const Char* ownerAddress, PhantasmaError* out_error = nullptr);
+```
 ### GetToken
 
-Returns info about a specific token deployed in Phantasma.
+Returns info about a specific token deployed in Phantasma. The Carbon-aware overload accepts `carbonTokenId`; pass `0` when resolving by symbol only.
 
 **Returns:** `Token`
 
+**Signatures**
+
+```cpp
+Token GetToken(const Char* symbol, bool extended, PhantasmaError* out_error = nullptr);
+Token GetToken(const Char* symbol, bool extended, UInt64 carbonTokenId, PhantasmaError* out_error = nullptr);
+```
+
 **Parameters**
 
-- `symbol`  
+- `symbol`
   *type:* `const Char*`
-- `extended`  
+- `extended`
   *type:* `bool`
-- `nullptr`  
+- `carbonTokenId`
+  *type:* `UInt64`
+- `nullptr`
+  *type:* `PhantasmaError* out_error =`
+
+### GetTokenSeries
+
+Returns token series for a token using cursor pagination.
+
+**Returns:** `CursorPaginatedResult<TokenSeries>`
+
+**Parameters**
+
+- `symbol`
+  *type:* `const Char*`
+- `carbonTokenId`
+  *type:* `UInt64`
+- `pageSize`
+  *type:* `UInt32`
+- `cursor`
+  *type:* `const Char*`
+- `nullptr`
+  *type:* `PhantasmaError* out_error =`
+
+### GetTokenSeriesById
+
+Returns one token series by Phantasma or Carbon identifiers.
+
+**Returns:** `TokenSeries`
+
+**Parameters**
+
+- `symbol`
+  *type:* `const Char*`
+- `carbonTokenId`
+  *type:* `UInt64`
+- `seriesId`
+  *type:* `const Char*`
+- `carbonSeriesId`
+  *type:* `UInt32`
+- `nullptr`
+  *type:* `PhantasmaError* out_error =`
+
+**Example**
+```cpp
+TokenSeries series = api.GetTokenSeriesById("CROWN", 0, "1", 0);
+```
+
+### GetTokenNFTs
+
+Returns NFTs for a token series using cursor pagination.
+
+**Returns:** `CursorPaginatedResult<TokenData>`
+
+**Parameters**
+
+- `carbonTokenId`
+  *type:* `UInt64`
+- `carbonSeriesId`
+  *type:* `UInt32`
+- `pageSize`
+  *type:* `UInt32`
+- `cursor`
+  *type:* `const Char*`
+- `extended`
+  *type:* `bool`
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 ### GetTokenData
 
@@ -396,11 +542,124 @@ Returns data of a non-fungible token, in hexadecimal format.
 
 **Parameters**
 
-- `symbol`  
+- `symbol`
   *type:* `const Char*`
-- `IDtext`  
+- `IDtext`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
+  *type:* `PhantasmaError* out_error =`
+
+### GetNFTs
+
+Returns data for multiple non-fungible token IDs.
+
+**Returns:** `PHANTASMA_VECTOR<TokenData>`
+
+**Parameters**
+
+- `symbol`
+  *type:* `const Char*`
+- `IDtext`
+  *type:* `const Char*`
+- `extended`
+  *type:* `bool`
+- `nullptr`
+  *type:* `PhantasmaError* out_error =`
+
+### GetAccountFungibleTokens
+
+Returns fungible token balances owned by an address using cursor pagination.
+
+**Returns:** `CursorPaginatedResult<Balance>`
+
+**Parameters**
+
+- `account`
+  *type:* `const Char*`
+- `tokenSymbol`
+  *type:* `const Char*`
+- `carbonTokenId`
+  *type:* `UInt64`
+- `pageSize`
+  *type:* `UInt32`
+- `cursor`
+  *type:* `const Char*`
+- `checkAddressReservedByte`
+  *type:* `bool`
+- `nullptr`
+  *type:* `PhantasmaError* out_error =`
+
+### GetAccountNFTs
+
+Returns NFTs owned by an address using cursor pagination.
+
+**Returns:** `CursorPaginatedResult<TokenData>`
+
+**Parameters**
+
+- `account`
+  *type:* `const Char*`
+- `tokenSymbol`
+  *type:* `const Char*`
+- `carbonTokenId`
+  *type:* `UInt64`
+- `carbonSeriesId`
+  *type:* `UInt32`
+- `pageSize`
+  *type:* `UInt32`
+- `cursor`
+  *type:* `const Char*`
+- `extended`
+  *type:* `bool`
+- `checkAddressReservedByte`
+  *type:* `bool`
+- `nullptr`
+  *type:* `PhantasmaError* out_error =`
+
+### GetAccountOwnedTokens
+
+Returns NFT token definitions for which the account owns at least one NFT instance.
+
+**Returns:** `CursorPaginatedResult<Token>`
+
+**Parameters**
+
+- `account`
+  *type:* `const Char*`
+- `tokenSymbol`
+  *type:* `const Char*`
+- `carbonTokenId`
+  *type:* `UInt64`
+- `pageSize`
+  *type:* `UInt32`
+- `cursor`
+  *type:* `const Char*`
+- `checkAddressReservedByte`
+  *type:* `bool`
+- `nullptr`
+  *type:* `PhantasmaError* out_error =`
+
+### GetAccountOwnedTokenSeries
+
+Returns NFT series for which the account owns at least one NFT instance.
+
+**Returns:** `CursorPaginatedResult<TokenSeries>`
+
+**Parameters**
+
+- `account`
+  *type:* `const Char*`
+- `tokenSymbol`
+  *type:* `const Char*`
+- `carbonTokenId`
+  *type:* `UInt64`
+- `pageSize`
+  *type:* `UInt32`
+- `cursor`
+  *type:* `const Char*`
+- `checkAddressReservedByte`
+  *type:* `bool`
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 ### GetNFT
 
@@ -410,13 +669,13 @@ Returns data of a non-fungible token, in hexadecimal format.
 
 **Parameters**
 
-- `symbol`  
+- `symbol`
   *type:* `const Char*`
-- `IDtext`  
+- `IDtext`
   *type:* `const Char*`
-- `extended`  
+- `extended`
   *type:* `bool`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 ### GetTokenBalance
 
@@ -426,13 +685,13 @@ Returns the balance for a specific token and chain, given an address.
 
 **Parameters**
 
-- `account`  
+- `account`
   *type:* `const Char*`
-- `tokenSymbol`  
+- `tokenSymbol`
   *type:* `const Char*`
-- `chainInput`  
+- `chainInput`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 
 **Example**
@@ -452,11 +711,11 @@ Returns the number of active auctions.
 
 **Parameters**
 
-- `chainAddressOrName`  
+- `chainAddressOrName`
   *type:* `const Char*`
-- `symbol`  
+- `symbol`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 ### GetAuctions
 
@@ -466,15 +725,15 @@ Returns the auctions available in the market. (paginated call)
 
 **Parameters**
 
-- `chainAddressOrName`  
+- `chainAddressOrName`
   *type:* `const Char*`
-- `symbol`  
+- `symbol`
   *type:* `const Char*`
-- `page`  
+- `page`
   *type:* `UInt32`
-- `pageSize`  
+- `pageSize`
   *type:* `UInt32`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 ### GetAuction
 
@@ -484,13 +743,13 @@ Returns the auction for a specific token.
 
 **Parameters**
 
-- `chainAddressOrName`  
+- `chainAddressOrName`
   *type:* `const Char*`
-- `symbol`  
+- `symbol`
   *type:* `const Char*`
-- `IDtext`  
+- `IDtext`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 
 
@@ -504,9 +763,9 @@ Returns info about a specific archive.
 
 **Parameters**
 
-- `hashText`  
+- `hashText`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 ### WriteArchive
 
@@ -516,13 +775,13 @@ Writes the contents of an incomplete archive.
 
 **Parameters**
 
-- `hashText`  
+- `hashText`
   *type:* `const Char*`
-- `blockIndex`  
+- `blockIndex`
   *type:* `Int32`
-- `blockContent`  
+- `blockContent`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 ### ReadArchive
 
@@ -532,12 +791,49 @@ Reads given archive block.
 
 **Parameters**
 
-- `hashText`  
+- `hashText`
   *type:* `const Char*`
-- `blockIndex`  
+- `blockIndex`
   *type:* `Int32`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
+
+
+## Node Metadata
+
+### GetVersion
+
+Returns build metadata reported by the node.
+
+**Returns:** `BuildInfoResult`
+
+**Parameters**
+
+- `nullptr`
+  *type:* `PhantasmaError* out_error =`
+
+**Example**
+```cpp
+BuildInfoResult build = api.GetVersion();
+```
+
+### GetPhantasmaVmConfig
+
+Returns the current VM configuration applied by a chain.
+
+**Returns:** `PhantasmaVmConfig`
+
+**Parameters**
+
+- `chainAddressOrName`
+  *type:* `const Char*`
+- `nullptr`
+  *type:* `PhantasmaError* out_error =`
+
+**Example**
+```cpp
+PhantasmaVmConfig vm = api.GetPhantasmaVmConfig("main");
+```
 
 
 ## Relay/Networking
@@ -550,7 +846,7 @@ Returns list of known peers.
 
 **Parameters**
 
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 ### RelaySend
 
@@ -560,9 +856,9 @@ Writes a message to the relay network.
 
 **Parameters**
 
-- `receiptHex`  
+- `receiptHex`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 ### RelayReceive
 
@@ -572,9 +868,9 @@ Receives messages from the relay network.
 
 **Parameters**
 
-- `account`  
+- `account`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 
 
@@ -588,7 +884,7 @@ Returns an array of available interop platforms.
 
 **Parameters**
 
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 ### GetValidators
 
@@ -598,7 +894,7 @@ Returns an array of available validators.
 
 **Parameters**
 
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 ### SettleSwap
 
@@ -608,13 +904,13 @@ Tries to settle a pending swap for a specific hash.
 
 **Parameters**
 
-- `sourcePlatform`  
+- `sourcePlatform`
   *type:* `const Char*`
-- `destPlatform`  
+- `destPlatform`
   *type:* `const Char*`
-- `hashText`  
+- `hashText`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 ### GetSwapsForAddress
 
@@ -624,9 +920,9 @@ Returns platform swaps for a specific address.
 
 **Parameters**
 
-- `account`  
+- `account`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 
 
@@ -640,9 +936,9 @@ Returns info about an organization.
 
 **Parameters**
 
-- `ID`  
+- `ID`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
 ### GetLeaderboard
 
@@ -652,8 +948,7 @@ Returns content of a Phantasma leaderboard.
 
 **Parameters**
 
-- `name`  
+- `name`
   *type:* `const Char*`
-- `nullptr`  
+- `nullptr`
   *type:* `PhantasmaError* out_error =`
-

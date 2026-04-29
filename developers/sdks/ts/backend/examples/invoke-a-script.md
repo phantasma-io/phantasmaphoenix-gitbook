@@ -1,7 +1,7 @@
 # Invoke a Script
 
-{% hint style="warning" %}
-This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
+{% hint style="info" %}
+Current RPC and TypeScript SDK source expose `invokeRawScript` as a read-only VM execution call. This page is source-backed; it does not include live public-node verification.
 {% endhint %}
 
 {% hint style="info" %}

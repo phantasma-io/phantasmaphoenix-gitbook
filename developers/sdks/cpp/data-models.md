@@ -5,13 +5,13 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **value** — Numeric as string  
+- **value** — Numeric as string
   *type:* `Int32`
-- **name** — String  
+- **name** — String
   *type:* `String`
-- **returnType**  
+- **returnType**
   *type:* `String`
-- **description**  
+- **description**
   *type:* `String`
 
 ---
@@ -20,11 +20,11 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **name** — String  
+- **name** — String
   *type:* `String`
-- **returnType**  
+- **returnType**
   *type:* `String`
-- **parameters**  
+- **parameters**
   *type:* `PHANTASMA_VECTOR<ABIParameter>`
 
 ---
@@ -33,9 +33,9 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **name** — String  
+- **name** — String
   *type:* `String`
-- **type**  
+- **type**
   *type:* `String`
 
 ---
@@ -44,25 +44,25 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **address** — Account address (P2K...)  
+- **address** — Account address (P2K...)
   *type:* `String`
-- **name** — String  
+- **name** — String
   *type:* `String`
-- **stakes** — Stake info  
+- **stakes** — Stake info
   *type:* `Stake`
-- **stake**  
+- **stake**
   *type:* `String`
-- **unclaimed** — Unclaimed rewards/fees  
+- **unclaimed** — Unclaimed rewards/fees
   *type:* `String`
-- **relay**  
+- **relay**
   *type:* `String`
-- **validator**  
+- **validator**
   *type:* `String`
-- **storage**  
+- **storage**
   *type:* `Storage`
-- **balances** — Per-token balances  
+- **balances** — Per-token balances
   *type:* `PHANTASMA_VECTOR<Balance>`
-- **txs**  
+- **txs**
   *type:* `PHANTASMA_VECTOR<String>`
 
 ---
@@ -71,9 +71,9 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **address** — Account address (P2K...)  
+- **address** — Account address (P2K...)
   *type:* `String`
-- **txs**  
+- **txs**
   *type:* `PHANTASMA_VECTOR<Transaction>`
 
 ---
@@ -82,21 +82,21 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **name** — String  
+- **name** — String
   *type:* `String`
-- **hash** — Hex-encoded hash  
+- **hash** — Hex-encoded hash
   *type:* `String`
-- **time** — Unix timestamp (seconds)  
+- **time** — Unix timestamp (seconds)
   *type:* `UInt32`
-- **size**  
+- **size**
   *type:* `UInt32`
-- **encryption**  
+- **encryption**
   *type:* `String`
-- **blockCount**  
+- **blockCount**
   *type:* `Int32`
-- **missingBlocks**  
+- **missingBlocks**
   *type:* `PHANTASMA_VECTOR<Int32>`
-- **owners**  
+- **owners**
   *type:* `PHANTASMA_VECTOR<String>`
 
 ---
@@ -105,25 +105,25 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **creatorAddress**  
+- **creatorAddress**
   *type:* `String`
-- **chainAddress**  
+- **chainAddress**
   *type:* `String`
-- **startDate** — Auction start/end timestamp  
+- **startDate** — Auction start/end timestamp
   *type:* `UInt32`
-- **endDate** — Auction start/end timestamp  
+- **endDate** — Auction start/end timestamp
   *type:* `UInt32`
-- **baseSymbol**  
+- **baseSymbol**
   *type:* `String`
-- **quoteSymbol**  
+- **quoteSymbol**
   *type:* `String`
-- **tokenId** — Identifier  
+- **tokenId** — Identifier
   *type:* `String`
-- **price** — Numeric as string  
+- **price** — Numeric as string
   *type:* `String`
-- **rom**  
+- **rom**
   *type:* `String`
-- **ram**  
+- **ram**
   *type:* `String`
 
 ---
@@ -132,16 +132,62 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **chain** — Chain name  
+- **chain** — Chain name
   *type:* `String`
-- **amount** — Numeric as string  
+- **amount** — Numeric as string
   *type:* `String`
-- **symbol** — String  
+- **symbol** — String
   *type:* `String`
-- **decimals** — Token decimals  
+- **decimals** — Token decimals
   *type:* `UInt32`
-- **ids** — NFT IDs owned for this symbol on the chain  
+- **ids** — NFT IDs owned for this symbol on the chain
   *type:* `PHANTASMA_VECTOR<String>`
+
+---
+
+# VmVariableSchemaResult
+*Type:* `struct`
+
+## Fields
+- **type**
+  *type:* `String`
+- **schema**
+  *type:* `std::shared_ptr<VmStructSchemaResult>`
+
+---
+
+# VmNamedVariableSchemaResult
+*Type:* `struct`
+
+## Fields
+- **name**
+  *type:* `String`
+- **schema**
+  *type:* `VmVariableSchemaResult`
+
+---
+
+# VmStructSchemaResult
+*Type:* `struct`
+
+## Fields
+- **fields**
+  *type:* `PHANTASMA_VECTOR<VmNamedVariableSchemaResult>`
+- **flags**
+  *type:* `Int32`
+
+---
+
+# TokenSchemas
+*Type:* `struct`
+
+## Fields
+- **seriesMetadata**
+  *type:* `VmStructSchemaResult`
+- **rom**
+  *type:* `VmStructSchemaResult`
+- **ram**
+  *type:* `VmStructSchemaResult`
 
 ---
 
@@ -149,27 +195,27 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **hash** — Hex-encoded hash  
+- **hash** — Hex-encoded hash
   *type:* `String`
-- **previousHash**  
+- **previousHash**
   *type:* `String`
-- **timestamp** — Unix timestamp (seconds)  
+- **timestamp** — Unix timestamp (seconds)
   *type:* `UInt32`
-- **height** — Block or chain height  
+- **height** — Block or chain height
   *type:* `UInt32`
-- **chainAddress**  
+- **chainAddress**
   *type:* `String`
-- **protocol**  
+- **protocol**
   *type:* `UInt32`
-- **txs**  
+- **txs**
   *type:* `PHANTASMA_VECTOR<Transaction>`
-- **validatorAddress**  
+- **validatorAddress**
   *type:* `String`
-- **reward**  
+- **reward**
   *type:* `String`
-- **events**  
+- **events**
   *type:* `PHANTASMA_VECTOR<Event>`
-- **oracles**  
+- **oracles**
   *type:* `PHANTASMA_VECTOR<Oracle>`
 
 ---
@@ -178,19 +224,19 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **name** — String  
+- **name** — String
   *type:* `String`
-- **address** — Account address (P2K...)  
+- **address** — Account address (P2K...)
   *type:* `String`
-- **parent**  
+- **parent**
   *type:* `String`
-- **height** — Block or chain height  
+- **height** — Block or chain height
   *type:* `UInt32`
-- **organization**  
+- **organization**
   *type:* `String`
-- **contracts**  
+- **contracts**
   *type:* `PHANTASMA_VECTOR<String>`
-- **dapps**  
+- **dapps**
   *type:* `PHANTASMA_VECTOR<String>`
 
 ---
@@ -199,25 +245,25 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **creatorAddress**  
+- **creatorAddress**
   *type:* `String`
-- **targetAddress**  
+- **targetAddress**
   *type:* `String`
-- **name** — String  
+- **name** — String
   *type:* `String`
-- **chain**  
+- **chain**
   *type:* `String`
-- **creationTime**  
+- **creationTime**
   *type:* `UInt32`
-- **symbol** — String  
+- **symbol** — String
   *type:* `String`
-- **fee**  
+- **fee**
   *type:* `String`
-- **balance** — Numeric as string  
+- **balance** — Numeric as string
   *type:* `String`
-- **active**  
+- **active**
   *type:* `bool`
-- **index**  
+- **index**
   *type:* `Int32`
 
 ---
@@ -226,15 +272,15 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **name** — String  
+- **name** — String
   *type:* `String`
-- **address** — Account address (P2K...)  
+- **address** — Account address (P2K...)
   *type:* `String`
-- **script**  
+- **script**
   *type:* `String`
-- **methods**  
+- **methods**
   *type:* `PHANTASMA_VECTOR<ABIMethod>`
-- **events**  
+- **events**
   *type:* `PHANTASMA_VECTOR<ABIEvent>`
 
 ---
@@ -243,11 +289,11 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **name** — String  
+- **name** — String
   *type:* `String`
-- **address** — Account address (P2K...)  
+- **address** — Account address (P2K...)
   *type:* `String`
-- **chain**  
+- **chain**
   *type:* `String`
 
 ---
@@ -256,14 +302,175 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **address** — Account address (P2K...)  
+- **address** — Account address (P2K...)
   *type:* `String`
-- **contract** — String  
+- **contract** — String
   *type:* `String`
-- **kind**  
+- **kind**
   *type:* `String`
-- **data** — Event payload (hex)  
+- **name**
   *type:* `String`
+- **data** — Event payload (hex)
+  *type:* `String`
+
+---
+
+# TokenCreateData
+*Type:* `struct`
+
+## Fields
+- **symbol**
+  *type:* `String`
+- **maxSupply**
+  *type:* `String`
+- **decimals**
+  *type:* `UInt32`
+- **isNonFungible**
+  *type:* `bool`
+- **carbonTokenId**
+  *type:* `UInt64`
+- **metadata**
+  *type:* `PHANTASMA_MAP<String, String>`
+
+---
+
+# TokenSeriesCreateData
+*Type:* `struct`
+
+## Fields
+- **symbol**
+  *type:* `String`
+- **seriesId**
+  *type:* `String`
+- **maxMint**
+  *type:* `UInt32`
+- **maxSupply**
+  *type:* `UInt32`
+- **owner**
+  *type:* `String`
+- **carbonTokenId**
+  *type:* `UInt64`
+- **carbonSeriesId**
+  *type:* `UInt32`
+- **metadata**
+  *type:* `PHANTASMA_MAP<String, String>`
+
+---
+
+# TokenMintData
+*Type:* `struct`
+
+## Fields
+- **symbol**
+  *type:* `String`
+- **tokenId**
+  *type:* `String`
+- **seriesId**
+  *type:* `String`
+- **mintNumber**
+  *type:* `UInt32`
+- **carbonTokenId**
+  *type:* `UInt64`
+- **carbonSeriesId**
+  *type:* `UInt32`
+- **carbonInstanceId**
+  *type:* `UInt64`
+- **owner**
+  *type:* `String`
+- **metadata**
+  *type:* `PHANTASMA_MAP<String, String>`
+
+---
+
+# MarketOrderData
+*Type:* `struct`
+
+## Fields
+- **baseSymbol**
+  *type:* `String`
+- **quoteSymbol**
+  *type:* `String`
+- **tokenId**
+  *type:* `String`
+- **carbonBaseTokenId**
+  *type:* `UInt64`
+- **carbonQuoteTokenId**
+  *type:* `UInt64`
+- **carbonInstanceId**
+  *type:* `UInt64`
+- **seller**
+  *type:* `String`
+- **buyer**
+  *type:* `String`
+- **price**
+  *type:* `String`
+- **endPrice**
+  *type:* `String`
+- **startDate**
+  *type:* `Int64`
+- **endDate**
+  *type:* `Int64`
+- **type**
+  *type:* `String`
+
+---
+
+# SpecialResolutionCall
+*Type:* `struct`
+
+## Fields
+- **moduleId**
+  *type:* `UInt32`
+- **module**
+  *type:* `String`
+- **methodId**
+  *type:* `UInt32`
+- **method**
+  *type:* `String`
+- **arguments**
+  *type:* `PHANTASMA_MAP<String, String>`
+- **calls**
+  *type:* `PHANTASMA_VECTOR<SpecialResolutionCall>`
+
+---
+
+# SpecialResolutionData
+*Type:* `struct`
+
+## Fields
+- **resolutionId**
+  *type:* `UInt64`
+- **description**
+  *type:* `String`
+- **calls**
+  *type:* `PHANTASMA_VECTOR<SpecialResolutionCall>`
+
+---
+
+# EventExtended
+*Type:* `struct`
+
+`type` uses `ExtendedEventType`: `Unknown`, `TokenCreate`, `TokenSeriesCreate`, `TokenMint`, `MarketOrder`, or `SpecialResolution`.
+
+## Fields
+- **address**
+  *type:* `String`
+- **contract**
+  *type:* `String`
+- **kind**
+  *type:* `String`
+- **type**
+  *type:* `ExtendedEventType`
+- **tokenCreate**
+  *type:* `TokenCreateData`
+- **tokenSeriesCreate**
+  *type:* `TokenSeriesCreateData`
+- **tokenMint**
+  *type:* `TokenMintData`
+- **marketOrder**
+  *type:* `MarketOrderData`
+- **specialResolution**
+  *type:* `SpecialResolutionData`
 
 ---
 
@@ -271,9 +478,9 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **name** — String  
+- **name** — String
   *type:* `String`
-- **value** — Numeric as string  
+- **value** — Numeric as string
   *type:* `String`
 
 ---
@@ -282,9 +489,9 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **local**  
+- **local**
   *type:* `String`
-- **external**  
+- **external**
   *type:* `String`
 
 ---
@@ -293,9 +500,9 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **name** — String  
+- **name** — String
   *type:* `String`
-- **rows**  
+- **rows**
   *type:* `PHANTASMA_VECTOR<LeaderboardRow>`
 
 ---
@@ -304,9 +511,9 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **address** — Account address (P2K...)  
+- **address** — Account address (P2K...)
   *type:* `String`
-- **value** — Numeric as string  
+- **value** — Numeric as string
   *type:* `String`
 
 ---
@@ -315,17 +522,17 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **name** — String  
+- **name** — String
   *type:* `String`
-- **platforms** — Interop platforms registered in the nexus  
+- **platforms** — Interop platforms registered in the nexus
   *type:* `PHANTASMA_VECTOR<Platform>`
-- **tokens** — Deployed tokens  
+- **tokens** — Deployed tokens
   *type:* `PHANTASMA_VECTOR<Token>`
-- **chains** — Chains in the nexus  
+- **chains** — Chains in the nexus
   *type:* `PHANTASMA_VECTOR<Chain>`
-- **governance**  
+- **governance**
   *type:* `PHANTASMA_VECTOR<Governance>`
-- **organizations**  
+- **organizations**
   *type:* `PHANTASMA_VECTOR<String>`
 
 ---
@@ -334,9 +541,9 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **url**  
+- **url**
   *type:* `String`
-- **content**  
+- **content**
   *type:* `String`
 
 ---
@@ -345,11 +552,11 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **id** — Identifier  
+- **id** — Identifier
   *type:* `String`
-- **name** — String  
+- **name** — String
   *type:* `String`
-- **members**  
+- **members**
   *type:* `PHANTASMA_VECTOR<String>`
 
 ---
@@ -358,16 +565,27 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **page**  
+- **page**
   *type:* `UInt32`
-- **pageSize**  
+- **pageSize**
   *type:* `UInt32`
-- **total**  
+- **total**
   *type:* `UInt32`
-- **totalPages**  
+- **totalPages**
   *type:* `UInt32`
-- **result**  
+- **result**
   *type:* `JSONValue`
+
+---
+
+# CursorPaginatedResult
+*Type:* `template<class T> struct`
+
+## Fields
+- **result**
+  *type:* `PHANTASMA_VECTOR<T>`
+- **cursor**
+  *type:* `String`
 
 ---
 
@@ -375,15 +593,15 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **url**  
+- **url**
   *type:* `String`
-- **version**  
+- **version**
   *type:* `String`
-- **flags**  
+- **flags**
   *type:* `String`
-- **fee**  
+- **fee**
   *type:* `String`
-- **pow**  
+- **pow**
   *type:* `UInt32`
 
 ---
@@ -392,8 +610,12 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **message**  
+- **code**
+  *type:* `int`
+- **message**
   *type:* `String`
+
+Static error codes: `InvalidJSON = -1`, `HttpError = -2`, `InvalidRpcResponse = -3`, `RpcMessage = -4`.
 
 ---
 
@@ -401,15 +623,15 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **platform**  
+- **platform**
   *type:* `String`
-- **chain**  
+- **chain**
   *type:* `String`
-- **fuel**  
+- **fuel**
   *type:* `String`
-- **tokens**  
+- **tokens**
   *type:* `PHANTASMA_VECTOR<String>`
-- **interop**  
+- **interop**
   *type:* `PHANTASMA_VECTOR<Interop>`
 
 ---
@@ -418,19 +640,19 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **nexus**  
+- **nexus**
   *type:* `String`
-- **channel**  
+- **channel**
   *type:* `String`
-- **index**  
+- **index**
   *type:* `String`
-- **timestamp** — Unix timestamp (seconds)  
+- **timestamp** — Unix timestamp (seconds)
   *type:* `UInt32`
-- **sender**  
+- **sender**
   *type:* `String`
-- **receiver**  
+- **receiver**
   *type:* `String`
-- **script**  
+- **script**
   *type:* `String`
 
 ---
@@ -439,13 +661,13 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **events**  
+- **events**
   *type:* `PHANTASMA_VECTOR<Event>`
-- **result**  
+- **result**
   *type:* `String`
-- **results**  
+- **results**
   *type:* `PHANTASMA_VECTOR<String>`
-- **oracles**  
+- **oracles**
   *type:* `PHANTASMA_VECTOR<Oracle>`
 
 ---
@@ -454,9 +676,20 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **hash** — Hex-encoded hash  
+- **hash** — Hex-encoded hash
   *type:* `String`
-- **error**  
+- **error**
+  *type:* `String`
+
+---
+
+# SendCarbonTx
+*Type:* `struct`
+
+## Fields
+- **hash** — Hex-encoded hash
+  *type:* `String`
+- **error**
   *type:* `String`
 
 ---
@@ -465,9 +698,9 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **Kind**  
+- **Kind**
   *type:* `String`
-- **Data**  
+- **Data**
   *type:* `String`
 
 ---
@@ -476,11 +709,11 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **amount** — Numeric as string  
+- **amount** — Numeric as string
   *type:* `String`
-- **time** — Unix timestamp (seconds)  
+- **time** — Unix timestamp (seconds)
   *type:* `UInt32`
-- **unclaimed**  
+- **unclaimed**
   *type:* `String`
 
 ---
@@ -489,13 +722,13 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **available**  
+- **available**
   *type:* `UInt32`
-- **used**  
+- **used**
   *type:* `UInt32`
-- **avatar**  
+- **avatar**
   *type:* `String`
-- **archives**  
+- **archives**
   *type:* `PHANTASMA_VECTOR<Archive>`
 
 ---
@@ -504,25 +737,25 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **sourcePlatform** — Cross-chain platform names  
+- **sourcePlatform** — Cross-chain platform names
   *type:* `String`
-- **sourceChain**  
+- **sourceChain**
   *type:* `String`
-- **sourceHash**  
+- **sourceHash**
   *type:* `String`
-- **sourceAddress**  
+- **sourceAddress**
   *type:* `String`
-- **destinationPlatform**  
+- **destinationPlatform**
   *type:* `String`
-- **destinationChain**  
+- **destinationChain**
   *type:* `String`
-- **destinationHash**  
+- **destinationHash**
   *type:* `String`
-- **destinationAddress**  
+- **destinationAddress**
   *type:* `String`
-- **symbol** — String  
+- **symbol** — String
   *type:* `String`
-- **value** — Numeric as string  
+- **value** — Numeric as string
   *type:* `String`
 
 ---
@@ -531,26 +764,34 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **symbol** — String  
+- **symbol** — String
   *type:* `String`
-- **name** — String  
+- **name** — String
   *type:* `String`
-- **decimals** — Token decimals  
+- **decimals** — Token decimals
   *type:* `Int32`
-- **currentSupply** — Numeric as string  
+- **currentSupply** — Numeric as string
   *type:* `String`
-- **maxSupply** — Numeric as string  
+- **maxSupply** — Numeric as string
   *type:* `String`
-- **address** — Account address (P2K...)  
+- **carbonId**
   *type:* `String`
-- **owner** — Account address (P2K...)  
+- **burnedSupply**
   *type:* `String`
-- **flags** — Token flags (fungible, transferable, etc.)  
+- **address** — Account address (P2K...)
   *type:* `String`
-- **script**  
+- **owner** — Account address (P2K...)
   *type:* `String`
-- **series**  
+- **flags** — Token flags (fungible, transferable, etc.)
+  *type:* `String`
+- **script**
+  *type:* `String`
+- **series**
   *type:* `PHANTASMA_VECTOR<TokenSeries>`
+- **metadata**
+  *type:* `PHANTASMA_VECTOR<TokenProperty>`
+- **tokenSchemas**
+  *type:* `TokenSchemas`
 
 ---
 
@@ -558,27 +799,27 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **ID** — Identifier  
+- **ID** — Identifier
   *type:* `String`
-- **series**  
+- **series**
   *type:* `String`
-- **mint**  
+- **mint**
   *type:* `String`
-- **chainName**  
+- **chainName**
   *type:* `String`
-- **ownerAddress**  
+- **ownerAddress**
   *type:* `String`
-- **creatorAddress**  
+- **creatorAddress**
   *type:* `String`
-- **ram**  
+- **ram**
   *type:* `String`
-- **rom**  
+- **rom**
   *type:* `String`
-- **status**  
+- **status**
   *type:* `String`
-- **infusion**  
+- **infusion**
   *type:* `PHANTASMA_VECTOR<TokenProperty>`
-- **properties**  
+- **properties**
   *type:* `PHANTASMA_VECTOR<TokenProperty>`
 
 ---
@@ -587,9 +828,9 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **Key**  
+- **Key**
   *type:* `String`
-- **Value** — Numeric as string  
+- **Value** — Numeric as string
   *type:* `String`
 
 ---
@@ -598,18 +839,66 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **seriesID** — Identifier  
+- **seriesID** — Identifier
   *type:* `UInt32`
-- **currentSupply** — Numeric as string  
+- **currentSupply** — Numeric as string
   *type:* `String`
-- **maxSupply** — Numeric as string  
+- **maxSupply** — Numeric as string
   *type:* `String`
-- **mode**  
+- **burnedSupply**
+  *type:* `String`
+- **mode**
   *type:* `TokenSeriesMode`
-- **script**  
+- **carbonTokenId**
   *type:* `String`
-- **methods**  
+- **carbonSeriesId**
+  *type:* `String`
+- **script**
+  *type:* `String`
+- **methods**
   *type:* `PHANTASMA_VECTOR<ABIMethod>`
+- **metadata**
+  *type:* `PHANTASMA_VECTOR<TokenProperty>`
+
+---
+
+# BuildInfoResult
+*Type:* `struct`
+
+## Fields
+- **version**
+  *type:* `String`
+- **commit**
+  *type:* `String`
+- **buildTimeUtc**
+  *type:* `String`
+
+---
+
+# PhantasmaVmConfig
+*Type:* `struct`
+
+## Fields
+- **isStored**
+  *type:* `bool`
+- **featureLevel**
+  *type:* `Int32`
+- **gasConstructor**
+  *type:* `String`
+- **gasNexus**
+  *type:* `String`
+- **gasOrganization**
+  *type:* `String`
+- **gasAccount**
+  *type:* `String`
+- **gasLeaderboard**
+  *type:* `String`
+- **gasStandard**
+  *type:* `String`
+- **gasOracle**
+  *type:* `String`
+- **fuelPerContractDeploy**
+  *type:* `String`
 
 ---
 
@@ -617,41 +906,45 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **hash** — Hex-encoded hash  
+- **hash** — Hex-encoded hash
   *type:* `String`
-- **chainAddress**  
+- **chainAddress**
   *type:* `String`
-- **timestamp** — Unix timestamp (seconds)  
+- **timestamp** — Unix timestamp (seconds)
   *type:* `UInt32`
-- **blockHeight**  
+- **blockHeight**
   *type:* `Int32`
-- **blockHash**  
+- **blockHash**
   *type:* `String`
-- **script** — Raw script (hex)  
+- **script** — Raw script (hex)
   *type:* `String`
-- **payload** — Opaque payload (hex)  
+- **payload** — Opaque payload (hex)
   *type:* `String`
-- **events**  
+- **events**
   *type:* `PHANTASMA_VECTOR<Event>`
-- **result**  
+- **extendedEvents**
+  *type:* `PHANTASMA_VECTOR<EventExtended>`
+- **result**
   *type:* `String`
-- **fee**  
+- **debugComment**
   *type:* `String`
-- **signatures** — Attached signatures  
+- **fee**
+  *type:* `String`
+- **signatures** — Attached signatures
   *type:* `PHANTASMA_VECTOR<Signature>`
-- **expiration**  
+- **expiration**
   *type:* `UInt32`
-- **state**  
+- **state**
   *type:* `String`
-- **sender**  
+- **sender**
   *type:* `String`
-- **gasPayer**  
+- **gasPayer**
   *type:* `String`
-- **gasTarget**  
+- **gasTarget**
   *type:* `String`
-- **gasPrice**  
+- **gasPrice**
   *type:* `String`
-- **gasLimit**  
+- **gasLimit**
   *type:* `String`
 
 ---
@@ -660,10 +953,9 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
 *Type:* `struct`
 
 ## Fields
-- **address** — Account address (P2K...)  
+- **address** — Account address (P2K...)
   *type:* `String`
-- **type**  
+- **type**
   *type:* `String`
 
 ---
-

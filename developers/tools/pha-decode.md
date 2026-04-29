@@ -1,12 +1,17 @@
 # pha-decode
 
-CLI tool for decoding Phantasma transactions (Carbon + VM) and legacy event hex.
+CLI tool for decoding Phantasma Carbon + VM transactions, contract lifecycle scripts, legacy event hex, ROM blobs, and address conversions.
 
 ## What it can decode
 
-- Carbon transactions (Call, Call_Multi, mint, burn, transfer).
-- VM transactions (script disassembly and method calls).
-- Legacy event hex payloads (classic events).
+- Carbon transaction hex or a transaction fetched by hash.
+- Carbon `Phantasma` / `Phantasma_Raw` wrappers reconstructed into a VM view.
+- VM transaction containers and raw VM scripts, including disassembly and method calls.
+- Deploy / upgrade interops with contract name, signer, script hash, ABI hash, and ABI method/event summaries when ABI bytes are present.
+- Legacy event hex payloads.
+- ROM blobs in auto, legacy/common, or `CROWN` mode.
+- Carbon `bytes32` addresses to Phantasma addresses and back.
+- Phantasma address derivation from WIF, a 32-byte private key, modern BIP44 seed phrases, or legacy Poltergeist seed phrases.
 - JSON or pretty text output.
 - Optional ABI resolution from local files or RPC.
 
@@ -22,6 +27,7 @@ npm i -g pha-decode
 
 # or run once via npx
 npx pha-decode --help
+npx pha-decode --version
 
 # local dev install
 npm install
@@ -52,18 +58,35 @@ Decode legacy event hex:
 pha-decode event --hex 0xAABBCC... --kind TokenMint
 ```
 
+Decode ROM:
+
+```bash
+pha-decode rom --hex 0x... --symbol CROWN --token-id 80367770225206466995541877216191568684251978941303868068127874072614271067693
+```
+
+Convert addresses:
+
+```bash
+pha-decode address --bytes32 f100396a4b73e3abcd6b9039712944d7df9e8abe7211e519a91176e83a28d01b
+pha-decode address --pha P2KKzrLNZK75f4Vtp4wwWocfgoqywBo3zKBWxBXjLgbxXmL
+```
+
 ## Commands and inputs
 
-`pha-decode` supports two commands:
+`pha-decode` supports four commands:
 
 - `tx` (default): decode a transaction from hex (`--hex`) or from hash (`--hash` + `--rpc`).
 - `event`: decode legacy event data from hex (`--hex`) with an optional event kind (`--kind`).
+- `rom`: decode ROM hex (`--hex`) with optional `--symbol`, `--token-id`, and `--rom-format`.
+- `address`: convert or derive addresses from `--bytes32`, `--pha`, `--wif`, `--private-key`, `--mnemonic`, or `--mnemonic-legacy`.
 
 Input rules:
 
 - Hex strings may include `0x` prefix and must have even length.
 - `--hash` requires `--rpc`.
 - `event` mode requires `--hex`.
+- `rom` mode requires `--hex`.
+- `address` mode requires exactly one address input selector. Use `--stdin` with the selector to read secret input from standard input.
 
 ## Output formats
 
@@ -82,6 +105,8 @@ JSON output structure (example):
   "carbon": { "...": "..." },
   "vm": { "...": "..." },
   "event": { "...": "..." },
+  "rom": { "...": "..." },
+  "address": { "...": "..." },
   "warnings": [],
   "errors": []
 }
@@ -99,6 +124,7 @@ General:
 - `--protocol-version <number>` Alias for `--protocol`.
 - `--verbose` Enable SDK logging.
 - `--help` Show help.
+- `--version` Show the package version.
 
 VM output detail:
 
@@ -108,17 +134,46 @@ VM output detail:
 Carbon output detail:
 
 - `--carbon-detail <all|call|msg|none>` Control Carbon output (default: `call`).
+- `--carbon-addresses <bytes32|pha>` Render known Carbon address fields as raw `bytes32` or decoded Phantasma addresses (default: `bytes32`).
 
 Event decoding:
 
 - `--kind <eventKind>` Event kind hint for legacy event hex. Accepts numeric id or name.
 
-### Event mode rules
+ROM decoding:
+
+- `--symbol <symbol>` ROM symbol hint, for example `CROWN`.
+- `--token-id <tokenId>` ROM token id hint.
+- `--rom-format <auto|legacy|crown>` ROM parser mode (default: `auto`).
+
+Address decoding:
+
+- `--bytes32 <hex>` Carbon bytes32 address input.
+- `--pha <address>` Phantasma address input.
+- `--wif <wif>` WIF private-key input; redacted in output.
+- `--private-key <hex>` 32-byte private-key input; redacted in output.
+- `--mnemonic <words>` / `--seed-phrase <words>` Modern BIP44 seed phrase input; redacted in output.
+- `--mnemonic-legacy <words>` / `--legacy-mnemonic <words>` Legacy Poltergeist seed phrase input; redacted in output.
+- `--legacy-password <password>` Optional legacy seed password; redacted in output.
+- `--stdin` Read the selected address input from standard input.
+- `--index <n>` / `--derivation-index <n>` Address derivation index for modern mnemonic input (default: `0`).
+
+### Mode rules
 
 When `event` is selected:
 
 - `--abi`, `--resolve`, `--vm-detail`, and `--carbon-detail` are ignored.
 - If `--kind` is omitted or unknown, the tool returns raw hex with a warning.
+
+When `rom` is selected:
+
+- `--abi`, `--resolve`, `--vm-detail`, `--carbon-detail`, and `--rpc` are ignored.
+- Auto mode chooses a parser from the available context and falls back with warnings when needed.
+
+When `address` is selected:
+
+- `--abi`, `--resolve`, `--vm-detail`, `--carbon-detail`, and `--rpc` are ignored.
+- Secret inputs are redacted from CLI output. Prefer `--stdin` for scripts and shells where history matters.
 
 ## ABI resolution
 

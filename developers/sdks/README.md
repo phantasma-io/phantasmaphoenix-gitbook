@@ -24,8 +24,6 @@ External Calls
 * C++
 * Typescript
 * JavaScript
-* Golang
-* Python
 
 ## C# SDK / Godot Engine
 
@@ -49,10 +47,4 @@ Unity SDK
 
 {% content-ref url="/developers/sdks/cpp/" %}
 C++
-{% endcontent-ref %}
-
-## Python
-
-{% content-ref url="/developers/sdks/python/" %}
-Python
 {% endcontent-ref %}

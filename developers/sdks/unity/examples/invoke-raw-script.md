@@ -1,7 +1,7 @@
 # Invoke Raw Script
 
-{% hint style="warning" %}
-This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
+{% hint style="info" %}
+Current RPC and Unity SDK source expose `InvokeRawScript` as a read-only VM execution call. This page is source-backed; it does not include live public-node verification.
 {% endhint %}
 
 This example shows how to call the blockchain directly to get information using the `InvokeRawScript()` method from the `PhantasmaAPI` class. A script is created and encoded before being passed to the method.

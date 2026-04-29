@@ -2,8 +2,8 @@
 description: Get some data from the blockchain
 ---
 
-{% hint style="warning" %}
-This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
+{% hint style="info" %}
+Current SDK source exposes the invoke-script methods used below. This page is source-backed; it does not include live public-node or wallet-deployment verification.
 {% endhint %}
 
 # Invoking a Script

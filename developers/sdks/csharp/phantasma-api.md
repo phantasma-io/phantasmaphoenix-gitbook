@@ -2,9 +2,6 @@
 
 Plain .NET RPC wrapper for the Phantasma API using `RpcClient` with `async` / `await`
 
-> **Note**  
-> Some RPC endpoints are temporarily unavailable or partially implemented as noted below and will follow the project roadmap: https://phantasma.info/blockchain#roadmap
-
 ---
 
 ## Initialization
@@ -31,6 +28,20 @@ Gets account information, including balances, for the specified address
 
 **Parameters**
 - `address` — account address
+
+**Returns**
+- `AccountResult` or `null` if not found
+
+---
+
+### `Task<AccountResult?> GetAccountAsync(string address, bool extended, bool checkAddressReservedByte, RpcAddressType addressType)`
+Gets account information for a specific address encoding.
+
+**Parameters**
+- `address` — account address text
+- `extended` — deprecated server flag; kept for RPC parity
+- `checkAddressReservedByte` — `true` to validate the address reserved byte
+- `addressType` — account address encoding expected by the RPC
 
 **Returns**
 - `AccountResult` or `null` if not found
@@ -126,10 +137,6 @@ Gets NFT series for which the account owns at least one NFT instance (cursor pag
 ---
 
 ## Auction
-
-{% hint style="warning" %}
-This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
-{% endhint %}
 
 ### `Task<int> GetAuctionsCountAsync(string chainAddressOrName, string symbol)`
 Gets the number of auctions currently available in the market contract for a given token
@@ -229,10 +236,11 @@ Gets the latest block for a chain
 
 ---
 
-### `Task<TransactionResult?> GetTransactionByBlockHashAndIndexAsync(string blockHash, int index)`
-Gets a transaction by block hash and transaction index
+### `Task<TransactionResult?> GetTransactionByBlockHashAndIndexAsync(string chainAddressOrName, string blockHash, int index)`
+Gets a transaction by chain, block hash, and transaction index. The legacy overload `GetTransactionByBlockHashAndIndexAsync(string blockHash, int index)` is still available and defaults to the main chain.
 
 **Parameters**
+- `chainAddressOrName` — chain address or name
 - `blockHash` — block hash
 - `index` — transaction index within the block
 
@@ -244,7 +252,7 @@ Gets a transaction by block hash and transaction index
 ## Chain
 
 {% hint style="warning" %}
-This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
+The current RPC source exposes these wrappers for compatibility, but the chain endpoints are still placeholders: `getChains` returns an empty array and `getChain` returns a default `ChainResult`. Do not use this section as a reliable chain-data source until the backend query implementation is completed.
 {% endhint %}
 
 ### `Task<ChainResult[]?> GetChainsAsync()`
@@ -268,10 +276,6 @@ Gets chain information by name
 ---
 
 ## Contract
-
-{% hint style="warning" %}
-This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
-{% endhint %}
 
 ### `Task<ContractResult?> GetContractAsync(string contractName)`
 Gets contract metadata by name from the main chain
@@ -307,7 +311,7 @@ Gets all contracts deployed on the main chain
 ## Leaderboard
 
 {% hint style="warning" %}
-This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
+The current RPC source exposes `getLeaderboard`, but the backend still returns a default `LeaderboardResult` from a placeholder query path. Do not treat this method as live leaderboard data yet.
 {% endhint %}
 
 ### `Task<LeaderboardResult?> GetLeaderboardAsync(string name)`
@@ -324,7 +328,7 @@ Gets a leaderboard by name
 ## Nexus
 
 {% hint style="warning" %}
-This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
+The current RPC source exposes `getNexus`, but the backend still returns a default `NexusResult` from a placeholder query path. Do not use it as authoritative nexus metadata yet.
 {% endhint %}
 
 ### `Task<NexusResult?> GetNexusAsync()`
@@ -338,7 +342,7 @@ Gets nexus metadata including an array of all chains deployed on Phantasma
 ## Organization
 
 {% hint style="warning" %}
-This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
+The current RPC source exposes the organization endpoints, but `getOrganization` and `getOrganizationByName` return default `OrganizationResult` values, and `getOrganizations` returns an empty array. Do not use this section as reliable organization data until those backend queries are implemented.
 {% endhint %}
 
 ### `Task<OrganizationResult?> GetOrganizationAsync(string id)`
@@ -431,7 +435,21 @@ Gets token series for a token (cursor pagination)
 
 ---
 
-### `Task<CursorPaginatedResult<TokenDataResult[]>?> GetTokenNFTsAsync(ulong carbonTokenId, uint carbonSeriesId = 0, uint pageSize = 10, string cursor = "", bool extended = false)`
+### `Task<TokenSeriesResult?> GetTokenSeriesByIdAsync(string symbol = "", ulong carbonTokenId = 0, string seriesId = "", uint carbonSeriesId = 0)`
+Gets one token series by Phantasma or Carbon identifiers
+
+**Parameters**
+- `symbol` — token symbol (optional when using `carbonTokenId`)
+- `carbonTokenId` — Carbon token id (optional when using `symbol`)
+- `seriesId` — Phantasma series id (optional when using `carbonSeriesId`)
+- `carbonSeriesId` — Carbon series id (optional when using `seriesId`)
+
+**Returns**
+- token series data or `null`
+
+---
+
+### `Task<CursorPaginatedResult<TokenDataResult[]>?> GetTokenNFTsAsync(ulong carbonTokenId, uint carbonSeriesId = 0, uint pageSize = 10, string cursor = "", bool extended = false, string seriesId = "")`
 Gets NFTs for a token (cursor pagination)
 
 **Parameters**
@@ -440,6 +458,7 @@ Gets NFTs for a token (cursor pagination)
 - `pageSize` — items per page
 - `cursor` — cursor for the next page
 - `extended` — `true` to include properties
+- `seriesId` — Phantasma series id filter (optional)
 
 **Returns**
 - cursor paginated NFT data or `null`
@@ -453,6 +472,21 @@ Gets the token balance for a given address and token symbol
 - `address` — account address
 - `symbol` — token symbol
 - `chain` — chain name, default `main`
+
+**Returns**
+- balance data or `null`
+
+---
+
+### `Task<BalanceResult?> GetTokenBalanceAsync(string address, string symbol, string chain, bool checkAddressReservedByte, RpcAddressType addressType)`
+Gets the token balance for a given address, token symbol, and address encoding.
+
+**Parameters**
+- `address` — account address text
+- `symbol` — token symbol
+- `chain` — chain name
+- `checkAddressReservedByte` — `true` to validate the address reserved byte
+- `addressType` — account address encoding expected by the RPC
 
 **Returns**
 - balance data or `null`
@@ -563,10 +597,6 @@ Broadcasts a Carbon transaction in hexadecimal encoding
 ### `Task<ScriptResult?> InvokeRawScriptAsync(string chain, string scriptData)`
 Invokes a VM script without state changes and returns its result
 
-{% hint style="warning" %}
-This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
-{% endhint %}
-
 **Parameters**
 - `chain` — chain name
 - `scriptData` — hex encoded script bytes
@@ -631,7 +661,7 @@ Builds, signs and broadcasts a transaction with a binary payload
 ## Storage
 
 {% hint style="warning" %}
-This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
+The current RPC source exposes the archive endpoints, but this storage section is still placeholder-backed: `getArchive` returns a default `ArchiveResult`, `writeArchive` returns `false`, and `readArchive` returns an empty string. Do not use these methods as working archive storage flows yet.
 {% endhint %}
 
 ### `Task<ArchiveResult?> GetArchiveAsync(string hash)`

@@ -1,28 +1,28 @@
 # Library Importing
 
-To Import a library you first need to choose one from the list
+Choose a compiler library from the library reference, then import it at the top of the contract body.
 
-{% content-ref url="broken-reference" %}
-[Broken link](broken-reference)
+{% content-ref url="../libraries.md" %}
+[libraries.md](../libraries.md)
 {% endcontent-ref %}
 
 ## Example
 
-In this **example,** we will be importing the **NFT** library, but it could have been any of the other libraries in the list.
+In this example, the contract imports the **NFT** library. The same import pattern applies to the other compiler libraries.
 
 {% code lineNumbers="true" %}
 ```csharp
 contract test {
 	import NFT;
 	
-	public sum(a:number, b:number):number
+	public mintSample(from:address, to:address, symbol:string, rom:any, ram:any)
 	{
-		return a + b;
+		NFT.mint(from, to, symbol, rom, ram, 1);
 	}
 }
 ```
 {% endcode %}
 
-{% hint style="success" %}
-Yeah it's that easy.
+{% hint style="info" %}
+Only import libraries that the current compiler and validator support. For NFT RAM updates, `NFT.write(...)` maps to `Runtime.WriteToken(...)` on current Carbon validators.
 {% endhint %}

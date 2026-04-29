@@ -1,9 +1,9 @@
 # Low‑Level JSON API (PhantasmaJsonAPI)
 
-The **low‑level API** lets you build RPC requests as raw JSON and parse responses **without** any built‑in HTTP transport. 
+The **low‑level API** lets you build RPC requests as raw JSON and parse responses **without** any built‑in HTTP transport.
 You are responsible for POSTing the request body to the node and passing the JSON back for parsing.
 
-- Namespace/class: `phantasma::PhantasmaJsonAPI`
+- Namespace/class: `phantasma::rpc::PhantasmaJsonAPI`
 - RPC endpoint path: `PhantasmaJsonAPI::Uri()` → `"/rpc"` (append to your host)
 - Types:
   - `JSONBuilder` — a minimal JSON builder (or adapter‑provided builder)
@@ -14,10 +14,10 @@ You are responsible for POSTing the request body to the node and passing the JSO
 
 ## Request/Response lifecycle
 
-1. Create a `JSONBuilder` and call the corresponding `Make*Request` function.  
-2. Send an **HTTP POST** to `https://<host>` + `PhantasmaJsonAPI::Uri()` with the builder contents as the body.  
-3. Parse the HTTP response into a `JSONValue` (adapter‑specific).  
-4. Call the matching `Parse*Response` function to populate your output structure (e.g., `Account`, `Transaction`, `Block`).  
+1. Create a `JSONBuilder` and call the corresponding `Make*Request` function.
+2. Send an **HTTP POST** to `https://<host>` + `PhantasmaJsonAPI::Uri()` with the builder contents as the body.
+3. Parse the HTTP response into a `JSONValue` (adapter‑specific).
+4. Call the matching `Parse*Response` function to populate your output structure (e.g., `Account`, `Transaction`, `Block`).
 
 ```cpp
 // Pseudocode
@@ -33,13 +33,13 @@ bool ok = PhantasmaJsonAPI::ParseGetAccountResponse(respJson, out, &err);
 if (!ok) {
     // handle err.code / err.message
 }
-``` 
+```
 
 ## Error handling
 
-- Most `Parse*Response` return `bool` and optionally fill `PhantasmaError`  
-- `CheckResponse(JSONValue, PhantasmaError&)` normalizes RPC errors (internal)  
-- On transport errors, call `OnHttpError(err, "message")` before returning  
+- Most `Parse*Response` return `bool` and optionally fill `PhantasmaError`
+- `CheckResponse(JSONValue, PhantasmaError&)` normalizes RPC errors (internal)
+- On transport errors, call `OnHttpError(err, "message")` before returning
 
 ## Endpoints
 
@@ -52,14 +52,14 @@ Removes a pending transaction from the mempool.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeCancelTransactionRequestRequest(JSONBuilder&, const Char* hashText);
+static void PhantasmaJsonAPI::MakeCancelTransactionRequest(JSONBuilder&, const Char* hashText);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `hashText` — Transaction or archive hash (hex)  
+- `hashText` — Transaction or archive hash (hex)
   *type:* `const Char*`
 
 
@@ -69,16 +69,16 @@ static void PhantasmaJsonAPI::MakeCancelTransactionRequestRequest(JSONBuilder&, 
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseCancelTransactionResponseResponse(const JSONValue&, String& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseCancelTransactionResponse(const JSONValue&, String& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `String&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -89,14 +89,14 @@ Returns the account name and balance of given address.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetAccountRequestRequest(JSONBuilder&, const Char* account);
+static void PhantasmaJsonAPI::MakeGetAccountRequest(JSONBuilder&, const Char* account);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `account` — Account address (P2K...) or name  
+- `account` — Account address (P2K...) or name
   *type:* `const Char*`
 
 
@@ -106,16 +106,16 @@ static void PhantasmaJsonAPI::MakeGetAccountRequestRequest(JSONBuilder&, const C
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetAccountResponseResponse(const JSONValue&, Account& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetAccountResponse(const JSONValue&, Account& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `Account&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -126,16 +126,16 @@ Get number of transactions in a specific address and chain
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetAddressTransactionCountRequestRequest(JSONBuilder&, const Char* account, const Char* chainInput);
+static void PhantasmaJsonAPI::MakeGetAddressTransactionCountRequest(JSONBuilder&, const Char* account, const Char* chainInput);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `account` — Account address (P2K...) or name  
+- `account` — Account address (P2K...) or name
   *type:* `const Char*`
-- `chainInput` — Chain name or address  
+- `chainInput` — Chain name or address
   *type:* `const Char*`
 
 
@@ -145,16 +145,16 @@ static void PhantasmaJsonAPI::MakeGetAddressTransactionCountRequestRequest(JSONB
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetAddressTransactionCountResponseResponse(const JSONValue&, Int32& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetAddressTransactionCountResponse(const JSONValue&, Int32& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `Int32&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -165,18 +165,18 @@ Returns last X transactions of given address. (paginated call)
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetAddressTransactionsRequestRequest(JSONBuilder&, const Char* account, UInt32 page, UInt32 pageSize);
+static void PhantasmaJsonAPI::MakeGetAddressTransactionsRequest(JSONBuilder&, const Char* account, UInt32 page, UInt32 pageSize);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `account` — Account address (P2K...) or name  
+- `account` — Account address (P2K...) or name
   *type:* `const Char*`
-- `page` — Page number (0‑based)  
+- `page` — Page number (0‑based)
   *type:* `UInt32`
-- `pageSize` — Max results per page  
+- `pageSize` — Max results per page
   *type:* `UInt32`
 
 
@@ -186,16 +186,204 @@ static void PhantasmaJsonAPI::MakeGetAddressTransactionsRequestRequest(JSONBuild
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetAddressTransactionsResponseResponse(const JSONValue&, AccountTransactions& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetAddressTransactionsResponse(const JSONValue&, AccountTransactions& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `AccountTransactions&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
+  *type:* `PhantasmaError*`
+
+
+### Get Account Fungible Tokens Request
+
+Returns fungible token balances owned by an address using cursor pagination.
+
+**Request builder**
+
+```cpp
+static void PhantasmaJsonAPI::MakeGetAccountFungibleTokensRequest(JSONBuilder&, const Char* account, const Char* tokenSymbol, UInt64 carbonTokenId, UInt32 pageSize, const Char* cursor, bool checkAddressReservedByte);
+```
+
+**Parameters (request):**
+
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
+  *type:* `JSONBuilder&`
+- `account` — Account address or name
+  *type:* `const Char*`
+- `tokenSymbol` — Optional token symbol filter
+  *type:* `const Char*`
+- `carbonTokenId` — Carbon token id. Use `0` when resolving by symbol only.
+  *type:* `UInt64`
+- `pageSize` — Maximum number of items to return
+  *type:* `UInt32`
+- `cursor` — Cursor returned by the previous page, or an empty string for the first page
+  *type:* `const Char*`
+- `checkAddressReservedByte` — Validate the address reserved byte when true
+  *type:* `bool`
+
+
+### Get Account Fungible Tokens Response
+
+**Response parser**
+
+```cpp
+static bool PhantasmaJsonAPI::ParseGetAccountFungibleTokensResponse(const JSONValue&, CursorPaginatedResult<Balance>& out, PhantasmaError* err=0);
+```
+
+**Parameters (response):**
+
+- `JSONValue&` — Parameter
+  *type:* `const`
+- `out` — Output object populated from the response
+  *type:* `CursorPaginatedResult<Balance>&`
+- `err=0` — Optional error output (code/message)
+  *type:* `PhantasmaError*`
+
+
+### Get Account NFTs Request
+
+Returns NFTs owned by an address using cursor pagination.
+
+**Request builder**
+
+```cpp
+static void PhantasmaJsonAPI::MakeGetAccountNFTsRequest(JSONBuilder&, const Char* account, const Char* tokenSymbol, UInt64 carbonTokenId, UInt32 carbonSeriesId, UInt32 pageSize, const Char* cursor, bool extended, bool checkAddressReservedByte);
+```
+
+**Parameters (request):**
+
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
+  *type:* `JSONBuilder&`
+- `account` — Account address or name
+  *type:* `const Char*`
+- `tokenSymbol` — Optional token symbol filter
+  *type:* `const Char*`
+- `carbonTokenId` — Carbon token id. Use `0` when resolving by symbol only.
+  *type:* `UInt64`
+- `carbonSeriesId` — Carbon series id
+  *type:* `UInt32`
+- `pageSize` — Maximum number of items to return
+  *type:* `UInt32`
+- `cursor` — Cursor returned by the previous page, or an empty string for the first page
+  *type:* `const Char*`
+- `extended` — If true, include extended fields
+  *type:* `bool`
+- `checkAddressReservedByte` — Validate the address reserved byte when true
+  *type:* `bool`
+
+
+### Get Account NFTs Response
+
+**Response parser**
+
+```cpp
+static bool PhantasmaJsonAPI::ParseGetAccountNFTsResponse(const JSONValue&, CursorPaginatedResult<TokenData>& out, PhantasmaError* err=0);
+```
+
+**Parameters (response):**
+
+- `JSONValue&` — Parameter
+  *type:* `const`
+- `out` — Output object populated from the response
+  *type:* `CursorPaginatedResult<TokenData>&`
+- `err=0` — Optional error output (code/message)
+  *type:* `PhantasmaError*`
+
+
+### Get Account Owned Tokens Request
+
+Returns NFT token definitions for which the account owns at least one NFT instance.
+
+**Request builder**
+
+```cpp
+static void PhantasmaJsonAPI::MakeGetAccountOwnedTokensRequest(JSONBuilder&, const Char* account, const Char* tokenSymbol, UInt64 carbonTokenId, UInt32 pageSize, const Char* cursor, bool checkAddressReservedByte);
+```
+
+**Parameters (request):**
+
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
+  *type:* `JSONBuilder&`
+- `account` — Account address or name
+  *type:* `const Char*`
+- `tokenSymbol` — Optional token symbol filter
+  *type:* `const Char*`
+- `carbonTokenId` — Carbon token id. Use `0` when resolving by symbol only.
+  *type:* `UInt64`
+- `pageSize` — Maximum number of items to return
+  *type:* `UInt32`
+- `cursor` — Cursor returned by the previous page, or an empty string for the first page
+  *type:* `const Char*`
+- `checkAddressReservedByte` — Validate the address reserved byte when true
+  *type:* `bool`
+
+
+### Get Account Owned Tokens Response
+
+**Response parser**
+
+```cpp
+static bool PhantasmaJsonAPI::ParseGetAccountOwnedTokensResponse(const JSONValue&, CursorPaginatedResult<Token>& out, PhantasmaError* err=0);
+```
+
+**Parameters (response):**
+
+- `JSONValue&` — Parameter
+  *type:* `const`
+- `out` — Output object populated from the response
+  *type:* `CursorPaginatedResult<Token>&`
+- `err=0` — Optional error output (code/message)
+  *type:* `PhantasmaError*`
+
+
+### Get Account Owned Token Series Request
+
+Returns NFT series for which the account owns at least one NFT instance.
+
+**Request builder**
+
+```cpp
+static void PhantasmaJsonAPI::MakeGetAccountOwnedTokenSeriesRequest(JSONBuilder&, const Char* account, const Char* tokenSymbol, UInt64 carbonTokenId, UInt32 pageSize, const Char* cursor, bool checkAddressReservedByte);
+```
+
+**Parameters (request):**
+
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
+  *type:* `JSONBuilder&`
+- `account` — Account address or name
+  *type:* `const Char*`
+- `tokenSymbol` — Optional token symbol filter
+  *type:* `const Char*`
+- `carbonTokenId` — Carbon token id. Use `0` when resolving by symbol only.
+  *type:* `UInt64`
+- `pageSize` — Maximum number of items to return
+  *type:* `UInt32`
+- `cursor` — Cursor returned by the previous page, or an empty string for the first page
+  *type:* `const Char*`
+- `checkAddressReservedByte` — Validate the address reserved byte when true
+  *type:* `bool`
+
+
+### Get Account Owned Token Series Response
+
+**Response parser**
+
+```cpp
+static bool PhantasmaJsonAPI::ParseGetAccountOwnedTokenSeriesResponse(const JSONValue&, CursorPaginatedResult<TokenSeries>& out, PhantasmaError* err=0);
+```
+
+**Parameters (response):**
+
+- `JSONValue&` — Parameter
+  *type:* `const`
+- `out` — Output object populated from the response
+  *type:* `CursorPaginatedResult<TokenSeries>&`
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -206,14 +394,14 @@ Returns info about a specific archive.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetArchiveRequestRequest(JSONBuilder&, const Char* hashText);
+static void PhantasmaJsonAPI::MakeGetArchiveRequest(JSONBuilder&, const Char* hashText);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `hashText` — Transaction or archive hash (hex)  
+- `hashText` — Transaction or archive hash (hex)
   *type:* `const Char*`
 
 
@@ -223,16 +411,16 @@ static void PhantasmaJsonAPI::MakeGetArchiveRequestRequest(JSONBuilder&, const C
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetArchiveResponseResponse(const JSONValue&, Archive& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetArchiveResponse(const JSONValue&, Archive& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `Archive&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -243,18 +431,18 @@ Returns the auction for a specific token.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetAuctionRequestRequest(JSONBuilder&, const Char* chainAddressOrName, const Char* symbol, const Char* IDtext);
+static void PhantasmaJsonAPI::MakeGetAuctionRequest(JSONBuilder&, const Char* chainAddressOrName, const Char* symbol, const Char* IDtext);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `chainAddressOrName` — Chain address or name  
+- `chainAddressOrName` — Chain address or name
   *type:* `const Char*`
-- `symbol` — Token symbol (e.g., SOUL, KCAL)  
+- `symbol` — Token symbol (e.g., SOUL, KCAL)
   *type:* `const Char*`
-- `IDtext` — Token ID (string form)  
+- `IDtext` — Token ID (string form)
   *type:* `const Char*`
 
 
@@ -264,16 +452,16 @@ static void PhantasmaJsonAPI::MakeGetAuctionRequestRequest(JSONBuilder&, const C
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetAuctionResponseResponse(const JSONValue&, Auction& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetAuctionResponse(const JSONValue&, Auction& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `Auction&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -284,16 +472,16 @@ Returns the number of active auctions.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetAuctionsCountRequestRequest(JSONBuilder&, const Char* chainAddressOrName, const Char* symbol);
+static void PhantasmaJsonAPI::MakeGetAuctionsCountRequest(JSONBuilder&, const Char* chainAddressOrName, const Char* symbol);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `chainAddressOrName` — Chain address or name  
+- `chainAddressOrName` — Chain address or name
   *type:* `const Char*`
-- `symbol` — Token symbol (e.g., SOUL, KCAL)  
+- `symbol` — Token symbol (e.g., SOUL, KCAL)
   *type:* `const Char*`
 
 
@@ -303,16 +491,16 @@ static void PhantasmaJsonAPI::MakeGetAuctionsCountRequestRequest(JSONBuilder&, c
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetAuctionsCountResponseResponse(const JSONValue&, Int32& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetAuctionsCountResponse(const JSONValue&, Int32& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `Int32&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -323,20 +511,20 @@ Returns the auctions available in the market. (paginated call)
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetAuctionsRequestRequest(JSONBuilder&, const Char* chainAddressOrName, const Char* symbol, UInt32 page, UInt32 pageSize);
+static void PhantasmaJsonAPI::MakeGetAuctionsRequest(JSONBuilder&, const Char* chainAddressOrName, const Char* symbol, UInt32 page, UInt32 pageSize);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `chainAddressOrName` — Chain address or name  
+- `chainAddressOrName` — Chain address or name
   *type:* `const Char*`
-- `symbol` — Token symbol (e.g., SOUL, KCAL)  
+- `symbol` — Token symbol (e.g., SOUL, KCAL)
   *type:* `const Char*`
-- `page` — Page number (0‑based)  
+- `page` — Page number (0‑based)
   *type:* `UInt32`
-- `pageSize` — Max results per page  
+- `pageSize` — Max results per page
   *type:* `UInt32`
 
 
@@ -346,16 +534,16 @@ static void PhantasmaJsonAPI::MakeGetAuctionsRequestRequest(JSONBuilder&, const 
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetAuctionsResponseResponse(const JSONValue&, PHANTASMA_VECTOR<Auction>& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetAuctionsResponse(const JSONValue&, PHANTASMA_VECTOR<Auction>& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `PHANTASMA_VECTOR<Auction>&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -366,14 +554,14 @@ Returns information about a block by hash.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetBlockByHashRequestRequest(JSONBuilder&, const Char* blockHash);
+static void PhantasmaJsonAPI::MakeGetBlockByHashRequest(JSONBuilder&, const Char* blockHash);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `blockHash` — Block hash (hex)  
+- `blockHash` — Block hash (hex)
   *type:* `const Char*`
 
 
@@ -383,16 +571,16 @@ static void PhantasmaJsonAPI::MakeGetBlockByHashRequestRequest(JSONBuilder&, con
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetBlockByHashResponseResponse(const JSONValue&, Block& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetBlockByHashResponse(const JSONValue&, Block& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `Block&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -403,16 +591,16 @@ Returns information about a block by height and chain.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetBlockByHeightRequestRequest(JSONBuilder&, const Char* chainInput, const Char* height);
+static void PhantasmaJsonAPI::MakeGetBlockByHeightRequest(JSONBuilder&, const Char* chainInput, const Char* height);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `chainInput` — Chain name or address  
+- `chainInput` — Chain name or address
   *type:* `const Char*`
-- `height` — Block height (decimal string)  
+- `height` — Block height (decimal string)
   *type:* `const Char*`
 
 
@@ -422,16 +610,16 @@ static void PhantasmaJsonAPI::MakeGetBlockByHeightRequestRequest(JSONBuilder&, c
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetBlockByHeightResponseResponse(const JSONValue&, Block& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetBlockByHeightResponse(const JSONValue&, Block& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `Block&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -442,14 +630,14 @@ Returns the height of a chain.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetBlockHeightRequestRequest(JSONBuilder&, const Char* chainInput);
+static void PhantasmaJsonAPI::MakeGetBlockHeightRequest(JSONBuilder&, const Char* chainInput);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `chainInput` — Chain name or address  
+- `chainInput` — Chain name or address
   *type:* `const Char*`
 
 
@@ -459,34 +647,37 @@ static void PhantasmaJsonAPI::MakeGetBlockHeightRequestRequest(JSONBuilder&, con
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetBlockHeightResponseResponse(const JSONValue&, Int32& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetBlockHeightResponse(const JSONValue&, Int32& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `Int32&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
 ### Get Block Transaction Count By Hash Request
 
-Returns the number of transactions of given block hash or error if given hash is invalid or is not found.
+Returns the number of transactions of a block. The chain-aware overload matches the current RPC contract; the legacy overload defaults to `"main"`.
 
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetBlockTransactionCountByHashRequestRequest(JSONBuilder&, const Char* blockHash);
+static void PhantasmaJsonAPI::MakeGetBlockTransactionCountByHashRequest(JSONBuilder&, const Char* blockHash);
+static void PhantasmaJsonAPI::MakeGetBlockTransactionCountByHashRequest(JSONBuilder&, const Char* chainAddressOrName, const Char* blockHash);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `blockHash` — Block hash (hex)  
+- `chainAddressOrName` — Chain name or address. Omit only when using the legacy `"main"` default.
+  *type:* `const Char*`
+- `blockHash` — Block hash (hex)
   *type:* `const Char*`
 
 
@@ -496,16 +687,16 @@ static void PhantasmaJsonAPI::MakeGetBlockTransactionCountByHashRequestRequest(J
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetBlockTransactionCountByHashResponseResponse(const JSONValue&, Int32& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetBlockTransactionCountByHashResponse(const JSONValue&, Int32& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `Int32&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -516,12 +707,12 @@ Returns an array of all chains deployed in Phantasma.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetChainsRequestRequest(JSONBuilder&);
+static void PhantasmaJsonAPI::MakeGetChainsRequest(JSONBuilder&);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
 
 
@@ -531,16 +722,16 @@ static void PhantasmaJsonAPI::MakeGetChainsRequestRequest(JSONBuilder&);
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetChainsResponseResponse(const JSONValue&, PHANTASMA_VECTOR<Chain>& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetChainsResponse(const JSONValue&, PHANTASMA_VECTOR<Chain>& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `PHANTASMA_VECTOR<Chain>&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -551,16 +742,16 @@ Returns the ABI interface of specific contract.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetContractRequestRequest(JSONBuilder&, const Char* chainAddressOrName, const Char* contractName);
+static void PhantasmaJsonAPI::MakeGetContractRequest(JSONBuilder&, const Char* chainAddressOrName, const Char* contractName);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `chainAddressOrName` — Chain address or name  
+- `chainAddressOrName` — Chain address or name
   *type:* `const Char*`
-- `contractName` — String parameter  
+- `contractName` — String parameter
   *type:* `const Char*`
 
 
@@ -570,16 +761,92 @@ static void PhantasmaJsonAPI::MakeGetContractRequestRequest(JSONBuilder&, const 
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetContractResponseResponse(const JSONValue&, Contract& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetContractResponse(const JSONValue&, Contract& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `Contract&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
+  *type:* `PhantasmaError*`
+
+
+### Get Contracts Request
+
+Returns the contract list for a chain.
+
+**Request builder**
+
+```cpp
+static void PhantasmaJsonAPI::MakeGetContractsRequest(JSONBuilder&, const Char* chainAddressOrName, bool extended);
+```
+
+**Parameters (request):**
+
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
+  *type:* `JSONBuilder&`
+- `chainAddressOrName` — Chain address or name
+  *type:* `const Char*`
+- `extended` — If true, include extended fields
+  *type:* `bool`
+
+
+### Get Contracts Response
+
+**Response parser**
+
+```cpp
+static bool PhantasmaJsonAPI::ParseGetContractsResponse(const JSONValue&, PHANTASMA_VECTOR<Contract>& out, PhantasmaError* err=0);
+```
+
+**Parameters (response):**
+
+- `JSONValue&` — Parameter
+  *type:* `const`
+- `out` — Output object populated from the response
+  *type:* `PHANTASMA_VECTOR<Contract>&`
+- `err=0` — Optional error output (code/message)
+  *type:* `PhantasmaError*`
+
+
+### Get Contract By Address Request
+
+Returns the ABI interface of a contract by address.
+
+**Request builder**
+
+```cpp
+static void PhantasmaJsonAPI::MakeGetContractByAddressRequest(JSONBuilder&, const Char* chainAddressOrName, const Char* contractAddress);
+```
+
+**Parameters (request):**
+
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
+  *type:* `JSONBuilder&`
+- `chainAddressOrName` — Chain address or name
+  *type:* `const Char*`
+- `contractAddress` — Contract address
+  *type:* `const Char*`
+
+
+### Get Contract By Address Response
+
+**Response parser**
+
+```cpp
+static bool PhantasmaJsonAPI::ParseGetContractByAddressResponse(const JSONValue&, Contract& out, PhantasmaError* err=0);
+```
+
+**Parameters (response):**
+
+- `JSONValue&` — Parameter
+  *type:* `const`
+- `out` — Output object populated from the response
+  *type:* `Contract&`
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -590,14 +857,14 @@ Reads pending messages from the relay network.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetEventsRequestRequest(JSONBuilder&, const Char* account);
+static void PhantasmaJsonAPI::MakeGetEventsRequest(JSONBuilder&, const Char* account);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `account` — Account address (P2K...) or name  
+- `account` — Account address (P2K...) or name
   *type:* `const Char*`
 
 
@@ -607,16 +874,16 @@ static void PhantasmaJsonAPI::MakeGetEventsRequestRequest(JSONBuilder&, const Ch
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetEventsResponseResponse(const JSONValue&, PHANTASMA_VECTOR<Event>& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetEventsResponse(const JSONValue&, PHANTASMA_VECTOR<Event>& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `PHANTASMA_VECTOR<Event>&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -627,14 +894,14 @@ Returns content of a Phantasma leaderboard.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetLeaderboardRequestRequest(JSONBuilder&, const Char* name);
+static void PhantasmaJsonAPI::MakeGetLeaderboardRequest(JSONBuilder&, const Char* name);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `name` — Account name (lookup)  
+- `name` — Account name (lookup)
   *type:* `const Char*`
 
 
@@ -644,57 +911,97 @@ static void PhantasmaJsonAPI::MakeGetLeaderboardRequestRequest(JSONBuilder&, con
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetLeaderboardResponseResponse(const JSONValue&, Leaderboard& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetLeaderboardResponse(const JSONValue&, Leaderboard& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `Leaderboard&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
-### Get N F T Request
+### Get NFT Request
 
 Returns data of a non-fungible token, in hexadecimal format.
 
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetNFTRequestRequest(JSONBuilder&, const Char* symbol, const Char* IDtext, bool extended);
+static void PhantasmaJsonAPI::MakeGetNFTRequest(JSONBuilder&, const Char* symbol, const Char* IDtext, bool extended);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `symbol` — Token symbol (e.g., SOUL, KCAL)  
+- `symbol` — Token symbol (e.g., SOUL, KCAL)
   *type:* `const Char*`
-- `IDtext` — Token ID (string form)  
+- `IDtext` — Token ID (string form)
   *type:* `const Char*`
-- `extended` — If true, include extended fields  
+- `extended` — If true, include extended fields
   *type:* `bool`
 
 
-### Get N F T Response
+### Get NFT Response
 
 
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetNFTResponseResponse(const JSONValue&, TokenData& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetNFTResponse(const JSONValue&, TokenData& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `TokenData&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
+  *type:* `PhantasmaError*`
+
+
+### Get NFTs Request
+
+Returns data for multiple non-fungible token IDs.
+
+**Request builder**
+
+```cpp
+static void PhantasmaJsonAPI::MakeGetNFTsRequest(JSONBuilder&, const Char* symbol, const Char* IDtext, bool extended);
+```
+
+**Parameters (request):**
+
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
+  *type:* `JSONBuilder&`
+- `symbol` — Token symbol
+  *type:* `const Char*`
+- `IDtext` — Token ID list in string form
+  *type:* `const Char*`
+- `extended` — If true, include extended fields
+  *type:* `bool`
+
+
+### Get NFTs Response
+
+**Response parser**
+
+```cpp
+static bool PhantasmaJsonAPI::ParseGetNFTsResponse(const JSONValue&, PHANTASMA_VECTOR<TokenData>& out, PhantasmaError* err=0);
+```
+
+**Parameters (response):**
+
+- `JSONValue&` — Parameter
+  *type:* `const`
+- `out` — Output object populated from the response
+  *type:* `PHANTASMA_VECTOR<TokenData>&`
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -705,14 +1012,14 @@ Returns info about the nexus.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetNexusRequestRequest(JSONBuilder&, bool extended);
+static void PhantasmaJsonAPI::MakeGetNexusRequest(JSONBuilder&, bool extended);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `extended` — If true, include extended fields  
+- `extended` — If true, include extended fields
   *type:* `bool`
 
 
@@ -722,16 +1029,16 @@ static void PhantasmaJsonAPI::MakeGetNexusRequestRequest(JSONBuilder&, bool exte
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetNexusResponseResponse(const JSONValue&, Nexus& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetNexusResponse(const JSONValue&, Nexus& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `Nexus&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -742,14 +1049,14 @@ Returns info about an organization.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetOrganizationRequestRequest(JSONBuilder&, const Char* ID);
+static void PhantasmaJsonAPI::MakeGetOrganizationRequest(JSONBuilder&, const Char* ID);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `ID` — String parameter  
+- `ID` — String parameter
   *type:* `const Char*`
 
 
@@ -759,16 +1066,16 @@ static void PhantasmaJsonAPI::MakeGetOrganizationRequestRequest(JSONBuilder&, co
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetOrganizationResponseResponse(const JSONValue&, Organization& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetOrganizationResponse(const JSONValue&, Organization& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `Organization&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -779,12 +1086,12 @@ Returns list of known peers.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetPeersRequestRequest(JSONBuilder&);
+static void PhantasmaJsonAPI::MakeGetPeersRequest(JSONBuilder&);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
 
 
@@ -794,16 +1101,16 @@ static void PhantasmaJsonAPI::MakeGetPeersRequestRequest(JSONBuilder&);
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetPeersResponseResponse(const JSONValue&, PHANTASMA_VECTOR<Peer>& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetPeersResponse(const JSONValue&, PHANTASMA_VECTOR<Peer>& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `PHANTASMA_VECTOR<Peer>&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -814,12 +1121,12 @@ Returns an array of available interop platforms.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetPlatformsRequestRequest(JSONBuilder&);
+static void PhantasmaJsonAPI::MakeGetPlatformsRequest(JSONBuilder&);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
 
 
@@ -829,16 +1136,16 @@ static void PhantasmaJsonAPI::MakeGetPlatformsRequestRequest(JSONBuilder&);
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetPlatformsResponseResponse(const JSONValue&, PHANTASMA_VECTOR<Platform>& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetPlatformsResponse(const JSONValue&, PHANTASMA_VECTOR<Platform>& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `PHANTASMA_VECTOR<Platform>&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -849,14 +1156,14 @@ Returns a serialized string, containing information about a block by hash.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetRawBlockByHashRequestRequest(JSONBuilder&, const Char* blockHash);
+static void PhantasmaJsonAPI::MakeGetRawBlockByHashRequest(JSONBuilder&, const Char* blockHash);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `blockHash` — Block hash (hex)  
+- `blockHash` — Block hash (hex)
   *type:* `const Char*`
 
 
@@ -866,16 +1173,16 @@ static void PhantasmaJsonAPI::MakeGetRawBlockByHashRequestRequest(JSONBuilder&, 
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetRawBlockByHashResponseResponse(const JSONValue&, String& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetRawBlockByHashResponse(const JSONValue&, String& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `String&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -886,16 +1193,16 @@ Returns a serialized string, in hex format, containing information about a block
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetRawBlockByHeightRequestRequest(JSONBuilder&, const Char* chainInput, const Char* height);
+static void PhantasmaJsonAPI::MakeGetRawBlockByHeightRequest(JSONBuilder&, const Char* chainInput, const Char* height);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `chainInput` — Chain name or address  
+- `chainInput` — Chain name or address
   *type:* `const Char*`
-- `height` — Block height (decimal string)  
+- `height` — Block height (decimal string)
   *type:* `const Char*`
 
 
@@ -905,16 +1212,16 @@ static void PhantasmaJsonAPI::MakeGetRawBlockByHeightRequestRequest(JSONBuilder&
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetRawBlockByHeightResponseResponse(const JSONValue&, String& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetRawBlockByHeightResponse(const JSONValue&, String& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `String&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -925,14 +1232,14 @@ Returns platform swaps for a specific address.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetSwapsForAddressRequestRequest(JSONBuilder&, const Char* account);
+static void PhantasmaJsonAPI::MakeGetSwapsForAddressRequest(JSONBuilder&, const Char* account);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `account` — Account address (P2K...) or name  
+- `account` — Account address (P2K...) or name
   *type:* `const Char*`
 
 
@@ -942,16 +1249,16 @@ static void PhantasmaJsonAPI::MakeGetSwapsForAddressRequestRequest(JSONBuilder&,
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetSwapsForAddressResponseResponse(const JSONValue&, PHANTASMA_VECTOR<Swap>& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetSwapsForAddressResponse(const JSONValue&, PHANTASMA_VECTOR<Swap>& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `PHANTASMA_VECTOR<Swap>&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -962,18 +1269,18 @@ Returns the balance for a specific token and chain, given an address.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetTokenBalanceRequestRequest(JSONBuilder&, const Char* account, const Char* tokenSymbol, const Char* chainInput);
+static void PhantasmaJsonAPI::MakeGetTokenBalanceRequest(JSONBuilder&, const Char* account, const Char* tokenSymbol, const Char* chainInput);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `account` — Account address (P2K...) or name  
+- `account` — Account address (P2K...) or name
   *type:* `const Char*`
-- `tokenSymbol` — Token symbol (e.g., SOUL, KCAL)  
+- `tokenSymbol` — Token symbol (e.g., SOUL, KCAL)
   *type:* `const Char*`
-- `chainInput` — Chain name or address  
+- `chainInput` — Chain name or address
   *type:* `const Char*`
 
 
@@ -983,16 +1290,16 @@ static void PhantasmaJsonAPI::MakeGetTokenBalanceRequestRequest(JSONBuilder&, co
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetTokenBalanceResponseResponse(const JSONValue&, Balance& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetTokenBalanceResponse(const JSONValue&, Balance& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `Balance&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -1003,16 +1310,16 @@ Returns data of a non-fungible token, in hexadecimal format.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetTokenDataRequestRequest(JSONBuilder&, const Char* symbol, const Char* IDtext);
+static void PhantasmaJsonAPI::MakeGetTokenDataRequest(JSONBuilder&, const Char* symbol, const Char* IDtext);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `symbol` — Token symbol (e.g., SOUL, KCAL)  
+- `symbol` — Token symbol (e.g., SOUL, KCAL)
   *type:* `const Char*`
-- `IDtext` — Token ID (string form)  
+- `IDtext` — Token ID (string form)
   *type:* `const Char*`
 
 
@@ -1022,37 +1329,39 @@ static void PhantasmaJsonAPI::MakeGetTokenDataRequestRequest(JSONBuilder&, const
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetTokenDataResponseResponse(const JSONValue&, TokenData& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetTokenDataResponse(const JSONValue&, TokenData& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `TokenData&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
 ### Get Token Request
 
-Returns info about a specific token deployed in Phantasma.
+Returns info about a specific token deployed in Phantasma. The optional Carbon token id is emitted only when non-zero.
 
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetTokenRequestRequest(JSONBuilder&, const Char* symbol, bool extended);
+static void PhantasmaJsonAPI::MakeGetTokenRequest(JSONBuilder&, const Char* symbol, bool extended, UInt64 carbonTokenId = 0);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `symbol` — Token symbol (e.g., SOUL, KCAL)  
+- `symbol` — Token symbol (e.g., SOUL, KCAL)
   *type:* `const Char*`
-- `extended` — If true, include extended fields  
+- `extended` — If true, include extended fields
   *type:* `bool`
+- `carbonTokenId` — Carbon token id. Use `0` when resolving by symbol only.
+  *type:* `UInt64`
 
 
 ### Get Token Response
@@ -1061,16 +1370,16 @@ static void PhantasmaJsonAPI::MakeGetTokenRequestRequest(JSONBuilder&, const Cha
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetTokenResponseResponse(const JSONValue&, Token& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetTokenResponse(const JSONValue&, Token& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `Token&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -1081,15 +1390,17 @@ Returns an array of tokens deployed in Phantasma.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetTokensRequestRequest(JSONBuilder&, bool extended);
+static void PhantasmaJsonAPI::MakeGetTokensRequest(JSONBuilder&, bool extended, const Char* ownerAddress = nullptr);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `extended` — If true, include extended fields  
+- `extended` — If true, include extended fields
   *type:* `bool`
+- `ownerAddress` — Optional owner address filter
+  *type:* `const Char*`
 
 
 ### Get Tokens Response
@@ -1098,36 +1409,167 @@ static void PhantasmaJsonAPI::MakeGetTokensRequestRequest(JSONBuilder&, bool ext
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetTokensResponseResponse(const JSONValue&, PHANTASMA_VECTOR<Token>& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetTokensResponse(const JSONValue&, PHANTASMA_VECTOR<Token>& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `PHANTASMA_VECTOR<Token>&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
+  *type:* `PhantasmaError*`
+
+
+### Get Token Series Request
+
+Returns token series for a token using cursor pagination.
+
+**Request builder**
+
+```cpp
+static void PhantasmaJsonAPI::MakeGetTokenSeriesRequest(JSONBuilder&, const Char* symbol, UInt64 carbonTokenId, UInt32 pageSize, const Char* cursor);
+```
+
+**Parameters (request):**
+
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
+  *type:* `JSONBuilder&`
+- `symbol` — Token symbol
+  *type:* `const Char*`
+- `carbonTokenId` — Carbon token id. Use `0` when resolving by symbol only.
+  *type:* `UInt64`
+- `pageSize` — Maximum number of items to return
+  *type:* `UInt32`
+- `cursor` — Cursor returned by the previous page, or an empty string for the first page
+  *type:* `const Char*`
+
+
+### Get Token Series Response
+
+**Response parser**
+
+```cpp
+static bool PhantasmaJsonAPI::ParseGetTokenSeriesResponse(const JSONValue&, CursorPaginatedResult<TokenSeries>& out, PhantasmaError* err=0);
+```
+
+**Parameters (response):**
+
+- `JSONValue&` — Parameter
+  *type:* `const`
+- `out` — Output object populated from the response
+  *type:* `CursorPaginatedResult<TokenSeries>&`
+- `err=0` — Optional error output (code/message)
+  *type:* `PhantasmaError*`
+
+
+### Get Token Series By Id Request
+
+Returns one token series by Phantasma or Carbon identifiers.
+
+**Request builder**
+
+```cpp
+static void PhantasmaJsonAPI::MakeGetTokenSeriesByIdRequest(JSONBuilder&, const Char* symbol, UInt64 carbonTokenId, const Char* seriesId, UInt32 carbonSeriesId);
+```
+
+**Parameters (request):**
+
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
+  *type:* `JSONBuilder&`
+- `symbol` — Token symbol
+  *type:* `const Char*`
+- `carbonTokenId` — Carbon token id. Use `0` when resolving by symbol only.
+  *type:* `UInt64`
+- `seriesId` — Phantasma series id in string form
+  *type:* `const Char*`
+- `carbonSeriesId` — Carbon series id. Use `0` when resolving by Phantasma series id only.
+  *type:* `UInt32`
+
+
+### Get Token Series By Id Response
+
+**Response parser**
+
+```cpp
+static bool PhantasmaJsonAPI::ParseGetTokenSeriesByIdResponse(const JSONValue&, TokenSeries& out, PhantasmaError* err=0);
+```
+
+**Parameters (response):**
+
+- `JSONValue&` — Parameter
+  *type:* `const`
+- `out` — Output object populated from the response
+  *type:* `TokenSeries&`
+- `err=0` — Optional error output (code/message)
+  *type:* `PhantasmaError*`
+
+
+### Get Token NFTs Request
+
+Returns NFTs for a token series using cursor pagination.
+
+**Request builder**
+
+```cpp
+static void PhantasmaJsonAPI::MakeGetTokenNFTsRequest(JSONBuilder&, UInt64 carbonTokenId, UInt32 carbonSeriesId, UInt32 pageSize, const Char* cursor, bool extended);
+```
+
+**Parameters (request):**
+
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
+  *type:* `JSONBuilder&`
+- `carbonTokenId` — Carbon token id
+  *type:* `UInt64`
+- `carbonSeriesId` — Carbon series id
+  *type:* `UInt32`
+- `pageSize` — Maximum number of items to return
+  *type:* `UInt32`
+- `cursor` — Cursor returned by the previous page, or an empty string for the first page
+  *type:* `const Char*`
+- `extended` — If true, include extended fields
+  *type:* `bool`
+
+
+### Get Token NFTs Response
+
+**Response parser**
+
+```cpp
+static bool PhantasmaJsonAPI::ParseGetTokenNFTsResponse(const JSONValue&, CursorPaginatedResult<TokenData>& out, PhantasmaError* err=0);
+```
+
+**Parameters (response):**
+
+- `JSONValue&` — Parameter
+  *type:* `const`
+- `out` — Output object populated from the response
+  *type:* `CursorPaginatedResult<TokenData>&`
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
 ### Get Transaction By Block Hash And Index Request
 
-Returns the information about a transaction requested by a block hash and transaction index.
+Returns the transaction at a block index. The chain-aware overload matches the current RPC contract; the legacy overload defaults to `"main"`.
 
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetTransactionByBlockHashAndIndexRequestRequest(JSONBuilder&, const Char* blockHash, Int32 index);
+static void PhantasmaJsonAPI::MakeGetTransactionByBlockHashAndIndexRequest(JSONBuilder&, const Char* blockHash, Int32 index);
+static void PhantasmaJsonAPI::MakeGetTransactionByBlockHashAndIndexRequest(JSONBuilder&, const Char* chainAddressOrName, const Char* blockHash, Int32 index);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `blockHash` — Block hash (hex)  
+- `chainAddressOrName` — Chain name or address. Omit only when using the legacy `"main"` default.
   *type:* `const Char*`
-- `index` — Transaction index within the block  
+- `blockHash` — Block hash (hex)
+  *type:* `const Char*`
+- `index` — Transaction index within the block
   *type:* `Int32`
 
 
@@ -1137,16 +1579,16 @@ static void PhantasmaJsonAPI::MakeGetTransactionByBlockHashAndIndexRequestReques
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetTransactionByBlockHashAndIndexResponseResponse(const JSONValue&, Transaction& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetTransactionByBlockHashAndIndexResponse(const JSONValue&, Transaction& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `Transaction&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -1157,14 +1599,14 @@ Returns information about a transaction by hash.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetTransactionRequestRequest(JSONBuilder&, const Char* hashText);
+static void PhantasmaJsonAPI::MakeGetTransactionRequest(JSONBuilder&, const Char* hashText);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `hashText` — Transaction or archive hash (hex)  
+- `hashText` — Transaction or archive hash (hex)
   *type:* `const Char*`
 
 
@@ -1174,16 +1616,16 @@ static void PhantasmaJsonAPI::MakeGetTransactionRequestRequest(JSONBuilder&, con
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetTransactionResponseResponse(const JSONValue&, Transaction& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetTransactionResponse(const JSONValue&, Transaction& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `Transaction&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -1194,12 +1636,12 @@ Returns an array of available validators.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeGetValidatorsRequestRequest(JSONBuilder&);
+static void PhantasmaJsonAPI::MakeGetValidatorsRequest(JSONBuilder&);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
 
 
@@ -1209,16 +1651,86 @@ static void PhantasmaJsonAPI::MakeGetValidatorsRequestRequest(JSONBuilder&);
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseGetValidatorsResponseResponse(const JSONValue&, PHANTASMA_VECTOR<Validator>& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseGetValidatorsResponse(const JSONValue&, PHANTASMA_VECTOR<Validator>& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `PHANTASMA_VECTOR<Validator>&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
+  *type:* `PhantasmaError*`
+
+
+### Get Version Request
+
+Returns build metadata reported by the node.
+
+**Request builder**
+
+```cpp
+static void PhantasmaJsonAPI::MakeGetVersionRequest(JSONBuilder&);
+```
+
+**Parameters (request):**
+
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
+  *type:* `JSONBuilder&`
+
+
+### Get Version Response
+
+**Response parser**
+
+```cpp
+static bool PhantasmaJsonAPI::ParseGetVersionResponse(const JSONValue&, BuildInfoResult& out, PhantasmaError* err=0);
+```
+
+**Parameters (response):**
+
+- `JSONValue&` — Parameter
+  *type:* `const`
+- `out` — Output object populated from the response
+  *type:* `BuildInfoResult&`
+- `err=0` — Optional error output (code/message)
+  *type:* `PhantasmaError*`
+
+
+### Get Phantasma VM Config Request
+
+Returns the current VM configuration applied by a chain.
+
+**Request builder**
+
+```cpp
+static void PhantasmaJsonAPI::MakeGetPhantasmaVmConfigRequest(JSONBuilder&, const Char* chainAddressOrName);
+```
+
+**Parameters (request):**
+
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
+  *type:* `JSONBuilder&`
+- `chainAddressOrName` — Chain address or name
+  *type:* `const Char*`
+
+
+### Get Phantasma VM Config Response
+
+**Response parser**
+
+```cpp
+static bool PhantasmaJsonAPI::ParseGetPhantasmaVmConfigResponse(const JSONValue&, PhantasmaVmConfig& out, PhantasmaError* err=0);
+```
+
+**Parameters (response):**
+
+- `JSONValue&` — Parameter
+  *type:* `const`
+- `out` — Output object populated from the response
+  *type:* `PhantasmaVmConfig&`
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -1229,16 +1741,16 @@ Allows to invoke script based on network state, without state changes.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeInvokeRawScriptRequestRequest(JSONBuilder&, const Char* chainInput, const Char* scriptData);
+static void PhantasmaJsonAPI::MakeInvokeRawScriptRequest(JSONBuilder&, const Char* chainInput, const Char* scriptData);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `chainInput` — Chain name or address  
+- `chainInput` — Chain name or address
   *type:* `const Char*`
-- `scriptData` — Raw script bytes (hex/Base16)  
+- `scriptData` — Raw script bytes (hex/Base16)
   *type:* `const Char*`
 
 
@@ -1248,16 +1760,16 @@ static void PhantasmaJsonAPI::MakeInvokeRawScriptRequestRequest(JSONBuilder&, co
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseInvokeRawScriptResponseResponse(const JSONValue&, Script& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseInvokeRawScriptResponse(const JSONValue&, Script& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `Script&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -1268,14 +1780,14 @@ Returns the address that owns a given name.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeLookUpNameRequestRequest(JSONBuilder&, const Char* name);
+static void PhantasmaJsonAPI::MakeLookUpNameRequest(JSONBuilder&, const Char* name);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `name` — Account name (lookup)  
+- `name` — Account name (lookup)
   *type:* `const Char*`
 
 
@@ -1285,16 +1797,16 @@ static void PhantasmaJsonAPI::MakeLookUpNameRequestRequest(JSONBuilder&, const C
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseLookUpNameResponseResponse(const JSONValue&, String& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseLookUpNameResponse(const JSONValue&, String& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `String&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -1305,16 +1817,16 @@ Reads given archive block.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeReadArchiveRequestRequest(JSONBuilder&, const Char* hashText, Int32 blockIndex);
+static void PhantasmaJsonAPI::MakeReadArchiveRequest(JSONBuilder&, const Char* hashText, Int32 blockIndex);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `hashText` — Transaction or archive hash (hex)  
+- `hashText` — Transaction or archive hash (hex)
   *type:* `const Char*`
-- `blockIndex` — Archive block index  
+- `blockIndex` — Archive block index
   *type:* `Int32`
 
 
@@ -1324,16 +1836,16 @@ static void PhantasmaJsonAPI::MakeReadArchiveRequestRequest(JSONBuilder&, const 
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseReadArchiveResponseResponse(const JSONValue&, String& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseReadArchiveResponse(const JSONValue&, String& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `String&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -1344,14 +1856,14 @@ Receives messages from the relay network.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeRelayReceiveRequestRequest(JSONBuilder&, const Char* account);
+static void PhantasmaJsonAPI::MakeRelayReceiveRequest(JSONBuilder&, const Char* account);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `account` — Account address (P2K...) or name  
+- `account` — Account address (P2K...) or name
   *type:* `const Char*`
 
 
@@ -1361,16 +1873,16 @@ static void PhantasmaJsonAPI::MakeRelayReceiveRequestRequest(JSONBuilder&, const
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseRelayReceiveResponseResponse(const JSONValue&, PHANTASMA_VECTOR<Receipt>& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseRelayReceiveResponse(const JSONValue&, PHANTASMA_VECTOR<Receipt>& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `PHANTASMA_VECTOR<Receipt>&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -1381,14 +1893,14 @@ Writes a message to the relay network.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeRelaySendRequestRequest(JSONBuilder&, const Char* receiptHex);
+static void PhantasmaJsonAPI::MakeRelaySendRequest(JSONBuilder&, const Char* receiptHex);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `receiptHex` — String parameter  
+- `receiptHex` — String parameter
   *type:* `const Char*`
 
 
@@ -1398,16 +1910,16 @@ static void PhantasmaJsonAPI::MakeRelaySendRequestRequest(JSONBuilder&, const Ch
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseRelaySendResponseResponse(const JSONValue&, bool& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseRelaySendResponse(const JSONValue&, bool& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `bool&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -1418,14 +1930,14 @@ Allows to broadcast a signed operation on the network, but it&apos;s required to
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeSendRawTransactionRequestRequest(JSONBuilder&, const Char* txData);
+static void PhantasmaJsonAPI::MakeSendRawTransactionRequest(JSONBuilder&, const Char* txData);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `txData` — Raw transaction data (hex/Base16)  
+- `txData` — Raw transaction data (hex/Base16)
   *type:* `const Char*`
 
 
@@ -1435,16 +1947,16 @@ static void PhantasmaJsonAPI::MakeSendRawTransactionRequestRequest(JSONBuilder&,
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseSendRawTransactionResponseResponse(const JSONValue&, String& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseSendRawTransactionResponse(const JSONValue&, String& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `String&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -1455,18 +1967,18 @@ Tries to settle a pending swap for a specific hash.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeSettleSwapRequestRequest(JSONBuilder&, const Char* sourcePlatform, const Char* destPlatform, const Char* hashText);
+static void PhantasmaJsonAPI::MakeSettleSwapRequest(JSONBuilder&, const Char* sourcePlatform, const Char* destPlatform, const Char* hashText);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `sourcePlatform` — Source platform name  
+- `sourcePlatform` — Source platform name
   *type:* `const Char*`
-- `destPlatform` — Destination platform name  
+- `destPlatform` — Destination platform name
   *type:* `const Char*`
-- `hashText` — Transaction or archive hash (hex)  
+- `hashText` — Transaction or archive hash (hex)
   *type:* `const Char*`
 
 
@@ -1476,16 +1988,16 @@ static void PhantasmaJsonAPI::MakeSettleSwapRequestRequest(JSONBuilder&, const C
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseSettleSwapResponseResponse(const JSONValue&, String& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseSettleSwapResponse(const JSONValue&, String& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `String&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
 
 
@@ -1496,18 +2008,18 @@ Writes the contents of an incomplete archive.
 **Request builder**
 
 ```cpp
-static void PhantasmaJsonAPI::MakeWriteArchiveRequestRequest(JSONBuilder&, const Char* hashText, Int32 blockIndex, const Char* blockContent);
+static void PhantasmaJsonAPI::MakeWriteArchiveRequest(JSONBuilder&, const Char* hashText, Int32 blockIndex, const Char* blockContent);
 ```
 
 **Parameters (request):**
 
-- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)  
+- `JSONBuilder&` — Request builder (writes JSON into an internal buffer)
   *type:* `JSONBuilder&`
-- `hashText` — Transaction or archive hash (hex)  
+- `hashText` — Transaction or archive hash (hex)
   *type:* `const Char*`
-- `blockIndex` — Archive block index  
+- `blockIndex` — Archive block index
   *type:* `Int32`
-- `blockContent` — Archive block contents (hex/Base16)  
+- `blockContent` — Archive block contents (hex/Base16)
   *type:* `const Char*`
 
 
@@ -1517,15 +2029,14 @@ static void PhantasmaJsonAPI::MakeWriteArchiveRequestRequest(JSONBuilder&, const
 **Response parser**
 
 ```cpp
-static bool PhantasmaJsonAPI::ParseWriteArchiveResponseResponse(const JSONValue&, bool& out, PhantasmaError* err=0);
+static bool PhantasmaJsonAPI::ParseWriteArchiveResponse(const JSONValue&, bool& out, PhantasmaError* err=0);
 ```
 
 **Parameters (response):**
 
-- `JSONValue&` — Parameter  
+- `JSONValue&` — Parameter
   *type:* `const`
-- `out` — Output object populated from the response  
+- `out` — Output object populated from the response
   *type:* `bool&`
-- `err=0` — Optional error output (code/message)  
+- `err=0` — Optional error output (code/message)
   *type:* `PhantasmaError*`
-

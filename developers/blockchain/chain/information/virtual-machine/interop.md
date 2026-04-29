@@ -81,9 +81,11 @@ Important lifecycle rules:
 | `Runtime.ReadTokenRAM` | `symbol, tokenID` | implemented | Reads runtime-visible RAM. |
 | `Runtime.ReadToken` | `symbol, tokenID[, fields]` | implemented | Returns a map-like VM object for requested fields. Defaults to `chain,owner,creator,ROM,RAM,tokenID,seriesID,mintID,infusion`. |
 | `Runtime.ReadInfusions` | `symbol, tokenID` | implemented | Rebuilds Phantasma-style infusion view from current Carbon balances. |
-| `Runtime.WriteToken` | `from, symbol, tokenID, ram` | not implemented | Still explicitly left as future parity work. |
+| `Runtime.WriteToken` | `from, symbol, tokenID, ram` | implemented | Updates NFT RAM by runtime-visible Phantasma NFT ID. Invokes `onWrite` before the native RAM update when a token-backed trigger exists. |
 
 For `Runtime.ReadToken` and related NFT interops, the current validator intentionally treats the public Phantasma NFT ID as the runtime identity. Internal Carbon instance IDs stay an internal storage detail.
+
+`Runtime.WriteToken` follows the same runtime-visible NFT ID rule. It replaces RAM bytes, accepts empty RAM to clear the RAM flag, does not change owner, ROM, or token supply, and rolls back the RAM update plus trigger storage writes if `onWrite` fails. Native token symbols and dangerous symbols are rejected.
 
 ## Token Metadata And Discovery
 
@@ -182,5 +184,5 @@ If you are writing new contracts today:
 - use `Runtime.DeployContract` and `Runtime.UpgradeContract` for standalone contracts
 - use `Nexus.CreateToken`, `Nexus.AttachTokenContract`, and later `Runtime.UpgradeContract` for token-backed contracts
 - rely on `Data.*`, `Map.*`, and `List.*` for persistent state
-- rely on `Runtime.MintTokens`, `Runtime.TransferTokens`, `Runtime.MintToken`, `Runtime.TransferToken`, `Runtime.ReadToken`, and `Nexus.CreateTokenSeries` for current token and NFT flows
+- rely on `Runtime.MintTokens`, `Runtime.TransferTokens`, `Runtime.MintToken`, `Runtime.TransferToken`, `Runtime.ReadToken`, `Runtime.WriteToken`, and `Nexus.CreateTokenSeries` for current token and NFT flows
 - do not build new docs or examples around methods that are still rejected with TODO paths
