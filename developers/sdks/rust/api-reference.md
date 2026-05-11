@@ -1,6 +1,14 @@
-# Rust SDK API Reference
+# Rust SDK API Overview
 
-This page summarizes the current Rust SDK public surface.
+This page summarizes the current Rust SDK public surface and links to the
+complete reference pages for detailed RPC methods, result fields, wire
+structures, and low-level helpers.
+
+For the deeper API material, use the complete API reference:
+
+{% content-ref url="reference/README.md" %}
+Rust SDK Complete API Reference
+{% endcontent-ref %}
 
 ## Crate
 
@@ -9,6 +17,7 @@ This page summarizes the current Rust SDK public surface.
 | Crate | `phantasma-sdk` |
 | Import path | `phantasma_sdk` |
 | Current source version | `1.0.1` |
+| Version constant | `SDK_VERSION` |
 | Rust edition | 2021 |
 | Minimum Rust version | `1.74` |
 
@@ -27,13 +36,15 @@ use phantasma_sdk::{
 | API | Purpose |
 | --- | ------- |
 | `Address` | Checked Phantasma address with `from_text`, `from_public_key`, `from_hash`, `null`, `to_text`, `kind`, and `public_key`. |
-| `PhantasmaKeys` | Ed25519 key pair with `generate`, `from_wif`, `to_wif`, `public_key`, `address`, and `sign`. |
+| `PhantasmaKeys` | Ed25519 key pair with `private_key`, `generate`, `from_wif`, `to_wif`, `public_key`, `address`, and `sign`. |
 | `Ed25519Signature` | Signature wrapper with `verify` and `serialize_data`. |
 | `Hash` | SHA-256 hash wrapper with `to_hex` and `difficulty`. |
 | `AddressKind`, `SignatureKind` | Typed enums for address and signature kinds. |
 
 See [Keys And Addresses](keys-and-addresses.md) for WIF, signing, address
 parsing, and Carbon `Bytes32` conversion examples.
+
+Details: [VM and Transaction APIs](reference/vm-transaction-binary.md).
 
 ## `vm`
 
@@ -48,6 +59,8 @@ Common `ScriptBuilder` methods include `call_interop`, `call_contract`,
 `allow_gas`, `spend_gas`, `transfer_tokens`, `transfer_nft`, `stake`,
 `unstake`, `call_nft`, `end_script`, `end_script_hex`, and
 `end_script_with_error`.
+
+Method and helper reference: [VM and Transaction APIs](reference/vm-transaction-binary.md).
 
 ## `transaction`
 
@@ -68,7 +81,8 @@ Common `ScriptBuilder` methods include `call_interop`, `call_contract`,
 | Result structs | `AccountResult`, `BlockResult`, `TransactionResult`, `TokenResult`, `TokenDataResult`, `TokenSeriesResult`, `ScriptResult`, and related RPC models. |
 
 `PhantasmaRpc` exposes read wrappers, invoke-script wrappers, and send helpers.
-See [RPC](rpc.md) for the grouped method list.
+See [RPC](rpc.md) for workflow usage, [RPC Methods](reference/rpc-methods.md)
+for signatures, and [RPC Models](reference/rpc-models.md) for result fields.
 
 ## `carbon`
 
@@ -91,6 +105,8 @@ See [Schemas And Metadata](schemas-and-metadata.md),
 [Fees And Broadcasting](fees-and-broadcasting.md), and
 [Carbon Operations](carbon-operations.md) for usage examples and workflow
 guidance.
+
+Carbon type and builder reference: [Carbon API and Wire Format](reference/carbon-wire.md).
 
 ## `encoding`, `binary`, And `error`
 

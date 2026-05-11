@@ -1,6 +1,14 @@
-# Python SDK API Reference
+# Python SDK API Overview
 
-This page summarizes the current Python SDK public surface.
+This page summarizes the current Python SDK public surface and links to the
+complete reference pages for detailed RPC methods, result fields, wire
+structures, and low-level helpers.
+
+For the deeper API material, use the complete API reference:
+
+{% content-ref url="reference/README.md" %}
+Python SDK Complete API Reference
+{% endcontent-ref %}
 
 ## Package
 
@@ -38,13 +46,15 @@ from phantasma_py.rpc import PhantasmaRPC
 | API | Purpose |
 | --- | ------- |
 | `Address` | Checked 34-byte Phantasma address with `from_text`, `from_public_key`, `from_hash`, `null`, `text`, `kind`, and `public_key`. |
-| `PhantasmaKeys` | Ed25519 key pair with `generate`, `from_wif`, `to_wif`, `public_key`, `address`, and `sign`. |
+| `PhantasmaKeys` | Ed25519 key pair with `private_key`, `generate`, `from_wif`, `to_wif`, `public_key`, `address`, and `sign`. |
 | `Ed25519Signature` | Signature wrapper with `verify` and `serialize_data`. |
 | `Hash` | SHA-256 hash wrapper with `from_hex`, `sha256`, `hex`, and `difficulty`. |
 | `AddressKind`, `SignatureKind` | Typed enums for address and signature kinds. |
 
 See [Keys And Addresses](keys-and-addresses.md) for WIF, signing, address
 parsing, and Carbon `Bytes32` conversion examples.
+
+Details: [VM and Transaction APIs](reference/vm-transaction-binary.md).
 
 ## `phantasma_py.vm`
 
@@ -59,6 +69,8 @@ Common `ScriptBuilder` methods include `call_interop`, `call_contract`,
 `allow_gas`, `spend_gas`, `transfer_tokens`, `transfer_nft`, `stake`,
 `unstake`, `call_nft`, `end_script`, `end_script_hex`, and
 `end_script_with_error`.
+
+Method and helper reference: [VM and Transaction APIs](reference/vm-transaction-binary.md).
 
 ## `phantasma_py.transaction`
 
@@ -77,7 +89,8 @@ Common `ScriptBuilder` methods include `call_interop`, `call_contract`,
 | Result dataclasses | `AccountResult`, `BlockResult`, `TransactionResult`, `TokenResult`, `TokenDataResult`, `TokenSeriesResult`, `ScriptResult`, and related RPC models. |
 
 `PhantasmaRPC` exposes read wrappers, invoke-script wrappers, and send helpers.
-See [RPC](rpc.md) for the grouped method list.
+See [RPC](rpc.md) for workflow usage, [RPC Methods](reference/rpc-methods.md)
+for signatures, and [RPC Models](reference/rpc-models.md) for result fields.
 
 ## `phantasma_py.carbon`
 
@@ -85,6 +98,7 @@ See [RPC](rpc.md) for the grouped method list.
 | --- | ------- |
 | `CarbonWriter`, `CarbonReader` | Carbon wire-format primitives. |
 | `Bytes16`, `Bytes32`, `Bytes64`, `SmallString`, `IntX` | Checked Carbon primitive types. |
+| `CarbonVMType` | Top-level alias for `phantasma_py.carbon.VMType`; use it when code also imports `phantasma_py.vm.VMType`. |
 | `serialize`, `deserialize` | Generic Carbon round-trip helpers. |
 | `TokenInfo`, `SeriesInfo`, `TokenSchemas` | Token and schema structures. |
 | `TokenSchemaField`, `TokenSchemasJSON`, `VMStructSchema`, `VMDynamicStruct`, `VMDynamicVariable` | Schema and metadata structures used by token series, ROM, and RAM. |
@@ -103,6 +117,8 @@ See [Schemas And Metadata](schemas-and-metadata.md),
 [Fees And Broadcasting](fees-and-broadcasting.md), and
 [Carbon Operations](carbon-operations.md) for usage examples and workflow
 guidance.
+
+Carbon type and builder reference: [Carbon API and Wire Format](reference/carbon-wire.md).
 
 ## Exceptions
 
