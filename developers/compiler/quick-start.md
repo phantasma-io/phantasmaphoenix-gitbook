@@ -4,6 +4,12 @@ This page shows the shortest path from source file to compiled contract artifact
 
 ## 1. Install the compiler
 
+The current `pha-tomb` NuGet tool package requires the .NET 10 SDK. Confirm that your shell selects a `10.x` SDK:
+
+```bash
+dotnet --version
+```
+
 Install `pha-tomb` as a .NET global tool:
 
 ```bash

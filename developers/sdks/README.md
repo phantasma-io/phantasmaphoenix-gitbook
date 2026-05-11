@@ -1,8 +1,12 @@
 # Phantasma SDKs
 
-{% hint style="info" %}
-**Important:** One class that is used across all SDK's is the **ScriptBuilder,** this class allows you to create a step by step interaction on the chain. This class is really important for the interactions!&#x20;
-{% endhint %}
+Phantasma SDKs provide language-specific APIs for RPC calls, key handling,
+transaction signing, VM script construction, and Carbon workflows.
+
+## Script Builder
+
+`ScriptBuilder` is the common SDK abstraction for building VM scripts. Use it for
+contract calls, interop calls, gas, transfers, staking, and NFT operations.
 
 {% content-ref url="/developers/script-builder" %}
 Script builder
@@ -10,19 +14,21 @@ Script builder
 
 ## External Calls
 
-{% hint style="info" %}
-**Note:** ExtCalls or InteropCalls or Internal Operations are ways to interact with the chain, this is very usefully when creating a script to call the chain with the **ScriptBuilder**
-{% endhint %}
+External calls, also called interop calls, are VM calls into chain runtime
+functionality. Use the External Calls reference when a script needs runtime data
+or chain operations exposed outside a contract API.
 
 {% content-ref url="/developers/script-builder/external-calls.md" %}
 External Calls
 {% endcontent-ref %}
 
-#### **Supported Languages**
+## Supported Languages
 
 * C#
 * C++
-* Typescript
+* Python
+* Rust
+* TypeScript
 * JavaScript
 
 ## C# SDK / Godot Engine
@@ -35,6 +41,18 @@ C# SDK
 
 {% content-ref url="/developers/sdks/ts/" %}
 Typescript
+{% endcontent-ref %}
+
+## Python SDK
+
+{% content-ref url="/developers/sdks/python/" %}
+Python
+{% endcontent-ref %}
+
+## Rust SDK
+
+{% content-ref url="/developers/sdks/rust/" %}
+Rust
 {% endcontent-ref %}
 
 ## Unity SDK / Unity Engine

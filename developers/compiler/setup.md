@@ -6,6 +6,14 @@ description: Basic setup for the TOMB compiler
 
 ## Recommended installation
 
+The current `pha-tomb` NuGet tool package requires the .NET 10 SDK. Check the SDK selected by your shell before installing:
+
+```bash
+dotnet --version
+```
+
+The command should resolve to a `10.x` SDK. If it resolves to `9.x`, `dotnet tool install` can fail with a misleading `DotnetToolSettings.xml` error because the package is built for `net10.0`.
+
 Install `pha-tomb` as a .NET global tool:
 
 ```bash
@@ -22,7 +30,8 @@ pha-tomb --help
 
 ## Build from source
 
-If you want to pin a local compiler build, work on the compiler itself, or avoid whichever global `pha-tomb` is currently first in `PATH`, build it from source.
+If you want to pin a local compiler build, work on the compiler itself, or avoid
+relying on the global `pha-tomb` found first in `PATH`, build it from source.
 
 Source repository:
 - `https://github.com/phantasma-io/TOMB`
