@@ -84,7 +84,7 @@ binary writer.
 | `write_string_z_array(values)` | Writes an array of zero-terminated strings. | `values`: list of strings. | Writes signed 32-bit count and each `write_string_z(...)`. |
 | `write_byte_array(data)` | Writes Carbon byte array. | `data`: bytes. | Writes signed 32-bit length and raw bytes. |
 | `write_byte_arrays(values)` | Writes an array of byte arrays. | `values`: list of bytes. | Writes signed 32-bit count and each byte array. |
-| `write_int_array(values, width, signed=...)` | Writes a fixed-width integer array. | `values`: list of ints. `width`: 1, 2, 4, or 8. `signed`: used for width 8 writer choice. | Writes signed 32-bit count. Width 1 writes the low byte with `value & 0xFF`; width 2 and 4 use signed writers; width 8 uses `write8` or `write8u`. Fails for unsupported widths or range failures from the selected writer. |
+| `write_int_array(values, width, *, signed=...)` | Writes a fixed-width integer array. | `values`: list of ints. `width`: 1, 2, 4, or 8. `signed`: used for width 8 writer choice. | Writes signed 32-bit count. Width 1 writes the low byte with `value & 0xFF`; width 2 and 4 use signed writers; width 8 uses `write8` or `write8u`. Fails for unsupported widths or range failures from the selected writer. |
 | `bytes()` | Returns current buffer. | None. | Returns `bytes`. |
 
 ## CarbonReader
@@ -114,7 +114,7 @@ binary writer.
 | `read_string_z_array()` | Reads an array of zero-terminated strings. | None. | Returns `list[str]`. |
 | `read_byte_array()` | Reads a Carbon byte array. | None. | Returns `bytes`. |
 | `read_byte_arrays()` | Reads an array of byte arrays. | None. | Returns `list[bytes]`. |
-| `read_int_array(width, signed=...)` | Reads a fixed-width integer array. | `width`: 1, 2, 4, or 8. `signed`: controls width 1 and width 8 interpretation. | Returns `list[int]`. Fails for unsupported widths or truncated input. |
+| `read_int_array(width, *, signed=...)` | Reads a fixed-width integer array. | `width`: 1, 2, 4, or 8. `signed`: controls width 1 and width 8 interpretation. | Returns `list[int]`. Fails for unsupported widths or truncated input. |
 
 ## Enums And Flags
 
@@ -181,7 +181,7 @@ Standard NFT ROM fields are `_i` and `rom`.
 | API | Purpose | Inputs | Returns and failures |
 | --- | ------- | ------ | -------------------- |
 | `build_token_metadata(fields)` | Serializes token metadata as a dynamic struct. | `fields`: dict of string keys and values. Required keys are `name`, `icon`, `url`, and `description`. | Returns `bytes`. Fails if required keys are absent or blank, if `icon` is not a `data:image/png`, `data:image/jpeg`, or `data:image/webp` URI, if icon payload is empty, or if base64 is invalid. |
-| `build_token_info(symbol, max_supply, is_nft, decimals, owner, metadata, token_schemas=b"")` | Builds `TokenInfo` for create-token messages. | `symbol`: uppercase ASCII token symbol. `max_supply`: `IntX`. `is_nft`: controls token flags. `decimals`: serialized as one byte later. `owner`: `Bytes32`. `metadata`: bytes. `token_schemas`: required for NFTs. | Returns `TokenInfo`. Fails for invalid symbol, `metadata is None`, NFT max supply outside signed 64-bit range, or missing NFT schemas. For fungible tokens with max supply outside signed 64-bit range, sets `BIG_FUNGIBLE`. |
+| `build_token_info(symbol, max_supply, *, is_nft, decimals, owner, metadata, token_schemas=b"")` | Builds `TokenInfo` for create-token messages. | `symbol`: uppercase ASCII token symbol. `max_supply`: `IntX`. `is_nft`: controls token flags. `decimals`: serialized as one byte later. `owner`: `Bytes32`. `metadata`: bytes. `token_schemas`: required for NFTs. | Returns `TokenInfo`. Fails for invalid symbol, `metadata is None`, NFT max supply outside signed 64-bit range, or missing NFT schemas. For fungible tokens with max supply outside signed 64-bit range, sets `BIG_FUNGIBLE`. |
 | `build_series_info(phantasma_series_id, max_mint, max_supply, owner)` | Builds standard `SeriesInfo`. | `phantasma_series_id`: required int. `max_mint`, `max_supply`, `owner`. | Returns `SeriesInfo` with standard series metadata and default empty ROM/RAM schemas. |
 | `build_token_series_metadata(schema, phantasma_series_id, metadata)` | Serializes series metadata. | `schema`: series metadata schema. `metadata`: list of `(name, value)` pairs. | Returns `bytes`. Writes `_i`, `mode`, `rom`, and declared custom fields. Fails for non-int series id, missing mandatory custom fields, incorrect field case, or type coercion errors. |
 | `build_nft_rom(schema, phantasma_nft_id, metadata)` | Serializes standard NFT ROM. | `schema`: ROM schema. `phantasma_nft_id`: required int. `metadata`: list of pairs. | Returns `bytes`. Writes `_i`, `rom`, and declared custom fields. Fails for missing or invalid custom fields. |

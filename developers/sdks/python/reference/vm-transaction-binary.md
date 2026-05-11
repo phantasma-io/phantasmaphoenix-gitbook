@@ -75,7 +75,7 @@ Use `CarbonReader` and `CarbonWriter` for Carbon message payloads.
 | `read_u8()`, `read_u16_le()`, `read_u32_le()`, `read_u64_le()`, `read_i64_le()` | Reads fixed-width numeric fields. | Return `int`; raise `SerializationError` when the stream ends early. | Decoding VM transaction and VM object fields. |
 | `read_bool()` | Reads one byte and treats non-zero as true. | Returns `bool`; raises `SerializationError` when the stream ends early. | Decoding VM boolean fields. |
 | `read_var_uint()` | Reads VM variable-length unsigned integer encoding. | Returns `int`; raises `SerializationError` for malformed or truncated values. | Decoding VM lengths and counts. |
-| `read_var_bytes(max_size=MAX_ARRAY_SIZE)` | Reads a varuint length and that many bytes. | Returns `bytes`; raises `SerializationError` when length exceeds `max_size` or the stream ends early. | Decoding VM byte arrays while enforcing a size limit. |
+| `read_var_bytes(*, max_size=MAX_ARRAY_SIZE)` | Reads a varuint length and that many bytes. | Returns `bytes`; raises `SerializationError` when length exceeds `max_size` or the stream ends early. | Decoding VM byte arrays while enforcing a size limit. |
 | `read_string()` | Reads VM var-bytes and decodes UTF-8. | Returns `str`; UTF-8 errors propagate as decode failures. | Decoding VM string fields. |
 | `read_big_integer()` | Reads VM bigint var-bytes and converts to Python `int`. | Returns `int`. | Decoding VM numeric object values. |
 | `big_int_to_vm_bytes(value)` | Converts a Python integer to VM bigint bytes. | Returns `bytes`. | Low-level code needs the VM integer payload without writing a full field. |
@@ -190,7 +190,7 @@ script = (
 | --- | ---------------------- | -------------------- | ----------- |
 | `Transaction(nexus_name, chain_name, script, expiration, payload=SDK_PAYLOAD, signatures=[])` | Creates a VM script transaction. `script` and `payload` are bytes; `expiration` is a Unix timestamp in seconds. | Returns `Transaction`. | Code has final script bytes and is ready to sign or serialize a VM transaction. |
 | `hash` | Property calculated from unsigned transaction bytes, excluding signatures. | Returns `Hash`. | Code needs the transaction hash before or after signing. |
-| `to_bytes(with_signatures=True)` | Serializes nexus, chain, script, expiration, payload, and optionally signatures. | Returns `bytes`. | RPC broadcast or signing needs transaction bytes. Use `with_signatures=False` for the signing message. |
+| `to_bytes(*, with_signatures=True)` | Serializes nexus, chain, script, expiration, payload, and optionally signatures. | Returns `bytes`. | RPC broadcast or signing needs transaction bytes. Use `with_signatures=False` for the signing message. |
 | `Transaction.from_bytes(data)` | Parses transaction bytes, including Ed25519 signatures. | Returns `Transaction`; raises on unsupported signature kind, malformed streams, or trailing bytes. | A tool needs to inspect or re-broadcast serialized VM transaction bytes. |
 | `sign(key_pair)` | Signs unsigned transaction bytes and appends the signature. | Returns `Ed25519Signature`. | Trusted code owns a private key and signs a VM transaction. |
 | `is_signed_by(key_pair)` | Verifies whether any appended signature matches the key pair's address. | Returns `bool`. | Tooling checks whether a transaction already has the expected signer. |

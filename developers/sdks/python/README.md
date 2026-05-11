@@ -23,8 +23,8 @@ import phantasma_py
 ```
 
 The current package exposes Python-style dataclasses, exceptions, type hints,
-and module names under `phantasma_py`. Do not use older generated examples with
-this SDK.
+and module names under `phantasma_py`. Older examples that import legacy modules
+do not apply to this SDK.
 
 ## What It Covers
 
