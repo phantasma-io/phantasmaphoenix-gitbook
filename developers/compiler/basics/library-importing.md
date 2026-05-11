@@ -14,7 +14,7 @@ In this example, the contract imports the **NFT** library. The same import patte
 ```csharp
 contract test {
 	import NFT;
-	
+
 	public mintSample(from:address, to:address, symbol:string, rom:any, ram:any)
 	{
 		NFT.mint(from, to, symbol, rom, ram, 1);

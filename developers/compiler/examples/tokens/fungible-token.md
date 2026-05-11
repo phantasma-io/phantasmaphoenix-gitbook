@@ -17,26 +17,26 @@ token DOG { // this defines the token symbol as DOG
 
 	property isDivisible: bool = true;
 	property decimals:number = 8; // required only if isDivisible is true
-	
+
 	property isTransferable: bool = true;
 	property isBurnable: bool = true;
-	
+
 	property isFinite: bool = false;
 	//property maxSupply: number = 1000000; // required only if isFinite is true
-	
+
 	global _admin: address;
-	
+
 	constructor(owner:address)	{
        		_admin = owner;
 	}
 
 	// allows the token to be upgraded later, remove this trigger if you want a imutable fungible token
-	trigger onUpgrade(from:address) 
+	trigger onUpgrade(from:address)
 	{
 		Runtime.expect(Runtime.isWitness(_admin), "witness failed");
 		return;
 	}
-	
+
 	// its possible to also add more triggers, custom methods etc
 }
 ```

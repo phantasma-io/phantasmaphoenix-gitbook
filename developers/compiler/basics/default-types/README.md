@@ -15,4 +15,3 @@ Different data types are recognized by the compiler.
 | Address        | @P2K6p3VzyRhxqHE2KcNV2B3QjVrv5ekvWPZLevteDoBQTzA or @null         |                                                                                |
 | Hash           | #E3FE7BB73996CF7057913BD916F1B07AC0EAB4916DF3BCBDC221829F5CBEA9AF | Must be hexadecimal number with 256 bits                                       |
 | Compiler macro | $SOMETHING                                                        |                                                                                |
-

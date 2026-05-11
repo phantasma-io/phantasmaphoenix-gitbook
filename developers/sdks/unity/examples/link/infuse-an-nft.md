@@ -22,7 +22,7 @@ public void InfuseNFT()
         CallInterop("Runtime.InfuseToken", userAddress, symbol, tokenID, infuseSymbol, infuseAmount).
         SpendGas(userAddress).
         EndScript();
-    
+
     PhantasmaLinkClient.Instance.SendTransaction("main", script, payload, (hash, s) =>
     {
         if ( hash.IsNull )
@@ -30,7 +30,7 @@ public void InfuseNFT()
             Debug.Log("Transaction failed: " + s);
             return;
         }
-        
+
         Debug.Log("Transaction sent: " + hash);
     });
 }

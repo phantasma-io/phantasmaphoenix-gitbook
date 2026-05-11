@@ -21,7 +21,7 @@ public void SendNFT()
         CallInterop("Runtime.TransferToken", userAddress, toAddress, symbol, tokenID).
         SpendGas(userAddress).
         EndScript();
-    
+
     PhantasmaLinkClient.Instance.SendTransaction("main", script, payload, (hash, s) =>
     {
         if ( hash.IsNull )
@@ -29,7 +29,7 @@ public void SendNFT()
             Debug.Log("Transaction failed: " + s);
             return;
         }
-        
+
         Debug.Log("Transaction sent: " + hash);
     });
 }

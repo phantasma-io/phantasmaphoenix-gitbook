@@ -11,7 +11,7 @@ contract test {
 	}
 
 	public calculatePrice(x:number): number
-	{		
+	{
 		local price: number = 10;
 		price = this.sum(price, x); // here we use 'this' for calling another method
 

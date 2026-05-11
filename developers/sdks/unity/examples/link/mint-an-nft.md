@@ -23,7 +23,7 @@ public void MintNFT()
         CallInterop("Runtime.MintToken", userAddress, toAddress, symbol, rom, ram, series).
         SpendGas(userAddress).
         EndScript();
-    
+
     PhantasmaLinkClient.Instance.SendTransaction("main", script, payload, (hash, s) =>
     {
         if ( hash.IsNull )
@@ -31,7 +31,7 @@ public void MintNFT()
             Debug.Log("Transaction failed: " + s);
             return;
         }
-        
+
         Debug.Log("Transaction sent: " + hash);
     });
 }

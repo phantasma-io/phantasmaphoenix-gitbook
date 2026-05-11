@@ -7,7 +7,7 @@ description: The connecting Wallets to Dapps
 Phantasma Link is a protocol designed to allow dapps to sign transactions and do other on-chain operations on the behalf of users, in a transparent way, without requiring access to the user private key.
 
 {% hint style="info" %}
-This page is a protocol reference, not a TypeScript guide.  
+This page is a protocol reference, not a TypeScript guide.
 If you're building in TS, start here:
 - [Frontend Guide](/developers/sdks/ts/frontend/frontend.md)
 

@@ -16,7 +16,7 @@ public void BurnTokens()
         CallInterop("Runtime.BurnTokens", userAddress, symbol, amount).
         SpendGas(userAddress).
         EndScript();
-    
+
     PhantasmaLinkClient.Instance.SendTransaction("main", script, payload, (hash, s) =>
     {
         if ( hash.IsNull )
@@ -24,7 +24,7 @@ public void BurnTokens()
             Debug.Log("Transaction failed: " + s);
             return;
         }
-        
+
         Debug.Log("Transaction sent: " + hash);
     });
 }

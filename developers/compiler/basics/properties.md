@@ -27,4 +27,3 @@ property isCapped: bool = false;
 property decimals:number = 8;
 property owner:address = _owner;
 ```
-

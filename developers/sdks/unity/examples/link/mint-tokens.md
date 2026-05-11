@@ -21,7 +21,7 @@ public void MintTokens()
         CallInterop("Runtime.MintTokens", userAddress, toAddress, symbol, amount).
         SpendGas(userAddress).
         EndScript();
-    
+
     PhantasmaLinkClient.Instance.SendTransaction("main", script, payload, (hash, s) =>
     {
         if ( hash.IsNull )
@@ -29,7 +29,7 @@ public void MintTokens()
             Debug.Log("Transaction failed: " + s);
             return;
         }
-        
+
         Debug.Log("Transaction sent: " + hash);
     });
 }

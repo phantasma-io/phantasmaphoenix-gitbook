@@ -21,7 +21,7 @@ public void UpdateNFTsRAM()
         CallInterop("Runtime.WriteToken", userAddress, symbol, tokenID, ram).
         SpendGas(userAddress).
         EndScript();
-    
+
     PhantasmaLinkClient.Instance.SendTransaction("main", script, payload, (hash, s) =>
     {
         if ( hash.IsNull )
@@ -29,7 +29,7 @@ public void UpdateNFTsRAM()
             Debug.Log("Transaction failed: " + s);
             return;
         }
-        
+
         Debug.Log("Transaction sent: " + hash);
     });
 }

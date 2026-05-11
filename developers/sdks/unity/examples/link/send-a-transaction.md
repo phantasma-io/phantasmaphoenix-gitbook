@@ -17,7 +17,7 @@ public void SendTransaction()
         CallInterop("Runtime.TransferTokens", userAddress, toAddress, symbol, amount).
         SpendGas(userAddress).
         EndScript();
-    
+
     PhantasmaLinkClient.Instance.SendTransaction("main", script, payload, (hash, s) =>
     {
         if ( hash.IsNull )
@@ -25,7 +25,7 @@ public void SendTransaction()
             Debug.Log("Transaction failed: " + s);
             return;
         }
-        
+
         Debug.Log("Transaction sent: " + hash);
     });
 }

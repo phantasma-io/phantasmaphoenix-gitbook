@@ -20,7 +20,7 @@ public void BurnNFT()
         CallInterop("Runtime.BurnToken", userAddress, symbol, id).
         SpendGas(userAddress).
         EndScript();
-    
+
     PhantasmaLinkClient.Instance.SendTransaction("main", script, payload, (hash, s) =>
     {
         if ( hash.IsNull )
@@ -28,7 +28,7 @@ public void BurnNFT()
             Debug.Log("Transaction failed: " + s);
             return;
         }
-        
+
         Debug.Log("Transaction sent: " + hash);
     });
 }
