@@ -258,6 +258,10 @@ The Relay library exposes methods to access the off-chain message relay system.
 
 ## Stake
 
+{% hint style="warning" %}
+`Stake.stake($THIS_ADDRESS, amount)` does not increase contract storage. Smart contract storage growth is funded by the transaction payer through SOUL data escrow and `maxData`. See [Storage And Data Escrow](../blockchain/smart-contracts/storage-and-data-escrow.md#contract-storage-is-not-increased-by-self-staking-soul).
+{% endhint %}
+
 | Method                                                                               | Return type | Description                                                                      |
 | ------------------------------------------------------------------------------------ | ----------- | -------------------------------------------------------------------------------- |
 | Stake.getMasterThreshold()                                                           | Number      | Equivalent to calling Governance.getValue() for "MasterStakeThresholdTag".       |
@@ -284,7 +288,7 @@ The Relay library exposes methods to access the off-chain message relay system.
 ## Storage
 
 {% hint style="info" %}
-The Storage library allows a contract to interact with contract storage and also the decentralized [file storage](https://docs.phantasma.info/#chain-storage) of Phantasma.
+The Storage library allows a contract to interact with contract storage and also the decentralized [file storage](https://docs.phantasma.info/#chain-storage) of Phantasma. Smart contract storage writes are charged through transaction SOUL data escrow, not through contract self-staking. See [Storage And Data Escrow](../blockchain/smart-contracts/storage-and-data-escrow.md).
 {% endhint %}
 
 | Method                                                                                                             | Return type | Description                                                                                                                                                                                                                    |

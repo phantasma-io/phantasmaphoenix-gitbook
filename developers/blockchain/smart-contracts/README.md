@@ -28,3 +28,9 @@ For the deployment flow overview:
 {% content-ref url="how-to-deploy.md" %}
 How to Deploy
 {% endcontent-ref %}
+
+For contract storage costs and SOUL data escrow:
+
+{% content-ref url="storage-and-data-escrow.md" %}
+Storage And Data Escrow
+{% endcontent-ref %}

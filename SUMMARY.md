@@ -21,6 +21,7 @@
   - Blockchain
     - [Smart Contracts](developers/blockchain/smart-contracts/README.md)
       - [How to Deploy](developers/blockchain/smart-contracts/how-to-deploy.md)
+      - [Storage And Data Escrow](developers/blockchain/smart-contracts/storage-and-data-escrow.md)
     - [Chain](developers/blockchain/chain/README.md)
       - [Virtual Machine](developers/blockchain/chain/information/virtual-machine/README.md)
         - [Architecture](developers/blockchain/chain/information/virtual-machine/architecture.md)
