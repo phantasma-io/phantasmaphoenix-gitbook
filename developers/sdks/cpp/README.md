@@ -1,29 +1,25 @@
-# Introduction
+# C++ SDK
 
-This C++ SDK provides tools to interact with the Phantasma blockchain.
-It includes modules for cryptography, blockchain data structures, network communication, and adapters for different underlying SDKs.
+The C++ SDK is a C++17 header-based SDK for Phantasma applications, services,
+and tooling. It covers adapter-backed JSON-RPC access, request/response JSON
+builders, cryptographic primitives, VM script and transaction helpers, and
+Carbon wire-format transaction builders.
 
-The SDK is designed for developers who want to integrate Phantasma into their C++ applications, offering both low-level JSON-RPC message builders and high-level API calls.
+{% hint style="info" %}
+Repository: [https://github.com/phantasma-io/phantasma-sdk-cpp](https://github.com/phantasma-io/phantasma-sdk-cpp)
+{% endhint %}
 
-**Key Features:**
-- Complete cryptographic primitives (Ed25519, hashing, encryption)
-- Transaction building and signing
-- JSON-RPC request/response handling
-- Current Carbon RPC helpers for token series, cursor pagination, node build metadata, and VM config
-- Adapters for CURL, cpprestsdk, sodium, and more
-- Portable C++17 code with adapter-selected HTTP/JSON/crypto backends
+## What It Covers
 
-# Architecture Overview
+| Area | Headers | Use it for |
+| ---- | ------- | ---------- |
+| RPC | `PhantasmaAPI.h`, `Adapters/*` | High-level RPC calls or low-level JSON request/response construction. |
+| Keys and addresses | `Cryptography/*` | WIF, Ed25519 signatures, addresses, hashes, proof of work, and secure byte/string wrappers. |
+| VM scripts | `VM/ScriptBuilder.h` | Contract calls, interop calls, gas, transfers, staking, and low-level opcode emission. |
+| VM transactions | `Blockchain/Transaction.h` | Classic VM transaction construction, signing, serialization, and mining. |
+| Carbon | `Carbon/*` | Carbon serialization, token info, schemas, token/series/NFT transaction builders, signing, and result parsing. |
 
-The SDK is organized into the following main modules:
-
-- **PhantasmaAPI**: High-level API for interacting with the blockchain
-- **PhantasmaJsonAPI**: Low-level JSON message builders and parsers
-- **Cryptography**: Key pairs, hashing, signatures, and encryption
-- **Blockchain**: Transaction and block structures
-- **Adapters**: Implementations for networking, JSON parsing, and cryptography
-
-# Getting Started
+## Getting Started
 
 The SDK supports multiple backends. **Include an adapter BEFORE `PhantasmaAPI.h`**:
 
@@ -66,7 +62,36 @@ Compatibility notes:
 - Prefer the chain-aware overloads for new code: pass `chainAddressOrName` explicitly before the block hash.
 - Carbon token endpoints use `carbonTokenId` / `carbonSeriesId`; pass `0` when resolving by Phantasma symbol or series id only.
 
-[Low-level API](/developers/sdks/cpp/low-level-api.md)
-[High-level API](/developers/sdks/cpp/high-level-api.md)
-[Data models](/developers/sdks/cpp/data-models.md)
-[Cryptography](/developers/sdks/cpp/cryptography.md)
+## Guides
+
+{% content-ref url="setup.md" %}
+Setup
+{% endcontent-ref %}
+
+{% content-ref url="rpc.md" %}
+RPC
+{% endcontent-ref %}
+
+{% content-ref url="keys-and-addresses.md" %}
+Keys And Addresses
+{% endcontent-ref %}
+
+{% content-ref url="vm-and-transactions.md" %}
+VM and Transactions
+{% endcontent-ref %}
+
+{% content-ref url="carbon.md" %}
+Carbon
+{% endcontent-ref %}
+
+{% content-ref url="api-reference.md" %}
+API Overview
+{% endcontent-ref %}
+
+{% content-ref url="reference/README.md" %}
+Complete API Reference
+{% endcontent-ref %}
+
+{% content-ref url="examples/README.md" %}
+Examples
+{% endcontent-ref %}

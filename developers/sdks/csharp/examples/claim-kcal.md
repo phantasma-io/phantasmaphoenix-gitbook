@@ -22,8 +22,7 @@ public static async Task ClaimKcal()
 	// Target chain Nexus name (e.g. "testnet" or "mainnet")
 	var nexus = "testnet";
 
-	// TODO: Adapt to new fee model
-	// Use these values for now
+	// VM transactions still pass explicit AllowGas price and limit.
 	var feePrice = DomainSettings.DefaultMinimumGasFee;
 	var feeLimit = Transaction.DefaultGasLimit;
 

@@ -15,7 +15,7 @@ Infusion in Carbon is a transfer to the target NFT's Carbon address. RPC builds 
 `getNFT` returns `carbonNftAddress` for a target NFT identified by its symbol and Phantasma ID.
 
 ```ts
-import { Bytes32, PhantasmaAPI, hexToBytes } from "phantasma-sdk-ts";
+import { Bytes32, PhantasmaAPI, hexToBytes } from "phantasma-sdk-ts/public";
 
 const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, "testnet");
 const target = await rpc.getNFT("TGT", "1234", true);
@@ -29,7 +29,7 @@ const targetNftAddress = new Bytes32(hexToBytes(target.carbonNftAddress));
 If you already have the Carbon instance ID (from minting), build the address locally:
 
 ```ts
-import { TokenHelper } from "phantasma-sdk-ts";
+import { TokenHelper } from "phantasma-sdk-ts/types";
 
 const targetNftAddress = TokenHelper.getNftAddress(carbonTokenId, carbonInstanceId);
 ```
@@ -37,7 +37,7 @@ const targetNftAddress = TokenHelper.getNftAddress(carbonTokenId, carbonInstance
 If you just minted the NFT, you can parse the result and use the returned `Bytes32` address directly:
 
 ```ts
-import { MintNonFungibleTxHelper } from "phantasma-sdk-ts";
+import { MintNonFungibleTxHelper } from "phantasma-sdk-ts/types";
 
 const carbonNftAddresses = MintNonFungibleTxHelper.parseResult(carbonTokenId, txInfo.result);
 const targetNftAddress = carbonNftAddresses[0];
@@ -50,24 +50,26 @@ Carbon transfer uses **carbon token IDs** and **carbon instance IDs** (not the P
 
 ```ts
 import {
+  PhantasmaAPI,
+  bytesToHex,
+  hexToBytes,
+} from "phantasma-sdk-ts/public";
+import {
   Bytes32,
   FeeOptions,
-  PhantasmaAPI,
   PhantasmaKeys,
   SmallString,
   TxMsg,
   TxMsgSigner,
   TxMsgTransferNonFungibleSingle,
   TxTypes,
-  bytesToHex,
-  hexToBytes,
-} from "phantasma-sdk-ts";
+} from "phantasma-sdk-ts/types";
 
 export async function infuseSingleNft() {
   const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, "testnet");
 
   const signer = PhantasmaKeys.fromWIF("YOUR_WIF");
-  const senderPk = new Bytes32(signer.PublicKey);
+  const senderPk = new Bytes32(signer.publicKey);
 
   const target = await rpc.getNFT("TGT", "1234", true);
   const targetNftAddress = new Bytes32(hexToBytes(target.carbonNftAddress));
@@ -110,24 +112,26 @@ Fungible infusion is also a transfer to the target NFT address, but it uses `TxM
 
 ```ts
 import {
+  PhantasmaAPI,
+  bytesToHex,
+  hexToBytes,
+} from "phantasma-sdk-ts/public";
+import {
   Bytes32,
   FeeOptions,
-  PhantasmaAPI,
   PhantasmaKeys,
   SmallString,
   TxMsg,
   TxMsgSigner,
   TxMsgTransferFungible,
   TxTypes,
-  bytesToHex,
-  hexToBytes,
-} from "phantasma-sdk-ts";
+} from "phantasma-sdk-ts/types";
 
 export async function infuseFungible() {
   const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, "testnet");
 
   const signer = PhantasmaKeys.fromWIF("YOUR_WIF");
-  const senderPk = new Bytes32(signer.PublicKey);
+  const senderPk = new Bytes32(signer.publicKey);
 
   const target = await rpc.getNFT("TGT", "1234", true);
   const targetNftAddress = new Bytes32(hexToBytes(target.carbonNftAddress));
@@ -173,21 +177,21 @@ If you need to infuse via the VM interop, use `Runtime.InfuseToken` with Phantas
 `nftId` is the target NFT Phantasma ID and `value` is the infused NFT Phantasma ID.
 
 ```ts
-import { ScriptBuilder } from "phantasma-sdk-ts";
+import { Address, ScriptBuilder } from "phantasma-sdk-ts/public";
 
 const sb = new ScriptBuilder();
 const script = sb
-  .BeginScript()
-  .AllowGas(senderAddress, sb.NullAddress, gasPrice, gasLimit)
-  .CallInterop("Runtime.InfuseToken", [
+  .beginScript()
+  .allowGas(senderAddress, Address.nullAddress, gasPrice, gasLimit)
+  .callInterop("Runtime.InfuseToken", [
     senderAddress,
     targetSymbol,
     targetNftId,
     infuseSymbol,
     infuseNftId,
   ])
-  .SpendGas(senderAddress)
-  .EndScript();
+  .spendGas(senderAddress)
+  .endScript();
 ```
 
 Limitations (current behavior):

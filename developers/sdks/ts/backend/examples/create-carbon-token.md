@@ -16,17 +16,19 @@ These are the imports typically required for creating a Carbon token:
 
 ```ts
 import {
+  PhantasmaAPI,
+} from "phantasma-sdk-ts/public";
+import {
   Bytes32,
   CreateTokenFeeOptions,
   CreateTokenTxHelper,
   IntX,
-  PhantasmaAPI,
   PhantasmaKeys,
   TokenInfoBuilder,
   TokenMetadataBuilder,
   TokenSchemasBuilder,
-} from "phantasma-sdk-ts";
-````
+} from "phantasma-sdk-ts/types";
+```
 
 ### Initialize Deployer Keys
 
@@ -36,8 +38,8 @@ In the following examples, we will use the deployer’s `PhantasmaKeys` keypair 
   // Initialize PhantasmaKeys using WIF-encoded private key
   const txSender = PhantasmaKeys.fromWIF("YOUR_WIF");
   // Get the public key from the keypair
-  const senderPubKey = new Bytes32(txSender.PublicKey);
-````
+  const senderPubKey = new Bytes32(txSender.publicKey);
+```
 
 ### Build Token Info
 
@@ -49,7 +51,7 @@ In the following examples, we will use the deployer’s `PhantasmaKeys` keypair 
   const metadata = TokenMetadataBuilder.buildAndSerialize({
     name: "My NFT",
     description: "Example NFT",
-    icon: "data:image/png;base64,...",
+    icon: "data:image/png;base64,iVBORw0KGgo=",
     url: "https://example.com",
   });
 
@@ -62,7 +64,7 @@ In the following examples, we will use the deployer’s `PhantasmaKeys` keypair 
     metadata, // Token metadata (required for all tokens; values are strings)
     tokenSchemas,
   );
-````
+```
 
 ### Set Token Creation Fees
 
@@ -71,12 +73,12 @@ You can call the constructor without arguments to use default values.
 
 ```ts
   const feeOptions = new CreateTokenFeeOptions(
-    10000, // Base fee
-    10000000000, // Create token base fee
-    10000000000, // Create token symbol fee
-    10000 // Fee multiplier
+    10000n, // Base fee
+    10000000000n, // Create token base fee
+    10000000000n, // Create token symbol fee
+    10000n // Fee multiplier
   );
-````
+```
 
 ### Build and Sign the Transaction
 
@@ -90,18 +92,18 @@ You can call the constructor without arguments to use default values.
     feeOptions, // Fee options defined above
     maxData // Create token max data (use this default value if unsure)
   );
-````
+```
 
 ### Broadcast the Transaction
 
 Broadcast the transaction to the network.
 
 ```ts
-  const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", undefined as any, "testnet");
+  const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, "testnet");
 
   // Use sendCarbonTransaction() to call Carbon methods
   const txHash = await rpc.sendCarbonTransaction(tx);
-````
+```
 
 ### Parse the Result
 

@@ -12,7 +12,7 @@ This is a simple example on how to connect to a wallet.
 
 {% code overflow="wrap" lineNumbers="true" %}
 ```ts
-import { PhantasmaLink } from "phantasma-sdk-ts";
+import { PhantasmaLink } from "phantasma-sdk-ts/public";
 
 const dappID = "Dapp Name"; //This is just the name you want to give the connection
 const consoleLogging = true; //This is if you want console logging for Debugging Purposes [Default is set to true]

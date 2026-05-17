@@ -13,12 +13,12 @@ This is used to sign transaction, that's why you need this if you're running you
 {% endhint %}
 
 ```ts
-import { PhantasmaKeys } from "phantasma-sdk-ts";
+import { PhantasmaKeys } from "phantasma-sdk-ts/public";
 
 const wif = "YOUR_WIF"; // replace with your WIF
 const wallet = PhantasmaKeys.fromWIF(wif);
 
-const address = wallet.Address.Text; // Get the Address.
+const address = wallet.address.text; // Get the Address.
 ```
 
 ### Importing a Wallet from a private key
@@ -26,13 +26,13 @@ const address = wallet.Address.Text; // Get the Address.
 Small example of how to import a wallet from a **private key**.
 
 ```ts
-import { PhantasmaKeys, getWifFromPrivateKey } from "phantasma-sdk-ts";
+import { PhantasmaKeys, getWifFromPrivateKey } from "phantasma-sdk-ts/public";
 
 const privateKey = "YOUR_PRIVATE_KEY_HEX";
 const wif = getWifFromPrivateKey(privateKey);
 const wallet = PhantasmaKeys.fromWIF(wif);
 
-const address = wallet.Address.Text; // Get the Address.
+const address = wallet.address.text; // Get the Address.
 console.log(`${address}`);
 ```
 
@@ -41,7 +41,7 @@ You can also get the **private key** from the **WIF**
 {% endhint %}
 
 ```ts
-import { getPrivateKeyFromWif } from "phantasma-sdk-ts";
+import { getPrivateKeyFromWif } from "phantasma-sdk-ts/public";
 
 const wif = "YOUR_WIF";
 const privKey = getPrivateKeyFromWif(wif);

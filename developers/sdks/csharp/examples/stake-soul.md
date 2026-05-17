@@ -26,8 +26,7 @@ public static async Task StakeSoul()
 	// Amount to stake
 	var amount = 0.01m;
 
-	// TODO: Adapt to new fee model
-	// Use these values for now
+	// VM transactions still pass explicit AllowGas price and limit.
 	var feePrice = DomainSettings.DefaultMinimumGasFee;
 	var feeLimit = Transaction.DefaultGasLimit;
 

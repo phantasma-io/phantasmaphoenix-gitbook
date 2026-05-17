@@ -10,7 +10,7 @@ The Account library exposes methods to handle Phantasma [accounts](https://docs.
 | -------------------------------------------------------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Account.getName(from:Address)                                        | String      | Returns the name of an account associated to the specified address, if any.                                                                                                                                                                                                   |
 | Account.getLastActivity(from:Address)                                | Timestamp   | Returns a timestamp of the last known activity of the specified address.                                                                                                                                                                                                      |
-| Account.registerName(target:Address, name:String)                    | None        | Registers a name for the specified address. Names must be fit specified rules (TODO write rules here). Must have a stake of at least 2 SOUL.                                                                                                                                  |
+| Account.registerName(target:Address, name:String)                    | None        | Registers a name for the specified address. Name validation is enforced by chain rules. Must have a stake of at least 2 SOUL.                                                                                                                                                 |
 | Account.unregisterName(target:Address)                               | None        | Unregisters a name from an account. After unregistering, the name becomes available to use in other addresses.                                                                                                                                                                |
 | Account.registerScript(target:Address, script:Bytes, abiBytes:Bytes) | None        | Registers an account script to the specified address. An account script can contain multiple triggers for custom account behaviours.                                                                                                                                          |
 | Account.hasScript(address:Address)                                   | Bool        | Returns true if the specified address has an account script registered to it.                                                                                                                                                                                                 |
@@ -244,13 +244,13 @@ The Relay library exposes methods to access the off-chain message relay system.
 
 | Method                                           | Return type | Description |
 | ------------------------------------------------ | ----------- | ----------- |
-| Relay.getBalance(from:Address)                   | Number      | TODO        |
-| Relay.getIndex(from:Address, to:Address)         | Number      | TODO        |
-| Relay.getTopUpAddress(from:Address)              | Address     | TODO        |
-| Relay.openChannel(from:Address, publicKey:Bytes) | None        | TODO        |
-| Relay.getKey(from:Address)                       | Bytes       | TODO        |
-| Relay.topUpChannel(from:Address, count:Number)   | None        | TODO        |
-| Relay.settleChannel(receipt:RelayReceipt)        | None        | TODO        |
+| Relay.getBalance(from:Address)                   | Number      | Returns the relay balance for the specified address. |
+| Relay.getIndex(from:Address, to:Address)         | Number      | Returns the relay channel index for the address pair. |
+| Relay.getTopUpAddress(from:Address)              | Address     | Returns the address used to top up the relay channel. |
+| Relay.openChannel(from:Address, publicKey:Bytes) | None        | Opens a relay channel for the address and public key. |
+| Relay.getKey(from:Address)                       | Bytes       | Returns the relay public key for the specified address. |
+| Relay.topUpChannel(from:Address, count:Number)   | None        | Adds relay capacity to the channel. |
+| Relay.settleChannel(receipt:RelayReceipt)        | None        | Settles a relay channel using the supplied receipt. |
 
 ## Runtime
 
@@ -268,14 +268,14 @@ The Relay library exposes methods to access the off-chain message relay system.
 | Stake.isMaster(address:Address)                                                      | bool        | Returns true if the specified address is a SOUL master, returns false otherwise. |
 | Stake.getMasterCount()                                                               | Number      | Return current number of SOUL masters.                                           |
 | Stake.getClaimMasterCount(claimDate:Timestamp)                                       | Number      | Returns how much SOUL is claimable via a master claim.                           |
-| Stake.getMasterClaimDate(claimDistance:Number)                                       | Timestamp   | TODO                                                                             |
-| Stake.getMasterDate(target:Address)                                                  | Timestamp   | TODO                                                                             |
-| Stake.getMasterClaimDateFromReference(claimDistance:Number, referenceTime:Timestamp) | Timestamp   | TODO                                                                             |
-| Stake.getMasterRewards(address:Address)                                              | Number      | TODO                                                                             |
-| Stake.masterClaim(from:Address)                                                      | None        | TODO                                                                             |
+| Stake.getMasterClaimDate(claimDistance:Number)                                       | Timestamp   | Returns the master claim date for the specified claim distance.                   |
+| Stake.getMasterDate(target:Address)                                                  | Timestamp   | Returns the date associated with the address becoming a SOUL master.              |
+| Stake.getMasterClaimDateFromReference(claimDistance:Number, referenceTime:Timestamp) | Timestamp   | Returns the master claim date calculated from a reference time.                   |
+| Stake.getMasterRewards(address:Address)                                              | Number      | Returns the master reward amount for the specified address.                       |
+| Stake.masterClaim(from:Address)                                                      | None        | Claims master rewards for the specified address.                                 |
 | Stake.stake(from:Address, stakeAmount:Number)                                        | None        | To stake an amount to the the address with the stake amount.                     |
 | Stake.unstake(from:Address, unstakeAmount:Number)                                    | None        | To unstake an amount to the the address with the unstake amount.                 |
-| Stake.getTimeBeforeUnstake(from:Address)                                             | Number      | TODO                                                                             |
+| Stake.getTimeBeforeUnstake(from:Address)                                             | Number      | Returns the remaining time before the address can unstake.                        |
 | Stake.getStakeTimestamp(from:Address)                                                | Timestamp   | Returns timestamp of last stake for the specified address.                       |
 | Stake.getUnclaimed(from:Address)                                                     | Number      | Returns the unclaimed KCAL amount for the specified address.                     |
 | Stake.claim(from:Address, stakeAddress:Address)                                      | None        | Claims the the staked rewards for the given stake address.                       |
@@ -379,4 +379,4 @@ The Utils library exposes access to some utility methods that don't fit in other
 
 | Method                             | Return type | Description |
 | ---------------------------------- | ----------- | ----------- |
-| Utils.contractAddress(name:String) | Address     | TODO        |
+| Utils.contractAddress(name:String) | Address     | Returns the contract address for the specified contract name. |

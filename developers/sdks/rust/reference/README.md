@@ -2,10 +2,9 @@
 
 This section documents the public `phantasma_sdk` API at the level needed to
 build and maintain applications without reading the SDK source for ordinary
-usage. The workflow guides remain the best entry point for common tasks. These
-reference pages explain what each API group is for, how related methods differ,
-what the important parameters mean, what is returned, and which low-level
-helpers are available when a guide does not cover a case.
+usage. Start with setup and task pages for common flows; use this section when
+you need method groups, parameter details, return values, and lower-level
+helpers.
 
 Source baseline:
 
@@ -13,9 +12,9 @@ Source baseline:
 | ---- | ----- |
 | Crate | `phantasma-sdk` |
 | Import path | `phantasma_sdk` |
-| Version | `1.0.1` |
+| Version | `1.0.2` |
 | Version constant | `SDK_VERSION` |
-| Source commit | `1af47ec2d1fdcfb0ae7838a3f0c972021117a1bb` |
+| Source commit | `9b904f43cf702f9a661f7041222dd6a30a5b8979` |
 
 ## When To Use These Pages
 
@@ -25,6 +24,7 @@ Source baseline:
 | [RPC Result Models](rpc-models.md) | You need the fields returned by account, token, block, transaction, NFT, auction, or network RPC calls. |
 | [VM and Transaction APIs](vm-transaction-binary.md) | You need keys, addresses, VM script building, transaction serialization/signing, binary helpers, or SDK error behavior. |
 | [Carbon API and Wire Format](carbon-wire.md) | You need Carbon transaction builders, token/series/NFT structures, schema serialization, message payloads, fee options, or result parsers. |
+| [Public API Inventory](public-api.md) | You need the complete list of public crate items, modules, methods, fields, and variants. |
 
 ## Re-exports
 

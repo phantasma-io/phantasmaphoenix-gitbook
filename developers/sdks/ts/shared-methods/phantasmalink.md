@@ -45,7 +45,7 @@ That means `providerHint = "poltergeist"` is the simple way to force local-socke
 ## Basic Login
 
 ```ts
-import { PhantasmaLink } from "phantasma-sdk-ts";
+import { PhantasmaLink } from "phantasma-sdk-ts/public";
 
 const link = new PhantasmaLink("My Dapp", true);
 
@@ -136,7 +136,7 @@ This is the right tool when you need to control transaction fields locally befor
 Example:
 
 ```ts
-import { PhantasmaLink, Transaction } from "phantasma-sdk-ts";
+import { PhantasmaLink, Transaction } from "phantasma-sdk-ts/public";
 
 const link = new PhantasmaLink("My Dapp");
 const tx = new Transaction("<nexus>", "<chain>", "<scriptHex>", new Date(), "<payloadHex>");
@@ -164,14 +164,16 @@ It accepts:
 - an unsigned serialized transaction hex
 - a signature type, currently `Ed25519`
 
-The wallet returns a signature payload. `signPrebuiltTransaction(...)` is usually more convenient because it also assembles and verifies the signed transaction for you.
+The wallet returns a signature payload. Use
+`signPrebuiltTransaction(...)` when the SDK should also assemble and verify the
+signed transaction.
 
 ## Carbon Signing
 
 For Carbon-native flows, use `signCarbonTxAndBroadcast(...)`.
 
 ```ts
-import { CreateTokenTxHelper } from "phantasma-sdk-ts";
+import { CreateTokenTxHelper } from "phantasma-sdk-ts/public";
 
 const txMsg = CreateTokenTxHelper.buildTx(tokenInfo, creatorPublicKey);
 

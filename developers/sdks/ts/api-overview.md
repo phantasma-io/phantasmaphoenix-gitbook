@@ -1,6 +1,22 @@
 # API Overview
 
-This page summarizes the main building blocks of the TS SDK and how they fit together in current Carbon and VM workflows.
+This page summarizes the main building blocks of the TypeScript SDK and how
+they fit together in current Carbon, VM, RPC, and wallet workflows.
+
+For method-level details, use the complete reference:
+
+{% content-ref url="reference/README.md" %}
+TypeScript SDK Complete API Reference
+{% endcontent-ref %}
+
+## Package
+
+| Item | Value |
+| ---- | ----- |
+| Package | `phantasma-sdk-ts` |
+| Current source version | `0.8.2` |
+| Runtime | Node `>=22`; browser bundles depend on the wallet/link feature being used |
+| Recommended import | `phantasma-sdk-ts/public` |
 
 ## Core Building Blocks
 
@@ -21,10 +37,10 @@ Builds VM scripts for invokes and state-changing calls.
 
 Common uses:
 
-- `AllowGas(...)`
-- `SpendGas(...)`
-- `CallContract(...)`
-- `CallInterop(...)`
+- `allowGas(...)`
+- `spendGas(...)`
+- `callContract(...)`
+- `callInterop(...)`
 
 ### `Transaction`
 
@@ -49,7 +65,7 @@ Common entry points:
 
 - `PhantasmaKeys.fromWIF(wif)`
 - `PhantasmaKeys.generate()`
-- `.Address`
+- `.address`
 
 ## Wallet Layers
 
@@ -130,7 +146,10 @@ Use:
 
 ## Carbon Helpers
 
-For Carbon tokens and NFTs, use helpers under `core/types/Carbon`:
+For Carbon tokens and NFTs, use `phantasma-sdk-ts/public` for the RPC client
+and application-level SDK types. Import the complete Carbon helper surface from
+`phantasma-sdk-ts/types`; this includes fee option classes and helper functions
+that are not runtime exports of `/public`.
 
 - `TokenInfoBuilder`
 - `TokenMetadataBuilder`
@@ -140,8 +159,14 @@ For Carbon tokens and NFTs, use helpers under `core/types/Carbon`:
 - `CreateTokenTxHelper`
 - `CreateTokenSeriesTxHelper`
 - `MintNonFungibleTxHelper`
+- `MintPhantasmaNonFungibleTxHelper`
 
 These helpers build `TxMsg` objects or other schema-aware payloads for Carbon flows.
+
+`FeeOptions.calculateMaxGas(count?)` and
+`MintNftFeeOptions.calculateMaxGas(countOrTokens?)` are count-sensitive in the
+current SDK. Direct one-NFT mint helpers pass `1`; Phantasma NFT batch helpers
+pass the token list.
 
 ## Decoder And Event Helpers
 

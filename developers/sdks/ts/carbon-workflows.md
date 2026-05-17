@@ -69,27 +69,29 @@ If you fetch schemas from RPC (`getToken`), convert them using `vmStructSchemaFr
 
 ```ts
 import {
+  PhantasmaAPI,
+} from "phantasma-sdk-ts/public";
+import {
   Bytes32,
   CreateTokenFeeOptions,
   CreateTokenTxHelper,
   IntX,
-  PhantasmaAPI,
   PhantasmaKeys,
   TokenInfoBuilder,
   TokenMetadataBuilder,
   TokenSchemasBuilder,
-} from "phantasma-sdk-ts";
+} from "phantasma-sdk-ts/types";
 
 async function main() {
   const keys = PhantasmaKeys.fromWIF("YOUR_WIF");
-  const creatorPk = new Bytes32(keys.PublicKey);
+  const creatorPk = new Bytes32(keys.publicKey);
 
   const tokenSchemas = TokenSchemasBuilder.prepareStandard(true);
 
   const metadata = TokenMetadataBuilder.buildAndSerialize({
     name: "My NFT",
     description: "Example NFT",
-    icon: "data:image/png;base64,...",
+    icon: "data:image/png;base64,iVBORw0KGgo=",
     url: "https://example.com",
   });
 
@@ -113,7 +115,7 @@ async function main() {
     maxData,
   );
 
-  const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", undefined as any, "testnet");
+  const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, "testnet");
   const txHash = await rpc.sendCarbonTransaction(txHex);
 
   const txInfo = await rpc.getTransaction(txHash);
@@ -128,20 +130,22 @@ main().catch(console.error);
 
 ```ts
 import {
+  PhantasmaAPI,
+} from "phantasma-sdk-ts/public";
+import {
   Bytes32,
   CreateSeriesFeeOptions,
   CreateTokenSeriesTxHelper,
   MetadataField,
-  PhantasmaAPI,
   PhantasmaKeys,
   SeriesInfoBuilder,
   TokenSchemasBuilder,
   getRandomPhantasmaId,
-} from "phantasma-sdk-ts";
+} from "phantasma-sdk-ts/types";
 
 async function main() {
   const keys = PhantasmaKeys.fromWIF("YOUR_WIF");
-  const creatorPk = new Bytes32(keys.PublicKey);
+  const creatorPk = new Bytes32(keys.publicKey);
 
   const carbonTokenId = 123n; // BigInt(CreateTokenTxHelper.parseResult(...))
 
@@ -177,7 +181,7 @@ async function main() {
     maxData,
   );
 
-  const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", undefined as any, "testnet");
+  const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, "testnet");
   const txHash = await rpc.sendCarbonTransaction(txHex);
 
   const txInfo = await rpc.getTransaction(txHash);
@@ -192,20 +196,22 @@ main().catch(console.error);
 
 ```ts
 import {
+  PhantasmaAPI,
+} from "phantasma-sdk-ts/public";
+import {
   Bytes32,
   MintNftFeeOptions,
   MintNonFungibleTxHelper,
   MetadataField,
   NftRomBuilder,
-  PhantasmaAPI,
   PhantasmaKeys,
   TokenSchemasBuilder,
   getRandomPhantasmaId,
-} from "phantasma-sdk-ts";
+} from "phantasma-sdk-ts/types";
 
 async function main() {
   const keys = PhantasmaKeys.fromWIF("YOUR_WIF");
-  const creatorPk = new Bytes32(keys.PublicKey);
+  const creatorPk = new Bytes32(keys.publicKey);
 
   const carbonTokenId = 123n; // BigInt(CreateTokenTxHelper.parseResult(...))
   const carbonSeriesId = 1; // CreateTokenSeriesTxHelper.parseResult(...)
@@ -239,12 +245,12 @@ async function main() {
     maxData,
   );
 
-  const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", undefined as any, "testnet");
+  const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, "testnet");
   const txHash = await rpc.sendCarbonTransaction(txHex);
 
   const txInfo = await rpc.getTransaction(txHash);
   const carbonNftAddresses = MintNonFungibleTxHelper.parseResult(carbonTokenId, txInfo.result);
-  console.log(carbonNftAddresses[0].ToHex());
+  console.log(carbonNftAddresses[0].toHex());
 }
 
 main().catch(console.error);

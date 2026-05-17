@@ -65,7 +65,7 @@ Current behavior:
 ## Connect
 
 ```ts
-import { EasyConnect } from "phantasma-sdk-ts";
+import { EasyConnect } from "phantasma-sdk-ts/public";
 
 const conn = new EasyConnect();
 conn.setConfig("poltergeist");
@@ -136,7 +136,7 @@ This is the better tool when you need to control:
 Example:
 
 ```ts
-import { EasyConnect, Transaction } from "phantasma-sdk-ts";
+import { EasyConnect, Transaction } from "phantasma-sdk-ts/public";
 
 const conn = new EasyConnect();
 
@@ -180,7 +180,7 @@ If your application must assemble a VM transaction locally before signing, prefe
 If you prefer `async/await`, wrap the callbacks:
 
 ```ts
-import { EasyConnect } from "phantasma-sdk-ts";
+import { EasyConnect } from "phantasma-sdk-ts/public";
 
 function connectAsync(conn: EasyConnect): Promise<void> {
   return new Promise((resolve, reject) => {

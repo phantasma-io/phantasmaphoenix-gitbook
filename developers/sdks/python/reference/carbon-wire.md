@@ -279,11 +279,11 @@ Call and transaction payload structures:
 
 | Type or method | Purpose | Defaults and formula |
 | -------------- | ------- | -------------------- |
-| `FeeOptions` | Base fee policy for mint operations. | Defaults: `gas_fee_base = 10_000`, `fee_multiplier = 1_000`. `calculate_max_gas()` returns `gas_fee_base * fee_multiplier`. |
+| `FeeOptions` | Base fee policy for mint operations. | Defaults: `gas_fee_base = 10_000`, `fee_multiplier = 1_000`. `calculate_max_gas(count=1)` returns `gas_fee_base * fee_multiplier * count` and rejects non-positive counts. |
 | `CreateTokenFeeOptions` | Fee policy for create-token messages. | Defaults: `gas_fee_base = 10_000`, `fee_multiplier = 10_000`, `gas_fee_create_token_base = 10_000_000_000`, `gas_fee_create_token_symbol = 10_000_000_000`. |
 | `CreateTokenFeeOptions.calculate_max_gas_for_symbol(symbol)` | Calculates create-token gas from symbol length. | `shift = max(len(symbol.value.encode("utf-8")) - 1, 0)`. Symbol fee is `gas_fee_create_token_symbol >> shift` when `shift < 64`, otherwise zero. Final value is `(gas_fee_base + gas_fee_create_token_base + symbol_part) * fee_multiplier`. |
 | `CreateSeriesFeeOptions` | Fee policy for create-series messages. | Defaults: `gas_fee_base = 10_000`, `fee_multiplier = 10_000`, `gas_fee_create_series_base = 2_500_000_000`. `calculate_max_gas()` returns `(gas_fee_base + gas_fee_create_series_base) * fee_multiplier`. |
-| `MintNFTFeeOptions` | Mint fee policy. | Inherits `FeeOptions` unchanged. |
+| `MintNFTFeeOptions` | Mint fee policy. | `calculate_max_gas(count_or_tokens=1)` accepts a positive integer count or a token sequence and returns `gas_fee_base * fee_multiplier * count`. Direct NFT mint builders pass `1`; Phantasma NFT batch builders pass the token sequence. |
 
 ## Lifecycle Builders
 

@@ -1,6 +1,6 @@
 # Python Example: Keys And Addresses
 
-This example uses a deterministic local key for documentation output. Do not use
+This example uses a deterministic local key for repeatable output. Do not use
 deterministic keys for real accounts.
 
 ```python

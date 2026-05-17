@@ -5,7 +5,7 @@ Here's a simple example how to sign a transaction
 {% endhint %}
 
 ```ts
-import { PhantasmaKeys, Transaction } from "phantasma-sdk-ts";
+import { PhantasmaKeys, Transaction } from "phantasma-sdk-ts/public";
 
 function SignATransaction(transaction: Transaction) {
   let wif = "";

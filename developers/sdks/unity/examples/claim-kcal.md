@@ -17,9 +17,9 @@ public void ClaimKcal()
     // Target chain Nexus name (e.g. "testnet" or "mainnet")
     var nexus = "testnet";
 
-    // Not used right now, use as is
-    var feePrice = 100000; // TODO: Adapt to new fee model.
-    var feeLimit = 21000; // TODO: Adapt to new fee model.
+    // VM transactions still pass explicit AllowGas price and limit.
+    var feePrice = DomainSettings.DefaultMinimumGasFee;
+    var feeLimit = Transaction.DefaultGasLimit;
 
     byte[] script;
 

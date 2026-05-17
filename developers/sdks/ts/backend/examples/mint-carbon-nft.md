@@ -13,17 +13,19 @@ These are the imports typically required for minting a Carbon NFT:
 
 ```ts
 import {
+  PhantasmaAPI,
+} from "phantasma-sdk-ts/public";
+import {
   Bytes32,
   MintNftFeeOptions,
   MintNonFungibleTxHelper,
   MetadataField,
   NftRomBuilder,
-  PhantasmaAPI,
   PhantasmaKeys,
   TokenSchemasBuilder,
   getRandomPhantasmaId,
-} from "phantasma-sdk-ts";
-````
+} from "phantasma-sdk-ts/types";
+```
 
 ### Initialize Deployer Keys
 
@@ -33,8 +35,8 @@ In the following examples, we will use the deployer’s `PhantasmaKeys` keypair 
   // Initialize PhantasmaKeys using WIF-encoded private key
   const txSender = PhantasmaKeys.fromWIF("YOUR_WIF");
   // Get the public key from the keypair
-  const senderPubKey = new Bytes32(txSender.PublicKey);
-````
+  const senderPubKey = new Bytes32(txSender.publicKey);
+```
 
 ### Build NFT ROM
 
@@ -63,7 +65,7 @@ In the following examples, we will use the deployer’s `PhantasmaKeys` keypair 
     metadata,
   );
   // Optional Smart NFT ROM compatible with Phantasma VM and NFT's smart contract (leave empty if unsure)
-````
+```
 
 ### Set NFT Minting Fees
 
@@ -72,10 +74,10 @@ You can call the constructor without arguments to use default values.
 
 ```ts
   const feeOptions = new MintNftFeeOptions(
-    10000, // Base fee
-    10000 // Fee multiplier
+    10000n, // Base fee
+    10000n // Fee multiplier
   );
-````
+```
 
 ### Build and Sign the Transaction
 
@@ -96,18 +98,18 @@ You can call the constructor without arguments to use default values.
     feeOptions, // Fee options defined above
     maxData, // Mint NFT max data (use this default value if unsure)
   );
-````
+```
 
 ### Broadcast the Transaction
 
 Broadcast the transaction to the network.
 
 ```ts
-  const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", undefined as any, "testnet");
+  const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, "testnet");
 
   // Use sendCarbonTransaction() to call Carbon methods
   const txHash = await rpc.sendCarbonTransaction(tx);
-````
+```
 
 ### Parse the Result
 

@@ -11,13 +11,13 @@
 ## Example
 
 ```ts
-import { ScriptBuilder } from "phantasma-sdk-ts";
+import { ScriptBuilder } from "phantasma-sdk-ts/public";
 
 const sb = new ScriptBuilder();
 const script = sb
-  .BeginScript()
-  .CallContract("stake", "GetMasterCount", [])
-  .EndScript();
+  .beginScript()
+  .callContract("stake", "GetMasterCount", [])
+  .endScript();
 
 console.log(script);
 ```

@@ -16,7 +16,7 @@ Rust SDK Complete API Reference
 | ---- | ----- |
 | Crate | `phantasma-sdk` |
 | Import path | `phantasma_sdk` |
-| Current source version | `1.0.1` |
+| Current source version | `1.0.2` |
 | Version constant | `SDK_VERSION` |
 | Rust edition | 2021 |
 | Minimum Rust version | `1.74` |
@@ -115,6 +115,12 @@ Carbon type and builder reference: [Carbon API and Wire Format](reference/carbon
 | `encoding` | Base58 and hex helpers: `encode_base58`, `decode_base58`, `encode_hex`, `decode_hex`, `encode_hex_upper`. |
 | `binary` | VM binary readers, writers, and VM bigint helpers. |
 | `error` | `PhantasmaError` and `Result<T>`. |
+
+Specialized helpers remain public for tooling even though workflow examples do
+not call them directly: `crypto::double_sha256(...)` for WIF-style checksum
+work, `vm::script_arg_number_to_i64(...)` for compiler-style script argument
+inspection, and `transaction::big_int(...)` for concise `BigInt` construction in
+tests and examples.
 
 Every public parsing, RPC, and builder path returns `Result<T>` for fallible
 work.

@@ -1,5 +1,5 @@
 # Data Models (RPC DTOs) — All Models, Enriched
-Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments shown only if meaningful. Where the context is clear, added short descriptions; otherwise left blank (no placeholders).
+Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments shown only if meaningful. Where the context is clear, added short descriptions; otherwise left blank.
 
 # ABIEvent
 *Type:* `struct`

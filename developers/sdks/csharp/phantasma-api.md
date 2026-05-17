@@ -252,7 +252,7 @@ Gets a transaction by chain, block hash, and transaction index. The legacy overl
 ## Chain
 
 {% hint style="warning" %}
-The current RPC source exposes these wrappers for compatibility, but the chain endpoints are still placeholders: `getChains` returns an empty array and `getChain` returns a default `ChainResult`. Do not use this section as a reliable chain-data source until the backend query implementation is completed.
+The current RPC source exposes these wrappers for compatibility, but the chain endpoints are still stubbed: `getChains` returns an empty array and `getChain` returns a default `ChainResult`. Do not use this section as a reliable chain-data source until the backend query implementation is completed.
 {% endhint %}
 
 ### `Task<ChainResult[]?> GetChainsAsync()`
@@ -311,7 +311,7 @@ Gets all contracts deployed on the main chain
 ## Leaderboard
 
 {% hint style="warning" %}
-The current RPC source exposes `getLeaderboard`, but the backend still returns a default `LeaderboardResult` from a placeholder query path. Do not treat this method as live leaderboard data yet.
+The current RPC source exposes `getLeaderboard`, but the backend still returns a default `LeaderboardResult` from a stubbed query path. Do not treat this method as live leaderboard data yet.
 {% endhint %}
 
 ### `Task<LeaderboardResult?> GetLeaderboardAsync(string name)`
@@ -328,7 +328,7 @@ Gets a leaderboard by name
 ## Nexus
 
 {% hint style="warning" %}
-The current RPC source exposes `getNexus`, but the backend still returns a default `NexusResult` from a placeholder query path. Do not use it as authoritative nexus metadata yet.
+The current RPC source exposes `getNexus`, but the backend still returns a default `NexusResult` from a stubbed query path. Do not use it as authoritative nexus metadata yet.
 {% endhint %}
 
 ### `Task<NexusResult?> GetNexusAsync()`
@@ -661,7 +661,7 @@ Builds, signs and broadcasts a transaction with a binary payload
 ## Storage
 
 {% hint style="warning" %}
-The current RPC source exposes the archive endpoints, but this storage section is still placeholder-backed: `getArchive` returns a default `ArchiveResult`, `writeArchive` returns `false`, and `readArchive` returns an empty string. Do not use these methods as working archive storage flows yet.
+The current RPC source exposes the archive endpoints, but this storage section is still backed by stubbed handlers: `getArchive` returns a default `ArchiveResult`, `writeArchive` returns `false`, and `readArchive` returns an empty string. Do not use these methods as working archive storage flows yet.
 {% endhint %}
 
 ### `Task<ArchiveResult?> GetArchiveAsync(string hash)`

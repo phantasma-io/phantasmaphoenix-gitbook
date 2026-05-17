@@ -1,6 +1,9 @@
 # Installation
 
-This guide will walk you through the process of installing the Phantasma Unity SDK and setting up the wallet connection in your Unity project. The Phantasma Unity SDK is a UPM library that allows you to interact with the Phantasma blockchain from your Unity project.
+The Phantasma Unity SDK is distributed as Unity Package Manager packages. Use
+`PhantasmaPhoenix.Unity.Core` for RPC access and signing helpers, and
+`PhantasmaPhoenix.Unity.LinkClient` when the project needs wallet connection
+through Phantasma Link.
 
 ## Importing the Phantasma Unity SDK to your project
 
@@ -11,11 +14,13 @@ This guide will walk you through the process of installing the Phantasma Unity S
 * Enter one of the following git URLs:
   * To install PhantasmaPhoenix.Unity.Core package: `https://github.com/phantasma-io/Phantasma-UnitySDK.git?path=PhantasmaPhoenix.Unity.Core`
   * To install PhantasmaPhoenix.Unity.LinkClient package: `https://github.com/phantasma-io/Phantasma-UnitySDK.git?path=PhantasmaPhoenix.Unity.LinkClient`
-* And click `Add`.
-* The Phantasma Unity SDK will now be imported into your project.
+* Click `Add`.
+* Repeat the package import when the project needs both Core and LinkClient.
 
 {% hint style="info" %}
-**Note:** To install specific version of package add commit hash of this version to the end of git link, separating it from the rest of the link with # sign: https://github.com/phantasma-io/Phantasma-UnitySDK.git?path=PhantasmaPhoenix.Unity.Core#d011152db4d212e3787628334c6ebd6ce31cea47
+**Note:** To pin a package to a specific source revision, append `#` and the
+commit hash to the Git URL. Example:
+`https://github.com/phantasma-io/Phantasma-UnitySDK.git?path=PhantasmaPhoenix.Unity.Core#d011152db4d212e3787628334c6ebd6ce31cea47`
 {% endhint %}
 
 ## Connecting to the Wallet via the SDK
@@ -36,8 +41,6 @@ This guide will walk you through the process of installing the Phantasma Unity S
 
 ## Connecting to the Wallet via the SDK (Android)
 
-1. Follow the same steps as mentioned in the "Connecting to the Wallet via the SDK" section.
+1. Follow the same setup from "Connecting to the Wallet via the SDK".
 2. Add the `PhantasmaLinkClientPlugin` prefab to your scene.
 3. Build your project for Android.
-
-Congratulations! You have successfully installed the Phantasma Unity SDK and connected to the wallet. You are now ready to start developing your Dapp on the Phantasma blockchain.

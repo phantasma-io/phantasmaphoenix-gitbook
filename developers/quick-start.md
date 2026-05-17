@@ -15,21 +15,24 @@ Are you looking for creating your own smart contract?
 Smart Contracts
 {% endcontent-ref %}
 
-## Connecting to the Chain (API's)
+## Connecting to the Chain APIs
 
 {% hint style="info" %}
 All Phantasma Phoenix RPCs come with both REST and RPC interfaces.
-Everywhere in documentation RPC nodes will be just called RPCs despite the fact that they support both protocols.
+In these pages, `RPC` refers to the node endpoint unless the REST or JSON-RPC
+interface is called out explicitly.
 {% endhint %}
 
-To access REST documentation served through Swagger, just open RPC's URL in interner browser. It will automatically redirect you to documetation page.
-For example, if you'll open https://testnet.phantasma.info/ URL, you will be redirected to this Swagger page:
+To access the REST API reference served through Swagger, open the node URL in a
+browser. It redirects to the Swagger page.
+For example, opening https://testnet.phantasma.info/ redirects to:
 https://testnet.phantasma.info/swagger/index.html
 
-To send query through RPC protocol, you need to add '/rpc' to URL, for example for testnet this is the full address of RPC:
+To send a JSON-RPC query, add `/rpc` to the node URL. For testnet, the endpoint
+is:
 https://testnet.phantasma.info/rpc
 
-REST and RPC interfaces use same names for endpoints and arguments. This way REST API Documentation can be easily used to compose RPC queries.
+REST and JSON-RPC interfaces use the same endpoint and argument names.
 
 ### Testnet URLs
 

@@ -1,11 +1,13 @@
 # Sending a Transaction
 
 {% hint style="info" %}
-After sending the transaction, you might receive a popup on the wallet that you're using to allow the transaction to go through.
+The wallet can prompt the user to approve the transaction before it broadcasts
+the signed payload.
 {% endhint %}
 
 {% hint style="info" %}
-**Need** **help** understanding how to create a Script ( a call to a blockchain to execute a chain of commands ) ? Check the following page.
+Use the script builder page when you need to create the VM script for the
+transaction.
 {% endhint %}
 
 {% content-ref url="../../shared-methods/script-builder.md" %}
@@ -17,7 +19,7 @@ After sending the transaction, you might receive a popup on the wallet that you'
 The `signTx` method asks the wallet to sign and broadcast the transaction.
 
 ```ts
-import { Address, DomainSettings, PhantasmaLink, ScriptBuilder } from "phantasma-sdk-ts";
+import { Address, DomainSettings, PhantasmaLink, ScriptBuilder } from "phantasma-sdk-ts/public";
 
 const Link = new PhantasmaLink("My Dapp", true);
 
@@ -38,14 +40,14 @@ Link.login(
     const contractMethod = "Claim";
     const args = [Link.account.address, Link.account.address];
 
-    const from = Address.FromText(Link.account.address);
+    const from = Address.fromText(Link.account.address);
 
     const script = new ScriptBuilder()
-      .BeginScript()
-      .AllowGas(from, Address.Null, gasPrice, gasLimit)
-      .CallContract(contractName, contractMethod, args)
-      .SpendGas(from)
-      .EndScript();
+      .beginScript()
+      .allowGas(from, Address.nullAddress, gasPrice, gasLimit)
+      .callContract(contractName, contractMethod, args)
+      .spendGas(from)
+      .endScript();
 
     const payload = `Example.${contractName}`; // raw string, NOT base16
 

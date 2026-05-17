@@ -1,7 +1,7 @@
 # Invoke Raw Script
 
 {% hint style="info" %}
-Current RPC and Unity SDK source expose `InvokeRawScript` as a read-only VM execution call. This page is source-backed; it does not include live public-node verification.
+Current RPC and Unity SDK source expose `InvokeRawScript` as a read-only VM execution call. The example does not require transaction signing or a wallet prompt.
 {% endhint %}
 
 This example shows how to call the blockchain directly to get information using the `InvokeRawScript()` method from the `PhantasmaAPI` class. A script is created and encoded before being passed to the method.

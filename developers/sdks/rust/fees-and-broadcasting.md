@@ -21,10 +21,10 @@ High-level Carbon lifecycle builders accept fee option objects:
 
 | Type | Used by | Default behavior |
 | ---- | ------- | ---------------- |
-| `FeeOptions` | generic Carbon messages and NFT mint helpers | `gas_fee_base * fee_multiplier` |
+| `FeeOptions` | generic Carbon messages and NFT mint helpers | `calculate_max_gas()` for one item or `calculate_max_gas_for_count(count)` for count-sensitive builders |
 | `CreateTokenFeeOptions` | `build_create_token_tx*` | includes create-token base and symbol-length fee estimate |
 | `CreateSeriesFeeOptions` | `build_create_token_series_tx*` | includes create-series base estimate |
-| `MintNFTFeeOptions` / `MintNftFeeOptions` | NFT mint helpers | alias of `FeeOptions` |
+| `MintNFTFeeOptions` / `MintNftFeeOptions` | NFT mint helpers | aliases of `FeeOptions`; Phantasma NFT batch helpers call `calculate_max_gas_for_count(tokens.len())` |
 
 ```rust
 use phantasma_sdk::{CreateTokenFeeOptions, SmallString, Result};
@@ -41,6 +41,11 @@ fn main() -> Result<()> {
 
 These values are maximums placed into the transaction. The chain determines the
 actual consumed fee.
+
+Direct `build_mint_non_fungible_tx*` calls mint one NFT and use
+`fees.calculate_max_gas()`. Phantasma NFT batch builders scale the maximum gas
+by the number of public mint records, so empty or non-positive counts are not a
+valid fee input.
 
 ## `max_data`
 
@@ -189,5 +194,5 @@ node.
 - Keep the token symbol and Carbon token id together in application state.
 - Keep the exact `TokenSchemas` used for deployment; do not reconstruct a
 different schema before creating series or minting.
-- Treat examples in these docs as source-checked builder examples unless they
-explicitly say they were run against a funded live endpoint.
+- Treat examples as local builder examples unless they explicitly say they were
+  run against a funded live endpoint.

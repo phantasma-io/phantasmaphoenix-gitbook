@@ -5,7 +5,7 @@
 Here is a small example on how to get a transaction by the transaction hash.
 
 ```ts
-import { PhantasmaAPI } from "phantasma-sdk-ts";
+import { PhantasmaAPI } from "phantasma-sdk-ts/public";
 
 const CHAIN_NAME = "main"; // This is the name of the chain, please don't change it.
 const NETWORK_API_URL = "https://testnet.phantasma.info/rpc"; // for mainnet this should be https://pharpc1.phantasma.info/rpc

@@ -21,7 +21,7 @@ contract test {
 		local thisAddr:address = $THIS_ADDRESS;
 		Token.transfer(from, thisAddr, "SOUL", price);
 
-		// TODO after payment give something to 'from' address
+		// Deliver the purchased item or record the purchase here.
 	}
 }
 ```

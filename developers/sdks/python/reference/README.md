@@ -2,10 +2,9 @@
 
 This section documents the public `phantasma_py` API at the level needed to
 build and maintain applications without reading the SDK source for ordinary
-usage. The workflow guides remain the best entry point for common tasks. These
-reference pages explain what each API group is for, how related methods differ,
-what the important parameters mean, what is returned, and which low-level
-helpers are available when a guide does not cover a case.
+usage. Start with setup and task pages for common flows; use this section when
+you need method groups, parameter details, return values, and lower-level
+helpers.
 
 Source baseline:
 
@@ -13,8 +12,8 @@ Source baseline:
 | ---- | ----- |
 | Package | `phantasma-sdk-py` |
 | Import namespace | `phantasma_py` |
-| Version | `2.0.2` |
-| Source commit | `6adb2a441c46cd2b7bb44f1abf3dabe71e76b1b9` |
+| Version | `2.0.3` |
+| Source commit | `559fd95ed1267b214a92a958283fceacb0c9d029` |
 
 ## When To Use These Pages
 
@@ -24,6 +23,7 @@ Source baseline:
 | [RPC Result Models](rpc-models.md) | You need the fields returned by account, token, block, transaction, NFT, auction, or network RPC calls. |
 | [VM and Transaction APIs](vm-transaction-binary.md) | You need keys, addresses, VM script building, transaction serialization/signing, binary helpers, or SDK error behavior. |
 | [Carbon API and Wire Format](carbon-wire.md) | You need Carbon transaction builders, token/series/NFT structures, schema serialization, message payloads, fee options, or result parsers. |
+| [Public API Inventory](public-api.md) | You need the complete list of public modules, classes, methods, fields, and constants under `phantasma_py`. |
 
 ## Import Policy
 

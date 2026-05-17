@@ -5,7 +5,7 @@ This shows how to get a program to go **block** by block until it finds a event 
 It's possible to add more **validation**, such as check for the **address**, the **symbol** that was **received** etc.
 
 ```ts
-import { PhantasmaAPI, getTokenEventData } from "phantasma-sdk-ts";
+import { PhantasmaAPI, getTokenEventData } from "phantasma-sdk-ts/public";
 
 const CHAIN_NAME = "main"; // This is the name of the chain, please don't change it.
 const NETWORK_API_URL = "https://testnet.phantasma.info/rpc"; // for mainnet this should be https://pharpc1.phantasma.info/rpc

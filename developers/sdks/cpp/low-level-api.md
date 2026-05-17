@@ -10,7 +10,7 @@ You are responsible for POSTing the request body to the node and passing the JSO
   - `JSONValue` — an adapter‑specific JSON value/view type
   - `PhantasmaError` — `{ code, message }`, with codes: `InvalidJSON`, `HttpError`, `InvalidRpcResponse`, `RpcMessage`
 
-> Tip: For production, include an adapter like **RapidJSON** or **CppRestSDK** to supply robust `JSONValue` and friends. The built‑in `JSONBuilder` is intentionally simple.
+> Tip: For production, include an adapter like **RapidJSON** or **CppRestSDK** to supply `JSONValue` and the related JSON integration types. The built-in `JSONBuilder` covers request construction.
 
 ## Request/Response lifecycle
 

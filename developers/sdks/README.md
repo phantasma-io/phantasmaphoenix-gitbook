@@ -26,6 +26,7 @@ External Calls
 
 * C#
 * C++
+* Go
 * Python
 * Rust
 * TypeScript
@@ -37,10 +38,16 @@ External Calls
 C# SDK
 {% endcontent-ref %}
 
-## Typescript / Javascript SDK
+## TypeScript / JavaScript SDK
 
 {% content-ref url="/developers/sdks/ts/" %}
-Typescript
+TypeScript
+{% endcontent-ref %}
+
+## Go SDK
+
+{% content-ref url="/developers/sdks/go/" %}
+Go
 {% endcontent-ref %}
 
 ## Python SDK

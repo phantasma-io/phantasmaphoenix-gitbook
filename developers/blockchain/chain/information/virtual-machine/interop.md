@@ -76,7 +76,7 @@ Important lifecycle rules:
 | `Runtime.TransferToken` | `source, destination, symbol, tokenID` | implemented | Uses runtime-visible Phantasma NFT IDs, not raw Carbon instance IDs. |
 | `Runtime.MintToken` | `source, destination, symbol, rom, ram, seriesID` | implemented | Uses Phantasma series metadata IDs and preserves VM-facing ROM behavior. Triggers `onMint` when token-backed contract code exists. |
 | `Runtime.BurnToken` | `source, symbol, tokenID` | implemented | NFT burn path. |
-| `Runtime.InfuseToken` | `source, targetSymbol, tokenID, infuseSymbol, value` | implemented | Current docs should describe this as the supported infuse path, not as a TODO. |
+| `Runtime.InfuseToken` | `source, targetSymbol, tokenID, infuseSymbol, value` | implemented | Supported infuse path for token-backed NFT operations. |
 | `Runtime.ReadTokenROM` | `symbol, tokenID` | implemented | Reads runtime-visible ROM. |
 | `Runtime.ReadTokenRAM` | `symbol, tokenID` | implemented | Reads runtime-visible RAM. |
 | `Runtime.ReadToken` | `symbol, tokenID[, fields]` | implemented | Returns a map-like VM object for requested fields. Defaults to `chain,owner,creator,ROM,RAM,tokenID,seriesID,mintID,infusion`. |
@@ -185,4 +185,4 @@ If you are writing new contracts today:
 - use `Nexus.CreateToken`, `Nexus.AttachTokenContract`, and later `Runtime.UpgradeContract` for token-backed contracts
 - rely on `Data.*`, `Map.*`, and `List.*` for persistent state
 - rely on `Runtime.MintTokens`, `Runtime.TransferTokens`, `Runtime.MintToken`, `Runtime.TransferToken`, `Runtime.ReadToken`, `Runtime.WriteToken`, and `Nexus.CreateTokenSeries` for current token and NFT flows
-- do not build new docs or examples around methods that are still rejected with TODO paths
+- do not build new contracts or examples around methods that the validator still rejects as unimplemented

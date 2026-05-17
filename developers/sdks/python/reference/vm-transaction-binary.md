@@ -49,7 +49,7 @@ Failure model:
 | `encode_base58(data)` | Encodes bytes with the SDK's Base58 alphabet. | Returns `str`. | Address, WIF, or other Phantasma text formats need Base58 output. |
 | `decode_base58(text)` | Decodes Base58 text. | Returns `bytes`; raises `EncodingError` for invalid characters. | Parsing address or WIF text before higher-level validation. |
 | `encode_hex(data)` | Encodes bytes as lowercase hex. | Returns `str`. | RPC input accepts hex and uppercase is not required. |
-| `decode_hex(value)` | Decodes hex text. | Returns `bytes`; raises `EncodingError` for malformed hex. | RPC or config provides byte payloads as hex. |
+| `decode_hex(value)` | Decodes hex text, trimming whitespace and accepting an optional `0x` or `0X` prefix. | Returns `bytes`; raises `EncodingError` for non-text input, odd digit count, or malformed hex. | RPC or config provides byte payloads as hex. |
 
 ## VM Binary Reader And Writer
 

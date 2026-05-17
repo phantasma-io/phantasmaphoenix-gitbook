@@ -3,7 +3,7 @@ description: Get some data from the blockchain
 ---
 
 {% hint style="info" %}
-Current SDK source exposes the invoke-script methods used below. This page is source-backed; it does not include live public-node or wallet-deployment verification.
+Current SDK source exposes the invoke-script methods used below. The call reads chain state and does not submit a transaction.
 {% endhint %}
 
 # Invoking a Script
@@ -28,7 +28,7 @@ Invoking a Script doesn't need the user to accept anything.
 
 {% code overflow="wrap" lineNumbers="true" %}
 ```ts
-import { PhantasmaLink, ScriptBuilder } from "phantasma-sdk-ts";
+import { PhantasmaLink, ScriptBuilder } from "phantasma-sdk-ts/public";
 
 const CHAIN_NAME = "main"; // This is the name of the chain, please don't change it.
 
@@ -43,9 +43,9 @@ Link.login(
     if (!success) return;
 
     const sb = new ScriptBuilder();
-    const myScript = sb.BeginScript()
-      .CallContract(contractName, contractMethod, args)
-      .EndScript();
+    const myScript = sb.beginScript()
+      .callContract(contractName, contractMethod, args)
+      .endScript();
 
     Link.invokeScript(myScript, (result) => {
       // Handle the Data returned here.

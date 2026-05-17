@@ -38,15 +38,15 @@ For the current deployment tooling, see:
 - [pha-deploy](../tools/pha-deploy.md)
 - [How to Deploy](../blockchain/smart-contracts/how-to-deploy.md)
 
-## Want to jump right in?
+## Quick Start
 
-Jump in to the quick start docs and get making your first smart contract:
+Start with the quick start when creating your first smart contract:
 
 {% content-ref url="quick-start.md" %}
 Quick Start
 {% endcontent-ref %}
 
-## Want to deep dive?
+## API Reference
 
 Dive deeper into the language surface and standard libraries:
 

@@ -13,8 +13,8 @@
 #### Method Notes
 
 * All RPC methods accept an optional `Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback` plus optional `timeout` and `retries` arguments.
-* Legacy block-hash overloads that do not accept `chainAddressOrName` default to the main chain. Prefer the chain-aware overloads for new code.
-* The Unity wrappers for Chain, Leaderboard, Nexus, Organization, and Storage exist, but the current RPC backend still returns placeholder/default data for those endpoint groups.
+* Some block-hash methods provide both main-chain defaults and explicit `chainAddressOrName` overloads. In the cited Unity SDK source baseline, `GetTransactionByBlockHashAndIndex` only exposes the main-chain overload.
+* The Unity wrappers for Chain, Leaderboard, Nexus, Organization, and Storage exist, but the current RPC backend still returns stubbed/default data for those endpoint groups.
 
 #### Methods
 
@@ -45,11 +45,10 @@
 * `public IEnumerator GetBlockByHeight(string chainInput, long height, Action<BlockResult> callback, ...);`
 * `public IEnumerator GetLatestBlock(string chainInput, Action<BlockResult> callback, ...);`
 * `public IEnumerator GetTransactionByBlockHashAndIndex(string blockHash, int index, Action<TransactionResult> callback, ...);`
-* `public IEnumerator GetTransactionByBlockHashAndIndex(string chainAddressOrName, string blockHash, int index, Action<TransactionResult> callback, ...);`
 
 **Chain**
 
-Current backend status: placeholder chain query; `GetChains` returns an empty array.
+Current backend status: stubbed chain query; `GetChains` returns an empty array.
 
 * `public IEnumerator GetChains(Action<ChainResult[]> callback, ...);`
 
@@ -60,19 +59,19 @@ Current backend status: placeholder chain query; `GetChains` returns an empty ar
 
 **Leaderboard**
 
-Current backend status: placeholder leaderboard query; `GetLeaderboard` returns a default result.
+Current backend status: stubbed leaderboard query; `GetLeaderboard` returns a default result.
 
 * `public IEnumerator GetLeaderboard(string name, Action<LeaderboardResult> callback, ...);`
 
 **Nexus**
 
-Current backend status: placeholder nexus query; `GetNexus` returns a default result.
+Current backend status: stubbed nexus query; `GetNexus` returns a default result.
 
 * `public IEnumerator GetNexus(Action<NexusResult> callback, ...);`
 
 **Organization**
 
-Current backend status: placeholder organization queries; single-organization calls return default results and the list call returns an empty array.
+Current backend status: stubbed organization queries; single-organization calls return default results and the list call returns an empty array.
 
 * `public IEnumerator GetOrganization(string ID, Action<OrganizationResult> callback, ...);`
 * `public IEnumerator GetOrganizationByName(string name, Action<OrganizationResult> callback, ...);`
@@ -102,7 +101,7 @@ Current backend status: placeholder organization queries; single-organization ca
 
 **Storage**
 
-Current backend status: placeholder archive storage queries; archive metadata returns a default result, writes return `false`, and reads return an empty string.
+Current backend status: stubbed archive storage queries; archive metadata returns a default result, writes return `false`, and reads return an empty string.
 
 * `public IEnumerator GetArchive(string hashText, Action<ArchiveResult> callback, ...);`
 * `public IEnumerator WriteArchive(string hashText, int blockIndex, byte[] blockContent, Action<Boolean> callback, ...);`

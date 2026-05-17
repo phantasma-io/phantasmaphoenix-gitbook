@@ -2,11 +2,11 @@
 
 This section covers the current Carbon validator from the developer point of view.
 
-It is the reference area for chain-facing behavior that sits below the higher-level tooling docs:
+Use it when you need chain-facing behavior rather than deployment tooling:
 
 - VM execution model and interop surface
 - current contract execution contexts and lifecycle hooks
-- low-level script/runtime concepts that matter when debugging or auditing VM behavior
+- low-level script/runtime concepts that matter when debugging VM behavior
 
 ## Start Here
 

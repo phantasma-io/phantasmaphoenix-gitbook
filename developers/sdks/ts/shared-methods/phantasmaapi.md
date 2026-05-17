@@ -15,7 +15,7 @@ Use `PhantasmaAPI` to call RPC endpoints directly from Node or the browser.
 ## Testnet Example
 
 ```ts
-import { PhantasmaAPI } from "phantasma-sdk-ts";
+import { PhantasmaAPI } from "phantasma-sdk-ts/public";
 
 const rpcUrl = "https://testnet.phantasma.info/rpc";
 const peersUrl = "https://peers.phantasma.info/testnet-getpeers.json";
@@ -25,7 +25,7 @@ const api = new PhantasmaAPI(rpcUrl, peersUrl, "testnet");
 ## Mainnet Example
 
 ```ts
-import { PhantasmaAPI } from "phantasma-sdk-ts";
+import { PhantasmaAPI } from "phantasma-sdk-ts/public";
 
 const rpcUrl = "https://pharpc1.phantasma.info/rpc";
 const peersUrl = "https://peers.phantasma.info/mainnet-getpeers.json";

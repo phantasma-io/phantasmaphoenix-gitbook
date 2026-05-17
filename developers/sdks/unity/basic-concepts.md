@@ -2,19 +2,26 @@
 
 ### Basic Concepts
 
-This section introduces the fundamental concepts and components of the Phantasma Unity SDK. Understanding these concepts will help you effectively utilize the SDK in your Unity projects.
+This page introduces the core concepts and components used by the Phantasma
+Unity SDK.
 
 #### Phantasma Blockchain
 
-Phantasma is a blockchain platform designed for fast, secure, and scalable decentralized applications (DApps). It offers features such as smart contracts, side chains, and a decentralized storage system called "Phantasma Storage." The Phantasma Unity SDK allows Unity developers to interact with the Phantasma blockchain and integrate it into their projects.
+Phantasma is a blockchain platform with smart contracts, side chains, and
+decentralized storage. The Phantasma Unity SDK lets Unity projects read chain
+data, connect wallets, sign transactions, and invoke contracts.
 
 #### PhantasmaLinkClient
 
-`PhantasmaLinkClient` is a prefab provided by the SDK that acts as the main interface between your Unity project and the Phantasma blockchain. It handles wallet connections, sending and receiving transactions, and invoking smart contracts. By adding this prefab to your scene, you can quickly set up the necessary connections to interact with the Phantasma network.
+`PhantasmaLinkClient` is a prefab provided by the SDK. It handles wallet
+connections, transaction signing, and smart contract invocation through
+Phantasma Link.
 
 #### Wallet Connection
 
-Connecting to a wallet is a crucial step in any DApp, as it allows users to manage their assets and interact with the Phantasma blockchain. The SDK provides a simple and secure way to connect to the wallet via the `PhantasmaLinkClient` prefab, which supports different nexus configurations and wallet endpoints depending on your deployment target (simnet, testnet, or mainnet).
+Wallet connection lets users approve account access and transaction signing.
+The `PhantasmaLinkClient` prefab supports nexus and wallet endpoint settings
+for simnet, testnet, and mainnet deployments.
 
 #### Smart Contracts
 
@@ -22,7 +29,9 @@ Smart contracts are self-executing contracts with the terms of the agreement dir
 
 #### Transactions
 
-Transactions are the means by which users interact with the Phantasma blockchain. They can be used to transfer assets, invoke smart contracts, and more. The Phantasma Unity SDK simplifies the process of creating, signing, and broadcasting transactions from within your Unity project.
+Transactions transfer assets, invoke smart contracts, and update chain state.
+The Unity SDK provides helpers for creating, signing, and broadcasting
+transactions from a Unity project.
 
 #### DappID
 
@@ -30,7 +39,7 @@ DappID is a unique identifier for your decentralized application on the Phantasm
 
 ### ScriptBuilder
 
-The `ScriptBuilder` is a powerful tool provided by the Phantasma SDK that allows you to create and customize transaction scripts for various operations on the Phantasma blockchain. The `ScriptBuilder` helps you create the necessary calls and convert them into byte format, which is required for sending a transaction. The following example demonstrates how to use the `ScriptBuilder` for a custom operation.
+The `ScriptBuilder` creates transaction scripts and serializes them into the byte format required by the chain. The following example builds a custom operation script.
 
 #### SendRawTransaction
 
@@ -41,9 +50,6 @@ The `ScriptBuilder` is a powerful tool provided by the Phantasma SDK that allows
 `InvokeRawScript` is another method provided by the SDK that allows you to query the Phantasma blockchain without changing its state. This method is useful for fetching data and information from the blockchain without affecting the stored values. Examples of `InvokeRawScript` usage include retrieving account balances, checking the status of a transaction, or reading data from a smart contract. Since it does not modify the blockchain's state, `InvokeRawScript` does not require a signed transaction and can be called directly.
 
 {% hint style="info" %}
-**Good to know:** These two methods, **`SendRawTransaction`** and **`InvokeRawScript`**, are essential components of the Phantasma Unity SDK, allowing developers to interact with the Phantasma blockchain by either modifying its state or fetching data without altering the state. Understanding the difference between these methods will help you effectively utilize the SDK in your Unity projects.
+**Good to know:** Use **`SendRawTransaction`** for signed state-changing
+transactions. Use **`InvokeRawScript`** for read-only script calls.
 {% endhint %}
-
-
-
-By understanding these basic concepts, you will have a solid foundation for working with the Phantasma Unity SDK in your Unity projects. As you progress through the documentation, you'll learn more about the SDK's features and how to use them effectively.

@@ -19,28 +19,28 @@ import {
   PhantasmaKeys,
   ScriptBuilder,
   Transaction,
-} from "phantasma-sdk-ts";
+} from "phantasma-sdk-ts/public";
 
 const rpcUrl = "https://testnet.phantasma.info/rpc";
 const nexus = "testnet";
 const chain = "main";
 
-const api = new PhantasmaAPI(rpcUrl, undefined as any, nexus);
+const api = new PhantasmaAPI(rpcUrl, null, nexus);
 
 async function sendTransfer() {
   const keys = PhantasmaKeys.fromWIF("YOUR_WIF");
-  const from = keys.Address;
+  const from = keys.address;
   const to = "P2K...";
 
   const gasPrice = DomainSettings.DefaultMinimumGasFee;
   const gasLimit = 21000;
 
   const script = new ScriptBuilder()
-    .BeginScript()
-    .AllowGas(from, Address.Null, gasPrice, gasLimit)
-    .CallInterop("Runtime.TransferTokens", [from, to, "KCAL", "1000000000"])
-    .SpendGas(from)
-    .EndScript();
+    .beginScript()
+    .allowGas(from, Address.nullAddress, gasPrice, gasLimit)
+    .callInterop("Runtime.TransferTokens", [from, to, "KCAL", "1000000000"])
+    .spendGas(from)
+    .endScript();
 
   const expiration = new Date(Date.now() + 60_000);
   const payload = Base16.encode("quickstart");
@@ -48,7 +48,7 @@ async function sendTransfer() {
   const tx = new Transaction(nexus, chain, script, expiration, payload);
   tx.signWithKeys(keys);
 
-  const txHash = await api.sendRawTransaction(tx.toString(true));
+  const txHash = await api.sendRawTransaction(tx.toStringEncoded(true));
   return txHash;
 }
 ```
@@ -77,6 +77,6 @@ async function waitForConfirmation(txHash: string) {
 
 ## Notes
 
-- `Address.Null` is used as the gas target for normal transactions.
+- `Address.nullAddress` is used as the gas target for normal transactions.
 - `payload` is a hex string; use `Base16.encode`.
 - For frontend signing, use `PhantasmaLink.signTx` instead of signing locally.

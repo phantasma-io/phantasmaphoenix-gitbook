@@ -1,7 +1,7 @@
 # Invoke a Script
 
 {% hint style="info" %}
-Current RPC and TypeScript SDK source expose `invokeRawScript` as a read-only VM execution call. This page is source-backed; it does not include live public-node verification.
+Current RPC and TypeScript SDK source expose `invokeRawScript` as a read-only VM execution call. The example does not require transaction signing or a wallet prompt.
 {% endhint %}
 
 {% hint style="info" %}
@@ -11,7 +11,7 @@ Also you need to know how to setup the **PhantasmaAPI,** to be able to call it C
 {% endhint %}
 
 ```ts
-import { Decoder, PhantasmaAPI, ScriptBuilder } from "phantasma-sdk-ts";
+import { Decoder, PhantasmaAPI, ScriptBuilder } from "phantasma-sdk-ts/public";
 
 const CHAIN_NAME = "main";
 const NETWORK_API_URL = "https://testnet.phantasma.info/rpc";
@@ -23,9 +23,9 @@ const rpc = new PhantasmaAPI(NETWORK_API_URL, NETWORK_PEER_URL as any, NEXUS_NAM
 async function getMasterCount() {
   const sb = new ScriptBuilder();
   const script = sb
-    .BeginScript()
-    .CallContract("stake", "GetMasterCount", [])
-    .EndScript();
+    .beginScript()
+    .callContract("stake", "GetMasterCount", [])
+    .endScript();
 
   const result = await rpc.invokeRawScript(CHAIN_NAME, script);
 

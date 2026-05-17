@@ -1,6 +1,7 @@
 # Logging in to the Wallet
 
-This is the documentation for the `OnLogin()` method, which is used to connect and log in to the wallet using the Phantasma Link SDK.
+`OnLogin()` connects to the wallet through the Phantasma Link SDK and starts the
+login flow.
 
 #### Method Description
 

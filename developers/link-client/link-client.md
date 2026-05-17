@@ -18,7 +18,9 @@ Then use these pages as needed:
 {% endhint %}
 
 {% hint style="info" %}
-In this documentation, we will explore each method of the Phantasma Link Client, explaining their purpose and usage.
+The methods below describe wallet authorization, account access, script
+invocation, transaction signing, and archive writes exposed by the Phantasma
+Link Client protocol.
 {% endhint %}
 
 ### Authorize
@@ -100,5 +102,3 @@ protected abstract void WriteArchive(Hash hash, int blockIndex, byte[] data, Act
 ```
 
 The `WriteArchive` method writes data to the Phantasma blockchain's archive. It requires the archive hash, the block index, and the data as a byte array. The `callback` returns a boolean indicating the success of the operation and an optional error message.
-
-With this documentation, you should now have a better understanding of the methods available in the Phantasma Link Client and how they can be used to interact with the Phantasma blockchain. Developers can implement these methods in their projects to facilitate easy and secure interaction with the Phantasma ecosystem, providing users with seamless access to decentralized applications and digital asset management.

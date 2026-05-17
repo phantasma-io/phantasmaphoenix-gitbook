@@ -9,14 +9,15 @@ Don't forget that this can also be used to the all of the account information.
 In this example show's how to get the User Balance.
 
 ```ts
-import { Balance, PhantasmaAPI } from "phantasma-sdk-ts";
+import { PhantasmaAPI } from "phantasma-sdk-ts/public";
+import type { Balance } from "phantasma-sdk-ts/public";
 
 const CHAIN_NAME = "main"; // This is the name of the chain, please don't change it.
 const NETWORK_API_URL = "https://testnet.phantasma.info/rpc";
-const NETWORK_PEER_URL = undefined; // this the peers URL to get the list of peers, if not provided it will use the default one "https://peers.phantasma.info/"
+const NETWORK_PEER_URL = null; // this the peers URL to get the list of peers, if not provided it will use the default one "https://peers.phantasma.info/"
 const NEXUS_NAME = "testnet"; // For mainnet use this "mainnet"
 
-const api = new PhantasmaAPI(NETWORK_API_URL, NETWORK_PEER_URL as any, NEXUS_NAME);
+const api = new PhantasmaAPI(NETWORK_API_URL, NETWORK_PEER_URL, NEXUS_NAME);
 
 /**
  * Get the user balance

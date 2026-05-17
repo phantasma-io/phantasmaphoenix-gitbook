@@ -16,7 +16,7 @@ Python SDK Complete API Reference
 | ---- | ----- |
 | Package | `phantasma-sdk-py` |
 | Import namespace | `phantasma_py` |
-| Current source version | `2.0.2` |
+| Current source version | `2.0.3` |
 | Python | `>=3.11` |
 
 ## Top-Level Imports
@@ -79,6 +79,16 @@ Method and helper reference: [VM and Transaction APIs](reference/vm-transaction-
 | `Transaction` | VM script transaction with `to_bytes`, `from_bytes`, `hash`, `sign`, `is_signed_by`, and `mine`. |
 | `tx_state_is_success` | Returns true for `HALT`. |
 | `tx_state_is_fault` | Returns true for `FAULT` or `BREAK`. |
+
+## `phantasma_py.encoding`, `phantasma_py.binary`, And `phantasma_py.errors`
+
+| Module | API | Purpose |
+| ------ | --- | ------- |
+| `encoding` | `encode_base58`, `decode_base58` | Base58 helpers used by address and WIF parsing. |
+| `encoding` | `encode_hex`, `decode_hex` | Hex helpers. `decode_hex` trims whitespace and accepts an optional `0x`/`0X` prefix. |
+| `binary` | `BinaryWriter`, `BinaryReader` | VM binary writer/reader for scripts, VM objects, and classic VM transactions. |
+| `binary` | `big_int_to_vm_bytes`, `vm_bytes_to_big_int` | Phantasma VM bigint conversion helpers. |
+| `errors` | `PhantasmaError` and subclasses | SDK exception hierarchy used by RPC, crypto, encoding, serialization, and builder code. |
 
 ## `phantasma_py.rpc`
 

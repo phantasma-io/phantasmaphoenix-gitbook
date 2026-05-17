@@ -15,9 +15,9 @@ Here's how to import the wallet keys.
 Here we'll create the script that will be sending the transaction.
 
 ```ts
-import { PhantasmaAPI, Transaction } from "phantasma-sdk-ts";
+import { PhantasmaAPI, Transaction } from "phantasma-sdk-ts/public";
 
-const RPC = new PhantasmaAPI("https://testnet.phantasma.info/rpc", undefined as any, "testnet");
+const RPC = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, "testnet");
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 

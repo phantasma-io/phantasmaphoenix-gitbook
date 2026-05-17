@@ -4,14 +4,15 @@ Here's an example how to make a Token transfer.
 
 ```ts
 import {
+  Address,
   Base16,
   DomainSettings,
   PhantasmaAPI,
   PhantasmaKeys,
   ScriptBuilder,
   Transaction,
-  TransactionData,
-} from "phantasma-sdk-ts";
+} from "phantasma-sdk-ts/public";
+import type { TransactionData } from "phantasma-sdk-ts/public";
 
 const soulTokenDecimals = 8;
 const soulTokenSymbol = "SOUL";
@@ -35,9 +36,9 @@ export async function transferSoulTokens() {
   let amount = (amountFloat * 10 ** soulTokenDecimals).toString(); // Convert to blockchain units
 
   let keys = PhantasmaKeys.fromWIF(senderWif);
-  let senderAddress = keys.Address;
+  let senderAddress = keys.address;
 
-  let recepientAddress = "P2K...";
+  let recipientAddress = "P2K...";
 
   // Creating RPC connection
   let rpc = new PhantasmaAPI(rpcUrl, null, nexus);
@@ -51,16 +52,16 @@ export async function transferSoulTokens() {
 
   // Making a Script
   let script = sb
-    .BeginScript()
-    .AllowGas(senderAddress, sb.NullAddress, gasPrice, gasLimit)
-    .CallInterop("Runtime.TransferTokens", [
+    .beginScript()
+    .allowGas(senderAddress, Address.nullAddress, gasPrice, gasLimit)
+    .callInterop("Runtime.TransferTokens", [
       senderAddress,
-      recepientAddress,
+      recipientAddress,
       soulTokenSymbol,
       amount,
     ])
-    .SpendGas(senderAddress)
-    .EndScript();
+    .spendGas(senderAddress)
+    .endScript();
 
   // Set expiration date
   let expiration = Math.floor(Date.now() / 1000) + 30;
@@ -79,12 +80,12 @@ export async function transferSoulTokens() {
 
   transaction.signWithKeys(keys);
 
-  let hexEncodedTx = transaction.toString(true); //converts trasnaction to base16 string -true means transaction is signed-
+  let hexEncodedTx = transaction.toString(true); // converts transaction to base16 string; true means transaction is signed
   console.log("Broadcasting transaction:", hexEncodedTx);
 
   // Broadcasting transaction
   let txHash = await rpc.sendRawTransaction(hexEncodedTx);
-  console.log("Broadcased tx hash:", txHash);
+  console.log("Broadcasted tx hash:", txHash);
 
   const start = Date.now();
   const timeoutMs = 60_000; // 60 seconds total

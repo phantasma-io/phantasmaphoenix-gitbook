@@ -8,6 +8,7 @@ coverY: 0
 
 # Interacting with the chain
 - [High-level API](/developers/sdks/csharp/phantasma-api.md)
+- [Complete API Reference](/developers/sdks/csharp/reference/README.md)
 
 # Examples
 
