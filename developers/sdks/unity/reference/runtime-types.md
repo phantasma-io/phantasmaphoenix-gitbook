@@ -8,7 +8,7 @@ Source baseline:
 | Item | Value |
 | ---- | ----- |
 | Source repo | `phantasma-sdk-unity` |
-| Source commit | `a8e093654d682de6fd0b7568f036d22b5d6ab69e` |
+| Source commit | `2706c004fe1cf9f3919724c6522990ae803584d8` |
 | Source scope | Unity Core runtime and LinkClient runtime packages |
 
 ## Error Handling
@@ -34,28 +34,27 @@ method-specific success callback.
 | `WebClient.DefaultTimeout` | Default RPC timeout used by `PhantasmaAPI`. |
 | `WebClient.DefaultRetries` | Default retry count used by `PhantasmaAPI`. |
 
+`WebClient.RPCRequest<T>` tracks request ids and reports malformed responses
+through the supplied RPC error callback when an endpoint omits `id`, echoes a
+different id, omits `result`, or returns a result shape that cannot be decoded.
+
 ## RPC Result Models
 
 The Unity API uses the same typed model names exposed by the C# RPC package.
 Common callback result types include:
 
-| Type | Appears in |
+| Type | Fields or use |
 | ---- | ---- |
-| `AccountResult` | `GetAccount`, `GetAccounts` |
-| `BalanceResult` | balance queries and token balance queries |
-| `CursorPaginatedResult<T>` | account token/NFT and token series/NFT pagination |
-| `TokenResult` | token metadata and owned-token queries |
-| `TokenSeriesResult` | series queries |
-| `TokenDataResult` | NFT and token data queries |
-| `BlockResult` | block queries |
-| `TransactionResult` | transaction queries |
-| `ScriptResult` | `InvokeRawScript` |
-| `AuctionResult` | auction queries |
-| `ContractResult` | contract queries |
-| `ArchiveResult` | archive storage queries |
-
-For exact fields, use the matching model entries in
-[Public API Inventory](public-api.md).
+| `AccountResult` | `Address`, `Name`, `Stakes`, `Stake`, `Unclaimed`, optional `Relay`, `Validator`, `Storage`, `Balances`, optional `Txs`. |
+| `BalanceResult` | `Chain`, `Amount`, `Symbol`, `Decimals`, optional `Ids`. |
+| `CursorPaginatedResult<T>` | `Result` plus cursor text for account token/NFT and token series/NFT pagination. |
+| `BlockResult` | `Hash`, `PreviousHash`, `Timestamp`, `Height`, `ChainAddress`, `Protocol`, `Txs`, `ValidatorAddress`, `Reward`, optional `Events`, optional `Oracles`. |
+| `TransactionResult` | `Hash`, `ChainAddress`, `Timestamp`, `BlockHeight`, `BlockHash`, `Script`, `CarbonTxType`, `CarbonTxData`, `Payload`, optional `DebugComment`, `Events`, `ExtendedEvents`, `Result`, `Fee`, `State`, optional `Signatures`, `Sender`, `GasPayer`, `GasTarget`, `GasPrice`, `GasLimit`, `Expiration`. |
+| `ScriptResult` | `Events`, optional `Result`, optional `Error`, `Results`, `Oracles`, optional `State`, optional `Gas`. |
+| `TokenResult` | `Symbol`, `Name`, `Decimals`, `CurrentSupply`, `MaxSupply`, `BurnedSupply`, `Address`, `Owner`, `Flags`, optional `Script`, `Series`, `CarbonId`, optional `Metadata`, optional `TokenSchemas`, optional `External`, optional `Price`, and token-flag helpers. |
+| `TokenSeriesResult` | `SeriesId`, `carbonTokenId`, `carbonSeriesId`, `OwnerAddress`, `MaxMint`, `MintCount`, `CurrentSupply`, `MaxSupply`, optional `BurnedSupply`, optional `Mode`, optional `Script`, optional `Methods`, `Metadata`. |
+| `TokenDataResult` | `Id`, `Series`, `carbonTokenId`, `carbonSeriesId`, `carbonNftAddress`, `Mint`, `ChainName`, `OwnerAddress`, `CreatorAddress`, `Ram`, `Rom`, `Status`, `Infusion`, `Properties`. |
+| `AuctionResult`, `ContractResult`, `ArchiveResult` | Marketplace listing, contract ABI, and archive storage response models. |
 
 ## Wallet Link Types
 

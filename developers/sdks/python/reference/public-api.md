@@ -1,15 +1,15 @@
 # Python SDK Public API Inventory
 
-This page lists public classes, methods, functions, enum values, fields, and
-constants from the cited source baseline. Use it to check exact names when
-working with lower-level SDK APIs.
+This page lists public classes, methods, functions, enum values,
+fields, and constants from the cited source baseline. Use it to check
+exact names when working with lower-level SDK APIs.
 
 Source baseline:
 
 | Item | Value |
 | ---- | ----- |
 | Source repo | `phantasma-sdk-py` |
-| Source commit | `559fd95ed1267b214a92a958283fceacb0c9d029` |
+| Source commit | `88c14709ab6662adeceb36b87f0f247fe043af4e` |
 | Scope | public module members under `src/phantasma_py` |
 
 ## phantasma_py
@@ -19,6 +19,13 @@ Source: `src/phantasma_py/__init__.py`
 ### Fields
 
 - `__all__`
+
+## phantasma_py._version
+
+Source: `src/phantasma_py/_version.py`
+
+### Fields
+
 - `__version__`
 
 ## phantasma_py.binary
@@ -2110,6 +2117,10 @@ class SignatureResult
 ```
 
 ```python
+class EventExResult
+```
+
+```python
 class TransactionResult
 ```
 
@@ -2235,20 +2246,21 @@ class PhantasmaRPC
 - `AccountResult.address: str`
 - `AccountResult.balances: list[BalanceResult]`
 - `AccountResult.name: str`
-- `AccountResult.relay: str`
+- `AccountResult.relay: str | None`
 - `AccountResult.stake: str`
 - `AccountResult.stakes: StakeResult`
 - `AccountResult.storage: StorageResult`
+- `AccountResult.txs: list[str] | None`
 - `AccountResult.unclaimed: str`
 - `AccountResult.validator: str`
 - `AddressTransactionsResult.address: str`
 - `AddressTransactionsResult.txs: list[TransactionResult]`
 - `ArchiveResult.block_count: int`
-- `ArchiveResult.encryption: str`
-- `ArchiveResult.hash: str`
-- `ArchiveResult.missing_blocks: list[int]`
-- `ArchiveResult.name: str`
-- `ArchiveResult.owners: list[str]`
+- `ArchiveResult.encryption: str | None`
+- `ArchiveResult.hash: str | None`
+- `ArchiveResult.missing_blocks: list[int] | None`
+- `ArchiveResult.name: str | None`
+- `ArchiveResult.owners: list[str] | None`
 - `ArchiveResult.size: int`
 - `ArchiveResult.time: int`
 - `AuctionResult.base_symbol: str`
@@ -2269,13 +2281,13 @@ class PhantasmaRPC
 - `BalanceResult.amount: str`
 - `BalanceResult.chain: str`
 - `BalanceResult.decimals: int`
-- `BalanceResult.ids: list[str]`
+- `BalanceResult.ids: list[str] | None`
 - `BalanceResult.symbol: str`
 - `BlockResult.chain_address: str`
-- `BlockResult.events: list[EventResult]`
+- `BlockResult.events: list[EventResult] | None`
 - `BlockResult.hash: str`
 - `BlockResult.height: int`
-- `BlockResult.oracles: list[OracleResult]`
+- `BlockResult.oracles: list[OracleResult] | None`
 - `BlockResult.previous_hash: str`
 - `BlockResult.protocol: int`
 - `BlockResult.reward: str`
@@ -2285,13 +2297,13 @@ class PhantasmaRPC
 - `BuildInfoResult.build_time_utc: str`
 - `BuildInfoResult.commit: str`
 - `BuildInfoResult.version: str`
-- `ChainResult.address: str`
-- `ChainResult.contracts: list[str]`
-- `ChainResult.dapps: list[str]`
+- `ChainResult.address: str | None`
+- `ChainResult.contracts: list[str] | None`
+- `ChainResult.dapps: list[str] | None`
 - `ChainResult.height: int`
-- `ChainResult.name: str`
-- `ChainResult.organization: str`
-- `ChainResult.parent: str`
+- `ChainResult.name: str | None`
+- `ChainResult.organization: str | None`
+- `ChainResult.parent: str | None`
 - `ChannelResult.active: bool`
 - `ChannelResult.balance: str`
 - `ChannelResult.chain: str`
@@ -2303,9 +2315,10 @@ class PhantasmaRPC
 - `ChannelResult.symbol: str`
 - `ChannelResult.target_address: str`
 - `ContractResult.address: str`
-- `ContractResult.events: list[ABIEventResult]`
-- `ContractResult.methods: list[ABIMethodResult]`
+- `ContractResult.events: list[ABIEventResult] | None`
+- `ContractResult.methods: list[ABIMethodResult] | None`
 - `ContractResult.name: str`
+- `ContractResult.owner: str | None`
 - `ContractResult.script: str`
 - `CrowdsaleResult.creator: str`
 - `CrowdsaleResult.end_date: int`
@@ -2320,35 +2333,41 @@ class PhantasmaRPC
 - `CrowdsaleResult.start_date: int`
 - `CrowdsaleResult.user_hard_cap: str`
 - `CrowdsaleResult.user_soft_cap: str`
-- `CursorPaginatedResult.cursor: str`
+- `CursorPaginatedResult.cursor: str | None`
 - `CursorPaginatedResult.result: T | None`
+- `DEFAULT_MAX_RPC_RESPONSE_BYTES`
 - `DappResult.address: str`
 - `DappResult.chain: str`
 - `DappResult.name: str`
+- `EventExResult.address: str`
+- `EventExResult.contract: str`
+- `EventExResult.data: Any | None`
+- `EventExResult.kind: str`
 - `EventResult.address: str`
 - `EventResult.contract: str`
 - `EventResult.data: str`
 - `EventResult.kind: str`
+- `EventResult.name: str`
 - `GovernanceResult.name: str`
 - `GovernanceResult.value: str`
 - `InteropResult.external: str`
 - `InteropResult.local: str`
-- `LeaderboardResult.name: str`
-- `LeaderboardResult.rows: list[LeaderboardRowResult]`
+- `LeaderboardResult.name: str | None`
+- `LeaderboardResult.rows: list[LeaderboardRowResult] | None`
 - `LeaderboardRowResult.address: str`
 - `LeaderboardRowResult.value: str`
-- `NexusResult.chains: list[ChainResult]`
-- `NexusResult.governance: list[GovernanceResult]`
-- `NexusResult.name: str`
-- `NexusResult.organizations: list[str]`
-- `NexusResult.platforms: list[PlatformResult]`
+- `NexusResult.chains: list[ChainResult] | None`
+- `NexusResult.governance: list[GovernanceResult] | None`
+- `NexusResult.name: str | None`
+- `NexusResult.organizations: list[str] | None`
+- `NexusResult.platforms: list[PlatformResult] | None`
 - `NexusResult.protocol: int`
-- `NexusResult.tokens: list[TokenResult]`
+- `NexusResult.tokens: list[TokenResult] | None`
 - `OracleResult.content: str`
 - `OracleResult.url: str`
-- `OrganizationResult.id: str`
-- `OrganizationResult.members: list[str]`
-- `OrganizationResult.name: str`
+- `OrganizationResult.id: str | None`
+- `OrganizationResult.members: list[str] | None`
+- `OrganizationResult.name: str | None`
 - `PaginatedResult.page: int`
 - `PaginatedResult.page_size: int`
 - `PaginatedResult.result: T | None`
@@ -2381,10 +2400,13 @@ class PhantasmaRPC
 - `ReceiptResult.script: str`
 - `ReceiptResult.sender: str`
 - `ReceiptResult.timestamp: int`
+- `ScriptResult.error: str | None`
 - `ScriptResult.events: list[EventResult]`
+- `ScriptResult.gas: str | None`
 - `ScriptResult.oracles: list[OracleResult]`
-- `ScriptResult.result: str`
+- `ScriptResult.result: str | None`
 - `ScriptResult.results: list[str]`
+- `ScriptResult.state: str | None`
 - `SignatureResult.data: str`
 - `SignatureResult.kind: str`
 - `StakeResult.amount: str`
@@ -2433,43 +2455,52 @@ class PhantasmaRPC
 - `TokenResult.carbon_id: str`
 - `TokenResult.current_supply: str`
 - `TokenResult.decimals: int`
-- `TokenResult.external: list[TokenExternalResult]`
+- `TokenResult.external: list[TokenExternalResult] | None`
 - `TokenResult.flags: str`
 - `TokenResult.max_supply: str`
-- `TokenResult.metadata: list[TokenPropertyResult]`
+- `TokenResult.metadata: list[TokenPropertyResult] | None`
 - `TokenResult.name: str`
 - `TokenResult.owner: str`
-- `TokenResult.price: list[TokenPriceResult]`
-- `TokenResult.script: str`
+- `TokenResult.price: list[TokenPriceResult] | None`
+- `TokenResult.script: str | None`
 - `TokenResult.series: list[TokenSeriesResult]`
 - `TokenResult.symbol: str`
 - `TokenResult.token_schemas: TokenSchemasResult | None`
 - `TokenSchemasResult.ram: VMStructSchemaResult`
 - `TokenSchemasResult.rom: VMStructSchemaResult`
 - `TokenSchemasResult.series_metadata: VMStructSchemaResult`
-- `TokenSeriesResult.burned_supply: str`
+- `TokenSeriesResult.burned_supply: str | None`
 - `TokenSeriesResult.carbon_series_id: str`
 - `TokenSeriesResult.carbon_token_id: str`
 - `TokenSeriesResult.current_supply: str`
 - `TokenSeriesResult.max_mint: str`
 - `TokenSeriesResult.max_supply: str`
 - `TokenSeriesResult.metadata: list[TokenPropertyResult]`
-- `TokenSeriesResult.methods: list[ABIMethodResult]`
+- `TokenSeriesResult.methods: list[ABIMethodResult] | None`
 - `TokenSeriesResult.mint_count: str`
-- `TokenSeriesResult.mode: str`
+- `TokenSeriesResult.mode: str | None`
 - `TokenSeriesResult.owner_address: str`
-- `TokenSeriesResult.script: str`
+- `TokenSeriesResult.script: str | None`
 - `TokenSeriesResult.series_id: str`
 - `TransactionResult.block_hash: str`
 - `TransactionResult.block_height: int`
+- `TransactionResult.carbon_tx_data: str`
+- `TransactionResult.carbon_tx_type: int`
 - `TransactionResult.chain_address: str`
+- `TransactionResult.debug_comment: str | None`
 - `TransactionResult.events: list[EventResult]`
 - `TransactionResult.expiration: int`
+- `TransactionResult.extended_events: list[EventExResult]`
 - `TransactionResult.fee: str`
+- `TransactionResult.gas_limit: str`
+- `TransactionResult.gas_payer: str`
+- `TransactionResult.gas_price: str`
+- `TransactionResult.gas_target: str`
 - `TransactionResult.hash: str`
 - `TransactionResult.payload: str`
 - `TransactionResult.result: str`
 - `TransactionResult.script: str`
+- `TransactionResult.sender: str`
 - `TransactionResult.signatures: list[SignatureResult]`
 - `TransactionResult.state: str`
 - `TransactionResult.timestamp: int`
@@ -2493,11 +2524,11 @@ BalanceResult.decimal_amount(self) -> str
 ```
 
 ```python
-HTTPSession.post(self, url: str, *, json: Mapping[str, Any], timeout: float) -> Any
+HTTPSession.post(self, url: str, *, json: Mapping[str, Any], timeout: float, stream: bool = False) -> Any
 ```
 
 ```python
-JsonRpcClient.__init__(self, endpoint: str, *, session: HTTPSession | None = None, timeout: float = 30.0) -> None
+JsonRpcClient.__init__(self, endpoint: str, *, session: HTTPSession | None = None, timeout: float = 30.0, max_response_bytes: int = DEFAULT_MAX_RPC_RESPONSE_BYTES) -> None
 ```
 
 ```python
@@ -2505,7 +2536,7 @@ JsonRpcClient.call(self, method: str, *params) -> Any
 ```
 
 ```python
-PhantasmaRPC.__init__(self, endpoint: str, *, session: HTTPSession | None = None, timeout: float = 30.0) -> None
+PhantasmaRPC.__init__(self, endpoint: str, *, session: HTTPSession | None = None, timeout: float = 30.0, max_response_bytes: int = DEFAULT_MAX_RPC_RESPONSE_BYTES) -> None
 ```
 
 ```python

@@ -13,7 +13,7 @@ C++ SDK Complete API Reference
 | ---- | ----- |
 | Repository | `https://github.com/phantasma-io/phantasma-sdk-cpp` |
 | Current branch | `main` |
-| Source commit | `b9b755c6e456214f65c1ff8168d5ad41eace302f` |
+| Source commit | `3982fdcc26f4148b8ef5207b139b6c8f1e49ddd1` |
 | Language | C++17 |
 
 ## Main API Groups

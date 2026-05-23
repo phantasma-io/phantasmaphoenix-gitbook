@@ -9,7 +9,7 @@ Source baseline:
 | Item | Value |
 | ---- | ----- |
 | Source repo | `phantasma-sdk-unity` |
-| Source commit | `a8e093654d682de6fd0b7568f036d22b5d6ab69e` |
+| Source commit | `2706c004fe1cf9f3919724c6522990ae803584d8` |
 | Source file | `PhantasmaPhoenix.Unity.Core/Runtime/Scripts/PhantasmaAPI.cs` |
 
 ## Coroutine Model
@@ -29,6 +29,12 @@ Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null;
 int timeout = WebClient.DefaultTimeout;
 int retries = WebClient.DefaultRetries;
 ```
+
+`WebClient.RPCRequest<T>` assigns a generated JSON-RPC id and
+`TryDecodeRpcResponse<T>` rejects missing or mismatched response ids, JSON-RPC
+error objects, missing `result`, and result values that cannot be decoded into
+the requested callback type. These failures are delivered through the error
+callback.
 
 ## Accounts
 
@@ -56,9 +62,7 @@ int retries = WebClient.DefaultRetries;
 | `GetBlockByHeight(chainInput, height, ...)` | Reading a block by chain and height. | `Action<BlockResult>` |
 | `GetLatestBlock(chainInput, ...)` | Reading the latest block for a chain. | `Action<BlockResult>` |
 | `GetTransactionByBlockHashAndIndex(blockHash, index, ...)` | Reading one transaction by main-chain block hash and index. | `Action<TransactionResult>` |
-
-The listed source baseline exposes no `chainAddressOrName` overload for
-`GetTransactionByBlockHashAndIndex`.
+| `GetTransactionByBlockHashAndIndex(chainAddressOrName, blockHash, index, ...)` | Reading one transaction by chain, block hash, and index. | `Action<TransactionResult>` |
 
 ## Chain, Contracts, And Metadata
 

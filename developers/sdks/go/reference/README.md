@@ -9,9 +9,9 @@ Source baseline:
 | ---- | ----- |
 | Module | `github.com/phantasma-io/phantasma-sdk-go` |
 | Go version | `1.25+` |
-| Current local branch | `development` |
-| Current source commit | `7630d54796b8dd23655b39fa01109e4bfc08461b` |
-| Current public tag observed | `v0.9.0` |
+| Current local branch | `master` |
+| Current source commit | `6f3a4dd7223fc26f2af5e109dd97a7faccfbd185` |
+| Current public tag observed | `v0.10.1` |
 
 ## Pages
 

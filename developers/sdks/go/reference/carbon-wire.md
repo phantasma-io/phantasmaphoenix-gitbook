@@ -20,6 +20,10 @@ signing helpers, and result parsers.
 `Must...` helpers panic. Use them for constants and test vectors, not for user
 input.
 
+`Reader.ReadLengthFor(elementSize)` rejects non-positive element sizes,
+negative Carbon array lengths, and fixed-width array lengths whose required
+bytes exceed the remaining input before allocating the result slice.
+
 ## Writer And Reader Methods
 
 | Group | Writer methods | Reader methods |

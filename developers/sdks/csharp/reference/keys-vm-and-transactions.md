@@ -8,7 +8,7 @@ Source baseline:
 | Item | Value |
 | ---- | ----- |
 | Source repo | `phantasmaphoenix-sdk-cs` |
-| Source commit | `820680b38e67109b7f94e1d26058d6933f758b26` |
+| Source commit | `dce8727c12eee10c2750c42f5219811c39bf1405` |
 | Primary projects | `PhantasmaPhoenix.Cryptography`, `PhantasmaPhoenix.Protocol`, `PhantasmaPhoenix.VM` |
 
 ## Key Pairs

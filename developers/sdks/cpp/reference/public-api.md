@@ -1,15 +1,15 @@
 # C++ SDK Public API Inventory
 
-This page lists public classes, methods, functions, enum values, fields, and
-constants from the cited source baseline. Use it to check exact names when
-working with lower-level SDK APIs.
+This page lists public classes, methods, functions, enum values,
+fields, and constants from the cited source baseline. Use it to check
+exact names when working with lower-level SDK APIs.
 
 Source baseline:
 
 | Item | Value |
 | ---- | ----- |
 | Source repo | `phantasma-sdk-cpp` |
-| Source commit | `b9b755c6e456214f65c1ff8168d5ad41eace302f` |
+| Source commit | `3982fdcc26f4148b8ef5207b139b6c8f1e49ddd1` |
 | Scope | public headers under `include/**` |
 
 ## Adapters/PhantasmaAPI_cpprest.h
@@ -28,6 +28,10 @@ Source: `include/Adapters/PhantasmaAPI_cpprest.h`
 
 ```cpp
 #define PHANTASMA_CPPREST_JSON
+```
+
+```cpp
+#define PHANTASMA_DEFAULT_MAX_RPC_RESPONSE_BYTES ((size_t)16 * 1024 * 1024)
 ```
 
 ```cpp
@@ -52,6 +56,14 @@ Source: `include/Adapters/PhantasmaAPI_cpprest.h`
 
 ```cpp
 #define PHANTASMA_JSONVALUE web::json::value
+```
+
+```cpp
+#define PHANTASMA_LITERAL(x) L##x
+```
+
+```cpp
+#define PHANTASMA_LITERAL(x) x
 ```
 
 ```cpp
@@ -90,6 +102,10 @@ Source: `include/Adapters/PhantasmaAPI_curl.h`
 
 ```cpp
 #define PHANTASMA_CURL
+```
+
+```cpp
+#define PHANTASMA_DEFAULT_MAX_RPC_RESPONSE_BYTES ((size_t)16 * 1024 * 1024)
 ```
 
 ```cpp
@@ -494,10 +510,6 @@ const char* ToHexBe(ByteView k, Allocator& c)
 
 ```cpp
 const char* ToHexBe(ByteView k, vector<char>& c)
-```
-
-```cpp
-std::lock_guard lk(s.m)
 ```
 
 ```cpp
@@ -1995,10 +2007,6 @@ inline void Write(const VmNamedVariableSchema& in, WriteView& writer)
 ```
 
 ```cpp
-std::vector<VmNamedDynamicVariable> sorted(in.fields, in.fields + in.numFields)
-```
-
-```cpp
 struct NameLessThan
 ```
 
@@ -3442,6 +3450,10 @@ Source: `include/PhantasmaAPI.h`
 
 ```cpp
 #define PHANTASMA_MAX(a, b) std::max(a, b)
+```
+
+```cpp
+#define PHANTASMA_MAX_TRACKED_JSON_RPC_IDS 4096
 ```
 
 ```cpp
@@ -5115,7 +5127,7 @@ PhantasmaJsonAPI::static bool ParseWriteArchiveResponse(const JSONValue&, bool& 
 ```
 
 ```cpp
-PhantasmaJsonAPI::static const Char* Uri() { return PHANTASMA_LITERAL("/rpc"); } static void MakeGetAccountRequest(JSONBuilder&, const Char* account)
+PhantasmaJsonAPI::static const Char* Uri() { return PHANTASMA_LITERAL("/rpc"); } static String RequestId(const JSONBuilder& request)
 ```
 
 ```cpp
@@ -5132,6 +5144,10 @@ PhantasmaJsonAPI::static void MakeGetAccountOwnedTokenSeriesRequest(JSONBuilder&
 
 ```cpp
 PhantasmaJsonAPI::static void MakeGetAccountOwnedTokensRequest(JSONBuilder&, const Char* account, const Char* tokenSymbol, UInt64 carbonTokenId, UInt32 pageSize, const Char* cursor, bool checkAddressReservedByte)
+```
+
+```cpp
+PhantasmaJsonAPI::static void MakeGetAccountRequest(JSONBuilder&, const Char* account)
 ```
 
 ```cpp
@@ -5299,6 +5315,14 @@ PhantasmaJsonAPI::static void MakeWriteArchiveRequest(JSONBuilder&, const Char* 
 ```
 
 ```cpp
+PhantasmaJsonAPI::static void UseRequestId(const Char* requestId)
+```
+
+```cpp
+PhantasmaJsonAPI::static void UseRequestId(const JSONBuilder& request)
+```
+
+```cpp
 PhantasmaVmConfig::Int32 featureLevel
 ```
 
@@ -5419,11 +5443,11 @@ SendRawTx::String hash
 ```
 
 ```cpp
-Signature::String Data
+Signature::String data
 ```
 
 ```cpp
-Signature::String Kind
+Signature::String kind
 ```
 
 ```cpp
@@ -5619,10 +5643,6 @@ TokenData::PHANTASMA_VECTOR<TokenProperty> properties
 ```
 
 ```cpp
-TokenData::String ID
-```
-
-```cpp
 TokenData::String carbonNftAddress
 ```
 
@@ -5640,6 +5660,10 @@ TokenData::String chainName
 
 ```cpp
 TokenData::String creatorAddress
+```
+
+```cpp
+TokenData::String id
 ```
 
 ```cpp
@@ -5703,11 +5727,11 @@ TokenMintData::UInt64 carbonTokenId
 ```
 
 ```cpp
-TokenProperty::String Key
+TokenProperty::String key
 ```
 
 ```cpp
-TokenProperty::String Value
+TokenProperty::String value
 ```
 
 ```cpp

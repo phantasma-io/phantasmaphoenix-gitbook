@@ -1,15 +1,15 @@
 # TypeScript SDK Public API Inventory
 
-This page lists public classes, methods, functions, enum values, fields, and
-constants from the cited source baseline. Use it to check exact names when
-working with lower-level SDK APIs.
+This page lists public classes, methods, functions, enum values,
+fields, and constants from the cited source baseline. Use it to check
+exact names when working with lower-level SDK APIs.
 
 Source baseline:
 
 | Item | Value |
 | ---- | ----- |
 | Source repo | `phantasma-sdk-ts` |
-| Source commit | `fbd458026479e02a5caecc6cd8244d7f1e54e504` |
+| Source commit | `a036ed27ef38316ae7ea2f8503838c191131f2bb` |
 | Scope | declaration files under `dist/types`, matching package export and deep-import surfaces |
 
 ## Package Exports
@@ -3470,7 +3470,6 @@ export declare class PhantasmaLink {
     onError: LinkErrorCallback | null;
     socket: PhantasmaLinkSocketLike | null;
     requestCallback: LinkCallback | null;
-    private lastSocketErrorMessage;
     socketTransport: 'websocket' | 'injected' | null;
     socketOpen: boolean;
     token: unknown;
@@ -3484,13 +3483,11 @@ export declare class PhantasmaLink {
     platform: string;
     constructor(dappID: string, logging?: boolean);
     onMessage: (msg: string) => void;
-    private describeFailure;
     login(onLoginCallback: (success: boolean) => void, onErrorCallback: LinkErrorCallback, version?: number, platform?: string, providerHint?: string): void;
     invokeScript(script: string, callback: (message: string | LinkResponse) => void): void;
     signTx(script: string, payload: string | null, callback: LinkCallback, onErrorCallback: LinkErrorCallback, pow?: ProofOfWork, signature?: string): void;
     signCarbonTxAndBroadcast(txMsg: TxMsg, callback?: LinkCallback, onErrorCallback?: (message?: string) => void): void;
     signTxSignature(tx: string, callback: LinkCallback, onErrorCallback: (message?: string) => void, signature?: string): void;
-    private decodeWalletSignatureBytes;
     signPrebuiltTransaction(tx: Transaction, callback: (result: PrebuiltTransactionSignResult) => void, onErrorCallback: (message?: string) => void, signature?: string): void;
     multiSig(subject: string, callback: LinkCallback, onErrorCallback: () => void, signature?: string): void;
     getPeer(callback: (result: string) => void, onErrorCallback: () => void): void;
@@ -3505,9 +3502,7 @@ export declare class PhantasmaLink {
     set dappID(dapp: string);
     get dappID(): string;
     sendLinkRequest(request: string, callback: LinkCallback): void;
-    private handleSocketFailure;
     disconnect(triggered: string | boolean | undefined): void;
-    private serializeCarbonTx;
 }
 ```
 
@@ -3784,11 +3779,11 @@ export interface Account {
     stakes: Stake;
     stake: string;
     unclaimed: string;
-    relay: string;
+    relay?: string;
     validator: string;
     storage: Storage;
     balances: Array<Balance>;
-    txs: Array<string>;
+    txs?: Array<string>;
 }
 ```
 
@@ -3800,14 +3795,14 @@ Source: `dist/types/rpc/interfaces/archive.d.ts`
 
 ```ts
 export interface Archive {
-    name: string;
-    hash: string;
+    name?: string;
+    hash?: string;
     time: number;
     size: number;
-    encryption: string;
+    encryption?: string;
     blockCount: number;
-    missingBlocks: Array<number>;
-    owners: Array<string>;
+    missingBlocks?: Array<number>;
+    owners?: Array<string>;
 }
 ```
 
@@ -3870,8 +3865,8 @@ export interface Block {
     txs: Array<TransactionData>;
     validatorAddress: string;
     reward: string;
-    events: Array<Event>;
-    oracles: Array<Oracle>;
+    events?: Array<Event>;
+    oracles?: Array<Oracle>;
 }
 ```
 
@@ -3897,13 +3892,13 @@ Source: `dist/types/rpc/interfaces/chain.d.ts`
 
 ```ts
 export interface Chain {
-    name: string;
-    address: string;
-    parent: string;
+    name?: string;
+    address?: string;
+    parent?: string;
     height: number;
-    organization: string;
-    contracts: Array<string>;
-    dapps: Array<string>;
+    organization?: string;
+    contracts?: Array<string>;
+    dapps?: Array<string>;
 }
 ```
 
@@ -3938,7 +3933,7 @@ Source: `dist/types/rpc/interfaces/contract.d.ts`
 export interface Contract {
     name: string;
     address: string;
-    owner: string;
+    owner?: string;
     script: string;
     methods?: Array<ABIMethod>;
     events?: Array<ABIEvent>;
@@ -4352,8 +4347,8 @@ Source: `dist/types/rpc/interfaces/leaderboard.d.ts`
 
 ```ts
 export interface Leaderboard {
-    name: string;
-    rows: Array<LeaderboardRow>;
+    name?: string;
+    rows?: Array<LeaderboardRow>;
 }
 ```
 
@@ -4365,13 +4360,13 @@ Source: `dist/types/rpc/interfaces/nexus.d.ts`
 
 ```ts
 export interface Nexus {
-    name: string;
-    protocol: string;
-    platforms: Array<Platform>;
-    tokens: Array<Token>;
-    chains: Array<Chain>;
-    governance: Array<Governance>;
-    organizations: Array<string>;
+    name?: string;
+    protocol: number;
+    platforms?: Array<Platform>;
+    tokens?: Array<Token>;
+    chains?: Array<Chain>;
+    governance?: Array<Governance>;
+    organizations?: Array<string>;
 }
 ```
 
@@ -4383,9 +4378,10 @@ Source: `dist/types/rpc/interfaces/nft.d.ts`
 
 ```ts
 export interface NFT {
-    ID: string;
+    id: string;
     series: string;
     carbonTokenId: string;
+    carbonSeriesId: string;
     carbonNftAddress: string;
     mint: string;
     chainName: string;
@@ -4420,9 +4416,9 @@ Source: `dist/types/rpc/interfaces/organization.d.ts`
 
 ```ts
 export interface Organization {
-    id: string;
-    name: string;
-    members: Array<string>;
+    id?: string;
+    name?: string;
+    members?: Array<string>;
 }
 ```
 
@@ -4550,8 +4546,8 @@ Source: `dist/types/rpc/interfaces/signature-result.d.ts`
 
 ```ts
 export interface SignatureResult {
-    Kind: string;
-    Data: string;
+    kind: string;
+    data: string;
 }
 ```
 
@@ -4613,9 +4609,10 @@ Source: `dist/types/rpc/interfaces/token-data.d.ts`
 
 ```ts
 export interface TokenData {
-    ID: string;
+    id: string;
     series: string;
     carbonTokenId: string;
+    carbonSeriesId: string;
     carbonNftAddress: string;
     mint: string;
     chainName: string;
@@ -4683,12 +4680,15 @@ export interface TokenSeriesResult {
     seriesId: string;
     carbonTokenId: string;
     carbonSeriesId: string;
+    ownerAddress: string;
+    maxMint: string;
+    mintCount: string;
     currentSupply: string;
     maxSupply: string;
-    burnedSupply: string;
-    mode: string;
-    script: string;
-    methods: ABIMethod[];
+    burnedSupply?: string;
+    mode?: string;
+    script?: string;
+    methods?: ABIMethod[];
     metadata: KeyValue[];
 }
 ```
@@ -4720,9 +4720,10 @@ export interface Token {
     address: string;
     owner: string;
     flags: string;
-    script: string;
+    script?: string;
     series: Array<TokenSeries>;
     carbonId: string;
+    metadata?: KeyValue[];
     tokenSchemas?: TokenSchemasResult;
     external?: Array<TokenExternal>;
     price?: Array<TokenPrice>;
@@ -4749,7 +4750,7 @@ export interface TransactionData {
     events: Array<Event>;
     extendedEvents?: Array<EventExtended>;
     result: string;
-    debugComment: string;
+    debugComment?: string;
     fee: string;
     state: string;
     signatures: Array<SignatureResult>;
@@ -4821,15 +4822,27 @@ Source: `dist/types/rpc/phantasma.d.ts`
 ### Declarations
 
 ```ts
+export interface PhantasmaAPIOptions {
+    maxRpcResponseBytes?: number;
+}
+```
+
+```ts
+export declare const DEFAULT_MAX_RPC_RESPONSE_BYTES: number;
+```
+
+```ts
 export declare class PhantasmaAPI {
     host: string;
     rpcName: string;
     nexus: string;
     availableHosts: RpcPeer[];
+    maxRpcResponseBytes: number;
     pingAsync(host: string): Promise<number>;
-    constructor(defHost: string, peersUrlJson: string | undefined | null, nexus: string);
+    constructor(defHost: string, peersUrlJson: string | undefined | null, nexus: string, options?: PhantasmaAPIOptions);
     JSONRPCResult<T = unknown>(method: string, params: JsonRpcParam[]): Promise<RpcResult<T>>;
     JSONRPC(method: string, params: JsonRpcParam[]): Promise<unknown>;
+    setMaxRpcResponseBytes(maxBytes: number): this;
     setRpcHost(rpcHost: string): void;
     setRpcByName(rpcName: string): void;
     setNexus(nexus: string): void;
@@ -4872,7 +4885,7 @@ export declare class PhantasmaAPI {
     getAccountOwnedTokens(account: string, tokenSymbol?: string, carbonTokenId?: bigint, pageSize?: number, cursor?: string, checkAddressReservedByte?: boolean): Promise<CursorPaginatedResult<Token[]>>;
     getAccountOwnedTokenSeries(account: string, tokenSymbol?: string, carbonTokenId?: bigint, pageSize?: number, cursor?: string, checkAddressReservedByte?: boolean): Promise<CursorPaginatedResult<TokenSeriesResult[]>>;
     getAuctionsCount(chainAddressOrName: string, symbol: string): Promise<number>;
-    getAuctions(chainAddressOrName: string, symbol: string, page: number, pageSize: number): Promise<Auction>;
+    getAuctions(chainAddressOrName: string, symbol: string, page: number, pageSize: number): Promise<Paginated<Auction[]>>;
     getAuction(chainAddressOrName: string, symbol: string, IDtext: string): Promise<Auction>;
     getArchive(hashText: string): Promise<Archive>;
     writeArchive(hashText: string, blockIndex: number, blockContent: string): Promise<boolean>;
@@ -5089,11 +5102,6 @@ export declare class ContractTxHelper {
     static buildDeployScriptFromBundle(bundle: ContractArtifactBundle, from: string | Address, gasPrice?: number | bigint, gasLimit?: number | bigint): string;
     static buildUpgradeScriptFromBundle(bundle: ContractArtifactBundle, from: string | Address, gasPrice?: number | bigint, gasLimit?: number | bigint): string;
     static encodePayloadText(text: string): string;
-    private static buildContractLifecycleScript;
-    private static buildContractLifecycleTransaction;
-    private static signTransaction;
-    private static normalizeAddress;
-    private static normalizeSmallInteger;
 }
 ```
 
@@ -5201,7 +5209,6 @@ export declare class Transaction implements ISerializable {
     ToStringEncoded(withSignature: boolean): string;
     getHash(): string;
     mineTransaction(difficulty: number): void;
-    private getSign;
     unserialize(serializedData: string): Transaction;
     static deserialize(serialized: Uint8Array): Transaction;
     /** @deprecated Use `deserialize` instead. This alias will be removed in v1.0. */
@@ -5277,11 +5284,9 @@ export declare class Address implements ISerializable {
     static readonly maxPlatformNameLength: number;
     /** @deprecated Use `maxPlatformNameLength` instead. This alias will be removed in v1.0. */
     static readonly MaxPlatformNameLength: number;
-    private static nullPublicKey;
     static readonly nullAddress: Address;
     /** @deprecated Use `nullAddress` instead. This alias will be removed in v1.0. */
     static readonly Null: Address;
-    private _bytes;
     get kind(): AddressKind;
     /** @deprecated Use `kind` instead. This alias will be removed in v1.0. */
     get Kind(): AddressKind;
@@ -5297,12 +5302,9 @@ export declare class Address implements ISerializable {
     get isNull(): boolean;
     /** @deprecated Use `isNull` instead. This alias will be removed in v1.0. */
     get IsNull(): boolean;
-    private _text;
-    private static _keyToTextCache;
     get text(): string;
     /** @deprecated Use `text` instead. This alias will be removed in v1.0. */
     get Text(): string;
-    private constructor();
     static fromPublicKey(publicKey: Uint8Array): Address;
     /** @deprecated Use `fromBytes` for 34-byte address data. This typoed alias will be removed in v1.0. */
     static FromPublickKey(bytes: Uint8Array): Address;
@@ -5630,7 +5632,6 @@ Source: `dist/types/types/carbon/blockchain/modules/builders/phantasma-nft-rom-b
 
 ```ts
 export declare class PhantasmaNftRomBuilder {
-    private static readonly reservedFieldNames;
     static buildPublicMintSchema(nftRomSchema: VmStructSchema): VmStructSchema;
     static buildAndSerialize(nftRomSchema: VmStructSchema, metadata: MetadataField[]): Uint8Array;
 }
@@ -5677,10 +5678,7 @@ Source: `dist/types/types/carbon/blockchain/modules/builders/token-metadata-buil
 
 ```ts
 export declare class TokenMetadataBuilder {
-    private static readonly iconDataUriPrefixPattern;
-    private static readonly base64PayloadPattern;
     static buildAndSerialize(fields?: Record<string, unknown>): Uint8Array;
-    private static validateIcon;
 }
 ```
 
@@ -5704,12 +5702,6 @@ export declare function parseTokenSchemasJson(json: string): TokenSchemasJson;
 
 ```ts
 export declare class TokenSchemasBuilder {
-    private static assertMetadataField;
-    private static defaultSeriesSchema;
-    private static defaultNftRomSchema;
-    private static seriesSchemaFromFieldTypes;
-    private static nftRomSchemaFromFieldTypes;
-    private static nftRamSchemaFromFieldTypes;
     static prepareStandard(sharedMetadata: boolean): TokenSchemas;
     static fromJson(json: string): TokenSchemas;
     static verify(schemas: TokenSchemas): Readonly<{
@@ -5953,7 +5945,6 @@ export type CarbonNftAddressInfo = {
 ```ts
 export declare class TokenHelper {
     static getNftAddress(carbonTokenId: bigint, instanceId: bigint): Bytes32;
-    private static readUint64LE;
     /**
      * Unpacks a Carbon NFT address (32 bytes) into its logical parts:
      * - carbonTokenId: identifies the NFT token contract
@@ -6191,7 +6182,6 @@ Source: `dist/types/types/carbon/blockchain/tx-helpers/mint-phantasma-non-fungib
 export declare class MintPhantasmaNonFungibleTxHelper {
     static buildTx(tokenId: bigint, phantasmaSeriesId: bigint, senderPublicKey: Bytes32, receiverPublicKey: Bytes32, publicRom: Uint8Array, ram?: Uint8Array, feeOptions?: MintNftFeeOptions, maxData?: bigint, expiry?: bigint): TxMsg;
     static buildTx(tokenId: bigint, senderPublicKey: Bytes32, receiverPublicKey: Bytes32, tokens: PhantasmaNftMintInfo[], feeOptions?: MintNftFeeOptions, maxData?: bigint, expiry?: bigint): TxMsg;
-    private static buildTxCore;
     static buildTxAndSign(tokenId: bigint, phantasmaSeriesId: bigint, signer: PhantasmaKeys, receiverPublicKey: Bytes32, publicRom: Uint8Array, ram?: Uint8Array, feeOptions?: MintNftFeeOptions, maxData?: bigint, expiry?: bigint): Uint8Array;
     static buildTxAndSign(tokenId: bigint, tokens: PhantasmaNftMintInfo[], signer: PhantasmaKeys, receiverPublicKey: Bytes32, feeOptions?: MintNftFeeOptions, maxData?: bigint, expiry?: bigint): Uint8Array;
     static buildTxAndSignHex(tokenId: bigint, phantasmaSeriesId: bigint, signer: PhantasmaKeys, receiverPublicKey: Bytes32, publicRom: Uint8Array, ram?: Uint8Array, feeOptions?: MintNftFeeOptions, maxData?: bigint, expiry?: bigint): string;
@@ -6935,9 +6925,6 @@ Source: `dist/types/types/carbon/int-x.d.ts`
 
 ```ts
 export declare class IntX implements CarbonBlobLike {
-    private big;
-    private small;
-    private isBig;
     static fromBigInt(v: bigint): IntX;
     static fromI64(v: number | bigint): IntX;
     toBigInt(): bigint;
@@ -7027,9 +7014,6 @@ export declare class Throw {
 
 ```ts
 export declare class CarbonBinaryWriter {
-    private chunks;
-    private size;
-    private push;
     toUint8Array(): Uint8Array;
     write(data: Uint8Array): void;
     write1(v: number): void;
@@ -7060,11 +7044,7 @@ export declare class CarbonBinaryWriter {
 
 ```ts
 export declare class CarbonBinaryReader {
-    private offset;
-    private readonly view;
-    private readonly bytes;
     constructor(buffer: ArrayBuffer | Uint8Array);
-    private take;
     readRemaining(): Uint8Array;
     read1(): number;
     read2(): number;
@@ -7244,8 +7224,6 @@ export declare class ContractInterface implements ISerializable {
     static readonly empty: ContractInterface;
     /** @deprecated Use `empty` instead. This alias will be removed in v1.0. */
     static readonly Empty: ContractInterface;
-    private _methods;
-    private _events;
     get methods(): ContractMethod[];
     set methods(value: ContractMethod[]);
     /** @deprecated Use `methods` instead. This alias will be removed in v1.0. */
@@ -7554,7 +7532,6 @@ Source: `dist/types/types/extensions/describer.d.ts`
 
 ```ts
 export declare class Describer {
-    private static FRegEx;
     static describe(val: {
         prototype: object;
         toString(): string;
@@ -7638,7 +7615,6 @@ Source: `dist/types/types/extensions/p-binary-writer.d.ts`
 
 ```ts
 export declare class PBinaryWriter {
-    private writer;
     constructor(arg1?: Buffer | Uint8Array);
     get length(): number;
     get position(): number;
@@ -7768,15 +7744,12 @@ Source: `dist/types/types/phantasma-keys.d.ts`
 
 ```ts
 export declare class PhantasmaKeys implements KeyPair, IKeyPair {
-    private _privateKey;
     get privateKey(): Uint8Array<ArrayBufferLike>;
     /** @deprecated Use `privateKey` instead. This alias will be removed in v1.0. */
     get PrivateKey(): Uint8Array<ArrayBufferLike>;
-    private _publicKey;
     get publicKey(): Uint8Array<ArrayBufferLike>;
     /** @deprecated Use `publicKey` instead. This alias will be removed in v1.0. */
     get PublicKey(): Uint8Array<ArrayBufferLike>;
-    private readonly _address;
     get address(): Address;
     /** @deprecated Use `address` instead. This alias will be removed in v1.0. */
     get Address(): Address;
@@ -7825,7 +7798,6 @@ export declare class CustomSerializer {
 
 ```ts
 export declare class Serialization {
-    private static _customSerializers;
     static registerType<T>(type: T, reader: CustomReader, writer: CustomWriter): void;
     /** @deprecated Use `registerType` instead. This alias will be removed in v1.0. */
     static RegisterType<T>(type: T, reader: CustomReader, writer: CustomWriter): void;
@@ -7859,8 +7831,6 @@ Source: `dist/types/types/stack.d.ts`
 
 ```ts
 export declare class Stack<T> implements StackLike<T> {
-    private capacity;
-    private storage;
     constructor(capacity?: number);
     push(item: T): void;
     pop(): T | undefined;
@@ -8119,7 +8089,6 @@ export declare class Decoder {
     readTimestamp(): number;
     readVarInt(): number;
     readBigInt(): number;
-    private readBigIntAsBigInt;
     readBigIntAccurate(): string;
     readVmObject(): string | number | boolean | Record<string, unknown>;
 }
@@ -8457,7 +8426,6 @@ export declare class ScriptBuilder {
     emitBigInteger(value: string): this;
     emitAddress(textAddress: string): this;
     rawString(value: string): number[];
-    private emitLoadBigInt;
     emitLoad(reg: number, obj: ScriptLoadValue): this;
     emitLoadBytes(reg: number, bytes: byte[], type?: VMType): this;
     emitLoadArray(reg: number, obj: unknown[]): this;
@@ -8639,7 +8607,6 @@ Source: `dist/types/vm/utils/disasm-utils.d.ts`
 
 ```ts
 export declare class DisasmUtils {
-    private static PopArgs;
 }
 ```
 
@@ -8674,17 +8641,9 @@ export declare class VMObject implements ISerializable {
     get data(): unknown;
     set data(value: unknown);
     get isEmpty(): boolean;
-    private _localSize;
-    private static readonly TimeFormat;
-    private static readonly MaxArraySize;
     getChildren(): Map<VMObject, VMObject> | null;
     get size(): number;
     constructor();
-    private static bytesFromAny;
-    private static bigIntFromAny;
-    private static serializeToBytes;
-    private static base64Encode;
-    private getArrayValue;
     asTimestamp(): Timestamp;
     asByteArray(): Uint8Array;
     asString(): string;
@@ -8700,7 +8659,6 @@ export declare class VMObject implements ISerializable {
     static isValueType(type: unknown): boolean;
     static isClass(type: unknown): boolean;
     static isInterface(type: unknown): boolean;
-    private static ConvertObjectInternal;
     toArray(arrayElementType: unknown): unknown[];
     toObjectType(type: unknown): unknown;
     toObject(): unknown;

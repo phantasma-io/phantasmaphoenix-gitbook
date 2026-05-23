@@ -302,7 +302,8 @@ broadcast with `PhantasmaRpc::send_transaction(...)` or
 `PhantasmaRpc::send_raw_transaction(...)`.
 
 `SDK_PAYLOAD` is the default payload marker for newly built Rust SDK VM
-transactions: `RS-SDK-v1.0.2`.
+transactions. It is compiled from the crate version as `RS-SDK-v{version}`;
+in version `1.1.2` the marker is `RS-SDK-v1.1.2`.
 
 Fields:
 

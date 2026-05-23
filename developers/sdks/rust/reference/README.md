@@ -12,9 +12,9 @@ Source baseline:
 | ---- | ----- |
 | Crate | `phantasma-sdk` |
 | Import path | `phantasma_sdk` |
-| Version | `1.0.2` |
+| Version | `1.1.2` |
 | Version constant | `SDK_VERSION` |
-| Source commit | `9b904f43cf702f9a661f7041222dd6a30a5b8979` |
+| Source commit | `3119caab252a7fa4e00308cc46542dbd4d367135` |
 
 ## When To Use These Pages
 

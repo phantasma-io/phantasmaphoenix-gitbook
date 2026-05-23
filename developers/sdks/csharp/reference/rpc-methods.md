@@ -9,7 +9,7 @@ Source baseline:
 | Item | Value |
 | ---- | ----- |
 | Source repo | `phantasmaphoenix-sdk-cs` |
-| Source commit | `820680b38e67109b7f94e1d26058d6933f758b26` |
+| Source commit | `dce8727c12eee10c2750c42f5219811c39bf1405` |
 | Source file | `PhantasmaPhoenix.RPC/src/PhantasmaAPI.cs` |
 
 ## Call Model
@@ -25,6 +25,26 @@ public PhantasmaAPI(string host, RpcClient? rpcClient)
 Most read methods return `Task<T?>`. Methods that adapt paginated RPC responses
 return tuples or `CursorPaginatedResult<T>`. Methods that broadcast transactions
 return the transaction hash text returned by the node.
+
+`RpcClient` generates a per-request JSON-RPC id, rejects missing or mismatched
+response ids, rejects responses that omit `result`, and enforces
+`RpcClient.DefaultMaxResponseBytes`, currently 16 MiB. The constructor accepts
+`maxResponseBytes` when a caller needs a different positive limit.
+
+## Result Models
+
+`PhantasmaAPI` methods decode node responses into models under
+`PhantasmaPhoenix.RPC.Models`.
+
+| Model | Fields and helpers |
+| ---- | ---- |
+| `AccountResult` | `Address`, `Name`, `Stakes`, `Stake`, `Unclaimed`, optional `Relay`, `Validator`, `Storage`, `Balances`, optional `Txs` |
+| `BlockResult` | `Hash`, `PreviousHash`, `Timestamp`, `Height`, `ChainAddress`, `Protocol`, `Txs`, `ValidatorAddress`, `Reward`, optional `Events`, optional `Oracles` |
+| `TransactionResult` | `Hash`, `ChainAddress`, `Timestamp`, `BlockHeight`, `BlockHash`, `Script`, `CarbonTxType`, `CarbonTxData`, `Payload`, optional `DebugComment`, `Events`, `ExtendedEvents`, `Result`, `Fee`, `State`, optional `Signatures`, `Sender`, `GasPayer`, `GasTarget`, `GasPrice`, `GasLimit`, `Expiration` |
+| `ScriptResult` | `Events`, optional `Result`, optional `Error`, `Results`, `Oracles`, optional `State`, optional `Gas` |
+| `TokenResult` | token definition fields, optional `Script`, `Series`, `CarbonId`, optional `Metadata`, optional `TokenSchemas`, optional `External`, optional `Price`, and token-flag helpers |
+| `TokenSeriesResult` | `SeriesId`, `carbonTokenId`, `carbonSeriesId`, `OwnerAddress`, `MaxMint`, `MintCount`, `CurrentSupply`, `MaxSupply`, optional `BurnedSupply`, optional `Mode`, optional `Script`, optional `Methods`, `Metadata` |
+| `TokenDataResult` | NFT id, series, Carbon identifiers, owner/creator, ROM/RAM, status, infusion, and properties |
 
 ## Accounts
 

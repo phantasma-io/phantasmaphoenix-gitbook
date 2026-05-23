@@ -9,7 +9,7 @@ The Go SDK is published as the module
 | ---- | ----------- |
 | Go | `1.25` or newer |
 | Toolchain used by the source repo | `go1.26.2` |
-| Current public tag observed locally | `v0.9.0` |
+| Current public tag observed locally | `v0.10.1` |
 
 Install the module:
 

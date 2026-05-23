@@ -1,15 +1,15 @@
 # Rust SDK Public API Inventory
 
-This page lists public classes, methods, functions, enum values, fields, and
-constants from the cited source baseline. Use it to check exact names when
-working with lower-level SDK APIs.
+This page lists public classes, methods, functions, enum values,
+fields, and constants from the cited source baseline. Use it to check
+exact names when working with lower-level SDK APIs.
 
 Source baseline:
 
 | Item | Value |
 | ---- | ----- |
 | Source repo | `phantasma-sdk-rs` |
-| Source commit | `9b904f43cf702f9a661f7041222dd6a30a5b8979` |
+| Source commit | `3119caab252a7fa4e00308cc46542dbd4d367135` |
 | Scope | public items in `src/**/*.rs` |
 
 ## phantasma_sdk::binary
@@ -894,6 +894,10 @@ impl CarbonReader<'a>: pub fn read_int_array(&mut self, width: u8, signed: bool)
 
 ```rust
 impl CarbonReader<'a>: pub fn read_length(&mut self) -> Result<usize>
+```
+
+```rust
+impl CarbonReader<'a>: pub fn read_length_for(&mut self, element_size: usize) -> Result<usize>
 ```
 
 ```rust
@@ -1806,6 +1810,10 @@ Source: `src/rpc.rs`
 ### Declarations
 
 ```rust
+pub const DEFAULT_MAX_RPC_RESPONSE_BYTES: usize = 16 * 1024 * 1024
+```
+
+```rust
 pub struct AbiEventResult
 ```
 
@@ -1870,6 +1878,10 @@ pub struct DappResult
 ```
 
 ```rust
+pub struct EventExResult
+```
+
+```rust
 pub struct EventResult
 ```
 
@@ -1931,6 +1943,10 @@ pub struct ReceiptResult
 
 ```rust
 pub struct ReqwestTransport
+```
+
+```rust
+pub struct RpcCallResult<T>
 ```
 
 ```rust
@@ -2023,20 +2039,21 @@ pub type VersionResult = BuildInfoResult
 - `AccountResult.pub address: String`
 - `AccountResult.pub balances: Vec<BalanceResult>`
 - `AccountResult.pub name: String`
-- `AccountResult.pub relay: String`
+- `AccountResult.pub relay: Option<String>`
 - `AccountResult.pub stake: String`
 - `AccountResult.pub stakes: StakeResult`
 - `AccountResult.pub storage: StorageResult`
+- `AccountResult.pub txs: Option<Vec<String>>`
 - `AccountResult.pub unclaimed: String`
 - `AccountResult.pub validator: String`
 - `AddressTransactionsResult.pub address: String`
 - `AddressTransactionsResult.pub txs: Vec<TransactionResult>`
 - `ArchiveResult.pub block_count: u64`
-- `ArchiveResult.pub encryption: String`
-- `ArchiveResult.pub hash: String`
-- `ArchiveResult.pub missing_blocks: Vec<u64>`
-- `ArchiveResult.pub name: String`
-- `ArchiveResult.pub owners: Vec<String>`
+- `ArchiveResult.pub encryption: Option<String>`
+- `ArchiveResult.pub hash: Option<String>`
+- `ArchiveResult.pub missing_blocks: Option<Vec<u64>>`
+- `ArchiveResult.pub name: Option<String>`
+- `ArchiveResult.pub owners: Option<Vec<String>>`
 - `ArchiveResult.pub size: u64`
 - `ArchiveResult.pub time: u64`
 - `AuctionResult.pub base_symbol: String`
@@ -2057,13 +2074,13 @@ pub type VersionResult = BuildInfoResult
 - `BalanceResult.pub amount: String`
 - `BalanceResult.pub chain: String`
 - `BalanceResult.pub decimals: u32`
-- `BalanceResult.pub ids: Vec<String>`
+- `BalanceResult.pub ids: Option<Vec<String>>`
 - `BalanceResult.pub symbol: String`
 - `BlockResult.pub chain_address: String`
-- `BlockResult.pub events: Vec<EventResult>`
+- `BlockResult.pub events: Option<Vec<EventResult>>`
 - `BlockResult.pub hash: String`
 - `BlockResult.pub height: u64`
-- `BlockResult.pub oracles: Vec<OracleResult>`
+- `BlockResult.pub oracles: Option<Vec<OracleResult>>`
 - `BlockResult.pub previous_hash: String`
 - `BlockResult.pub protocol: u32`
 - `BlockResult.pub reward: String`
@@ -2073,13 +2090,13 @@ pub type VersionResult = BuildInfoResult
 - `BuildInfoResult.pub build_time_utc: String`
 - `BuildInfoResult.pub commit: String`
 - `BuildInfoResult.pub version: String`
-- `ChainResult.pub address: String`
-- `ChainResult.pub contracts: Vec<String>`
-- `ChainResult.pub dapps: Vec<String>`
+- `ChainResult.pub address: Option<String>`
+- `ChainResult.pub contracts: Option<Vec<String>>`
+- `ChainResult.pub dapps: Option<Vec<String>>`
 - `ChainResult.pub height: u64`
-- `ChainResult.pub name: String`
-- `ChainResult.pub organization: String`
-- `ChainResult.pub parent: String`
+- `ChainResult.pub name: Option<String>`
+- `ChainResult.pub organization: Option<String>`
+- `ChainResult.pub parent: Option<String>`
 - `ChannelResult.pub active: bool`
 - `ChannelResult.pub balance: String`
 - `ChannelResult.pub chain: String`
@@ -2091,9 +2108,10 @@ pub type VersionResult = BuildInfoResult
 - `ChannelResult.pub symbol: String`
 - `ChannelResult.pub target_address: String`
 - `ContractResult.pub address: String`
-- `ContractResult.pub events: Vec<AbiEventResult>`
-- `ContractResult.pub methods: Vec<AbiMethodResult>`
+- `ContractResult.pub events: Option<Vec<AbiEventResult>>`
+- `ContractResult.pub methods: Option<Vec<AbiMethodResult>>`
 - `ContractResult.pub name: String`
+- `ContractResult.pub owner: Option<String>`
 - `ContractResult.pub script: String`
 - `CrowdsaleResult.pub creator: String`
 - `CrowdsaleResult.pub end_date: u64`
@@ -2108,44 +2126,54 @@ pub type VersionResult = BuildInfoResult
 - `CrowdsaleResult.pub start_date: u64`
 - `CrowdsaleResult.pub user_hard_cap: String`
 - `CrowdsaleResult.pub user_soft_cap: String`
-- `CursorPaginatedResult.pub cursor: String`
+- `CursorPaginatedResult.pub cursor: Option<String>`
 - `CursorPaginatedResult.pub result: Option<T>`
 - `DappResult.pub address: String`
 - `DappResult.pub chain: String`
 - `DappResult.pub name: String`
+- `EventExResult.pub address: String`
+- `EventExResult.pub contract: String`
+- `EventExResult.pub data: Value`
+- `EventExResult.pub kind: String`
 - `EventResult.pub address: String`
 - `EventResult.pub contract: String`
 - `EventResult.pub data: String`
 - `EventResult.pub kind: String`
+- `EventResult.pub name: String`
 - `GovernanceResult.pub name: String`
 - `GovernanceResult.pub value: String`
 - `InteropResult.pub external: String`
 - `InteropResult.pub local: String`
-- `LeaderboardResult.pub name: String`
-- `LeaderboardResult.pub rows: Vec<LeaderboardRowResult>`
+- `LeaderboardResult.pub name: Option<String>`
+- `LeaderboardResult.pub rows: Option<Vec<LeaderboardRowResult>>`
 - `LeaderboardRowResult.pub address: String`
 - `LeaderboardRowResult.pub value: String`
-- `NexusResult.pub chains: Vec<ChainResult>`
-- `NexusResult.pub governance: Vec<GovernanceResult>`
-- `NexusResult.pub name: String`
-- `NexusResult.pub organizations: Vec<String>`
-- `NexusResult.pub platforms: Vec<PlatformResult>`
+- `NexusResult.pub chains: Option<Vec<ChainResult>>`
+- `NexusResult.pub governance: Option<Vec<GovernanceResult>>`
+- `NexusResult.pub name: Option<String>`
+- `NexusResult.pub organizations: Option<Vec<String>>`
+- `NexusResult.pub platforms: Option<Vec<PlatformResult>>`
 - `NexusResult.pub protocol: u32`
-- `NexusResult.pub tokens: Vec<TokenResult>`
+- `NexusResult.pub tokens: Option<Vec<TokenResult>>`
+- `NftResult.pub carbon_nft_address: String`
+- `NftResult.pub carbon_series_id: String`
+- `NftResult.pub carbon_token_id: String`
 - `NftResult.pub chain_name: String`
 - `NftResult.pub creator_address: String`
 - `NftResult.pub id: String`
+- `NftResult.pub infusion: Vec<TokenPropertyResult>`
 - `NftResult.pub mint: String`
 - `NftResult.pub owner_address: String`
+- `NftResult.pub properties: Vec<TokenPropertyResult>`
 - `NftResult.pub ram: String`
 - `NftResult.pub rom: String`
 - `NftResult.pub series: String`
 - `NftResult.pub status: String`
 - `OracleResult.pub content: String`
 - `OracleResult.pub url: String`
-- `OrganizationResult.pub id: String`
-- `OrganizationResult.pub members: Vec<String>`
-- `OrganizationResult.pub name: String`
+- `OrganizationResult.pub id: Option<String>`
+- `OrganizationResult.pub members: Option<Vec<String>>`
+- `OrganizationResult.pub name: Option<String>`
 - `PaginatedResult.pub page: u32`
 - `PaginatedResult.pub page_size: u32`
 - `PaginatedResult.pub result: Option<T>`
@@ -2178,12 +2206,21 @@ pub type VersionResult = BuildInfoResult
 - `ReceiptResult.pub script: String`
 - `ReceiptResult.pub sender: String`
 - `ReceiptResult.pub timestamp: u64`
+- `RpcCallResult.pub canonical_envelope_bytes: usize`
+- `RpcCallResult.pub canonical_result_bytes: usize`
+- `RpcCallResult.pub endpoint: String`
+- `RpcCallResult.pub http_status: u16`
+- `RpcCallResult.pub method: String`
+- `RpcCallResult.pub raw_envelope: Value`
+- `RpcCallResult.pub raw_result: Value`
+- `RpcCallResult.pub value: T`
+- `ScriptResult.pub error: Option<String>`
 - `ScriptResult.pub events: Vec<EventResult>`
-- `ScriptResult.pub gas: String`
+- `ScriptResult.pub gas: Option<String>`
 - `ScriptResult.pub oracles: Vec<OracleResult>`
 - `ScriptResult.pub result: String`
 - `ScriptResult.pub results: Vec<String>`
-- `ScriptResult.pub state: String`
+- `ScriptResult.pub state: Option<String>`
 - `SignatureResult.pub data: String`
 - `SignatureResult.pub kind: String`
 - `StakeResult.pub amount: String`
@@ -2231,43 +2268,52 @@ pub type VersionResult = BuildInfoResult
 - `TokenResult.pub carbon_id: String`
 - `TokenResult.pub current_supply: String`
 - `TokenResult.pub decimals: u32`
-- `TokenResult.pub external: Vec<TokenExternalResult>`
+- `TokenResult.pub external: Option<Vec<TokenExternalResult>>`
 - `TokenResult.pub flags: String`
 - `TokenResult.pub max_supply: String`
-- `TokenResult.pub metadata: Vec<TokenPropertyResult>`
+- `TokenResult.pub metadata: Option<Vec<TokenPropertyResult>>`
 - `TokenResult.pub name: String`
 - `TokenResult.pub owner: String`
-- `TokenResult.pub price: Vec<TokenPriceResult>`
-- `TokenResult.pub script: String`
+- `TokenResult.pub price: Option<Vec<TokenPriceResult>>`
+- `TokenResult.pub script: Option<String>`
 - `TokenResult.pub series: Vec<TokenSeriesResult>`
 - `TokenResult.pub symbol: String`
 - `TokenResult.pub token_schemas: Option<TokenSchemasResult>`
 - `TokenSchemasResult.pub ram: VmStructSchemaResult`
 - `TokenSchemasResult.pub rom: VmStructSchemaResult`
 - `TokenSchemasResult.pub series_metadata: VmStructSchemaResult`
-- `TokenSeriesResult.pub burned_supply: String`
+- `TokenSeriesResult.pub burned_supply: Option<String>`
 - `TokenSeriesResult.pub carbon_series_id: String`
 - `TokenSeriesResult.pub carbon_token_id: String`
 - `TokenSeriesResult.pub current_supply: String`
 - `TokenSeriesResult.pub max_mint: String`
 - `TokenSeriesResult.pub max_supply: String`
 - `TokenSeriesResult.pub metadata: Vec<TokenPropertyResult>`
-- `TokenSeriesResult.pub methods: Vec<AbiMethodResult>`
+- `TokenSeriesResult.pub methods: Option<Vec<AbiMethodResult>>`
 - `TokenSeriesResult.pub mint_count: String`
-- `TokenSeriesResult.pub mode: String`
+- `TokenSeriesResult.pub mode: Option<String>`
 - `TokenSeriesResult.pub owner_address: String`
-- `TokenSeriesResult.pub script: String`
+- `TokenSeriesResult.pub script: Option<String>`
 - `TokenSeriesResult.pub series_id: String`
 - `TransactionResult.pub block_hash: String`
 - `TransactionResult.pub block_height: u64`
+- `TransactionResult.pub carbon_tx_data: String`
+- `TransactionResult.pub carbon_tx_type: u32`
 - `TransactionResult.pub chain_address: String`
+- `TransactionResult.pub debug_comment: Option<String>`
 - `TransactionResult.pub events: Vec<EventResult>`
 - `TransactionResult.pub expiration: u64`
+- `TransactionResult.pub extended_events: Vec<EventExResult>`
 - `TransactionResult.pub fee: String`
+- `TransactionResult.pub gas_limit: String`
+- `TransactionResult.pub gas_payer: String`
+- `TransactionResult.pub gas_price: String`
+- `TransactionResult.pub gas_target: String`
 - `TransactionResult.pub hash: String`
 - `TransactionResult.pub payload: String`
 - `TransactionResult.pub result: String`
 - `TransactionResult.pub script: String`
+- `TransactionResult.pub sender: String`
 - `TransactionResult.pub signatures: Vec<SignatureResult>`
 - `TransactionResult.pub state: String`
 - `TransactionResult.pub timestamp: u64`
@@ -2307,6 +2353,10 @@ impl PhantasmaRpc<ReqwestTransport>: pub fn testnet() -> Self
 ```
 
 ```rust
+impl PhantasmaRpc<ReqwestTransport>: pub fn with_max_response_bytes(mut self, max_response_bytes: usize) -> Self
+```
+
+```rust
 impl PhantasmaRpc<T>: pub async fn build_sign_send_tx_msg(
 ```
 
@@ -2316,6 +2366,14 @@ impl PhantasmaRpc<T>: pub async fn call<R: DeserializeOwned>(&self, method: &str
 
 ```rust
 impl PhantasmaRpc<T>: pub async fn call_value(&self, method: &str, params: Vec<Value>) -> Result<Value>
+```
+
+```rust
+impl PhantasmaRpc<T>: pub async fn call_value_with_raw(
+```
+
+```rust
+impl PhantasmaRpc<T>: pub async fn call_with_raw<R: DeserializeOwned>(
 ```
 
 ```rust
@@ -2399,11 +2457,23 @@ impl PhantasmaRpc<T>: pub async fn get_block_by_hash(&self, hash: &str) -> Resul
 ```
 
 ```rust
+impl PhantasmaRpc<T>: pub async fn get_block_by_hash_with_raw(
+```
+
+```rust
 impl PhantasmaRpc<T>: pub async fn get_block_by_height(&self, chain: &str, height: u64) -> Result<BlockResult>
 ```
 
 ```rust
+impl PhantasmaRpc<T>: pub async fn get_block_by_height_with_raw(
+```
+
+```rust
 impl PhantasmaRpc<T>: pub async fn get_block_height(&self, chain: &str) -> Result<u64>
+```
+
+```rust
+impl PhantasmaRpc<T>: pub async fn get_block_height_with_raw(&self, chain: &str) -> Result<RpcCallResult<u64>>
 ```
 
 ```rust
@@ -2440,6 +2510,10 @@ impl PhantasmaRpc<T>: pub async fn get_contracts(&self, chain: &str, extended: b
 
 ```rust
 impl PhantasmaRpc<T>: pub async fn get_latest_block(&self, chain: &str) -> Result<BlockResult>
+```
+
+```rust
+impl PhantasmaRpc<T>: pub async fn get_latest_block_with_raw(
 ```
 
 ```rust
@@ -2555,6 +2629,14 @@ impl PhantasmaRpc<T>: pub async fn get_transaction_by_block_hash_and_index_on_ch
 ```
 
 ```rust
+impl PhantasmaRpc<T>: pub async fn get_transaction_by_block_hash_and_index_with_raw(
+```
+
+```rust
+impl PhantasmaRpc<T>: pub async fn get_transaction_with_raw(
+```
+
+```rust
 impl PhantasmaRpc<T>: pub async fn get_version(&self) -> Result<VersionResult>
 ```
 
@@ -2635,6 +2717,10 @@ impl PhantasmaRpc<T>: pub fn with_transport(endpoint: impl Into<String>, transpo
 ```
 
 ```rust
+impl RpcCallResult<T>: pub fn map_value<U>(self, value: U) -> RpcCallResult<U>
+```
+
+```rust
 impl ScriptResult: pub fn decode_result(&self) -> Result<VMObject>
 ```
 
@@ -2706,6 +2792,10 @@ pub fn convert_decimals(amount: &str, decimals: u32) -> String
 pub fn parse_json_rpc_response(status: u16, body: Value) -> Result<Value>
 ```
 
+```rust
+pub fn parse_json_rpc_response_for_request( status: u16, body: Value, expected_request_id: u64, ) -> Result<Value>
+```
+
 ## phantasma_sdk::transaction
 
 Source: `src/transaction.rs`
@@ -2713,7 +2803,7 @@ Source: `src/transaction.rs`
 ### Declarations
 
 ```rust
-pub const SDK_PAYLOAD: &[u8] = b"RS-SDK-v1.0.2"
+pub const SDK_PAYLOAD: &[u8] = concat!("RS-SDK-v", env!("CARGO_PKG_VERSION")).as_bytes()
 ```
 
 ```rust

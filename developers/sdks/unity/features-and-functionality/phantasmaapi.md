@@ -13,7 +13,7 @@
 #### Method Notes
 
 * All RPC methods accept an optional `Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback` plus optional `timeout` and `retries` arguments.
-* Some block-hash methods provide both main-chain defaults and explicit `chainAddressOrName` overloads. In the cited Unity SDK source baseline, `GetTransactionByBlockHashAndIndex` only exposes the main-chain overload.
+* Block-hash methods provide both main-chain defaults and explicit `chainAddressOrName` overloads for transaction counts and transaction-by-block-position reads.
 * The Unity wrappers for Chain, Leaderboard, Nexus, Organization, and Storage exist, but the current RPC backend still returns stubbed/default data for those endpoint groups.
 
 #### Methods
@@ -45,6 +45,7 @@
 * `public IEnumerator GetBlockByHeight(string chainInput, long height, Action<BlockResult> callback, ...);`
 * `public IEnumerator GetLatestBlock(string chainInput, Action<BlockResult> callback, ...);`
 * `public IEnumerator GetTransactionByBlockHashAndIndex(string blockHash, int index, Action<TransactionResult> callback, ...);`
+* `public IEnumerator GetTransactionByBlockHashAndIndex(string chainAddressOrName, string blockHash, int index, Action<TransactionResult> callback, ...);`
 
 **Chain**
 

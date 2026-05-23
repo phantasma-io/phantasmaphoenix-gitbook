@@ -16,6 +16,10 @@ as `getRandomPhantasmaId`.
 | `SmallString` | One-byte-length UTF-8 string value. |
 | `IntX` | Carbon signed integer wrapper. |
 
+`CarbonBinaryReader` rejects negative Carbon array lengths and rejects fixed-
+width array lengths whose required bytes exceed the remaining input before it
+allocates result arrays.
+
 ## Enums, Flags, And Message Types
 
 | API | Purpose |

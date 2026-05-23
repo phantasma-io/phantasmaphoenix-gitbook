@@ -46,7 +46,7 @@ older page/page-size endpoints such as auctions and address transaction history.
 | `BalanceResult` | `Chain`, `Amount`, `Symbol`, `Decimals`, `Ids`; helpers: `Clone`, `ConvertDecimals`, `ConvertDecimalsToFloat` |
 | `StakeResult` | `Amount`, `Time`, `Unclaimed`; helpers: decimal formatting |
 | `StorageResult` | `Available`, `Used`, `Avatar`, `Archives` |
-| `AccountResult` | `Address`, `Name`, `Stakes`, `Stake`, `Unclaimed`, `Relay`, `Validator`, `Storage`, `Balances`; helpers: `Clone`, `GetTokenBalance` |
+| `AccountResult` | `Address`, `Name`, `Stakes`, `Stake`, `Unclaimed`, optional `Relay`, `Validator`, `Storage`, `Balances`, optional `Txs`; helpers: `Clone`, `GetTokenBalance` |
 | `AddressTransactionsResult` | `Address`, `Txs` |
 
 ## Chain, Nexus, And Organization Models
@@ -69,9 +69,9 @@ older page/page-size endpoints such as auctions and address transaction history.
 | `EventResult` | `Address`, `Contract`, `Kind`, `Data` |
 | `OracleResult` | `URL`, `Content` |
 | `SignatureResult` | `Kind`, `Data` |
-| `TransactionResult` | `Hash`, `ChainAddress`, `Timestamp`, `BlockHeight`, `BlockHash`, `Script`, `Payload`, `Events`, `State`, `Result`, `Fee`, `Signatures`, `Expiration`; helpers: `StateIsSuccess`, `StateIsFault` |
-| `BlockResult` | `Hash`, `PreviousHash`, `Timestamp`, `Height`, `ChainAddress`, `Protocol`, `Txs`, `ValidatorAddress`, `Reward`, `Events`, `Oracles` |
-| `ScriptResult` | `Events`, `Result`, `Results`, `Oracles`; helpers: VM result decoding |
+| `TransactionResult` | `Hash`, `ChainAddress`, `Timestamp`, `BlockHeight`, `BlockHash`, `Script`, `Payload`, `CarbonTxType`, `CarbonTxData`, optional `DebugComment`, `Events`, `ExtendedEvents`, `State`, `Result`, `Fee`, `Signatures`, `Sender`, `GasPayer`, `GasTarget`, `GasPrice`, `GasLimit`, `Expiration`; helpers: `StateIsSuccess`, `StateIsFault` |
+| `BlockResult` | `Hash`, `PreviousHash`, `Timestamp`, `Height`, `ChainAddress`, `Protocol`, `Txs`, `ValidatorAddress`, `Reward`, optional `Events`, optional `Oracles` |
+| `ScriptResult` | `Events`, `Result`, `Results`, `Oracles`, optional `Error`, optional `State`, optional `Gas`; helpers: VM result decoding |
 
 ## Token, NFT, Schema, And Price Models
 
@@ -84,8 +84,8 @@ older page/page-size endpoints such as auctions and address transaction history.
 | `VMNamedVariableSchemaResult` | `Name`, `Schema` |
 | `VMStructSchemaResult` | `Fields`, `Flags` |
 | `TokenSchemasResult` | `SeriesMetadata`, `Rom`, `Ram` |
-| `TokenSeriesResult` | `SeriesID`, `CarbonTokenID`, `CarbonSeriesID`, owner and supply fields, `Mode`, `Script`, `Methods`, `Metadata` |
-| `TokenResult` | token definition fields, `CarbonID`, metadata, schemas, external mappings, price rows; helpers: `IsBurnable`, `IsDivisible`, `IsFiat`, `IsFinite`, `IsFuel`, `IsFungible`, `IsMintable`, `IsStakable`, `IsTransferable` |
+| `TokenSeriesResult` | `SeriesID`, `CarbonTokenID`, `CarbonSeriesID`, owner and supply fields, optional `BurnedSupply`, optional `Mode`, optional `Script`, optional `Methods`, `Metadata` |
+| `TokenResult` | token definition fields, `CarbonID`, optional metadata, schemas, external mappings, price rows; helpers: `IsBurnable`, `IsDivisible`, `IsFiat`, `IsFinite`, `IsFuel`, `IsFungible`, `IsMintable`, `IsStakable`, `IsTransferable` |
 | `TokenDataResult` | NFT id, series, Carbon identifiers, owner/creator, ROM/RAM, status, infusion, properties |
 
 Keep token definition, series metadata, and NFT instance data separate in
@@ -98,7 +98,7 @@ application storage. They have different identities and update paths.
 | `ABIParameterResult`, `ABIMethodResult`, `ABIEventResult` | Contract ABI field, method, and event shapes. |
 | `ContractResult` | `Name`, `Address`, `Script`, `Methods`, `Events` |
 | `AuctionResult` | creator/chain addresses, dates, base/quote symbols, token id, prices, type, ROM/RAM, listing fee, current winner |
-| `ArchiveResult` | `Name`, `Hash`, `Time`, `Size`, `Encryption`, `BlockCount`, `MissingBlocks`, `Owners` |
+| `ArchiveResult` | optional `Name`, optional `Hash`, `Time`, `Size`, optional `Encryption`, `BlockCount`, optional `MissingBlocks`, optional `Owners` |
 | `BuildInfoResult` | `Version`, `Commit`, `BuildTimeUTC` |
 | `PhantasmaVMConfigResult` | stored flag, feature level, gas settings, and deploy fuel setting |
 

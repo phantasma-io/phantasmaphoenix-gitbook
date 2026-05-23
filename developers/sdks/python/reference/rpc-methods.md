@@ -26,12 +26,15 @@ Common parameters:
 
 | API | Purpose and parameters | Returns and failures | Use it when |
 | --- | ---------------------- | -------------------- | ----------- |
-| `PhantasmaRPC(endpoint, session=None, timeout=30.0)` | Creates a typed RPC client for `endpoint`. `session` can be a requests-compatible object for tests or custom transport; `timeout` is passed to `session.post`. | Returns a client. Construction itself does not call the node. Later calls raise `RPCError` for transport or JSON-RPC failures. | Application code has an explicit RPC URL, including local nodes and private infrastructure. |
+| `PhantasmaRPC(endpoint, session=None, timeout=30.0, max_response_bytes=DEFAULT_MAX_RPC_RESPONSE_BYTES)` | Creates a typed RPC client for `endpoint`. `session` can be a requests-compatible object for tests or custom transport; `timeout` is passed to `session.post`; `max_response_bytes` limits response bodies. | Returns a client. Construction itself does not call the node. Later calls raise `RPCError` for transport or JSON-RPC failures. | Application code has an explicit RPC URL, including local nodes and private infrastructure. |
 | `PhantasmaRPC.mainnet()` | Creates a client for `https://pharpc1.phantasma.info/rpc`. | Returns `PhantasmaRPC`. | A script or tool intentionally targets the default public mainnet endpoint. |
 | `PhantasmaRPC.testnet()` | Creates a client for `https://testnet.phantasma.info/rpc`. | Returns `PhantasmaRPC`. | A script or tool intentionally targets the default public testnet endpoint. |
 | `PhantasmaRPC.call(method, *params)` | Sends a raw positional JSON-RPC call through the typed client's underlying `JsonRpcClient`. | Returns the raw `result` value. Raises `RPCError` for transport, JSON, JSON-RPC, id, or missing-result failures. | A node method is needed before the SDK has a typed wrapper. Prefer typed wrappers when they exist. |
-| `JsonRpcClient(endpoint, session=None, timeout=30.0)` | Low-level JSON-RPC 2.0 client used by `PhantasmaRPC`. It tracks request ids and validates response objects. | Returns a raw client. Later calls return raw `result` values or raise `RPCError`. | You are implementing a new wrapper or testing transport behavior directly. |
+| `JsonRpcClient(endpoint, session=None, timeout=30.0, max_response_bytes=DEFAULT_MAX_RPC_RESPONSE_BYTES)` | Low-level JSON-RPC 2.0 client used by `PhantasmaRPC`. It tracks request ids, validates response objects, and enforces the response-size limit. | Returns a raw client. Later calls return raw `result` values or raise `RPCError`. | You are implementing a new wrapper or testing transport behavior directly. |
 | `JsonRpcClient.call(method, *params)` | Sends `{"jsonrpc": "2.0", "id": <string>, "method": method, "params": list(params)}`. | Returns raw `result`. Raises `RPCError` if the response is not an object, has a mismatched id, contains `error`, or omits `result`. | Wrapper code needs raw JSON-RPC without typed dataclass decoding. |
+
+`DEFAULT_MAX_RPC_RESPONSE_BYTES` is 16 MiB. Passing a non-positive
+`max_response_bytes` value fails at client construction.
 
 Example:
 

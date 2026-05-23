@@ -21,6 +21,10 @@ The C++ Carbon API follows the repository's macro-based error model. Reader and
 writer failures are surfaced through the SDK exception macro path rather than
 per-method `std::error_code` returns.
 
+`ReadLengthFor(ReadView&, elementSize)` rejects negative Carbon array lengths,
+non-positive element sizes, and fixed-width array lengths whose required bytes
+exceed the remaining input.
+
 ## Token And Schema Structures
 
 | Structure | Purpose |

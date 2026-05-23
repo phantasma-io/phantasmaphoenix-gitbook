@@ -12,8 +12,8 @@ Source baseline:
 | ---- | ----- |
 | Package | `phantasma-sdk-py` |
 | Import namespace | `phantasma_py` |
-| Version | `2.0.3` |
-| Source commit | `559fd95ed1267b214a92a958283fceacb0c9d029` |
+| Version | `2.1.1` |
+| Source commit | `88c14709ab6662adeceb36b87f0f247fe043af4e` |
 
 ## When To Use These Pages
 

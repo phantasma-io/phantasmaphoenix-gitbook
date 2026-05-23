@@ -26,11 +26,11 @@ Keep passing the returned cursor with the same filters until it is empty.
 
 | Type | Fields |
 | ---- | ------ |
-| `Balance` | chain, amount, symbol, decimals, ids. |
-| `Stake` | amount, time, unclaimed. |
-| `Storage` | available, used, avatar, archives. |
-| `Account` | address, name, stake/stakes, relay, validator, storage, balances. |
-| `AccountTransactions` | address and transaction rows. |
+| `Balance` | `chain`, `amount`, `symbol`, `decimals`, optional `ids`. |
+| `Stake` | `amount`, `time`, `unclaimed`. |
+| `Storage` | `available`, `used`, `avatar`, `archives`. |
+| `Account` | `address`, `name`, `stakes`, `stake`, `unclaimed`, optional `relay`, `validator`, `storage`, `balances`, optional `txs`. |
+| `AccountTransactions` | `address`, `txs`. |
 
 ## Chain, Contract, And Organization Models
 
@@ -50,9 +50,9 @@ Keep passing the returned cursor with the same filters until it is empty.
 | `RpcEvent`, `EventExtended`, `EventExtendedTyped` | Event address, contract, kind, data, and typed extension fields. |
 | `Oracle` | URL and content fields. |
 | `SignatureResult` | signature kind and data. |
-| `TransactionData` | hash, chain address, timestamp, block position, script, payload, events, state, result, fee, signatures, expiration. |
-| `Block` | hash, previous hash, timestamp, height, chain address, protocol, transactions, validator, reward, events, oracles. |
-| `Script` | read-only VM invocation result fields. |
+| `TransactionData` | `hash`, `chainAddress`, `timestamp`, `blockHeight`, `blockHash`, `script`, `payload`, `carbonTxType`, `carbonTxData`, `events`, optional `extendedEvents`, `result`, optional `debugComment`, `fee`, `state`, `signatures`, `sender`, `gasPayer`, `gasTarget`, `gasPrice`, `gasLimit`, `expiration`. |
+| `Block` | `hash`, `previousHash`, `timestamp`, `height`, `chainAddress`, `protocol`, `txs`, `validatorAddress`, `reward`, optional `events`, optional `oracles`. |
+| `Script` | `events`, `result`, `results`, `oracles`, optional `error`. |
 
 Use `decodeVMObject` or `Decoder` helpers where a script result contains VM
 object bytes.
@@ -61,9 +61,9 @@ object bytes.
 
 | Type | Fields |
 | ---- | ------ |
-| `Token` | token definition, flags, supplies, owner, script, series, Carbon id, metadata, schemas, external mappings, prices. |
-| `TokenData` / `NFT` | NFT id, series, Carbon ids, owner/creator, ROM, RAM, status, infusion, properties. |
-| `TokenSeries`, `TokenSeriesResult` | series identifiers, owner, supplies, mode, methods, metadata. |
+| `Token` | `symbol`, `name`, `decimals`, `currentSupply`, `maxSupply`, `burnedSupply`, `address`, `owner`, `flags`, optional `script`, `series`, `carbonId`, optional `metadata`, optional `tokenSchemas`, optional `external`, optional `price`. |
+| `TokenData` / `NFT` | `id`, `series`, `carbonTokenId`, `carbonSeriesId`, `carbonNftAddress`, `mint`, `chainName`, `ownerAddress`, `creatorAddress`, `ram`, `rom`, `status`, `infusion`, `properties`. |
+| `TokenSeries`, `TokenSeriesResult` | `seriesId`, `carbonTokenId`, `carbonSeriesId`, `ownerAddress`, `maxMint`, `mintCount`, `currentSupply`, `maxSupply`, optional `burnedSupply`, optional `mode`, optional `script`, optional `methods`, `metadata`. |
 | `TokenSchemasResult`, `VmStructSchemaResult`, `VmVariableSchemaResult`, `VmNamedVariableSchemaResult` | RPC schema shape. |
 | `TokenExternal`, `TokenPrice` | external mappings and price rows. |
 
@@ -75,7 +75,7 @@ Convert RPC schema payloads with `vmStructSchemaFromRpcResult` and
 | Type | Use |
 | ---- | --- |
 | `Auction` | Marketplace listing data. |
-| `Archive` | Storage archive metadata. |
+| `Archive` | optional `name`, optional `hash`, `time`, `size`, optional `encryption`, `blockCount`, optional `missingBlocks`, optional `owners`. |
 | `BuildInfoResult` | Node version, commit, and build time. |
 | `PhantasmaVmConfig` | VM gas and deployment configuration values. |
 | `Peer`, `Validator`, `Swap`, `Receipt`, `Channel`, `Dapp` | Explorer, status, and operational tooling data. |

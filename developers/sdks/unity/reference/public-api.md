@@ -1,15 +1,15 @@
 # Unity SDK Public API Inventory
 
-This page lists public classes, methods, functions, enum values, fields, and
-constants from the cited source baseline. Use it to check exact names when
-working with lower-level SDK APIs.
+This page lists public classes, methods, functions, enum values,
+fields, and constants from the cited source baseline. Use it to check
+exact names when working with lower-level SDK APIs.
 
 Source baseline:
 
 | Item | Value |
 | ---- | ----- |
 | Source repo | `phantasma-sdk-unity` |
-| Source commit | `a8e093654d682de6fd0b7568f036d22b5d6ab69e` |
+| Source commit | `2706c004fe1cf9f3919724c6522990ae803584d8` |
 | Scope | public runtime symbols in Unity Core and LinkClient packages |
 
 ## PhantasmaPhoenix.Unity.Core.Logging.Log
@@ -201,6 +201,14 @@ public IEnumerator GetBlockTransactionCountByHash(string chainAddressOrName, str
 ```
 
 ```csharp
+public IEnumerator GetChain(Action<ChainResult> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
+```
+
+```csharp
+public IEnumerator GetChain(string name, bool extended, Action<ChainResult> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
+```
+
+```csharp
 public IEnumerator GetChains(Action<ChainResult[]> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
 ```
 
@@ -314,6 +322,10 @@ public IEnumerator GetTransaction(string hashText, Action<TransactionResult> cal
 
 ```csharp
 public IEnumerator GetTransactionByBlockHashAndIndex(string blockHash, int index, Action<TransactionResult> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
+```
+
+```csharp
+public IEnumerator GetTransactionByBlockHashAndIndex(string chainAddressOrName, string blockHash, int index, Action<TransactionResult> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
 ```
 
 ```csharp

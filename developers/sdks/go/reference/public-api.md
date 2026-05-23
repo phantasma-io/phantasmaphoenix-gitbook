@@ -1,15 +1,15 @@
 # Go SDK Public API Inventory
 
-This page lists public classes, methods, functions, enum values, fields, and
-constants from the cited source baseline. Use it to check exact names when
-working with lower-level SDK APIs.
+This page lists public classes, methods, functions, enum values,
+fields, and constants from the cited source baseline. Use it to check
+exact names when working with lower-level SDK APIs.
 
 Source baseline:
 
 | Item | Value |
 | ---- | ----- |
 | Source repo | `phantasma-sdk-go` |
-| Source commit | `7630d54796b8dd23655b39fa01109e4bfc08461b` |
+| Source commit | `6f3a4dd7223fc26f2af5e109dd97a7faccfbd185` |
 | Scope | exported identifiers in non-test Go files under `pkg/**` |
 
 ## github.com/phantasma-io/phantasma-sdk-go/pkg/blockchain
@@ -1586,6 +1586,10 @@ func (r *Reader) ReadLength() int
 ```
 
 ```go
+func (r *Reader) ReadLengthFor(elementSize int) int
+```
+
+```go
 func (r *Reader) ReadRaw(count int) []byte
 ```
 
@@ -2662,7 +2666,11 @@ Source: `pkg/domain`
 ### Declarations
 
 ```go
-var SDKPayload []byte = []byte("GO-SDK-v0.9.0")
+const SDKVersion = "0.10.1"
+```
+
+```go
+var SDKPayload []byte = []byte("GO-SDK-v" + SDKVersion)
 ```
 
 ## github.com/phantasma-io/phantasma-sdk-go/pkg/domain/contract
@@ -3657,6 +3665,10 @@ Source: `pkg/jsonrpc`
 ### Declarations
 
 ```go
+const DefaultMaxResponseBytes = 16 * 1024 * 1024
+```
+
+```go
 type HTTPError struct {
 ```
 
@@ -3701,6 +3713,7 @@ type RPCResponses []*RPCResponse
 - `ID      int         `json:"id"``
 - `ID      string      `json:"id"``
 - `JSONRPC string      `json:"jsonrpc"``
+- `MaxResponseBytes   int64`
 - `Message string      `json:"message"``
 - `Method  string      `json:"method"``
 - `Params  interface{} `json:"params,omitempty"``
@@ -3770,6 +3783,10 @@ func (res RPCResponses) GetByID(id int) *RPCResponse
 
 ```go
 func (res RPCResponses) HasError() bool
+```
+
+```go
+func (result *rpcResponseResult) UnmarshalJSON(data []byte) error
 ```
 
 ```go
@@ -4191,6 +4208,10 @@ type ErrorResult struct {
 ```
 
 ```go
+type EventExResult struct {
+```
+
+```go
 type EventResult struct {
 ```
 
@@ -4318,8 +4339,9 @@ type ValidatorResult struct {
 
 - `Active         bool   `json:"active"``
 - `Address       string                `json:"address"``
-- `Address      string   `json:"address"``
+- `Address      *string  `json:"address,omitempty"``
 - `Address   string          `json:"address"``
+- `Address  string      `json:"address"``
 - `Address  string `json:"address"``
 - `Address string              `json:"address"``
 - `Address string            `json:"address"``
@@ -4333,10 +4355,10 @@ type ValidatorResult struct {
 - `Balances  []BalanceResult `json:"balances"``
 - `BaseSymbol      string `json:"baseSymbol"``
 - `BlockCount    int      `json:"blockCount"``
-- `BlockHash    string            `json:"blockHash"``
-- `BlockHeight  int               `json:"blockHeight"``
+- `BlockHash      string            `json:"blockHash"``
+- `BlockHeight    int               `json:"blockHeight"``
 - `BuildTimeUTC string `json:"buildTimeUtc"``
-- `BurnedSupply   string                `json:"burnedSupply"``
+- `BurnedSupply   *string               `json:"burnedSupply,omitempty"``
 - `BurnedSupply  string                `json:"burnedSupply"``
 - `CarbonID      string                `json:"carbonId"``
 - `CarbonNFTAddress string                `json:"carbonNftAddress"``
@@ -4344,21 +4366,24 @@ type ValidatorResult struct {
 - `CarbonSeriesID string                `json:"carbonSeriesId"``
 - `CarbonTokenID    string                `json:"carbonTokenId"``
 - `CarbonTokenID  string                `json:"carbonTokenId"``
+- `CarbonTxData   string            `json:"carbonTxData"``
+- `CarbonTxType   uint32            `json:"carbonTxType"``
 - `Chain          string `json:"chain"``
 - `Chain    string          `json:"chain"``
 - `Chain    string   `json:"chain"``
 - `Chain   string `json:"chain"``
 - `ChainAddress     string              `json:"chainAddress"``
 - `ChainAddress    string `json:"chainAddress"``
-- `ChainAddress string            `json:"chainAddress"``
+- `ChainAddress   string            `json:"chainAddress"``
 - `ChainName        string                `json:"chainName"``
-- `Chains        []ChainResult      `json:"chains"``
+- `Chains        []ChainResult      `json:"chains,omitempty"``
 - `Channel   string `json:"channel"``
 - `Close     string `json:"Close"``
 - `Commit       string `json:"commit"``
 - `Content string `json:"content"``
+- `Contract string      `json:"contract"``
 - `Contract string `json:"contract"``
-- `Contracts    []string `json:"contracts"``
+- `Contracts    []string `json:"contracts,omitempty"``
 - `CreationTime   uint   `json:"creationTime"``
 - `Creator       string `json:"creator"``
 - `CreatorAddress   string                `json:"creatorAddress"``
@@ -4367,9 +4392,11 @@ type ValidatorResult struct {
 - `CurrentSupply  string                `json:"currentSupply"``
 - `CurrentSupply string                `json:"currentSupply"``
 - `CurrentWinner   string `json:"currentWinner"``
-- `Dapps        []string `json:"dapps"``
+- `Dapps        []string `json:"dapps,omitempty"``
+- `Data     interface{} `json:"data"``
 - `Data     string `json:"data"``
-- `Data string `json:"Data"``
+- `Data string `json:"data"``
+- `DebugComment   *string           `json:"debugComment,omitempty"``
 - `Decimals      int                   `json:"decimals"``
 - `Decimals uint     `json:"decimals"``
 - `Description string `json:"description"``
@@ -4377,22 +4404,24 @@ type ValidatorResult struct {
 - `DestinationChain    string `json:"destinationChain"``
 - `DestinationHash     string `json:"destinationHash"``
 - `DestinationPlatform string `json:"destinationPlatform"``
-- `Encryption    string   `json:"encryption"``
+- `Encryption    *string  `json:"encryption,omitempty"``
 - `EndDate         uint   `json:"endDate"``
 - `EndDate       uint   `json:"endDate"``
 - `EndPrice        string `json:"endPrice"``
+- `Error   *string        `json:"error,omitempty"``
 - `Error string `json:"error"``
-- `Events           []EventResult       `json:"events"``
-- `Events       []EventResult     `json:"events"``
-- `Events  []ABIEventResult  `json:"events"``
+- `Events           []EventResult       `json:"events,omitempty"``
+- `Events         []EventResult     `json:"events"``
+- `Events  []ABIEventResult  `json:"events,omitempty"``
 - `Events  []EventResult  `json:"events"``
-- `Expiration   uint              `json:"expiration"``
+- `Expiration     uint              `json:"expiration"``
+- `ExtendedEvents []EventExResult   `json:"extendedEvents"``
 - `ExtensionPeriod string `json:"extensionPeriod"``
-- `External      []TokenExternalResult `json:"external"``
+- `External      []TokenExternalResult `json:"external,omitempty"``
 - `External string `json:"external"``
 - `FeatureLevel          int    `json:"featureLevel"``
+- `Fee            string            `json:"fee"``
 - `Fee            string `json:"fee"``
-- `Fee          string            `json:"fee"``
 - `Fee     string `json:"fee"``
 - `Fields []VMNamedVariableSchemaResult `json:"fields"``
 - `Flags         string                `json:"flags"``
@@ -4401,87 +4430,95 @@ type ValidatorResult struct {
 - `Flags  uint                          `json:"flags"``
 - `Fuel     string          `json:"fuel"``
 - `FuelPerContractDeploy string `json:"fuelPerContractDeploy"``
+- `Gas     *string        `json:"gas,omitempty"``
 - `GasAccount            string `json:"gasAccount"``
 - `GasConstructor        string `json:"gasConstructor"``
 - `GasLeaderboard        string `json:"gasLeaderboard"``
+- `GasLimit       string            `json:"gasLimit"``
 - `GasNexus              string `json:"gasNexus"``
 - `GasOracle             string `json:"gasOracle"``
 - `GasOrganization       string `json:"gasOrganization"``
+- `GasPayer       string            `json:"gasPayer"``
+- `GasPrice       string            `json:"gasPrice"``
 - `GasStandard           string `json:"gasStandard"``
+- `GasTarget      string            `json:"gasTarget"``
 - `GlobalHardCap string `json:"globalHardCap"``
 - `GlobalSoftCap string `json:"globalSoftCap"``
-- `Governance    []GovernanceResult `json:"governance"``
+- `Governance    []GovernanceResult `json:"governance,omitempty"``
 - `Hash             string              `json:"hash"``
-- `Hash          string   `json:"hash"``
+- `Hash           string            `json:"hash"``
+- `Hash          *string  `json:"hash,omitempty"``
 - `Hash          string `json:"hash"``
-- `Hash         string            `json:"hash"``
 - `Hash     string `json:"hash"``
 - `Hash  string `json:"hash"``
 - `Height           uint                `json:"height"``
 - `Height       uint     `json:"height"``
 - `High      string `json:"High"``
-- `ID               string                `json:"ID"``
-- `ID      string   `json:"id"``
-- `Ids      []string `json:"ids"``
+- `ID               string                `json:"id"``
+- `ID      *string  `json:"id,omitempty"``
+- `Ids      []string `json:"ids,omitempty"``
 - `Index          int    `json:"index"``
 - `Index     string `json:"index"``
 - `Infusion         []TokenPropertyResult `json:"infusion"``
 - `Interop  []InteropResult `json:"interop"``
 - `IsStored              bool   `json:"isStored"``
-- `Key   string `json:"Key"``
+- `Key   string `json:"key"``
+- `Kind     string      `json:"kind"``
 - `Kind     string `json:"kind"``
-- `Kind string `json:"Kind"``
+- `Kind string `json:"kind"``
 - `ListingFee      string `json:"listingFee"``
 - `Local    string `json:"local"``
 - `Low       string `json:"Low"``
 - `MaxMint        string                `json:"maxMint"``
 - `MaxSupply      string                `json:"maxSupply"``
 - `MaxSupply     string                `json:"maxSupply"``
-- `Members []string `json:"members"``
+- `Members []string `json:"members,omitempty"``
 - `Metadata       []TokenPropertyResult `json:"metadata"``
-- `Metadata      []TokenPropertyResult `json:"metadata"``
-- `Methods        []ABIMethodResult     `json:"methods"``
-- `Methods []ABIMethodResult `json:"methods"``
+- `Metadata      []TokenPropertyResult `json:"metadata,omitempty"``
+- `Methods        []ABIMethodResult     `json:"methods,omitempty"``
+- `Methods []ABIMethodResult `json:"methods,omitempty"``
 - `Mint             string                `json:"mint"``
 - `MintCount      string                `json:"mintCount"``
-- `MissingBlocks []int    `json:"missingBlocks"``
-- `Mode           string                `json:"mode"``
+- `MissingBlocks []int    `json:"missingBlocks,omitempty"``
+- `Mode           *string               `json:"mode,omitempty"``
 - `Name           string `json:"name"``
+- `Name          *string            `json:"name,omitempty"``
+- `Name          *string  `json:"name,omitempty"``
 - `Name          string                `json:"name"``
-- `Name          string             `json:"name"``
-- `Name          string   `json:"name"``
 - `Name          string `json:"name"``
-- `Name         string   `json:"name"``
+- `Name         *string  `json:"name,omitempty"``
 - `Name        string `json:"name"``
 - `Name       string               `json:"name"``
 - `Name      string          `json:"name"``
+- `Name     string `json:"name"``
+- `Name    *string  `json:"name,omitempty"``
 - `Name    string            `json:"name"``
-- `Name    string   `json:"name"``
 - `Name    string `json:"name"``
 - `Name   string                 `json:"name"``
 - `Name  string `json:"name"``
-- `Name string                 `json:"name"``
+- `Name *string                `json:"name,omitempty"``
 - `Name string `json:"name"``
 - `Nexus     string `json:"nexus"``
 - `Open      string `json:"Open"``
-- `Oracles          []OracleResult      `json:"oracles"``
+- `Oracles          []OracleResult      `json:"oracles,omitempty"``
 - `Oracles []OracleResult `json:"oracles"``
-- `Organization string   `json:"organization"``
-- `Organizations []string           `json:"organizations"``
+- `Organization *string  `json:"organization,omitempty"``
+- `Organizations []string           `json:"organizations,omitempty"``
 - `Owner         string                `json:"owner"``
+- `Owner   *string           `json:"owner,omitempty"``
 - `OwnerAddress     string                `json:"ownerAddress"``
 - `OwnerAddress   string                `json:"ownerAddress"``
-- `Owners        []string `json:"owners"``
+- `Owners        []string `json:"owners,omitempty"``
 - `Parameters []ABIParameterResult `json:"parameters"``
-- `Parent       string   `json:"parent"``
-- `Payload      string            `json:"payload"``
+- `Parent       *string  `json:"parent,omitempty"``
+- `Payload        string            `json:"payload"``
 - `Platform string          `json:"platform"``
 - `Platform string `json:"platform"``
-- `Platforms     []PlatformResult   `json:"platforms"``
+- `Platforms     []PlatformResult   `json:"platforms,omitempty"``
 - `Pow     uint   `json:"pow"``
 - `PreviousHash     string              `json:"previousHash"``
 - `Price           string `json:"price"``
-- `Price         []TokenPriceResult    `json:"price"``
+- `Price         []TokenPriceResult    `json:"price,omitempty"``
 - `Price         uint   `json:"price"``
 - `Properties       []TokenPropertyResult `json:"properties"``
 - `Protocol         uint                `json:"protocol"``
@@ -4495,28 +4532,29 @@ type ValidatorResult struct {
 - `ROM            VMStructSchemaResult `json:"rom"``
 - `ReceiveSymbol string `json:"receiveSymbol"``
 - `Receiver  string `json:"receiver"``
-- `Relay     string          `json:"relay"``
-- `Result       string            `json:"result"``
-- `Result  string         `json:"result"``
+- `Relay     *string         `json:"relay,omitempty"``
+- `Result         string            `json:"result"``
+- `Result  string         `json:"result,omitempty"``
 - `Results []string       `json:"results"``
 - `ReturnType  string `json:"returnType"``
 - `ReturnType string               `json:"returnType"``
 - `Reward           string              `json:"reward"``
-- `Rows []LeaderboardRowResult `json:"rows"``
+- `Rows []LeaderboardRowResult `json:"rows,omitempty"``
 - `Schema *VMStructSchemaResult `json:"schema,omitempty"``
 - `Schema VMVariableSchemaResult `json:"schema"``
-- `Script         string                `json:"script"``
-- `Script        string                `json:"script"``
-- `Script       string            `json:"script"``
+- `Script         *string               `json:"script,omitempty"``
+- `Script         string            `json:"script"``
+- `Script        *string               `json:"script,omitempty"``
 - `Script    string `json:"script"``
 - `Script  string            `json:"script"``
 - `SellSymbol    string `json:"sellSymbol"``
+- `Sender         string            `json:"sender"``
 - `Sender    string `json:"sender"``
 - `Series           string                `json:"series"``
 - `Series        []TokenSeriesResult   `json:"series"``
 - `SeriesID       string                `json:"seriesId"``
 - `SeriesMetadata VMStructSchemaResult `json:"seriesMetadata"``
-- `Signatures   []SignatureResult `json:"signatures"``
+- `Signatures     []SignatureResult `json:"signatures"``
 - `Size          uint     `json:"size"``
 - `SourceAddress       string `json:"sourceAddress"``
 - `SourceChain         string `json:"sourceChain"``
@@ -4526,7 +4564,8 @@ type ValidatorResult struct {
 - `Stakes    StakeResult     `json:"stakes"``
 - `StartDate       uint   `json:"startDate"``
 - `StartDate     uint   `json:"startDate"``
-- `State        string            `json:"state"``
+- `State          string            `json:"state"``
+- `State   *string        `json:"state,omitempty"``
 - `Status           string                `json:"status"``
 - `Storage   StorageResult   `json:"storage"``
 - `Symbol              string `json:"symbol"``
@@ -4537,14 +4576,15 @@ type ValidatorResult struct {
 - `Time          uint     `json:"time"``
 - `Time      uint   `json:"time"``
 - `Timestamp        uint                `json:"timestamp"``
-- `Timestamp    uint              `json:"timestamp"``
+- `Timestamp      uint              `json:"timestamp"``
 - `Timestamp uint   `json:"Timestamp"``
 - `Timestamp uint   `json:"timestamp"``
 - `TokenID         string `json:"tokenId"``
 - `TokenSchemas  *TokenSchemasResult   `json:"tokenSchemas"``
-- `Tokens        []TokenResult      `json:"tokens"``
+- `Tokens        []TokenResult      `json:"tokens,omitempty"``
 - `Tokens   []string        `json:"tokens"``
 - `Txs              []TransactionResult `json:"txs"``
+- `Txs       []string        `json:"txs,omitempty"``
 - `Txs     []TransactionResult `json:"txs"``
 - `Type            string `json:"type"``
 - `Type    string `json:"type"``
@@ -4562,7 +4602,6 @@ type ValidatorResult struct {
 - `Value       int    `json:"value"``
 - `Value   string `json:"value"``
 - `Value interface{} `json:"error"``
-- `Value string `json:"Value"``
 - `Value string `json:"value"``
 - `Version      string `json:"version"``
 - `Version string `json:"version"``
@@ -4590,6 +4629,22 @@ func (b BalanceResult) ConvertDecimalsToFloat() *big.Float
 ```
 
 ```go
+func (e *EventExResult) UnmarshalJSON(data []byte) error
+```
+
+```go
+func (e *EventResult) UnmarshalJSON(data []byte) error
+```
+
+```go
+func (p *TokenPropertyResult) UnmarshalJSON(data []byte) error
+```
+
+```go
+func (s *SignatureResult) UnmarshalJSON(data []byte) error
+```
+
+```go
 func (s ScriptResult) DecodeResultWithError() (*vm.VMObject, error)
 ```
 
@@ -4603,6 +4658,14 @@ func (s StakeResult) ConvertDecimals() string
 
 ```go
 func (s StakeResult) ConvertDecimalsToFloat() *big.Float
+```
+
+```go
+func (t *TokenDataResult) UnmarshalJSON(data []byte) error
+```
+
+```go
+func (t *TokenResult) UnmarshalJSON(data []byte) error
 ```
 
 ```go

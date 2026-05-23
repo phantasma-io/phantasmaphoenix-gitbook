@@ -14,8 +14,8 @@ Go SDK Complete API Reference
 | ---- | ----- |
 | Module | `github.com/phantasma-io/phantasma-sdk-go` |
 | Go | `1.25+` |
-| Current local branch observed | `development` |
-| Current public tag observed | `v0.9.0` |
+| Current local branch observed | `master` |
+| Current public tag observed | `v0.10.1` |
 
 ## `pkg/rpc`
 

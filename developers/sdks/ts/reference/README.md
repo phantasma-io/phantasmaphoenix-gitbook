@@ -10,10 +10,10 @@ Source baseline:
 | Item | Value |
 | ---- | ----- |
 | Package | `phantasma-sdk-ts` |
-| Version | `0.8.2` |
+| Version | `0.9.1` |
 | Runtime | Node `>=22` |
 | Recommended imports | `phantasma-sdk-ts/public`, plus `phantasma-sdk-ts/types` for the complete Carbon helper surface |
-| Source commit | `fbd458026479e02a5caecc6cd8244d7f1e54e504` |
+| Source commit | `a036ed27ef38316ae7ea2f8503838c191131f2bb` |
 
 ## Pages
 

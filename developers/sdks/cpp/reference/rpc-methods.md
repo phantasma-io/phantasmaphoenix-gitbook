@@ -16,6 +16,13 @@ High-level methods return default-constructed values when a parse or RPC
 failure occurs. Pass a `PhantasmaError*` and check it before using the returned
 value. Low-level `Parse...Response` helpers use the same error channel.
 
+Each `Make...Request` helper now assigns a generated JSON-RPC id. Use
+`PhantasmaJsonAPI::UseRequestId(request)` before parsing a response built from
+that request; `Parse...Response` rejects missing or mismatched response ids.
+The bundled cURL and cpprest adapters cap RPC response bodies at
+`PHANTASMA_DEFAULT_MAX_RPC_RESPONSE_BYTES`, currently 16 MiB, unless the adapter
+is configured otherwise.
+
 ## Method Groups
 
 | Group | High-level methods |

@@ -8,7 +8,7 @@ Source baseline:
 | Item | Value |
 | ---- | ----- |
 | Source repo | `phantasmaphoenix-sdk-cs` |
-| Source commit | `820680b38e67109b7f94e1d26058d6933f758b26` |
+| Source commit | `dce8727c12eee10c2750c42f5219811c39bf1405` |
 | Primary project | `PhantasmaPhoenix.Protocol.Carbon` |
 
 ## Wire Blob Model
@@ -31,6 +31,10 @@ void Read(BinaryReader r);
 
 Use `allowTrailingBytes` only for callers that intentionally parse a prefix of
 a larger payload.
+
+`ReadLengthFor(...)` rejects non-positive element sizes, negative Carbon array
+lengths, and fixed-width array lengths whose required bytes exceed the remaining
+seekable stream content.
 
 ## Fixed And Compact Types
 

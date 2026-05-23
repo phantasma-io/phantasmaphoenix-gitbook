@@ -8,13 +8,17 @@ call path. Code that needs explicit result objects can call `JSONRPCResult<T>`.
 
 | API | Purpose |
 | --- | ------- |
-| `new PhantasmaAPI(defHost, peersUrlJson, nexus)` | Creates a client with default host, optional peers URL, and nexus name. |
+| `new PhantasmaAPI(defHost, peersUrlJson, nexus, options?)` | Creates a client with default host, optional peers URL, nexus name, and optional RPC response size limit. |
 | `pingAsync(host)` | Measures endpoint latency. |
 | `setRpcHost(rpcHost)` | Sets the active RPC host directly. |
 | `setRpcByName(rpcName)` | Selects an RPC host by configured name. |
 | `setNexus(nexus)` | Sets the nexus name used by the client. |
+| `setMaxRpcResponseBytes(maxBytes)` | Replaces the maximum accepted JSON-RPC response body size. |
 | `updateRpc()` | Refreshes the active RPC host selection. |
 | `convertDecimals(amount, decimals)` | Decimal conversion helper retained on the client. |
+
+`options.maxRpcResponseBytes` and `setMaxRpcResponseBytes(...)` default to
+`DEFAULT_MAX_RPC_RESPONSE_BYTES`, currently 16 MiB. Values must be positive.
 
 ## Raw JSON-RPC
 
@@ -29,9 +33,13 @@ call path. Code that needs explicit result objects can call `JSONRPCResult<T>`.
 Use typed methods when they exist. Use raw calls for endpoint diagnostics or
 node methods that do not yet have wrappers.
 
-`JSONRPC(...)` unwraps the JSON-RPC response and throws when the endpoint
-returns an error object. `JSONRPCResult(...)` keeps the response as a
-success/error union so callers can inspect node errors without exceptions.
+`JSONRPC(...)` unwraps successful JSON-RPC responses. It returns an
+`{ error: ... }` object when the endpoint returns a JSON-RPC error object, and
+throws when the endpoint omits `result`, returns invalid JSON, exceeds the
+configured response-size limit, or echoes a mismatched JSON-RPC id.
+`JSONRPCResult(...)` keeps the response as a success/error union so callers can
+inspect node errors without exceptions; it uses the same request-id and
+response-size validation.
 
 ## Accounts, Names, And Balances
 
@@ -111,4 +119,4 @@ when a node method should run without that Carbon id filter.
 | `writeArchive(hashText, blockIndex, blockContent)` | Writes archive block content. |
 
 `writeArchive(...)` accepts already encoded block content as a string. The
-TypeScript client does not expose a `readArchive` wrapper in version `0.8.2`.
+TypeScript client does not expose a `readArchive` wrapper in version `0.9.1`.

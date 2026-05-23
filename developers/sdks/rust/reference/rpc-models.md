@@ -66,7 +66,7 @@ inventory queries where the node returns an opaque cursor.
 | `BalanceResult` | `chain`, `amount`, `symbol`, `decimals`, `ids`; helper: `decimal_amount()` |
 | `StakeResult` | `amount`, `time`, `unclaimed`; helper: `decimal_amount()` |
 | `StorageResult` | `available`, `used`, `avatar`, `archives` |
-| `AccountResult` | `address`, `name`, `stakes`, `stake`, `unclaimed`, `relay`, `validator`, `storage`, `balances`; helpers: `token_balance(symbol)`, `get_token_balance(symbol, decimals)` |
+| `AccountResult` | `address`, `name`, `stakes`, `stake`, `unclaimed`, optional `relay`, `validator`, `storage`, `balances`, optional `txs`; helpers: `token_balance(symbol)`, `get_token_balance(symbol, decimals)` |
 | `AddressTransactionsResult` | `address`, `txs` |
 
 `AccountResult::get_token_balance(...)` returns a zero balance entry when the
@@ -103,9 +103,9 @@ inspection flows.
 | `EventResult` | `address`, `contract`, `kind`, `data` |
 | `OracleResult` | `url`, `content` |
 | `SignatureResult` | `kind`, `data` |
-| `TransactionResult` | `hash`, `chain_address`, `timestamp`, `block_height`, `block_hash`, `script`, `payload`, `events`, `state`, `result`, `fee`, `signatures`, `expiration`; helpers: `state_is_success()`, `state_is_fault()` |
-| `BlockResult` | `hash`, `previous_hash`, `timestamp`, `height`, `chain_address`, `protocol`, `txs`, `validator_address`, `reward`, `events`, `oracles` |
-| `ScriptResult` | `events`, `result`, `results`, `oracles`, `state`, `gas`; helpers: `decode_result()`, `decode_results(index)` |
+| `TransactionResult` | `hash`, `chain_address`, `timestamp`, `block_height`, `block_hash`, `script`, `payload`, `carbon_tx_type`, `carbon_tx_data`, optional `debug_comment`, `events`, `extended_events`, `state`, `result`, `fee`, `signatures`, `sender`, `gas_payer`, `gas_target`, `gas_price`, `gas_limit`, `expiration`; helpers: `state_is_success()`, `state_is_fault()` |
+| `BlockResult` | `hash`, `previous_hash`, `timestamp`, `height`, `chain_address`, `protocol`, `txs`, `validator_address`, `reward`, optional `events`, optional `oracles` |
+| `ScriptResult` | `events`, optional `result`, `results`, `oracles`, optional `error`, optional `state`, optional `gas`; helpers: `decode_result()`, `decode_results(index)` |
 
 `ScriptResult::decode_result()` and `decode_results(index)` decode VM object
 bytes with `VMObject`.
@@ -126,8 +126,8 @@ for the single-result path and `results` for indexed VM results.
 | `VmNamedVariableSchemaResult` | `name`, `schema` |
 | `VmStructSchemaResult` | `fields`, `flags` |
 | `TokenSchemasResult` | `series_metadata`, `rom`, `ram` |
-| `TokenSeriesResult` | `series_id`, `carbon_token_id`, `carbon_series_id`, `owner_address`, `max_mint`, `mint_count`, `current_supply`, `max_supply`, `burned_supply`, `mode`, `script`, `methods`, `metadata` |
-| `TokenResult` | `symbol`, `name`, `decimals`, `current_supply`, `max_supply`, `burned_supply`, `address`, `owner`, `flags`, `script`, `series`, `carbon_id`, `metadata`, `token_schemas`, `external`, `price`; helpers: `has_flag`, `is_fungible`, `is_non_fungible`, `is_burnable`, `is_divisible`, `is_fiat`, `is_finite`, `is_fuel`, `is_mintable`, `is_stakable`, `is_transferable` |
+| `TokenSeriesResult` | `series_id`, `carbon_token_id`, `carbon_series_id`, `owner_address`, `max_mint`, `mint_count`, `current_supply`, `max_supply`, optional `burned_supply`, optional `mode`, optional `script`, optional `methods`, `metadata` |
+| `TokenResult` | `symbol`, `name`, `decimals`, `current_supply`, `max_supply`, `burned_supply`, `address`, `owner`, `flags`, optional `script`, `series`, `carbon_id`, optional `metadata`, optional `token_schemas`, optional `external`, optional `price`; helpers: `has_flag`, `is_fungible`, `is_non_fungible`, `is_burnable`, `is_divisible`, `is_fiat`, `is_finite`, `is_fuel`, `is_mintable`, `is_stakable`, `is_transferable` |
 | `TokenDataResult` | `id`, `series`, `carbon_token_id`, `carbon_series_id`, `carbon_nft_address`, `mint`, `chain_name`, `owner_address`, `creator_address`, `ram`, `rom`, `status`, `infusion`, `properties` |
 | `NftResult` | `id`, `series`, `mint`, `chain_name`, `owner_address`, `creator_address`, `rom`, `ram`, `status` |
 
@@ -158,7 +158,7 @@ and event shapes, but they do not execute calls by themselves. Use
 | Model | Fields |
 | ----- | ------ |
 | `AuctionResult` | `creator_address`, `chain_address`, `start_date`, `end_date`, `base_symbol`, `quote_symbol`, `token_id`, `price`, `end_price`, `extension_period`, `type_name`, `rom`, `ram`, `listing_fee`, `current_winner` |
-| `ArchiveResult` | `hash`, `name`, `size`, `time`, `encryption`, `block_count`, `missing_blocks`, `owners` |
+| `ArchiveResult` | optional `hash`, optional `name`, `size`, `time`, optional `encryption`, `block_count`, optional `missing_blocks`, optional `owners` |
 | `ChannelResult` | `creator_address`, `target_address`, `name`, `chain`, `creation_time`, `symbol`, `fee`, `balance`, `active`, `index` |
 | `ReceiptResult` | `nexus`, `channel`, `index`, `timestamp`, `sender`, `receiver`, `script` |
 | `PeerResult` | `url`, `version`, `flags`, `fee`, `pow` |

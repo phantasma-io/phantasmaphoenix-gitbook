@@ -1,15 +1,15 @@
 # C# SDK Public API Inventory
 
-This page lists public classes, methods, functions, enum values, fields, and
-constants from the cited source baseline. Use it to check exact names when
-working with lower-level SDK APIs.
+This page lists public classes, methods, functions, enum values,
+fields, and constants from the cited source baseline. Use it to check
+exact names when working with lower-level SDK APIs.
 
 Source baseline:
 
 | Item | Value |
 | ---- | ----- |
 | Source repo | `phantasmaphoenix-sdk-cs` |
-| Source commit | `820680b38e67109b7f94e1d26058d6933f758b26` |
+| Source commit | `dce8727c12eee10c2750c42f5219811c39bf1405` |
 | Scope | public C# symbols in PhantasmaPhoenix library projects, excluding tests and examples |
 
 ## PhantasmaPhoenix.Core.ISerializable
@@ -7327,6 +7327,10 @@ public static byte[][] ReadArrayArray(this BinaryReader r)
 ```
 
 ```csharp
+public static int ReadLengthFor(this BinaryReader r, int elementSize = 1)
+```
+
+```csharp
 public static sbyte[] ReadArray8(this BinaryReader r)
 ```
 
@@ -10523,10 +10527,6 @@ public string Name { get; set; }
 ```
 
 ```csharp
-public string Relay { get; set; }
-```
-
-```csharp
 public string Stake { get; set; } //Deprecated
 ```
 
@@ -10539,7 +10539,11 @@ public string Validator { get; set; }
 ```
 
 ```csharp
-public string[] Txs { get; set; }
+public string? Relay { get; set; }
+```
+
+```csharp
+public string[]? Txs { get; set; }
 ```
 
 ## PhantasmaPhoenix.RPC.Models.AccountTransactionsResult
@@ -10587,23 +10591,23 @@ public int BlockCount { get; set; }
 ```
 
 ```csharp
-public int[] MissingBlocks { get; set; }
+public int[]? MissingBlocks { get; set; }
 ```
 
 ```csharp
-public string Encryption { get; set; }
+public string? Encryption { get; set; }
 ```
 
 ```csharp
-public string Hash { get; set; }
+public string? Hash { get; set; }
 ```
 
 ```csharp
-public string Name { get; set; }
+public string? Name { get; set; }
 ```
 
 ```csharp
-public string[] Owners { get; set; }
+public string[]? Owners { get; set; }
 ```
 
 ```csharp
@@ -10719,7 +10723,7 @@ public string Symbol { get; set; }
 ```
 
 ```csharp
-public string[] Ids { get; set; }
+public string[]? Ids { get; set; }
 ```
 
 ```csharp
@@ -10743,11 +10747,11 @@ public BlockResult() { }
 ```
 
 ```csharp
-public EventResult[] Events { get; set; }
+public EventResult[]? Events { get; set; }
 ```
 
 ```csharp
-public OracleResult[] Oracles { get; set; }
+public OracleResult[]? Oracles { get; set; }
 ```
 
 ```csharp
@@ -10803,27 +10807,27 @@ public ChainResult() { }
 ```
 
 ```csharp
-public string Address { get; set; }
+public string? Address { get; set; }
 ```
 
 ```csharp
-public string Name { get; set; }
+public string? Name { get; set; }
 ```
 
 ```csharp
-public string Organization { get; set; }
+public string? Organization { get; set; }
 ```
 
 ```csharp
-public string Parent { get; set; }
+public string? Parent { get; set; }
 ```
 
 ```csharp
-public string[] Contracts { get; set; }
+public string[]? Contracts { get; set; }
 ```
 
 ```csharp
-public string[] Dapps { get; set; }
+public string[]? Dapps { get; set; }
 ```
 
 ```csharp
@@ -10843,11 +10847,11 @@ public class ContractResult
 ### Methods
 
 ```csharp
-public ABIEventResult[] Events { get; set; }
+public ABIEventResult[]? Events { get; set; }
 ```
 
 ```csharp
-public ABIMethodResult[] Methods { get; set; }
+public ABIMethodResult[]? Methods { get; set; }
 ```
 
 ```csharp
@@ -10864,6 +10868,10 @@ public string Name { get; set; }
 
 ```csharp
 public string Script { get; set; }
+```
+
+```csharp
+public string? Owner { get; set; }
 ```
 
 ## PhantasmaPhoenix.RPC.Models.EventExResult
@@ -10883,7 +10891,7 @@ public EventExResult()
 ```
 
 ```csharp
-public EventExResult(string address, string contract, EventKind kind, object data)
+public EventExResult(string address, string contract, EventKind kind, object? data)
 ```
 
 ```csharp
@@ -10891,15 +10899,15 @@ public EventKind Kind { get; set; }
 ```
 
 ```csharp
-public object Data { get; set; }
+public object? Data { get; set; }
 ```
 
 ```csharp
-public string Address { get; set; }
+public string Address { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string Contract { get; set; }
+public string Contract { get; set; } = string.Empty;
 ```
 
 ## PhantasmaPhoenix.RPC.Models.EventResult
@@ -10927,23 +10935,23 @@ public EventResult(string address, string contract, string kind, string name, st
 ```
 
 ```csharp
-public string Address { get; set; }
+public string Address { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string Contract { get; set; }
+public string Contract { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string Data { get; set; }
+public string Data { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string Kind { get; set; }
+public string Kind { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string Name { get; set; }
+public string Name { get; set; } = string.Empty;
 ```
 
 ## PhantasmaPhoenix.RPC.Models.GovernanceResult
@@ -10987,11 +10995,11 @@ public LeaderboardResult() { }
 ```
 
 ```csharp
-public LeaderboardRowResult[] Rows { get; set; }
+public LeaderboardRowResult[]? Rows { get; set; }
 ```
 
 ```csharp
-public string Name { get; set; }
+public string? Name { get; set; }
 ```
 
 ## PhantasmaPhoenix.RPC.Models.LeaderboardRowResult
@@ -11031,11 +11039,11 @@ public class NexusResult
 ### Methods
 
 ```csharp
-public ChainResult[] Chains { get; set; }
+public ChainResult[]? Chains { get; set; }
 ```
 
 ```csharp
-public GovernanceResult[] Governance { get; set; }
+public GovernanceResult[]? Governance { get; set; }
 ```
 
 ```csharp
@@ -11043,15 +11051,15 @@ public NexusResult() { }
 ```
 
 ```csharp
-public TokenResult[] Tokens { get; set; }
+public TokenResult[]? Tokens { get; set; }
 ```
 
 ```csharp
-public string Name { get; set; }
+public string? Name { get; set; }
 ```
 
 ```csharp
-public string[] Organizations { get; set; }
+public string[]? Organizations { get; set; }
 ```
 
 ```csharp
@@ -11099,15 +11107,15 @@ public OrganizationResult() { }
 ```
 
 ```csharp
-public string Id { get; set; }
+public string? Id { get; set; }
 ```
 
 ```csharp
-public string Name { get; set; }
+public string? Name { get; set; }
 ```
 
 ```csharp
-public string[] Members { get; set; }
+public string[]? Members { get; set; }
 ```
 
 ## PhantasmaPhoenix.RPC.Models.ScriptResult
@@ -11135,11 +11143,19 @@ public ScriptResult() { }
 ```
 
 ```csharp
-public string Error { get; set; } // deprecated
+public string? Error { get; set; }
 ```
 
 ```csharp
-public string Result { get; set; } // deprecated
+public string? Gas { get; set; }
+```
+
+```csharp
+public string? Result { get; set; }
+```
+
+```csharp
+public string? State { get; set; }
 ```
 
 ```csharp
@@ -11223,11 +11239,11 @@ public TokenDataResult() { }
 ```
 
 ```csharp
-public TokenPropertyResult[] Infusion { get; set; }
+public TokenPropertyResult[] Infusion { get; set; } = Array.Empty<TokenPropertyResult>();
 ```
 
 ```csharp
-public TokenPropertyResult[] Properties { get; set; }
+public TokenPropertyResult[] Properties { get; set; } = Array.Empty<TokenPropertyResult>();
 ```
 
 ```csharp
@@ -11235,47 +11251,107 @@ public TokenStatus Status { get; set; }
 ```
 
 ```csharp
-public string ChainName { get; set; }
+public string ChainName { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string CreatorAddress { get; set; }
+public string CreatorAddress { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string Id { get; set; }
+public string Id { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string Mint { get; set; }
+public string Mint { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string OwnerAddress { get; set; }
+public string OwnerAddress { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string Ram { get; set; }
+public string Ram { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string Rom { get; set; }
+public string Rom { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string Series { get; set; }
+public string Series { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string carbonNftAddress { get; set; }
+public string carbonNftAddress { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string carbonSeriesId { get; set; }
+public string carbonSeriesId { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string carbonTokenId { get; set; }
+public string carbonTokenId { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.RPC.Models.TokenExternalResult
+
+Source: `PhantasmaPhoenix.RPC/src/Models/TokenExternalResult.cs`
+
+### Declarations
+
+```csharp
+public class TokenExternalResult
+```
+
+### Methods
+
+```csharp
+public TokenExternalResult() { }
+```
+
+```csharp
+public string Hash { get; set; } = string.Empty;
+```
+
+```csharp
+public string Platform { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.RPC.Models.TokenPriceResult
+
+Source: `PhantasmaPhoenix.RPC/src/Models/TokenPriceResult.cs`
+
+### Declarations
+
+```csharp
+public class TokenPriceResult
+```
+
+### Methods
+
+```csharp
+public TokenPriceResult() { }
+```
+
+```csharp
+public string Close { get; set; } = string.Empty;
+```
+
+```csharp
+public string High { get; set; } = string.Empty;
+```
+
+```csharp
+public string Low { get; set; } = string.Empty;
+```
+
+```csharp
+public string Open { get; set; } = string.Empty;
+```
+
+```csharp
+public uint Timestamp { get; set; }
 ```
 
 ## PhantasmaPhoenix.RPC.Models.TokenPropertyResult
@@ -11295,11 +11371,11 @@ public TokenPropertyResult() { }
 ```
 
 ```csharp
-public string Key { get; set; }
+public string Key { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string Value { get; set; }
+public string Value { get; set; } = string.Empty;
 ```
 
 ## PhantasmaPhoenix.RPC.Models.TokenResult
@@ -11315,6 +11391,14 @@ public class TokenResult
 ### Methods
 
 ```csharp
+public TokenExternalResult[]? External { get; set; }
+```
+
+```csharp
+public TokenPriceResult[]? Price { get; set; }
+```
+
+```csharp
 public TokenPropertyResult[]? Metadata { get; set; }
 ```
 
@@ -11327,7 +11411,7 @@ public TokenSchemasResult? TokenSchemas { get; set; }
 ```
 
 ```csharp
-public TokenSeriesResult[] Series { get; set; }
+public TokenSeriesResult[] Series { get; set; } = Array.Empty<TokenSeriesResult>();
 ```
 
 ```csharp
@@ -11343,43 +11427,43 @@ public bool IsTransferable()
 ```
 
 ```csharp
-public string Address { get; set; }
+public string Address { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string BurnedSupply { get; set; }
+public string BurnedSupply { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string CarbonId { get; set; }
+public string CarbonId { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string CurrentSupply { get; set; }
+public string CurrentSupply { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string Flags { get; set; }
+public string Flags { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string MaxSupply { get; set; }
+public string MaxSupply { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string Name { get; set; }
+public string Name { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string Owner { get; set; }
+public string Owner { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string Script { get; set; }
+public string Symbol { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string Symbol { get; set; }
+public string? Script { get; set; }
 ```
 
 ```csharp
@@ -11427,7 +11511,7 @@ public class TokenSeriesResult
 ### Methods
 
 ```csharp
-public ABIMethodResult[] Methods { get; set; }
+public ABIMethodResult[]? Methods { get; set; }
 ```
 
 ```csharp
@@ -11436,10 +11520,6 @@ public TokenPropertyResult[] Metadata { get; set; }
 
 ```csharp
 public TokenSeriesResult() { }
-```
-
-```csharp
-public string BurnedSupply { get; set; }
 ```
 
 ```csharp
@@ -11459,15 +11539,7 @@ public string MintCount { get; set; }
 ```
 
 ```csharp
-public string Mode { get; set; }
-```
-
-```csharp
 public string OwnerAddress { get; set; }
-```
-
-```csharp
-public string Script { get; set; }
 ```
 
 ```csharp
@@ -11480,6 +11552,18 @@ public string carbonSeriesId { get; set; }
 
 ```csharp
 public string carbonTokenId { get; set; }
+```
+
+```csharp
+public string? BurnedSupply { get; set; }
+```
+
+```csharp
+public string? Mode { get; set; }
+```
+
+```csharp
+public string? Script { get; set; }
 ```
 
 ## PhantasmaPhoenix.RPC.Models.TransactionResult
@@ -11603,11 +11687,11 @@ public TransactionSignatureResult() { }
 ```
 
 ```csharp
-public string Data { get; set; }
+public string Data { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string Kind { get; set; }
+public string Kind { get; set; } = string.Empty;
 ```
 
 ## PhantasmaPhoenix.RPC.Models.VmNamedVariableSchemaResult
@@ -11955,7 +12039,7 @@ public sealed class RpcClient : IDisposable
 ### Methods
 
 ```csharp
-public RpcClient(HttpClient? httpClient = null, ILogger? logger = null, int maxRetries = 0, int retryDelayMs = 1000)
+public RpcClient(HttpClient? httpClient = null, ILogger? logger = null, int maxRetries = 0, int retryDelayMs = 1000, long maxResponseBytes = DefaultMaxResponseBytes)
 ```
 
 ```csharp
@@ -11968,6 +12052,10 @@ public async Task<T?> RestPostAsync<T>(string url, object body)
 
 ```csharp
 public async Task<T?> SendRpcAsync<T>(string url, string method, params object[] parameters)
+```
+
+```csharp
+public const long DefaultMaxResponseBytes = 16L * 1024 * 1024;
 ```
 
 ```csharp
