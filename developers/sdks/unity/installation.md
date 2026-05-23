@@ -12,15 +12,15 @@ through Phantasma Link.
 * In the Package Manager window, click the `+` button in the top left corner.
 * Select `Install package from git URL...`.
 * Enter one of the following git URLs:
-  * To install PhantasmaPhoenix.Unity.Core package: `https://github.com/phantasma-io/Phantasma-UnitySDK.git?path=PhantasmaPhoenix.Unity.Core`
-  * To install PhantasmaPhoenix.Unity.LinkClient package: `https://github.com/phantasma-io/Phantasma-UnitySDK.git?path=PhantasmaPhoenix.Unity.LinkClient`
+  * To install PhantasmaPhoenix.Unity.Core package: `https://github.com/phantasma-io/phantasma-sdk-unity.git?path=PhantasmaPhoenix.Unity.Core`
+  * To install PhantasmaPhoenix.Unity.LinkClient package: `https://github.com/phantasma-io/phantasma-sdk-unity.git?path=PhantasmaPhoenix.Unity.LinkClient`
 * Click `Add`.
 * Repeat the package import when the project needs both Core and LinkClient.
 
 {% hint style="info" %}
 **Note:** To pin a package to a specific source revision, append `#` and the
 commit hash to the Git URL. Example:
-`https://github.com/phantasma-io/Phantasma-UnitySDK.git?path=PhantasmaPhoenix.Unity.Core#d011152db4d212e3787628334c6ebd6ce31cea47`
+`https://github.com/phantasma-io/phantasma-sdk-unity.git?path=PhantasmaPhoenix.Unity.Core#d011152db4d212e3787628334c6ebd6ce31cea47`
 {% endhint %}
 
 ## Connecting to the Wallet via the SDK

@@ -7,7 +7,7 @@ Source baseline:
 
 | Item | Value |
 | ---- | ----- |
-| Source repo | `Phantasma-UnitySDK` |
+| Source repo | `phantasma-sdk-unity` |
 | Source commit | `a8e093654d682de6fd0b7568f036d22b5d6ab69e` |
 | Source file | `PhantasmaPhoenix.Unity.LinkClient/Runtime/Scripts/PhantasmaLinkClient.cs` |
 

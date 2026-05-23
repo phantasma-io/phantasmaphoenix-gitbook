@@ -8,7 +8,7 @@ Source baseline:
 
 | Item | Value |
 | ---- | ----- |
-| Source repo | `Phantasma-UnitySDK` |
+| Source repo | `phantasma-sdk-unity` |
 | Source commit | `a8e093654d682de6fd0b7568f036d22b5d6ab69e` |
 | Scope | public runtime symbols in Unity Core and LinkClient packages |
 

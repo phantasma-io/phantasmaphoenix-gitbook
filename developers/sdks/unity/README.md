@@ -25,6 +25,6 @@ Complete API Reference
 
 The SDK source is available on GitHub.
 
-{% embed url="https://github.com/phantasma-io/Phantasma-UnitySDK" %}
-Phantasma - UnitySDK
+{% embed url="https://github.com/phantasma-io/phantasma-sdk-unity" %}
+Phantasma Unity SDK
 {% endembed %}
