@@ -1,12 +1,40 @@
 # Dual Token System
 
-Single token systems suffer from an unsolvable problem: Using the ecosystem drains your ownership share of the token supply. You decrease your influence on the evolution of the chain or project the more you use it. A dual token system allows us to escape this flawed design by separating the governance and fuel tokens.
+Phantasma uses two native assets with separate roles: SOUL and KCAL.
 
-Earning fuel tokens through staking the governance token lets users transact
-without reducing their governance-token balance. Users who do not want
-governance exposure can acquire KCAL directly for application use, NFT
-transfers, and other on-chain activity.
+SOUL is the staking and governance asset. It is also the data escrow asset used
+when a transaction grows permanent chain state. KCAL is the resource asset used
+for transaction execution, VM gas, and block data.
 
-**SOUL** is the governance token of the Phantasma blockchain, and the evolution of Phantasma is driven by the SOUL holders. SOUL holders earn voting rights, storage allocations on Phantasma's decentralized storage solution, KCAL through staking SOUL, allows you to claim your on-chain wallet name and quarterly CROWNs if you stake more than 50,000 SOUL.
+Separating these roles lets users and applications reason about two different
+costs:
 
-**KCAL** fuels everything in the Phantasma ecosystem, and is needed for every single type of transaction on the blockchain, giving it a wide range of use cases. In short, anything that happens on the Phantasma blockchain consumes KCAL, and everything that happens on the Phantasma blockchain burns KCAL; Transactions, staking, unstaking, claiming KCAL, cross chain swap transactions, cosmic swaps between native Phantasma assets, minting non-fungible tokens, deploying smart contracts, deploying new tokens and more.
+- KCAL is paid for computation, VM execution, and transaction data in blocks.
+- SOUL is escrowed when a transaction creates or expands persistent chain state.
+
+Staking SOUL generates claimable KCAL. Users who want network participation can
+stake SOUL and claim KCAL over time. Users or applications that only need to pay
+for transactions can hold KCAL directly.
+
+## Native Assets
+
+{% content-ref url="soul.md" %}
+SOUL
+{% endcontent-ref %}
+
+{% content-ref url="kcal.md" %}
+KCAL
+{% endcontent-ref %}
+
+## Developer Notes
+
+Developers should plan for both fee dimensions:
+
+- `maxGas` limits the KCAL a transaction can spend on execution and block data.
+- `maxData` limits the SOUL a transaction can escrow for persistent state growth.
+
+For storage-specific behavior, see the storage and data escrow page.
+
+{% content-ref url="/developers/blockchain/smart-contracts/storage-and-data-escrow.md" %}
+Storage And Data Escrow
+{% endcontent-ref %}

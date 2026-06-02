@@ -11,9 +11,11 @@
     - [Ghostmarket](about/dapps/ghostmarket.md)
     - [Pavillion](about/dapps/pavillion.md)
   - [Economy](about/economy/dual-token-system.md)
+    - [SOUL](about/economy/soul.md)
+    - [KCAL](about/economy/kcal.md)
     - [Fees](about/economy/fees.md)
     - [Exchanges](about/economy/exchanges.md)
-    - [Inflation](about/economy/inflation.md)
+    - [Supply And Issuance](about/economy/inflation.md)
     - [Block Producers](about/economy/block-producer.md)
 
 - Developers

@@ -1,25 +1,52 @@
-# Inflation
+# Supply And Issuance
 
-SOUL sustains the entire ecosystem through a low 3% annual inflation, in addition to the fixed Soul Master SOUL rewards which amounts to 125,000 SOUL monthly. Of the 3%:
+SOUL and KCAL are native Phantasma assets with live on-chain supply accounting.
+Current supply, burned supply, and metadata should be read from the chain rather
+than copied from static documentation.
 
-- 1% is allocated to Phantasma’s decentralized developer and core contributor group Phantom Force.
+Neither SOUL nor KCAL uses a fixed maximum supply field in native token metadata.
+Their supply is live protocol state: SOUL changes through scheduled issuance and
+reward accounting, while KCAL changes through staking rewards and fee burns.
 
-- 1% is allocated to Phantasma’s consensus nodes, the block producers. 75% of this is allocated to active block producers, while the remaining 25% is shared among standby block producers.
+## SOUL Supply
 
-- The remaining 1% is distributed to block producers until it has been allocated to various future incentives — at the time of writing 0.2% has already been allocated to the CROWN rewards pool, while the remaining 0.8% remain unallocated. A part of this remainder will be allocated towards sustainable liquidity provider incentives.
+SOUL is the staking and governance asset. SOUL issuance follows the protocol
+schedule and reward accounting. The chain tracks when issuance is due and
+applies SOUL rewards through the scheduled issuance flow.
 
-- The Soul Master SOUL reward system is a perpetual incentivization of long term loyal token holders.
+The current supply is queryable through token RPC methods such as `getToken`.
+Applications, explorers, and reports should use live chain data when presenting
+SOUL supply.
 
-While the fixed Soul Master rewards are minted and automatically distributed on a monthly basis, the remaining inflation is split into four automatically distributed quarterly allocations.
+## KCAL Supply
 
-To sum up the inflation numbers, SOUL starts out with approximately 4.5% annual inflation with one relative (3%) and one fixed (125,000 monthly) component. As time moves towards infinity the fixed portion of the inflation will correspond to a smaller percentage, and SOUL’s annual inflation will be moving towards 3%.
+KCAL is the resource asset used for transaction gas. KCAL is minted when SOUL
+staking rewards are claimed. Transaction fee settlement can burn KCAL according
+to the current gas configuration. Refunds return unused prepaid KCAL to the fee
+payer and are not a separate issuance path.
 
-KCAL is generated only through staking SOUL. There is no additional minting or inflationary mechanisms than staking. For each SOUL you stake, you generate 0.002 KCAL every single day.
+Because KCAL is minted by staking reward claims and reduced by fee burns, current
+supply should be read from the chain.
 
-All transaction types on Phantasma require a KCAL fee, and 50% of every transaction fee is burned.
+## Staking Rewards
 
-Smart contract and token deployment require a larger amount of KCAL as deployment fee, pegged to a fiat amount. 100% of this fee is immediatley burned on contract deployment.
+Current mainnet SOUL staking metadata defines KCAL as the reward token and sets
+the base reward rate to `0.002 KCAL` per staked SOUL per day before configured
+boosters.
 
-In addition, dApp providers are contributing, with GhostMarket burning half their earned KCAL fees, further driving a downwards pressure on the KCAL supply.
+Reward metadata is protocol state. Wallets and applications should query live
+stake data and unclaimed KCAL rather than relying only on a copied formula.
 
-The balance between inflationary (staking) and deflationary (burning) measures guard the KCAL token economy, and the ecosystem blossoms the KCAL supply will eventually reach its equilibrium. After this KCAL may potentially becoming deflationary — after which governance proposals can be submitted to avoid a too strong deflationary component draining the available supply.
+## Related Pages
+
+{% content-ref url="soul.md" %}
+SOUL
+{% endcontent-ref %}
+
+{% content-ref url="kcal.md" %}
+KCAL
+{% endcontent-ref %}
+
+{% content-ref url="fees.md" %}
+Fees
+{% endcontent-ref %}
