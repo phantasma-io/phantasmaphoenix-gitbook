@@ -54,28 +54,6 @@ The Call library is an utility library that helps doing all kinds of internal an
 | Call.contract(method:String, ...:Generic) | Any         | This is used to call another contract with a specified method.                                                                                            |
 | Call.method(...:Generic)                  | Any         | To call a method inside the contract, but instead of using `this.methodName()`. eg: Allows to jump to a method based on a string variable.                |
 
-## Crowdsale
-
-{% hint style="info" %}
-The Crowdsale library exposes methods to create and manage a decentralized crowdsale.
-{% endhint %}
-
-| Method                                                                                                                                                                                                                                          | Return type | Description                                                                               |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ----------------------------------------------------------------------------------------- |
-| Crowdsale.create(from:Address, name:String, SaleFlags flags, startDate:Timestamp, endDate:Timestamp, sellSymbol:String, receiveSymbol:String, price:Number, globalSoftCap:Number, globalHardCap:Number, userSoftCap:Number, userHardCap:Number) | Hash        | Returns a Hash of the sale created.                                                       |
-| Crowdsale.isSaleActive(saleHash:Hash)                                                                                                                                                                                                           | bool        | Returns true if the sale is active, false otherwise.                                      |
-| Crowdsale.GetSaleParticipants(saleHash:Hash)                                                                                                                                                                                                    | Address\[]  | Returns an Array of the addressess in by the saleHash.                                    |
-| Crowdsale.getSaleWhitelists(saleHash:Hash)                                                                                                                                                                                                      | Address\[]  | Retruns the list of addresses whitelisted for the sale, by the saleHash.                  |
-| Crowdsale.isWhitelisted(saleHash:Hash, address:Address)                                                                                                                                                                                         | Bool        | Returns true if the user is whitelisted for the sale, false otherwise.                    |
-| Crowdsale.addToWhitelist(saleHash:Hash, target:Address)                                                                                                                                                                                         | None        | To add a Address to the participate in the sale, by the saleHash and target address.      |
-| Crowdsale.removeFromWhitelist(saleHash:Hash, target:Address)                                                                                                                                                                                    | None        | To remove a Address from the participate in the sale, by the saleHash and target address. |
-| Crowdsale.getPurchasedAmount(saleHash:Hash, address:Address)                                                                                                                                                                                    | Number      | Returns the Purchased amount.                                                             |
-| Crowdsale.getSoldAmount(saleHash:Hash)                                                                                                                                                                                                          | Number      | Returns the amount that the sale has been sold.                                           |
-| Crowdsale.purchase(from:Address, saleHash:Hash, quoteSymbol:string, quoteAmount:Number)                                                                                                                                                         | None        | To purchase the sale.                                                                     |
-| Crowdsale.closeSale(from:Address, saleHash:Hash)                                                                                                                                                                                                | None        | To close a given saleHash.                                                                |
-| Crowdsale.getLatestSaleHash()                                                                                                                                                                                                                   | Hash        | Returns the last saleHash.                                                                |
-| Crowdsale.EditSalePrice(saleHash:Hash, price:Number)                                                                                                                                                                                            | None        | To edit the sale price by the saleHash.                                                   |
-
 ## Decimal
 
 | Method                                              | Return type | Description                                              |
@@ -136,19 +114,6 @@ The leaderboard library exposes methods that allow to create and manipulate [lea
 | List.remove(index:Number)                 | None        | Removes from the list at a given index.   |
 | List.count()                              | Number      | Returns the number of entries in the List |
 | List.clear()                              | None        | Clears all the entries in the List        |
-
-## Mail
-
-| Method                                                           | Return type | Description                                                   |
-| ---------------------------------------------------------------- | ----------- | ------------------------------------------------------------- |
-| Mail.pushMessage(from:Address, target:Address, archiveHash:Hash) | None        | To push a message to the target user mailbox.                 |
-| Mail.domainExists(domainName:String)                             | Bool        | Returns true if the specified domain exists, false otherwise. |
-| Mail.registerDomain(from:Address, domainName:String)             | None        | To register a domain, from an address and a domain name.      |
-| Mail.unregisterDomain(domainName:String)                         | None        | To unregister a domain name.                                  |
-| Mail.migrateDomain(domainName:String, target:Address)            | None        | To migrate a domain to a new Address.                         |
-| Mail.joinDomain(from:Address, domainName:String)                 | None        | To a user join a domain.                                      |
-| Mail.leaveDomain(from:Address, domainName:String)                | None        | To a user leave a domain.                                     |
-| Mail.getUserDomain(target:Address)                               | String      | To the the user domain.                                       |
 
 ## Map
 
@@ -236,22 +201,6 @@ The Organization library allows access to methods to handle [DAOs](https://docs.
 | Organization.create(from:Address, id:String, name:String, script:Bytes) | None        | Creates a new DAO. The creator address will be automatically added as part of the DAO members. |
 | Organization.addMember(from:Address, name:String, target:Address)       | None        | Adds a new member to a DAO.                                                                    |
 
-## Relay
-
-{% hint style="info" %}
-The Relay library exposes methods to access the off-chain message relay system.
-{% endhint %}
-
-| Method                                           | Return type | Description |
-| ------------------------------------------------ | ----------- | ----------- |
-| Relay.getBalance(from:Address)                   | Number      | Returns the relay balance for the specified address. |
-| Relay.getIndex(from:Address, to:Address)         | Number      | Returns the relay channel index for the address pair. |
-| Relay.getTopUpAddress(from:Address)              | Address     | Returns the address used to top up the relay channel. |
-| Relay.openChannel(from:Address, publicKey:Bytes) | None        | Opens a relay channel for the address and public key. |
-| Relay.getKey(from:Address)                       | Bytes       | Returns the relay public key for the specified address. |
-| Relay.topUpChannel(from:Address, count:Number)   | None        | Adds relay capacity to the channel. |
-| Relay.settleChannel(receipt:RelayReceipt)        | None        | Settles a relay channel using the supplied receipt. |
-
 ## Runtime
 
 <table><thead><tr><th width="367.3333333333333">Method</th><th width="127">Return type</th><th width="253.66666666666669">Description</th></tr></thead><tbody><tr><td>Runtime.expect(condition:Bool, error:String)</td><td>None</td><td>Does nothing if the condition is true, otherwise terminates execution with the specified error message.</td></tr><tr><td>Runtime.log(message:String)</td><td>None</td><td>To log a message.</td></tr><tr><td>Runtime.isWitness(address:Address)</td><td>Bool</td><td>Check if the specified address was witness to the transaction (eg: the address signed the transaction). Multiple addresses can be witness in the case of the multi-signature transactions.</td></tr><tr><td>Runtime.isTrigger()</td><td>Bool</td><td>Returns true if current code is being ran inside trigger, returns false otherwise.</td></tr><tr><td>Runtime.transactionHash()</td><td>Hash</td><td>Returns the hash of the current executing transaction, if any.</td></tr><tr><td>Runtime.deployContract(from:Address, contract:Module)</td><td>None</td><td>Deploys a contract into the current chain.</td></tr><tr><td>Runtime.upgradeContract(from:Address, contract:Module)</td><td>None</td><td>Upgrades an existing contract, if the contract allows it.</td></tr><tr><td>Runtime.gasTarget()</td><td>Address</td><td>Returns the address that will receive part of the gas fees for the current transaction. A "Gas escrow" event must have happened already otherwise it will return an null address.</td></tr><tr><td>Runtime.context()</td><td>String</td><td>Returns the name of the current executing context. eg: Use this to validate that the current code can only be executed from a specific place.</td></tr><tr><td>Runtime.previousContext()</td><td>String</td><td>Returns the name of the caller context, if any. eg: Use this to validate that the current code can only be executed from a specific place.</td></tr></tbody></table>
@@ -319,18 +268,6 @@ The Storage library allows a contract to interact with contract storage and also
 | String.toUpper(target:String)                             | String      | Returns a new string with all characters in uppercase.                                      |
 | String.toLower(target:String)                             | String      | Returns a new string with all characters in lowercase.                                      |
 | String.indexOf(target:String, ch:Number)                  | Number      | Returns the index of the first occurence of the character or -1 if not found.               |
-
-## Task
-
-{% hint style="info" %}
-The Task library exposes methods to start and stop [tasks](https://docs.phantasma.info/#chain-tasks).
-{% endhint %}
-
-| Method                                                                                | Return type | Description                                                                                                    |
-| ------------------------------------------------------------------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------- |
-| Task.start(method:Method, from:Address, frequency:Number, mode:Enum, gasLimit:Number) | Task        | Start the task by method name, from the given address and frequency(timestamp), the TaskMode and the gasLimit. |
-| Task.stop(task:Address)                                                               | None        | Stop the task method.                                                                                          |
-| Task.current()                                                                        | Task        | Returns teh current task method.                                                                               |
 
 ## Time
 

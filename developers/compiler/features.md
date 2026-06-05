@@ -26,7 +26,6 @@
 
 ## Important caveats
 
-- `Task` syntax is parsed by the compiler, but the current chain runtime does not expose the full `Task.*` interop surface needed to rely on it in production.
 - `nativecheck` validates against the compiler's pinned Carbon snapshots. Treat warnings and errors there as signal, not noise.
 - Not every compiler-accepted native call is necessarily available on every chain baseline. Always test against the target network.
 - Some helper libraries still have unsupported methods that compile to explicit runtime failure.
