@@ -2,15 +2,7 @@
 
 This page documents the `PhantasmaAPI` surface. Use
 [Public API Inventory](public-api.md) when you need the complete list of public
-classes, methods, fields, and enum values from the source tree.
-
-Source baseline:
-
-| Item | Value |
-| ---- | ----- |
-| Source repo | `phantasmaphoenix-sdk-cs` |
-| Source commit | `dce8727c12eee10c2750c42f5219811c39bf1405` |
-| Source file | `PhantasmaPhoenix.RPC/src/PhantasmaAPI.cs` |
+classes, methods, fields, and enum values.
 
 ## Call Model
 

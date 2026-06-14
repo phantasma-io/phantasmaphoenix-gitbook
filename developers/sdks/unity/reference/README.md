@@ -1,16 +1,8 @@
 # Unity SDK Complete API Reference
 
 This section documents lower-level SDK APIs for developers who need
-method behavior, parameter names, return shapes, and source-baseline
-details beyond setup and examples.
-
-Source baseline:
-
-| Item | Value |
-| ---- | ----- |
-| Source repo | `phantasma-sdk-unity` |
-| Source commit | `2706c004fe1cf9f3919724c6522990ae803584d8` |
-| Scope | Unity Core runtime API, Link Client API, and runtime WebSocket support types |
+method behavior, parameter names, and return shapes beyond setup and
+examples.
 
 ## Pages
 

@@ -6,15 +6,6 @@ usage. Start with setup and task pages for common flows; use this section when
 you need method groups, parameter details, return values, and lower-level
 helpers.
 
-Source baseline:
-
-| Item | Value |
-| ---- | ----- |
-| Package | `phantasma-sdk-py` |
-| Import namespace | `phantasma_py` |
-| Version | `2.1.1` |
-| Source commit | `88c14709ab6662adeceb36b87f0f247fe043af4e` |
-
 ## When To Use These Pages
 
 | Page | Use it when |

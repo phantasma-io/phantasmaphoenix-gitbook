@@ -3,14 +3,6 @@
 This page groups the Unity runtime support types that appear around
 `PhantasmaAPI` and `PhantasmaLinkClient`.
 
-Source baseline:
-
-| Item | Value |
-| ---- | ----- |
-| Source repo | `phantasma-sdk-unity` |
-| Source commit | `2706c004fe1cf9f3919724c6522990ae803584d8` |
-| Source scope | Unity Core runtime and LinkClient runtime packages |
-
 ## Error Handling
 
 `EPHANTASMA_SDK_ERROR_TYPE` is the error enum passed to RPC error callbacks:

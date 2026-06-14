@@ -3,16 +3,6 @@
 This section documents the public Go SDK API at the level needed for ordinary
 application and tooling work without reading source for every call.
 
-Source baseline:
-
-| Item | Value |
-| ---- | ----- |
-| Module | `github.com/phantasma-io/phantasma-sdk-go` |
-| Go version | `1.25+` |
-| Current local branch | `master` |
-| Current source commit | `6f3a4dd7223fc26f2af5e109dd97a7faccfbd185` |
-| Current public tag observed | `v0.10.1` |
-
 ## Pages
 
 | Page | Use it when |

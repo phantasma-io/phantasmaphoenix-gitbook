@@ -1,16 +1,8 @@
 # Unity SDK Public API Inventory
 
 This page lists public classes, methods, functions, enum values,
-fields, and constants from the cited source baseline. Use it to check
+fields, and constants of the SDK. Use it to check
 exact names when working with lower-level SDK APIs.
-
-Source baseline:
-
-| Item | Value |
-| ---- | ----- |
-| Source repo | `phantasma-sdk-unity` |
-| Source commit | `2706c004fe1cf9f3919724c6522990ae803584d8` |
-| Scope | public runtime symbols in Unity Core and LinkClient packages |
 
 ## PhantasmaPhoenix.Unity.Core.Logging.Log
 

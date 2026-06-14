@@ -5,16 +5,6 @@ application and tooling work. Start with setup and task pages for common flows;
 use this section for method groups, result shapes, wire structures,
 compatibility notes, and lower-level helpers.
 
-Source baseline:
-
-| Item | Value |
-| ---- | ----- |
-| Package | `phantasma-sdk-ts` |
-| Version | `0.9.1` |
-| Runtime | Node `>=22` |
-| Recommended imports | `phantasma-sdk-ts/public`, plus `phantasma-sdk-ts/types` for the complete Carbon helper surface |
-| Source commit | `a036ed27ef38316ae7ea2f8503838c191131f2bb` |
-
 ## Pages
 
 | Page | Use it when |

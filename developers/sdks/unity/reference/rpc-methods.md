@@ -1,16 +1,8 @@
 # Unity RPC Methods
 
 This page documents the `PhantasmaAPI` coroutine surface. Use
-[Public API Inventory](public-api.md) when you need every public runtime symbol
-from the source tree.
-
-Source baseline:
-
-| Item | Value |
-| ---- | ----- |
-| Source repo | `phantasma-sdk-unity` |
-| Source commit | `2706c004fe1cf9f3919724c6522990ae803584d8` |
-| Source file | `PhantasmaPhoenix.Unity.Core/Runtime/Scripts/PhantasmaAPI.cs` |
+[Public API Inventory](public-api.md) when you need every public runtime
+symbol.
 
 ## Coroutine Model
 

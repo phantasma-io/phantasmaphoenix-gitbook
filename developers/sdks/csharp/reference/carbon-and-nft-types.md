@@ -3,14 +3,6 @@
 This page covers Carbon wire blobs, transaction helpers, token/NFT builders,
 and metadata structures.
 
-Source baseline:
-
-| Item | Value |
-| ---- | ----- |
-| Source repo | `phantasmaphoenix-sdk-cs` |
-| Source commit | `dce8727c12eee10c2750c42f5219811c39bf1405` |
-| Primary project | `PhantasmaPhoenix.Protocol.Carbon` |
-
 ## Wire Blob Model
 
 Carbon types implement `ICarbonBlob` and define:

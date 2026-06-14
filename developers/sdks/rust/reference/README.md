@@ -6,16 +6,6 @@ usage. Start with setup and task pages for common flows; use this section when
 you need method groups, parameter details, return values, and lower-level
 helpers.
 
-Source baseline:
-
-| Item | Value |
-| ---- | ----- |
-| Crate | `phantasma-sdk` |
-| Import path | `phantasma_sdk` |
-| Version | `1.1.2` |
-| Version constant | `SDK_VERSION` |
-| Source commit | `3119caab252a7fa4e00308cc46542dbd4d367135` |
-
 ## When To Use These Pages
 
 | Page | Use it when |

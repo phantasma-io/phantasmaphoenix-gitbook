@@ -4,15 +4,6 @@ This section documents the public C++ SDK API at the level needed for ordinary
 application and tooling work. The existing low-level and high-level API pages
 remain linked as detailed method lists.
 
-Source baseline:
-
-| Item | Value |
-| ---- | ----- |
-| Repository | `phantasma-sdk-cpp` |
-| Current branch | `main` |
-| Source commit | `3982fdcc26f4148b8ef5207b139b6c8f1e49ddd1` |
-| Language | C++17 |
-
 ## Pages
 
 | Page | Use it when |

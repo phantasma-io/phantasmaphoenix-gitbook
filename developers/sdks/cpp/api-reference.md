@@ -7,15 +7,6 @@ reference pages.
 C++ SDK Complete API Reference
 {% endcontent-ref %}
 
-## Source Baseline
-
-| Item | Value |
-| ---- | ----- |
-| Repository | `https://github.com/phantasma-io/phantasma-sdk-cpp` |
-| Current branch | `main` |
-| Source commit | `3982fdcc26f4148b8ef5207b139b6c8f1e49ddd1` |
-| Language | C++17 |
-
 ## Main API Groups
 
 | API group | Main headers | Purpose |
