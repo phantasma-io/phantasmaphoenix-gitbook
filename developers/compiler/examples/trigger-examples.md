@@ -88,7 +88,7 @@ In this example, the contract only allows the owner path.
 contract test {
     import Runtime;
     global owner : address;
-    trigger onBurn(from:address, symbol:string, amount:number)
+    trigger onBurn(from:address, to:address, symbol:string, amount:number)
     {
         Runtime.expect(Runtime.isWitness(owner), "Only owner can burn!");
         return;
@@ -107,7 +107,7 @@ In this example, the contract checks that the owner initiated the series creatio
 
 {% code lineNumbers="true" %}
 ```csharp
-contract test {
+token TEST {
     import Runtime;
     global owner : address;
 
@@ -154,8 +154,8 @@ In this example, this token will only be able to be updated if it's the owner th
 ```csharp
 token TEST {
     import Runtime;
-    global owner: Address;
-    trigger onWrite(from:address, ram:bytes, tokenID:number)
+    global owner: address;
+    trigger onWrite(from:address, ram:any)
     {
         Runtime.expect(Runtime.isWitness(owner), "Only owner can update");
         return;
@@ -178,7 +178,7 @@ In this example, this account will only accept transfers of KCAL and reject anyt
 ```csharp
 contract test {
 
-    trigger onSend(from:address, symbol:string, amount:number)
+    trigger onSend(from:address, to:address, symbol:string, amount:number)
     {
         if (symbol != "KCAL") {
             throw "can't send asset: " + symbol;
@@ -206,7 +206,7 @@ In this example, this account will only accept transfers of KCAL and reject anyt
 ```csharp
 contract test {
 
-    trigger onReceive(from:address, symbol:string, amount:number)
+    trigger onReceive(from:address, to:address, symbol:string, amount:number)
     {
         if (symbol != "KCAL") {
             throw "can't receive asset: " + symbol;
@@ -226,7 +226,7 @@ In this example, any asset sent to this account will be auto-converted into SOUL
 ```csharp
 contract test {
     import Call;
-    trigger onReceive(from:address, symbol:string, amount:number)
+    trigger onReceive(from:address, to:address, symbol:string, amount:number)
     {
         if (symbol != "SOUL") {
             Call.contract("Swap", "SwapTokens", from, symbol, "SOUL", amount);
@@ -276,6 +276,7 @@ This is to **destroy** the contract.
 ```csharp
 contract test {
     import Runtime;
+    global owner: address;
     trigger onKill(from:address)
     {
         Runtime.expect(Runtime.isWitness(owner),"only the owner can kill.");
