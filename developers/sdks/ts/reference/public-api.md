@@ -1,16 +1,8 @@
 # TypeScript SDK Public API Inventory
 
-This page lists public classes, methods, functions, enum values,
-fields, and constants from the cited source baseline. Use it to check
-exact names when working with lower-level SDK APIs.
-
-Source baseline:
-
-| Item | Value |
-| ---- | ----- |
-| Source repo | `phantasma-sdk-ts` |
-| Source commit | `a036ed27ef38316ae7ea2f8503838c191131f2bb` |
-| Scope | declaration files under `dist/types`, matching package export and deep-import surfaces |
+This page lists the public classes, methods, functions, enum values,
+fields, and constants of the SDK. Use it to check exact names when
+working with lower-level SDK APIs.
 
 ## Package Exports
 
@@ -33,6 +25,7 @@ Declared export targets from `package.json`:
 - `phantasma-sdk-ts/ledger/*`: `./dist/types/ledger/*.d.ts` (available)
 - `phantasma-sdk-ts/link`: `./dist/types/link/index.d.ts` (available)
 - `phantasma-sdk-ts/link/*`: `./dist/types/link/*.d.ts` (available)
+- `phantasma-sdk-ts/link/v5`: `./dist/types/link/v5/index.d.ts` (available)
 - `phantasma-sdk-ts/public`: `./dist/types/public.d.ts` (available)
 - `phantasma-sdk-ts/rpc`: `./dist/types/rpc/index.d.ts` (available)
 - `phantasma-sdk-ts/rpc/*`: `./dist/types/rpc/*.d.ts` (available)
@@ -2159,6 +2152,10 @@ export { PhantasmaLink } from './link/phantasma-link.js';
 export { EasyConnect } from './link/easy-connect.js';
 ```
 
+```ts
+export * as PhantasmaLinkV5 from './link/v5/index.js';
+```
+
 ## phantasma-sdk-ts/interfaces/carbon/carbon-blob-like
 
 Source: `dist/types/interfaces/carbon/carbon-blob-like.d.ts`
@@ -3510,6 +3507,1087 @@ export declare class PhantasmaLink {
 export {};
 ```
 
+## phantasma-sdk-ts/link/v5/capabilities
+
+Source: `dist/types/link/v5/capabilities.d.ts`
+
+### Declarations
+
+```ts
+export interface DappMetadata {
+    name: string;
+    url: string;
+    icon?: string;
+    description?: string;
+}
+```
+
+```ts
+export interface MaxPayloadBytes {
+    relay?: number;
+    deeplink?: number;
+    loopback?: number;
+    injected?: number;
+}
+```
+
+```ts
+export interface WalletInfo {
+    name: string;
+    version: string;
+    icon?: string;
+    /** The wallet's configured RPC node URL (informational; old `getPeer`). */
+    rpc?: string;
+}
+```
+
+```ts
+export interface LinkBalance {
+    symbol: string;
+    value: string;
+    decimals: number;
+    ids?: string[];
+}
+```
+
+```ts
+export interface LinkAccountV5 {
+    address: string;
+    name?: string;
+    avatar?: string;
+    balances?: LinkBalance[];
+}
+```
+
+```ts
+export interface WalletCapabilities {
+    /** Protocol versions the wallet speaks (always includes 5 for this generation). */
+    plvVersions: number[];
+    /** Supported request methods (`pha_*`). */
+    methods: string[];
+    /** Supported chains as CAIP-2-like ids, e.g. `phantasma:mainnet`. */
+    chains: string[];
+    /** Supported transaction formats (spec §9.4). */
+    txFormats: TxFormat[];
+    /** Supported signature schemes (spec §9.7). */
+    signatureKinds: SignatureKind[];
+    /** Optional feature flags, e.g. `batch`, `events`. */
+    features?: string[];
+    maxPayloadBytes?: MaxPayloadBytes;
+}
+```
+
+```ts
+export interface Session {
+    id: string;
+    /** Unix milliseconds at which the session expires (absent = until revoked). */
+    expiresAt?: number;
+}
+```
+
+```ts
+export interface ConnectParams {
+    dapp: DappMetadata;
+    /** dApp ephemeral X25519 public key (base64), present on the custom-scheme ECDH path. */
+    pubkey?: string;
+    chains?: string[];
+    methods?: string[];
+    features?: string[];
+    /** An existing session id to resume without a new prompt. */
+    session?: string;
+}
+```
+
+```ts
+export interface ConnectResult {
+    wallet: WalletInfo;
+    capabilities: WalletCapabilities;
+    account: LinkAccountV5;
+    session: Session;
+}
+```
+
+## phantasma-sdk-ts/link/v5/client
+
+Source: `dist/types/link/v5/client.d.ts`
+
+### Declarations
+
+```ts
+export interface PhantasmaLink5Options extends LinkSessionClientOptions {
+    /** Default dApp identity used by {@link PhantasmaLink5.connect} when none is passed. */
+    dapp?: DappMetadata;
+    /** Notified on session-state changes: the {@link ConnectResult} after every successful
+     * connect/resume, `undefined` after disconnect. Lets an embedder persist session state
+     * (the web-deeplink factory stores it; a custom host could keep it elsewhere). */
+    onSessionChange?: (connect: ConnectResult | undefined) => void;
+}
+```
+
+```ts
+export declare class PhantasmaLink5 {
+    constructor(transport: LinkTransport, options?: PhantasmaLink5Options);
+    /** Build a client over the desktop loopback transport (plaintext, trusted-local). */
+    static loopback(options?: LoopbackTransportOptions): PhantasmaLink5;
+    /** Build a client over the deeplink transport (spec §19). The channel key from pairing is
+     * MANDATORY here: deeplink URLs are interceptable, so plaintext frames are never allowed. */
+    static deeplink(options: DeeplinkTransportOptions & {
+        sessionKey: Uint8Array;
+        requestTimeoutMs?: number;
+    }): PhantasmaLink5;
+    /** Build a client over the relay transport (spec §6.4/§18). The channel key from
+     * pairing is MANDATORY: relay payloads are ALWAYS encrypted (spec §8) - the relay is
+     * E2E-blind and must stay that way. */
+    static relay(options: RelayTransportOptions & {
+        sessionKey: Uint8Array;
+        requestTimeoutMs?: number;
+    }): PhantasmaLink5;
+    /**
+     * Build a client for the ecdh pairing fallback (spec §17/§20.1): the custom-scheme
+     * channel is hijackable, so NO secret rides the pairing URI - only the dApp's
+     * ephemeral X25519 PUBLIC key. The wallet answers over the relay with its own public
+     * key plus the sealed connect result; the session key is derived on arrival and the
+     * client refuses to send (or accept) anything before that. Show {@link pairingUri}
+     * (a phantasma:// URI) to start; the session then arrives one-tap.
+     */
+    static relayEcdh(options: Omit<RelayTransportOptions, 'topic' | 'onWalletKey'> & {
+        topic?: string;
+        dapp?: DappMetadata;
+        keyPair?: EphemeralKeyPair;
+        requestTimeoutMs?: number;
+    }): PhantasmaLink5;
+    /**
+     * Build a ready-to-use client for a WEB dApp over the deeplink transport (spec §19),
+     * bundling the per-dApp glue: pairing material generation, the pairing URI, persistence
+     * (localStorage by default), restore + session resume across page loads, and intake of
+     * the response URLs the wallet opens back at the page (initial URL + `hashchange`).
+     *
+     * The factory itself never opens a URL: mobile browsers only allow app-opening
+     * navigation from a user gesture. The dApp drives the hops - show {@link pairingUri}
+     * (link/QR) for the one-time pairing consent, then call {@link connect} and the typed
+     * methods from click handlers; an established session resumes promptlessly (spec §7).
+     */
+    static webDeeplink(options: WebDeeplinkOptions): Promise<PhantasmaLink5>;
+    /** Feed an OS-delivered URL into a deeplink-backed client; see DeeplinkTransport.deliverUrl.
+     * The web-deeplink factory wires this automatically; SPAs whose routing swallows
+     * `hashchange` call it explicitly on route events. */
+    deliverUrl(url: string): boolean;
+    /** The pairing URI for this client's channel (set by pairing-capable factories such as
+     * {@link webDeeplink}); render it as a link/QR for the one-time wallet pairing consent. */
+    get pairingUri(): string | undefined;
+    /** The account from the last successful {@link connect}, if any. */
+    get account(): LinkAccountV5 | undefined;
+    /** The capabilities granted at the last successful {@link connect}, if any. */
+    get capabilities(): WalletCapabilities | undefined;
+    /** Pair/resume and run the capability handshake. The wallet MAY grant a subset of the
+     * requested capabilities; inspect the returned {@link ConnectResult}. `dapp` falls back
+     * to `options.dapp` (factories set it), so a configured client connects with no args. */
+    connect(dapp?: DappMetadata, extra?: Omit<ConnectParams, 'dapp'>): Promise<ConnectResult>;
+    /** Make a connect result the live session state (used by both the explicit connect and
+     * the wallet-pushed {@link LinkEvent.SessionEstablished} one-tap pairing path). */
+    getAccounts(): Promise<GetAccountsResult>;
+    getChains(): Promise<GetChainsResult>;
+    getWalletInfo(): Promise<GetWalletInfoResult>;
+    signMessage(params: SignMessageParams): Promise<SignMessageResult>;
+    /** Sign a transaction without broadcasting; the dApp submits the returned signed tx. */
+    signTransaction(params: SignTransactionParams): Promise<SignTransactionResult>;
+    /** Sign AND broadcast a transaction via the format's RPC endpoint. */
+    sendTransaction(params: SendTransactionParams): Promise<SendTransactionResult>;
+    /** Read-only VM invoke (no keys, no approval). */
+    invokeScript(params: InvokeScriptParams): Promise<InvokeScriptResult>;
+    disconnect(): Promise<DisconnectResult>;
+    /** Subscribe to wallet->dApp events; returns an unsubscribe function. */
+    onEvent(handler: LinkEventHandler): () => void;
+    /** Close the underlying transport and reject any in-flight requests. */
+    close(): void;
+}
+```
+
+## phantasma-sdk-ts/link/v5/deeplink
+
+Source: `dist/types/link/v5/deeplink.d.ts`
+
+### Declarations
+
+```ts
+export declare const WALLET_SCHEME_BASE = "phantasma://";
+```
+
+```ts
+export declare const DEEPLINK_REQUEST_TIMEOUT_MS = 300000;
+```
+
+```ts
+export interface DeeplinkUrls {
+    topic: string;
+    frame: string;
+}
+```
+
+```ts
+export declare function buildRequestUrl(walletBase: string, topic: string, frame: string): string;
+```
+
+```ts
+export declare function parseRequestUrl(url: string): DeeplinkUrls | null;
+```
+
+```ts
+export declare function buildResponseUrl(callback: string, topic: string, frame: string): string;
+```
+
+```ts
+export declare function parseResponseUrl(url: string): DeeplinkUrls | null;
+```
+
+```ts
+export interface DeeplinkTransportOptions {
+    /** The pairing topic; routes frames to the right channel on both sides. */
+    topic: string;
+    /** Opens a URL at the wallet (platform hook: location.href, anchor click, native intent). */
+    opener: (url: string) => void;
+    /** Wallet base; defaults to the custom scheme {@link WALLET_SCHEME_BASE}. */
+    walletBase?: string;
+}
+```
+
+```ts
+export declare class DeeplinkTransport implements LinkTransport {
+    constructor(options: DeeplinkTransportOptions);
+    send(frame: string): void;
+    onMessage(handler: (frame: string) => void): void;
+    onClose(handler: (reason?: string) => void): void;
+    /**
+     * Feed an OS-delivered URL into the transport. Returns true when the URL was a v5 response
+     * for THIS transport's topic and was dispatched; false lets the caller try other handlers.
+     */
+    deliverUrl(url: string): boolean;
+    close(): void;
+}
+```
+
+## phantasma-sdk-ts/link/v5/encoding
+
+Source: `dist/types/link/v5/encoding.d.ts`
+
+### Declarations
+
+```ts
+export declare function bytesToBase64(bytes: Uint8Array): string;
+```
+
+```ts
+export declare function base64ToBytes(input: string): Uint8Array;
+```
+
+```ts
+export declare function bytesToBase64Url(bytes: Uint8Array): string;
+```
+
+```ts
+export declare function base64UrlToBytes(input: string): Uint8Array;
+```
+
+```ts
+export declare function utf8ToBytes(text: string): Uint8Array;
+```
+
+```ts
+export declare function bytesToUtf8(bytes: Uint8Array): string;
+```
+
+## phantasma-sdk-ts/link/v5/envelope
+
+Source: `dist/types/link/v5/envelope.d.ts`
+
+### Declarations
+
+```ts
+export interface LinkRequest {
+    plv: typeof PLV;
+    id: string;
+    session?: string;
+    method: string;
+    params?: Record<string, unknown>;
+}
+```
+
+```ts
+export interface LinkSuccessResponse {
+    plv: typeof PLV;
+    id: string;
+    result: unknown;
+}
+```
+
+```ts
+export interface LinkErrorResponse {
+    plv: typeof PLV;
+    id: string;
+    error: LinkErrorObject;
+}
+```
+
+```ts
+export type LinkResponse = LinkSuccessResponse | LinkErrorResponse;
+```
+
+```ts
+export interface LinkEventMessage {
+    plv: typeof PLV;
+    type: 'event';
+    session?: string;
+    event: string;
+    data?: unknown;
+}
+```
+
+```ts
+export type LinkMessage = LinkRequest | LinkResponse | LinkEventMessage;
+```
+
+```ts
+export declare function isLinkRequest(msg: LinkMessage): msg is LinkRequest;
+```
+
+```ts
+export declare function isLinkEvent(msg: LinkMessage): msg is LinkEventMessage;
+```
+
+```ts
+export declare function isLinkErrorResponse(msg: LinkMessage): msg is LinkErrorResponse;
+```
+
+```ts
+export declare function isLinkSuccessResponse(msg: LinkMessage): msg is LinkSuccessResponse;
+```
+
+```ts
+export declare function encodeEnvelope(message: LinkMessage): string;
+```
+
+```ts
+export declare function decodeEnvelope(text: string): LinkMessage;
+```
+
+## phantasma-sdk-ts/link/v5/errors
+
+Source: `dist/types/link/v5/errors.d.ts`
+
+### Declarations
+
+```ts
+export declare const LinkErrorCode: {
+    readonly ParseError: -32700;
+    readonly InvalidRequest: -32600;
+    readonly MethodNotFound: -32601;
+    readonly InvalidParams: -32602;
+    readonly InternalError: -32603;
+    readonly UserRejected: 4001;
+    readonly Unauthorized: 4100;
+    readonly Disconnected: 4900;
+    readonly UnsupportedChain: 4902;
+    readonly PayloadTooLarge: 5001;
+    readonly NexusMismatch: 5002;
+    readonly UnsupportedSignatureKind: 5003;
+    readonly CapabilityNotSupported: 5004;
+    readonly SessionExpired: 5100;
+    readonly SessionRevoked: 5101;
+};
+```
+
+```ts
+export type LinkErrorCode = (typeof LinkErrorCode)[keyof typeof LinkErrorCode];
+```
+
+```ts
+export interface LinkErrorObject {
+    code: number;
+    message: string;
+    data?: unknown;
+}
+```
+
+```ts
+export declare class LinkError extends Error {
+    readonly code: number;
+    readonly data?: unknown;
+    constructor(code: number, message: string, data?: unknown);
+    toObject(): LinkErrorObject;
+    /** Reconstruct a {@link LinkError} from a received error object, tolerating malformed
+     * inputs (a peer may send a non-conforming shape). */
+    static fromObject(obj: unknown): LinkError;
+}
+```
+
+## phantasma-sdk-ts/link/v5
+
+Source: `dist/types/link/v5/index.d.ts`
+
+### Declarations
+
+```ts
+export * from './protocol.js';
+```
+
+```ts
+export * from './errors.js';
+```
+
+```ts
+export * from './encoding.js';
+```
+
+```ts
+export * from './envelope.js';
+```
+
+```ts
+export * from './capabilities.js';
+```
+
+```ts
+export * from './methods.js';
+```
+
+```ts
+export * from './session-crypto.js';
+```
+
+```ts
+export * from './pairing.js';
+```
+
+```ts
+export * from './transport.js';
+```
+
+```ts
+export * from './loopback-transport.js';
+```
+
+```ts
+export * from './deeplink.js';
+```
+
+```ts
+export * from './relay-transport.js';
+```
+
+```ts
+export * from './web-deeplink.js';
+```
+
+```ts
+export * from './client.js';
+```
+
+## phantasma-sdk-ts/link/v5/loopback-transport
+
+Source: `dist/types/link/v5/loopback-transport.d.ts`
+
+### Declarations
+
+```ts
+export interface WebSocketLike {
+    readonly readyState: number;
+    send(data: string): void;
+    close(code?: number, reason?: string): void;
+    onopen: ((event: unknown) => void) | null;
+    onmessage: ((event: {
+        data: unknown;
+    }) => void) | null;
+    onclose: ((event: {
+        reason?: string;
+        wasClean?: boolean;
+    }) => void) | null;
+    onerror: ((event: unknown) => void) | null;
+}
+```
+
+```ts
+export type WebSocketFactory = (url: string) => WebSocketLike;
+```
+
+```ts
+export interface LoopbackTransportOptions {
+    /** Default `localhost`. */
+    host?: string;
+    /** Default `7090` (the wallet link port). */
+    port?: number;
+    /** Default `/phantasma/v5` (separate from the legacy `/phantasma`). */
+    path?: string;
+    /** Override the WebSocket implementation (Node / tests). Defaults to global `WebSocket`. */
+    webSocketFactory?: WebSocketFactory;
+}
+```
+
+```ts
+export declare class LoopbackTransport implements LinkTransport {
+    constructor(options?: LoopbackTransportOptions);
+    send(frame: string): void;
+    onMessage(handler: (frame: string) => void): void;
+    onClose(handler: (reason?: string) => void): void;
+    close(): void;
+}
+```
+
+## phantasma-sdk-ts/link/v5/methods
+
+Source: `dist/types/link/v5/methods.d.ts`
+
+### Declarations
+
+```ts
+export type Base64 = string;
+```
+
+```ts
+export type DisconnectParams = Record<string, never>;
+```
+
+```ts
+export interface DisconnectResult {
+    ok: true;
+}
+```
+
+```ts
+export type GetAccountsParams = Record<string, never>;
+```
+
+```ts
+export interface GetAccountsResult {
+    accounts: LinkAccountV5[];
+}
+```
+
+```ts
+export type GetChainsParams = Record<string, never>;
+```
+
+```ts
+export interface GetChainsResult {
+    /** Supported chains as CAIP-2-like ids. */
+    chains: string[];
+    /** Currently selected chain id. */
+    current: string;
+    /** The Phantasma nexus name (domain term kept as a field). */
+    nexus: string;
+}
+```
+
+```ts
+export type GetWalletInfoParams = Record<string, never>;
+```
+
+```ts
+export type GetWalletInfoResult = WalletInfo;
+```
+
+```ts
+export interface SignMessageParams {
+    /** The message bytes to sign, base64. */
+    message: Base64;
+    /** Optional human-readable hint the wallet may show instead of raw bytes. */
+    display?: string;
+    signatureKind?: SignatureKind;
+}
+```
+
+```ts
+export interface SignMessageResult {
+    /** The signature, base64. */
+    signature: Base64;
+    /** The 32 random bytes the wallet prepended (base64); needed to reconstruct the signed
+     * payload `DOMAIN_TAG || random || message` for verification. */
+    random: Base64;
+}
+```
+
+```ts
+export interface TransactionParams {
+    format: TxFormat;
+    /** The serialized (unsigned) transaction bytes, base64. */
+    tx: Base64;
+    signatureKind?: SignatureKind;
+    pow?: ProofOfWork;
+}
+```
+
+```ts
+export type SignTransactionParams = TransactionParams;
+```
+
+```ts
+export interface SignTransactionResult {
+    /** The signed transaction bytes, base64; the dApp broadcasts it itself. */
+    signedTx: Base64;
+}
+```
+
+```ts
+export type SendTransactionParams = TransactionParams;
+```
+
+```ts
+export interface SendTransactionResult {
+    /** The broadcast transaction hash. */
+    hash: string;
+}
+```
+
+```ts
+export interface InvokeScriptParams {
+    chain: string;
+    /** The raw VM script bytes, base64. */
+    script: Base64;
+}
+```
+
+```ts
+export interface InvokeScriptResult {
+    /** Decoded VM result objects (hex/encoded values, as the node returns them). */
+    results: string[];
+}
+```
+
+```ts
+export interface AccountsChangedData {
+    accounts: LinkAccountV5[];
+}
+```
+
+```ts
+export interface ChainChangedData {
+    chain: string;
+}
+```
+
+```ts
+export interface SessionLifecycleData {
+    session: string;
+}
+```
+
+## phantasma-sdk-ts/link/v5/pairing
+
+Source: `dist/types/link/v5/pairing.d.ts`
+
+### Declarations
+
+```ts
+export type PairingMode = 'sym' | 'ecdh';
+```
+
+```ts
+export interface PairingParams {
+    version: number;
+    topic: string;
+    relay?: string;
+    mode: PairingMode;
+    /** Present when `mode === 'sym'`. */
+    symKey?: Uint8Array;
+    /** Present when `mode === 'ecdh'`. */
+    dappPublicKey?: Uint8Array;
+    /** Where the wallet opens response deeplinks for this pairing (spec §19). */
+    callback?: string;
+    meta?: DappMetadata;
+}
+```
+
+```ts
+export interface BuildPairingUriInput {
+    topic: string;
+    mode: PairingMode;
+    symKey?: Uint8Array;
+    dappPublicKey?: Uint8Array;
+    relay?: string;
+    /** dApp URL the wallet opens to deliver deeplink responses (required for deeplink use). */
+    callback?: string;
+    meta?: DappMetadata;
+    /** `universal` (default) => `https://<host>/v5/pair`; `scheme` => `phantasma://v5/pair`. */
+    scheme?: 'universal' | 'scheme';
+    /** Universal-link host; defaults to {@link DEFAULT_LINK_HOST}. */
+    host?: string;
+}
+```
+
+```ts
+export declare function buildPairingUri(input: BuildPairingUriInput): string;
+```
+
+```ts
+export declare function parsePairingUri(uri: string): PairingParams;
+```
+
+## phantasma-sdk-ts/link/v5/protocol
+
+Source: `dist/types/link/v5/protocol.d.ts`
+
+### Declarations
+
+```ts
+export declare const PLV: 5;
+```
+
+```ts
+export declare const DEFAULT_LINK_HOST = "link.phantasma.info";
+```
+
+```ts
+export declare const LinkMethod: {
+    /** Pair or resume a session; returns the capability handshake + account + session. */
+    readonly Connect: "pha_connect";
+    /** End the session. */
+    readonly Disconnect: "pha_disconnect";
+    /** Account(s) authorized for this session. */
+    readonly GetAccounts: "pha_getAccounts";
+    /** Supported chains (CAIP-2) + current; `nexus` as a field. */
+    readonly GetChains: "pha_getChains";
+    /** Wallet name/version/capabilities/rpc. */
+    readonly GetWalletInfo: "pha_getWalletInfo";
+    /** Sign an arbitrary, non-transaction-forgeable message. */
+    readonly SignMessage: "pha_signMessage";
+    /** Sign a transaction only (do NOT broadcast); the dApp submits it. */
+    readonly SignTransaction: "pha_signTransaction";
+    /** Sign AND broadcast a transaction via the format's RPC endpoint. */
+    readonly SendTransaction: "pha_sendTransaction";
+    /** Read-only VM invoke (no keys, no approval). */
+    readonly InvokeScript: "pha_invokeScript";
+};
+```
+
+```ts
+export type LinkMethod = (typeof LinkMethod)[keyof typeof LinkMethod];
+```
+
+```ts
+export declare const LinkEvent: {
+    readonly AccountsChanged: "pha_accountsChanged";
+    readonly ChainChanged: "pha_chainChanged";
+    readonly SessionDeleted: "pha_sessionDeleted";
+    readonly SessionExpired: "pha_sessionExpired";
+    /** Unsolicited connect result pushed right after a pairing approval (spec §17 step 3),
+     * letting the first connection complete in one user gesture. Unlike the other events it
+     * also rides the deeplink transport: the wallet is foreground at the approval moment, so
+     * it CAN open the callback (this is a reply to the pairing, not a spontaneous push).
+     * `data` carries the same shape as a `pha_connect` result. */
+    readonly SessionEstablished: "pha_sessionEstablished";
+};
+```
+
+```ts
+export type LinkEvent = (typeof LinkEvent)[keyof typeof LinkEvent];
+```
+
+```ts
+export declare const TxFormat: {
+    readonly Script: "script";
+    readonly Carbon: "carbon";
+};
+```
+
+```ts
+export type TxFormat = (typeof TxFormat)[keyof typeof TxFormat];
+```
+
+```ts
+export declare const SignatureKind: {
+    readonly Ed25519: "Ed25519";
+    readonly ECDSA: "ECDSA";
+};
+```
+
+```ts
+export type SignatureKind = (typeof SignatureKind)[keyof typeof SignatureKind];
+```
+
+## phantasma-sdk-ts/link/v5/relay-transport
+
+Source: `dist/types/link/v5/relay-transport.d.ts`
+
+### Declarations
+
+```ts
+export declare const DEFAULT_RELAY_URL = "wss://link.phantasma.info/relay";
+```
+
+```ts
+export declare const RELAY_CHUNK_BYTES = 900000;
+```
+
+```ts
+export interface RelayTransportOptions {
+    /** The pairing topic both sides subscribe to (bearer capability, spec §18). */
+    topic: string;
+    /** Relay WebSocket URL; default {@link DEFAULT_RELAY_URL}. */
+    url?: string;
+    /** Override the WebSocket implementation (Node / tests). Defaults to global WebSocket. */
+    webSocketFactory?: WebSocketFactory;
+    /** Chunking threshold for outgoing frames; default {@link RELAY_CHUNK_BYTES}. */
+    maxPayloadBytes?: number;
+    /** Ceiling for one reassembled incoming message; default 64 MB of frame text. */
+    maxAssembledBytes?: number;
+    /** How long to wait for the relay's ack of one publish; default 15 s. */
+    publishAckTimeoutMs?: number;
+    /** Reconnect backoff ladder; the last entry repeats. Default 0.5/1/2/5/15 s. */
+    reconnectDelaysMs?: number[];
+    /** ecdh pairing (spec §20.1): called ONCE with the wallet's ephemeral X25519 public key
+     * (base64url) when the key hop arrives; the caller derives the session key before any
+     * sealed frame embedded in the same payload is forwarded. */
+    onWalletKey?: (publicKeyB64Url: string) => void;
+}
+```
+
+```ts
+export declare class RelayTransport implements LinkTransport {
+    constructor(options: RelayTransportOptions);
+    send(frame: string): Promise<void>;
+    onMessage(handler: (frame: string) => void): void;
+    onClose(handler: (reason?: string) => void): void;
+    close(): void;
+    /** Collect one chunk; emit the reassembled frame when complete. Bounds: chunk count,
+     * total bytes, concurrent partial messages, and a staleness GC - a hostile peer can
+     * waste its own topic, but not this client's memory (spec §18). */
+}
+```
+
+## phantasma-sdk-ts/link/v5/session-crypto
+
+Source: `dist/types/link/v5/session-crypto.d.ts`
+
+### Declarations
+
+```ts
+export declare const SESSION_KEY_LENGTH: number;
+```
+
+```ts
+export declare const NONCE_LENGTH: number;
+```
+
+```ts
+export declare const PUBLIC_KEY_LENGTH: number;
+```
+
+```ts
+export declare const SIGN_MESSAGE_DOMAIN_TAG: Uint8Array;
+```
+
+```ts
+export declare const SIGN_MESSAGE_RANDOM_LENGTH = 32;
+```
+
+```ts
+export interface EncryptedFrame {
+    nonce: string;
+    ct: string;
+}
+```
+
+```ts
+export interface EphemeralKeyPair {
+    publicKey: Uint8Array;
+    secretKey: Uint8Array;
+}
+```
+
+```ts
+export declare function generateSessionKey(): Uint8Array;
+```
+
+```ts
+export declare function randomToken(byteLength?: number): string;
+```
+
+```ts
+export declare function generateEphemeralKeyPair(): EphemeralKeyPair;
+```
+
+```ts
+export declare function deriveSessionKey(theirPublicKey: Uint8Array, mySecretKey: Uint8Array): Uint8Array;
+```
+
+```ts
+export declare function seal(plaintext: Uint8Array, key: Uint8Array): EncryptedFrame;
+```
+
+```ts
+export declare function open(frame: EncryptedFrame, key: Uint8Array): Uint8Array;
+```
+
+```ts
+export declare function sealEnvelopeText(json: string, key: Uint8Array): EncryptedFrame;
+```
+
+```ts
+export declare function openEnvelopeText(frame: EncryptedFrame, key: Uint8Array): string;
+```
+
+```ts
+export declare function generateSignMessageRandom(): Uint8Array;
+```
+
+```ts
+export declare function buildSignMessagePayload(message: Uint8Array, random: Uint8Array): Uint8Array;
+```
+
+## phantasma-sdk-ts/link/v5/transport
+
+Source: `dist/types/link/v5/transport.d.ts`
+
+### Declarations
+
+```ts
+export interface LinkTransport {
+    send(frame: string): void | Promise<void>;
+    onMessage(handler: (frame: string) => void): void;
+    onClose?(handler: (reason?: string) => void): void;
+    close(): void;
+}
+```
+
+```ts
+export type LinkEventHandler = (event: string, data: unknown, session?: string) => void;
+```
+
+```ts
+export interface LinkSessionClientOptions {
+    /** 32-byte session key. When omitted, frames are PLAINTEXT envelope JSON - appropriate
+     * ONLY for a trusted local transport (loopback/injected); deeplink and relay MUST set a
+     * key (spec §8). */
+    sessionKey?: Uint8Array;
+    /** Refuse to SEND until a session key is set (see {@link LinkSessionClient.setSessionKey}).
+     * Used by the ecdh pairing flow, where the key is derived only after the wallet's
+     * public key arrives - plaintext must never leave the client in the meantime. */
+    requireSessionKey?: boolean;
+    /** Session id attached to outgoing requests after connect/pairing. */
+    sessionId?: string;
+    /** Per-request timeout in ms; 0 disables. Default 60000. */
+    requestTimeoutMs?: number;
+}
+```
+
+```ts
+export declare class LinkSessionClient {
+    constructor(transport: LinkTransport, options?: LinkSessionClientOptions);
+    /** Set/refresh the session id sent on subsequent requests (e.g. after `pha_connect`),
+     * or clear it with `undefined` (e.g. after `pha_disconnect`). */
+    setSessionId(id: string | undefined): void;
+    /** The current session id, if a session is established. */
+    getSessionId(): string | undefined;
+    /** Install the channel key once it is established (ecdh pairing derives it only after
+     * the wallet's ephemeral public key arrives, spec §20.1). From here on every frame is
+     * sealed/opened with it, exactly as if it had been passed at construction. */
+    setSessionKey(key: Uint8Array): void;
+    /** Subscribe to wallet->dApp events; returns an unsubscribe function. */
+    onEvent(handler: LinkEventHandler): () => void;
+    /** Send a request and await its result. Rejects with {@link LinkError}. */
+    request(method: string, params?: Record<string, unknown>): Promise<unknown>;
+    /** Close the session, rejecting all in-flight requests. */
+    close(): void;
+}
+```
+
+## phantasma-sdk-ts/link/v5/web-deeplink
+
+Source: `dist/types/link/v5/web-deeplink.d.ts`
+
+### Declarations
+
+```ts
+export interface WebDeeplinkStorage {
+    getItem(key: string): string | null;
+    setItem(key: string, value: string): void;
+    removeItem(key: string): void;
+}
+```
+
+```ts
+export declare const WEB_DEEPLINK_STORAGE_KEY = "phantasma.link.v5.webdeeplink";
+```
+
+```ts
+export interface WebDeeplinkOptions {
+    /** dApp identity: shown in wallet consent UIs and embedded in the pairing URI meta. */
+    dapp: DappMetadata;
+    /** Persistence for the pairing/session record; default `localStorage`. */
+    storage?: WebDeeplinkStorage;
+    /** Storage key for the record; default {@link WEB_DEEPLINK_STORAGE_KEY}. */
+    storageKey?: string;
+    /** Opens a URL at the wallet; default assigns `location.href`. */
+    opener?: (url: string) => void;
+    /** Reads the current page URL; default `location.href`. */
+    pageUrl?: () => string;
+    /** Subscribes to page-URL changes and returns an unsubscribe; default listens to
+     * `hashchange` (wallet responses arrive as fragment-only navigations on the callback). */
+    onUrlChange?: (handler: () => void) => () => void;
+    /** Replaces the page URL after a response fragment is consumed (history.replaceState by
+     * default) so reload/back does not re-deliver it and ciphertext leaves the address bar. */
+    replaceUrl?: (url: string) => void;
+    /** Wallet base for request URLs (DeeplinkTransport); default the `phantasma://` scheme. */
+    walletBase?: string;
+    /** Universal-link host for the pairing URI; default `link.phantasma.info`. */
+    host?: string;
+    /** Where the wallet opens responses. Default: the current page URL without its fragment.
+     * Baked into the wallet-side pairing at consent time - changing it later needs a re-pair. */
+    callback?: string;
+    /** Per-request timeout; the web default is 5 minutes (an app switch + human consent). */
+    requestTimeoutMs?: number;
+}
+```
+
+```ts
+export interface WebDeeplinkRecord {
+    /** Record format version (for forward migration of stored state). */
+    v: 1;
+    /** Pairing topic routing frames on both sides (32 random bytes, base64url). */
+    topic: string;
+    /** The 32-byte symmetric session key, base64url. Lives in the dApp origin's storage -
+     * the same trust domain as the dApp code that uses it. */
+    key: string;
+    /** Response callback URL the wallet opens; fixed at pairing consent. */
+    callback: string;
+    /** Established session id (spec §7), set after a successful connect. */
+    sessionId?: string;
+    /** Cache of the last ConnectResult so a reloaded page can show the account without a
+     * URL hop; refreshed by every successful connect, dropped on disconnect. */
+    lastConnect?: ConnectResult;
+}
+```
+
+```ts
+export interface WebDeeplinkHooks {
+    storage: WebDeeplinkStorage;
+    storageKey: string;
+    opener: (url: string) => void;
+    pageUrl: () => string;
+    onUrlChange?: (handler: () => void) => () => void;
+    replaceUrl?: (url: string) => void;
+}
+```
+
+```ts
+export declare function resolveWebDeeplinkHooks(options: WebDeeplinkOptions): WebDeeplinkHooks;
+```
+
+```ts
+export declare function stripUrlFragment(url: string): string;
+```
+
+```ts
+export declare function createWebDeeplinkRecord(callback: string): WebDeeplinkRecord;
+```
+
+```ts
+export declare function loadWebDeeplinkRecord(storage: WebDeeplinkStorage, storageKey: string): WebDeeplinkRecord | null;
+```
+
+```ts
+export declare function saveWebDeeplinkRecord(storage: WebDeeplinkStorage, storageKey: string, record: WebDeeplinkRecord): void;
+```
+
 ## phantasma-sdk-ts/public
 
 Source: `dist/types/public.d.ts`
@@ -3529,7 +4607,7 @@ export type { JsonRpcErrorObject, JsonRpcErrorResponse, JsonRpcParam, JsonRpcRes
 ```
 
 ```ts
-export type { ABIContract, ABIEvent, ABIMethod, ABIParameter, Account, AccountTransactions, Archive, Auction, Balance, Block, BuildInfoResult, Chain, Channel, CursorPaginatedResult, Dapp, Event as RpcEvent, EventExtended, EventExtendedTyped, ExtendedEventData, Governance, Interop, KeyValue, Leaderboard, LeaderboardRow, Nexus as RpcNexus, NFT, Oracle, Organization, Paginated, Peer, PhantasmaVmConfig, Platform, Receipt, Script, SendRawTx, SignatureResult, Stake, Storage, Swap, Token, TokenData, TokenExternal, TokenPrice, TokenSchemasResult, TokenSeries, TokenSeriesResult, TransactionData, Validator, VmNamedVariableSchemaResult, VmStructSchemaResult, VmVariableSchemaResult, } from './rpc/interfaces/index.js';
+export type { ABIContract, ABIEvent, ABIMethod, ABIParameter, Account, AccountTransactions, Archive, Auction, Balance, Block, BuildInfoResult, Chain, Channel, CursorPaginatedResult, Dapp, Event as RpcEvent, EventExtended, EventExtendedTyped, ExtendedEventData, Governance, Interop, KeyValue, Leaderboard, LeaderboardRow, Nexus as RpcNexus, NFT, Oracle, Organization, OrganizationMember, Paginated, Peer, PhantasmaVmConfig, Platform, Receipt, RpcAddressType, Script, SendRawTx, SignatureResult, Stake, Storage, Swap, Token, TokenData, TokenExternal, TokenPrice, TokenSchemasResult, TokenSeries, TokenSeriesResult, TransactionData, Validator, VmNamedVariableSchemaResult, VmStructSchemaResult, VmVariableSchemaResult, } from './rpc/interfaces/index.js';
 ```
 
 ```ts
@@ -3602,6 +4680,10 @@ export type { LinkAccount, LinkFile } from './link/index.js';
 
 ```ts
 export type { PrebuiltTransactionSignResult } from './link/phantasma-link.js';
+```
+
+```ts
+export * as PhantasmaLinkV5 from './link/v5/index.js';
 ```
 
 ```ts
@@ -4416,10 +5498,25 @@ Source: `dist/types/rpc/interfaces/organization.d.ts`
 
 ```ts
 export interface Organization {
-    id?: string;
     name?: string;
-    members?: Array<string>;
+    owner?: string;
+    carbonOwner?: string;
+    metadata?: KeyValue[];
+    memberCount?: string;
 }
+```
+
+```ts
+export interface OrganizationMember {
+    address?: string;
+    carbonAddress?: string;
+    isMember?: boolean;
+    memberTime?: number;
+}
+```
+
+```ts
+export type RpcAddressType = 'Phantasma' | 'Carbon';
 ```
 
 ## phantasma-sdk-ts/rpc/interfaces/paginated
@@ -4869,9 +5966,10 @@ export declare class PhantasmaAPI {
     getContracts(chainAddressOrName?: string, extended?: boolean): Promise<Contract[]>;
     getContract(chainAddressOrName: string | undefined, contractName: string): Promise<Contract>;
     getContractByAddress(chainAddressOrName: string | undefined, contractAddress: string): Promise<Contract>;
-    getOrganization(ID: string, extended?: boolean): Promise<Organization>;
-    getOrganizationByName(name: string, extended?: boolean): Promise<Organization>;
-    getOrganizations(extended?: boolean): Promise<Organization[]>;
+    getOrganization(name: string, includeMemberCount?: boolean): Promise<Organization>;
+    getOrganizations(pageSize?: number, cursor?: string, includeMemberCount?: boolean): Promise<CursorPaginatedResult<Organization[]>>;
+    getOrganizationMembers(name: string, pageSize?: number, cursor?: string, includeMemberTime?: boolean): Promise<CursorPaginatedResult<OrganizationMember[]>>;
+    getOrganizationMember(name: string, address: string, checkAddressReservedByte?: boolean, addressType?: RpcAddressType): Promise<OrganizationMember>;
     getLeaderboard(name: string): Promise<Leaderboard>;
     getTokens(ownerAddress: string | undefined | null, extended?: boolean): Promise<Token[]>;
     getToken(symbol: string, extended?: boolean, carbonTokenId?: bigint): Promise<Token>;

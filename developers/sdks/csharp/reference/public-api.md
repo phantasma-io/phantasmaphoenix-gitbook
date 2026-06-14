@@ -1,16 +1,8 @@
 # C# SDK Public API Inventory
 
-This page lists public classes, methods, functions, enum values,
-fields, and constants from the cited source baseline. Use it to check
-exact names when working with lower-level SDK APIs.
-
-Source baseline:
-
-| Item | Value |
-| ---- | ----- |
-| Source repo | `phantasmaphoenix-sdk-cs` |
-| Source commit | `dce8727c12eee10c2750c42f5219811c39bf1405` |
-| Scope | public C# symbols in PhantasmaPhoenix library projects, excluding tests and examples |
+This page lists the public classes, methods, functions, enum values,
+fields, and constants of the SDK. Use it to check exact names when
+working with lower-level SDK APIs.
 
 ## PhantasmaPhoenix.Core.ISerializable
 
@@ -303,7 +295,7 @@ public static byte[] AsByteArray(this string source)
 ```
 
 ```csharp
-public static byte[]? FromHex(this string? value) //todo return not null if value not null
+public static byte[]? FromHex(this string? value)
 ```
 
 ```csharp
@@ -1529,6 +1521,62 @@ public void SerializeData(BinaryWriter writer)
 
 ```csharp
 public void UnserializeData(BinaryReader reader)
+```
+
+## PhantasmaPhoenix.Cryptography.NaCl
+
+Source: `PhantasmaPhoenix.Cryptography/src/Cryptography/NaCl/NaCl.cs`
+
+### Declarations
+
+```csharp
+public static class NaCl
+```
+
+### Methods
+
+```csharp
+public const int KeyLength = 32;
+```
+
+```csharp
+public const int NonceLength = 24;
+```
+
+```csharp
+public const int PublicKeyLength = 32;
+```
+
+```csharp
+public const int SecretKeyLength = 32;
+```
+
+```csharp
+public const int TagLength = 16;
+```
+
+```csharp
+public static (byte[] publicKey, byte[] secretKey) GenerateKeyPair()
+```
+
+```csharp
+public static bool TrySecretBoxOpen(byte[] sealedBox, byte[] nonce, byte[] key, out byte[] plaintext)
+```
+
+```csharp
+public static byte[] DeriveSessionKey(byte[] theirPublicKey, byte[] mySecretKey)
+```
+
+```csharp
+public static byte[] GenerateNonce()
+```
+
+```csharp
+public static byte[] GenerateSessionKey()
+```
+
+```csharp
+public static byte[] SecretBoxSeal(byte[] plaintext, byte[] nonce, byte[] key)
 ```
 
 ## PhantasmaPhoenix.Cryptography.AddressKind
@@ -4045,11 +4093,15 @@ public DateTime StartTime { get; private set; }
 ```
 
 ```csharp
-public LinkServer(WalletLink walletLink)
+public LinkServer(WalletLink walletLink, WalletLinkV5? walletLinkV5 = null)
 ```
 
 ```csharp
 public WalletLink WalletLink { get; private set; }
+```
+
+```csharp
+public WalletLinkV5? WalletLinkV5 { get; private set; }
 ```
 
 ```csharp
@@ -4070,6 +4122,38 @@ public void Tick()
 
 ```csharp
 public void WebSocket(string path, Action<WebSocket> handler, params string[] protocols)
+```
+
+## PhantasmaPhoenix.Link.RelayWebSocketClient
+
+Source: `PhantasmaPhoenix.Link/src/RelayWebSocketClient.cs`
+
+### Declarations
+
+```csharp
+public sealed class RelayWebSocketClient : ILinkRelaySocketFactory
+```
+
+### Methods
+
+```csharp
+public ClientSocket(string url, Action onOpen, Action<string> onText, Action onClosed)
+```
+
+```csharp
+public ILinkRelaySocket Connect(string url, Action onOpen, Action<string> onText, Action onClosed)
+```
+
+```csharp
+public void Close()
+```
+
+```csharp
+public void SendText(string text)
+```
+
+```csharp
+public void Start()
 ```
 
 ## PhantasmaPhoenix.Link.WebSockets.BufferPool
@@ -6232,6 +6316,417 @@ public static class APIUtils
 public static JToken FromAPIResult(IAPIResult input)
 ```
 
+## PhantasmaPhoenix.Protocol.LinkChannel
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/LinkChannel.cs`
+
+### Declarations
+
+```csharp
+public sealed class LinkChannel
+```
+
+### Methods
+
+```csharp
+public LinkChannel(byte[] sessionKey)
+```
+
+```csharp
+public bool TryOpenEnvelope(string frameJson, out string envelopeJson)
+```
+
+```csharp
+public string SealEnvelope(string envelopeJson)
+```
+
+## PhantasmaPhoenix.Protocol.LinkDeeplinkEndpoint
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/LinkDeeplinkEndpoint.cs`
+
+### Declarations
+
+```csharp
+public sealed class LinkDeeplinkEndpoint
+```
+
+### Methods
+
+```csharp
+public LinkDeeplinkEndpoint(WalletLinkV5 dispatcher, IWalletLinkV5Ops ops, ILinkPairingStore pairings, LinkRelayClient? relay = null)
+```
+
+```csharp
+public bool TryHandle(string url, Action<string> openUrl)
+```
+
+```csharp
+public static bool TryParseRequest(string url, out string topic, out string frameJson)
+```
+
+```csharp
+public static string BuildResponseUrl(string callback, string topic, string frame)
+```
+
+## PhantasmaPhoenix.Protocol.LinkPairingMode
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/LinkPairing.cs`
+
+### Declarations
+
+```csharp
+public enum LinkPairingMode
+```
+
+### Variants
+
+- `Ecdh`
+- `Sym`
+
+## PhantasmaPhoenix.Protocol.LinkPairingParams
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/LinkPairing.cs`
+
+### Declarations
+
+```csharp
+public sealed class LinkPairingParams
+```
+
+### Methods
+
+```csharp
+public LinkPairingMode Mode { get; set; }
+```
+
+```csharp
+public byte[]? DappPublicKey { get; set; }
+```
+
+```csharp
+public byte[]? SymKey { get; set; }
+```
+
+```csharp
+public int Version { get; set; }
+```
+
+```csharp
+public string Topic { get; set; } = "";
+```
+
+```csharp
+public string? CallbackUrl { get; set; }
+```
+
+```csharp
+public string? DappName { get; set; }
+```
+
+```csharp
+public string? DappUrl { get; set; }
+```
+
+```csharp
+public string? Relay { get; set; }
+```
+
+## PhantasmaPhoenix.Protocol.LinkPairing
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/LinkPairing.cs`
+
+### Declarations
+
+```csharp
+public static class LinkPairing
+```
+
+### Methods
+
+```csharp
+public static LinkPairingParams Parse(string uri)
+```
+
+## PhantasmaPhoenix.Protocol.LinkPairingRecord
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/LinkPairingStore.cs`
+
+### Declarations
+
+```csharp
+public sealed class LinkPairingRecord
+```
+
+### Methods
+
+```csharp
+public DateTime CreatedUtc { get; set; }
+```
+
+```csharp
+public DateTime LastSeenUtc { get; set; }
+```
+
+```csharp
+public byte[] Key { get; set; } = Array.Empty<byte>();
+```
+
+```csharp
+public string CallbackUrl { get; set; } = "";
+```
+
+```csharp
+public string DappName { get; set; } = "";
+```
+
+```csharp
+public string Topic { get; set; } = "";
+```
+
+```csharp
+public string? RelayUrl { get; set; }
+```
+
+## PhantasmaPhoenix.Protocol.ILinkPairingStore
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/LinkPairingStore.cs`
+
+### Declarations
+
+```csharp
+public interface ILinkPairingStore
+```
+
+## PhantasmaPhoenix.Protocol.InMemoryLinkPairingStore
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/LinkPairingStore.cs`
+
+### Declarations
+
+```csharp
+public sealed class InMemoryLinkPairingStore : ILinkPairingStore
+```
+
+### Methods
+
+```csharp
+public LinkPairingRecord? Get(string topic)
+```
+
+```csharp
+public LinkPairingRecord[] List()
+```
+
+```csharp
+public void Remove(string topic)
+```
+
+```csharp
+public void Save(LinkPairingRecord record)
+```
+
+## PhantasmaPhoenix.Protocol.ILinkRelaySocket
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/LinkRelayClient.cs`
+
+### Declarations
+
+```csharp
+public interface ILinkRelaySocket
+```
+
+## PhantasmaPhoenix.Protocol.ILinkRelaySocketFactory
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/LinkRelayClient.cs`
+
+### Declarations
+
+```csharp
+public interface ILinkRelaySocketFactory
+```
+
+## PhantasmaPhoenix.Protocol.LinkRelayClient
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/LinkRelayClient.cs`
+
+### Declarations
+
+```csharp
+public sealed class LinkRelayClient : IDisposable
+```
+
+### Methods
+
+```csharp
+public DateTime TouchedUtc;
+```
+
+```csharp
+public Dictionary<int, string> Received = new Dictionary<int, string>();
+```
+
+```csharp
+public ILinkRelaySocket? Socket;
+```
+
+```csharp
+public LinkRelayClient( WalletLinkV5 dispatcher, ILinkPairingStore pairings, ILinkRelaySocketFactory sockets, Action<Action>? marshal = null, int[]? reconnectDelaysMs = null, Action<string>? log = null)
+```
+
+```csharp
+public System.Threading.Timer? ReconnectTimer;
+```
+
+```csharp
+public bool Open;
+```
+
+```csharp
+public int Chars;
+```
+
+```csharp
+public int ReconnectAttempt;
+```
+
+```csharp
+public int Total;
+```
+
+```csharp
+public readonly HashSet<string> Topics = new HashSet<string>();
+```
+
+```csharp
+public readonly List<string> Outbox = new List<string>();
+```
+
+```csharp
+public static string NormalizeRelayUrl(string relay)
+```
+
+```csharp
+public string Url = "";
+```
+
+```csharp
+public void Dispose()
+```
+
+```csharp
+public void EnsureConnected()
+```
+
+```csharp
+public void PublishHandshake(LinkPairingRecord pairing, byte[] walletPublicKey, string envelopeJson)
+```
+
+```csharp
+public void PublishSealed(LinkPairingRecord pairing, string envelopeJson)
+```
+
+```csharp
+public void TrackPairing(LinkPairingRecord pairing)
+```
+
+## PhantasmaPhoenix.Protocol.LinkSessionRecord
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/LinkSessionStore.cs`
+
+### Declarations
+
+```csharp
+public sealed class LinkSessionRecord
+```
+
+### Methods
+
+```csharp
+public DateTime CreatedUtc { get; set; }
+```
+
+```csharp
+public DateTime LastSeenUtc { get; set; }
+```
+
+```csharp
+public string Address { get; set; } = "";
+```
+
+```csharp
+public string Dapp { get; set; } = "";
+```
+
+```csharp
+public string Id { get; set; } = "";
+```
+
+## PhantasmaPhoenix.Protocol.ILinkSessionStore
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/LinkSessionStore.cs`
+
+### Declarations
+
+```csharp
+public interface ILinkSessionStore
+```
+
+## PhantasmaPhoenix.Protocol.InMemoryLinkSessionStore
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/LinkSessionStore.cs`
+
+### Declarations
+
+```csharp
+public sealed class InMemoryLinkSessionStore : ILinkSessionStore
+```
+
+### Methods
+
+```csharp
+public LinkSessionRecord? Get(string id)
+```
+
+```csharp
+public LinkSessionRecord[] List()
+```
+
+```csharp
+public void Remove(string id)
+```
+
+```csharp
+public void Save(LinkSessionRecord record)
+```
+
+## PhantasmaPhoenix.Protocol.LinkSignMessage
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/LinkSignMessage.cs`
+
+### Declarations
+
+```csharp
+public static class LinkSignMessage
+```
+
+### Methods
+
+```csharp
+public const int RandomLength = 32;
+```
+
+```csharp
+public static byte[] BuildPayload(byte[] message, byte[] random)
+```
+
+```csharp
+public static byte[] GenerateRandom()
+```
+
+```csharp
+public static readonly byte[] DomainTag = Encoding.ASCII.GetBytes("PHANTASMA_LINK_V5_MSG\n");
+```
+
 ## PhantasmaPhoenix.Protocol.WalletStatus
 
 Source: `PhantasmaPhoenix.Protocol/src/WalletLink/WalletLink.cs`
@@ -6465,6 +6960,390 @@ public void Execute(string cmd, Action<int, JToken, bool> callback)
 
 ```csharp
 public void Revoke(string dapp, string token)
+```
+
+## PhantasmaPhoenix.Protocol.WalletLinkV5
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/WalletLinkV5.cs`
+
+### Declarations
+
+```csharp
+public class WalletLinkV5
+```
+
+### Methods
+
+```csharp
+public WalletLinkV5(IWalletLinkV5Ops ops, ILinkSessionStore? sessions = null)
+```
+
+```csharp
+public const int ProtocolVersion = 5;
+```
+
+```csharp
+public const string SessionEstablishedEvent = "pha_sessionEstablished";
+```
+
+```csharp
+public int PendingTakeoverSeconds { get; set; } = 150;
+```
+
+```csharp
+public void EstablishConsentedSession(string dappName, Action<string> deliver)
+```
+
+```csharp
+public void HandleMessage(string message, Action<string> respond)
+```
+
+## PhantasmaPhoenix.Protocol.LinkFailure
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/WalletLinkV5Contract.cs`
+
+### Declarations
+
+```csharp
+public enum LinkFailure
+```
+
+### Variants
+
+- `Internal`
+- `InvalidTransaction`
+- `None = 0`
+- `NotLoggedIn`
+- `UnsupportedSignatureKind`
+- `UserRejected`
+
+## PhantasmaPhoenix.Protocol.LinkTxFormat
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/WalletLinkV5Contract.cs`
+
+### Declarations
+
+```csharp
+public enum LinkTxFormat
+```
+
+### Variants
+
+- `Carbon`
+- `Script`
+
+## PhantasmaPhoenix.Protocol.LinkBalance
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/WalletLinkV5Contract.cs`
+
+### Declarations
+
+```csharp
+public sealed class LinkBalance
+```
+
+### Methods
+
+```csharp
+public int Decimals { get; set; }
+```
+
+```csharp
+public string Symbol { get; set; } = "";
+```
+
+```csharp
+public string Value { get; set; } = "";
+```
+
+```csharp
+public string[] Ids { get; set; } = Array.Empty<string>();
+```
+
+## PhantasmaPhoenix.Protocol.LinkAccount
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/WalletLinkV5Contract.cs`
+
+### Declarations
+
+```csharp
+public sealed class LinkAccount
+```
+
+### Methods
+
+```csharp
+public LinkBalance[] Balances { get; set; } = Array.Empty<LinkBalance>();
+```
+
+```csharp
+public string Address { get; set; } = "";
+```
+
+```csharp
+public string Avatar { get; set; } = "";
+```
+
+```csharp
+public string Name { get; set; } = "";
+```
+
+## PhantasmaPhoenix.Protocol.LinkWalletInfo
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/WalletLinkV5Contract.cs`
+
+### Declarations
+
+```csharp
+public sealed class LinkWalletInfo
+```
+
+### Methods
+
+```csharp
+public string Name { get; set; } = "";
+```
+
+```csharp
+public string Rpc { get; set; } = "";
+```
+
+```csharp
+public string Version { get; set; } = "";
+```
+
+## PhantasmaPhoenix.Protocol.LinkChains
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/WalletLinkV5Contract.cs`
+
+### Declarations
+
+```csharp
+public sealed class LinkChains
+```
+
+### Methods
+
+```csharp
+public string Nexus { get; set; } = "";
+```
+
+## PhantasmaPhoenix.Protocol.LinkConnectResult
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/WalletLinkV5Contract.cs`
+
+### Declarations
+
+```csharp
+public sealed class LinkConnectResult
+```
+
+### Methods
+
+```csharp
+public LinkAccount? Account { get; set; }
+```
+
+```csharp
+public LinkFailure Failure { get; set; }
+```
+
+```csharp
+public static LinkConnectResult Fail(LinkFailure failure, string? message) => new LinkConnectResult { Failure = failure, Message = message };
+```
+
+```csharp
+public static LinkConnectResult Ok(LinkAccount account, string walletName, string walletVersion, string nexus) => new LinkConnectResult { Account = account, WalletName = walletName, WalletVersion = walletVersion, Nexus = nexus };
+```
+
+```csharp
+public string Nexus { get; set; } = "";
+```
+
+```csharp
+public string WalletName { get; set; } = "";
+```
+
+```csharp
+public string WalletVersion { get; set; } = "";
+```
+
+```csharp
+public string? Message { get; set; }
+```
+
+## PhantasmaPhoenix.Protocol.LinkAccountResult
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/WalletLinkV5Contract.cs`
+
+### Declarations
+
+```csharp
+public sealed class LinkAccountResult
+```
+
+### Methods
+
+```csharp
+public LinkAccount? Account { get; set; }
+```
+
+```csharp
+public LinkFailure Failure { get; set; }
+```
+
+```csharp
+public static LinkAccountResult Fail(LinkFailure failure, string? message) => new LinkAccountResult { Failure = failure, Message = message };
+```
+
+```csharp
+public static LinkAccountResult Ok(LinkAccount account) => new LinkAccountResult { Account = account };
+```
+
+```csharp
+public string? Message { get; set; }
+```
+
+## PhantasmaPhoenix.Protocol.LinkSignMessageResult
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/WalletLinkV5Contract.cs`
+
+### Declarations
+
+```csharp
+public sealed class LinkSignMessageResult
+```
+
+### Methods
+
+```csharp
+public LinkFailure Failure { get; private set; }
+```
+
+```csharp
+public byte[]? Random { get; private set; }
+```
+
+```csharp
+public byte[]? Signature { get; private set; }
+```
+
+```csharp
+public static LinkSignMessageResult Fail(LinkFailure failure, string? message) => new LinkSignMessageResult { Failure = failure, Message = message };
+```
+
+```csharp
+public static LinkSignMessageResult Ok(byte[] signature, byte[] random) => new LinkSignMessageResult { Signature = signature, Random = random };
+```
+
+```csharp
+public string? Message { get; private set; }
+```
+
+## PhantasmaPhoenix.Protocol.LinkSignTransactionResult
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/WalletLinkV5Contract.cs`
+
+### Declarations
+
+```csharp
+public sealed class LinkSignTransactionResult
+```
+
+### Methods
+
+```csharp
+public LinkFailure Failure { get; private set; }
+```
+
+```csharp
+public byte[]? SignedTx { get; private set; }
+```
+
+```csharp
+public static LinkSignTransactionResult Fail(LinkFailure failure, string? message) => new LinkSignTransactionResult { Failure = failure, Message = message };
+```
+
+```csharp
+public static LinkSignTransactionResult Ok(byte[] signedTx) => new LinkSignTransactionResult { SignedTx = signedTx };
+```
+
+```csharp
+public string? Message { get; private set; }
+```
+
+## PhantasmaPhoenix.Protocol.LinkSendResult
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/WalletLinkV5Contract.cs`
+
+### Declarations
+
+```csharp
+public sealed class LinkSendResult
+```
+
+### Methods
+
+```csharp
+public Hash Hash { get; set; } = Hash.Null;
+```
+
+```csharp
+public LinkFailure Failure { get; set; }
+```
+
+```csharp
+public static LinkSendResult Fail(LinkFailure failure, string? message) => new LinkSendResult { Failure = failure, Message = message };
+```
+
+```csharp
+public static LinkSendResult Ok(Hash hash) => new LinkSendResult { Hash = hash };
+```
+
+```csharp
+public string? Message { get; set; }
+```
+
+## PhantasmaPhoenix.Protocol.LinkInvokeResult
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/WalletLinkV5Contract.cs`
+
+### Declarations
+
+```csharp
+public sealed class LinkInvokeResult
+```
+
+### Methods
+
+```csharp
+public LinkFailure Failure { get; set; }
+```
+
+```csharp
+public static LinkInvokeResult Fail(LinkFailure failure, string? message) => new LinkInvokeResult { Failure = failure, Message = message };
+```
+
+```csharp
+public static LinkInvokeResult Ok(string[] results) => new LinkInvokeResult { Results = results };
+```
+
+```csharp
+public string? Message { get; set; }
+```
+
+```csharp
+public string[] Results { get; set; } = Array.Empty<string>();
+```
+
+## PhantasmaPhoenix.Protocol.IWalletLinkV5Ops
+
+Source: `PhantasmaPhoenix.Protocol/src/WalletLink/WalletLinkV5Contract.cs`
+
+### Declarations
+
+```csharp
+public interface IWalletLinkV5Ops
 ```
 
 ## PhantasmaPhoenix.Protocol.Carbon.ICarbonBlob
@@ -11090,6 +11969,38 @@ public string Content { get; set; }
 public string Url { get; set; }
 ```
 
+## PhantasmaPhoenix.RPC.Models.OrganizationMemberResult
+
+Source: `PhantasmaPhoenix.RPC/src/Models/OrganizationMemberResult.cs`
+
+### Declarations
+
+```csharp
+public class OrganizationMemberResult
+```
+
+### Methods
+
+```csharp
+public OrganizationMemberResult() { }
+```
+
+```csharp
+public bool IsMember { get; set; } = true;
+```
+
+```csharp
+public long? MemberTime { get; set; }
+```
+
+```csharp
+public string Address { get; set; } = string.Empty;
+```
+
+```csharp
+public string CarbonAddress { get; set; } = string.Empty;
+```
+
 ## PhantasmaPhoenix.RPC.Models.OrganizationResult
 
 Source: `PhantasmaPhoenix.RPC/src/Models/OrganizationResult.cs`
@@ -11107,15 +12018,23 @@ public OrganizationResult() { }
 ```
 
 ```csharp
-public string? Id { get; set; }
+public TokenPropertyResult[] Metadata { get; set; } = Array.Empty<TokenPropertyResult>();
 ```
 
 ```csharp
-public string? Name { get; set; }
+public string CarbonOwner { get; set; } = string.Empty;
 ```
 
 ```csharp
-public string[]? Members { get; set; }
+public string Name { get; set; } = string.Empty;
+```
+
+```csharp
+public string Owner { get; set; } = string.Empty;
+```
+
+```csharp
+public string? MemberCount { get; set; }
 ```
 
 ## PhantasmaPhoenix.RPC.Models.ScriptResult
@@ -11855,6 +12774,14 @@ public Task<CursorPaginatedResult<BalanceResult[]>?> GetAccountFungibleTokensAsy
 ```
 
 ```csharp
+public Task<CursorPaginatedResult<OrganizationMemberResult[]>?> GetOrganizationMembersAsync( string name, uint pageSize = 10, string cursor = "", bool includeMemberTime = true) => _rpc.SendRpcAsync<CursorPaginatedResult<OrganizationMemberResult[]>>( Host, "getOrganizationMembers", name, pageSize, cursor, includeMemberTime);
+```
+
+```csharp
+public Task<CursorPaginatedResult<OrganizationResult[]>?> GetOrganizationsAsync( uint pageSize = 10, string cursor = "", bool includeMemberCount = false) => _rpc.SendRpcAsync<CursorPaginatedResult<OrganizationResult[]>>( Host, "getOrganizations", pageSize, cursor, includeMemberCount);
+```
+
+```csharp
 public Task<CursorPaginatedResult<TokenDataResult[]>?> GetAccountNFTsAsync( string account, string tokenSymbol = "", ulong carbonTokenId = 0, uint carbonSeriesId = 0, uint pageSize = 10, string cursor = "", bool extended = false, bool checkAddressReservedByte = true) => _rpc.SendRpcAsync<CursorPaginatedResult<TokenDataResult[]>>( Host, "getAccountNFTs", account, tokenSymbol, carbonTokenId, carbonSeriesId, pageSize, cursor, extended, checkAddressReservedByte);
 ```
 
@@ -11895,15 +12822,11 @@ public Task<NexusResult?> GetNexusAsync() => _rpc.SendRpcAsync<NexusResult>(Host
 ```
 
 ```csharp
-public Task<OrganizationResult?> GetOrganizationAsync(string id) => _rpc.SendRpcAsync<OrganizationResult>(Host, "getOrganization", id);
+public Task<OrganizationMemberResult?> GetOrganizationMemberAsync( string name, string address, bool checkAddressReservedByte = true, RpcAddressType addressType = RpcAddressType.Phantasma) => _rpc.SendRpcAsync<OrganizationMemberResult>( Host, "getOrganizationMember", name, address, checkAddressReservedByte, addressType);
 ```
 
 ```csharp
-public Task<OrganizationResult?> GetOrganizationByNameAsync(string name) => _rpc.SendRpcAsync<OrganizationResult>(Host, "getOrganizationByName", name);
-```
-
-```csharp
-public Task<OrganizationResult[]?> GetOrganizationsAsync() => _rpc.SendRpcAsync<OrganizationResult[]>(Host, "getOrganizations");
+public Task<OrganizationResult?> GetOrganizationAsync(string name, bool includeMemberCount = false) => _rpc.SendRpcAsync<OrganizationResult>(Host, "getOrganization", name, includeMemberCount);
 ```
 
 ```csharp
@@ -13231,11 +14154,11 @@ public static ScriptBuilder TransferBalance(this ScriptBuilder sb, string tokenS
 ```
 
 ```csharp
-public static ScriptBuilder TransferNFT(this ScriptBuilder sb, string tokenSymbol, Address from, Address to, BigInteger tokenId)//todo check if this is valid
+public static ScriptBuilder TransferNFT(this ScriptBuilder sb, string tokenSymbol, Address from, Address to, BigInteger tokenId)
 ```
 
 ```csharp
-public static ScriptBuilder TransferNFT(this ScriptBuilder sb, string tokenSymbol, Address from, string to, BigInteger tokenId)//todo check if this is valid
+public static ScriptBuilder TransferNFT(this ScriptBuilder sb, string tokenSymbol, Address from, string to, BigInteger tokenId)
 ```
 
 ```csharp

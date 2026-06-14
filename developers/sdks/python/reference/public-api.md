@@ -1,16 +1,8 @@
 # Python SDK Public API Inventory
 
-This page lists public classes, methods, functions, enum values,
-fields, and constants from the cited source baseline. Use it to check
-exact names when working with lower-level SDK APIs.
-
-Source baseline:
-
-| Item | Value |
-| ---- | ----- |
-| Source repo | `phantasma-sdk-py` |
-| Source commit | `88c14709ab6662adeceb36b87f0f247fe043af4e` |
-| Scope | public module members under `src/phantasma_py` |
+This page lists the public classes, methods, functions, enum values,
+fields, and constants of the SDK. Use it to check exact names when
+working with lower-level SDK APIs.
 
 ## phantasma_py
 
@@ -2057,6 +2049,10 @@ class OrganizationResult
 ```
 
 ```python
+class OrganizationMemberResult
+```
+
+```python
 class CrowdsaleResult
 ```
 
@@ -2365,9 +2361,15 @@ class PhantasmaRPC
 - `NexusResult.tokens: list[TokenResult] | None`
 - `OracleResult.content: str`
 - `OracleResult.url: str`
-- `OrganizationResult.id: str | None`
-- `OrganizationResult.members: list[str] | None`
+- `OrganizationMemberResult.address: str | None`
+- `OrganizationMemberResult.carbon_address: str | None`
+- `OrganizationMemberResult.is_member: bool`
+- `OrganizationMemberResult.member_time: int | None`
+- `OrganizationResult.carbon_owner: str | None`
+- `OrganizationResult.member_count: str | None`
+- `OrganizationResult.metadata: list[TokenPropertyResult]`
 - `OrganizationResult.name: str | None`
+- `OrganizationResult.owner: str | None`
 - `PaginatedResult.page: int`
 - `PaginatedResult.page_size: int`
 - `PaginatedResult.result: T | None`
@@ -2688,15 +2690,19 @@ PhantasmaRPC.get_nfts_text(self, symbol: str, nft_ids: str, *, extended: bool = 
 ```
 
 ```python
-PhantasmaRPC.get_organization(self, organization_id: str, *, extended: bool = True) -> OrganizationResult
+PhantasmaRPC.get_organization(self, name: str, *, include_member_count: bool = False) -> OrganizationResult
 ```
 
 ```python
-PhantasmaRPC.get_organization_by_name(self, name: str, *, extended: bool = True) -> OrganizationResult
+PhantasmaRPC.get_organization_member(self, name: str, address: str, *, check_address_reserved_byte: bool = True, address_type: str = 'Phantasma') -> OrganizationMemberResult
 ```
 
 ```python
-PhantasmaRPC.get_organizations(self, *, extended: bool = False) -> list[OrganizationResult]
+PhantasmaRPC.get_organization_members(self, name: str, *, page_size: int = 10, cursor: str = '', include_member_time: bool = True) -> CursorPaginatedResult[list[OrganizationMemberResult]]
+```
+
+```python
+PhantasmaRPC.get_organizations(self, *, page_size: int = 10, cursor: str = '', include_member_count: bool = False) -> CursorPaginatedResult[list[OrganizationResult]]
 ```
 
 ```python

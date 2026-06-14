@@ -1,16 +1,8 @@
 # C++ SDK Public API Inventory
 
-This page lists public classes, methods, functions, enum values,
-fields, and constants from the cited source baseline. Use it to check
-exact names when working with lower-level SDK APIs.
-
-Source baseline:
-
-| Item | Value |
-| ---- | ----- |
-| Source repo | `phantasma-sdk-cpp` |
-| Source commit | `3982fdcc26f4148b8ef5207b139b6c8f1e49ddd1` |
-| Scope | public headers under `include/**` |
+This page lists the public classes, methods, functions, enum values,
+fields, and constants of the SDK. Use it to check exact names when
+working with lower-level SDK APIs.
 
 ## Adapters/PhantasmaAPI_cpprest.h
 
@@ -3685,6 +3677,10 @@ struct Organization
 ```
 
 ```cpp
+struct OrganizationMember
+```
+
+```cpp
 struct Paginated
 ```
 
@@ -4451,15 +4447,39 @@ Oracle::String url
 ```
 
 ```cpp
-Organization::PHANTASMA_VECTOR<String> members
+Organization::PHANTASMA_VECTOR<TokenProperty> metadata
 ```
 
 ```cpp
-Organization::String id
+Organization::String carbonOwner
+```
+
+```cpp
+Organization::String memberCount
 ```
 
 ```cpp
 Organization::String name
+```
+
+```cpp
+Organization::String owner
+```
+
+```cpp
+OrganizationMember::String address
+```
+
+```cpp
+OrganizationMember::String carbonAddress
+```
+
+```cpp
+OrganizationMember::UInt64 memberTime
+```
+
+```cpp
+OrganizationMember::bool isMember
 ```
 
 ```cpp
@@ -4551,6 +4571,14 @@ PhantasmaAPI::CursorPaginatedResult<Balance> GetAccountFungibleTokens(const Char
 ```
 
 ```cpp
+PhantasmaAPI::CursorPaginatedResult<Organization> GetOrganizations(UInt32 pageSize, const Char* cursor, bool includeMemberCount, PhantasmaError* out_error = nullptr)
+```
+
+```cpp
+PhantasmaAPI::CursorPaginatedResult<OrganizationMember> GetOrganizationMembers(const Char* name, UInt32 pageSize, const Char* cursor, bool includeMemberTime, PhantasmaError* out_error = nullptr)
+```
+
+```cpp
 PhantasmaAPI::CursorPaginatedResult<Token> GetAccountOwnedTokens(const Char* account, const Char* tokenSymbol, UInt64 carbonTokenId, UInt32 pageSize, const Char* cursor, bool checkAddressReservedByte, PhantasmaError* out_error = nullptr)
 ```
 
@@ -4595,11 +4623,15 @@ PhantasmaAPI::Nexus GetNexus(bool extended, PhantasmaError* out_error = nullptr)
 ```
 
 ```cpp
-PhantasmaAPI::Organization GetOrganization(const Char* ID, PhantasmaError* out_error = nullptr)
+PhantasmaAPI::Organization GetOrganization(const Char* name, PhantasmaError* out_error = nullptr)
 ```
 
 ```cpp
-PhantasmaAPI::Organization GetOrganizationByName(const Char* name, bool extended, PhantasmaError* out_error = nullptr)
+PhantasmaAPI::Organization GetOrganization(const Char* name, bool includeMemberCount, PhantasmaError* out_error = nullptr)
+```
+
+```cpp
+PhantasmaAPI::OrganizationMember GetOrganizationMember(const Char* name, const Char* address, bool checkAddressReservedByte, const Char* addressType, PhantasmaError* out_error = nullptr)
 ```
 
 ```cpp
@@ -4616,10 +4648,6 @@ PhantasmaAPI::PHANTASMA_VECTOR<Chain> GetChains(PhantasmaError* out_error = null
 
 ```cpp
 PhantasmaAPI::PHANTASMA_VECTOR<Contract> GetContracts(const Char* chainAddressOrName, bool extended, PhantasmaError* out_error = nullptr)
-```
-
-```cpp
-PhantasmaAPI::PHANTASMA_VECTOR<Organization> GetOrganizations(bool extended, PhantasmaError* out_error = nullptr)
 ```
 
 ```cpp
@@ -4820,6 +4848,10 @@ PhantasmaJsonAPI::static Oracle DeserializeOracle(const JSONValue& json, bool& j
 
 ```cpp
 PhantasmaJsonAPI::static Organization DeserializeOrganization(const JSONValue& json, bool& jsonError)
+```
+
+```cpp
+PhantasmaJsonAPI::static OrganizationMember DeserializeOrganizationMember(const JSONValue& json, bool& jsonError)
 ```
 
 ```cpp
@@ -5047,7 +5079,11 @@ PhantasmaJsonAPI::static bool ParseGetNexusResponse(const JSONValue&, Nexus& out
 ```
 
 ```cpp
-PhantasmaJsonAPI::static bool ParseGetOrganizationByNameResponse(const JSONValue&, Organization& out, PhantasmaError* err = 0)
+PhantasmaJsonAPI::static bool ParseGetOrganizationMemberResponse(const JSONValue&, OrganizationMember& out, PhantasmaError* err = 0)
+```
+
+```cpp
+PhantasmaJsonAPI::static bool ParseGetOrganizationMembersResponse(const JSONValue&, CursorPaginatedResult<OrganizationMember>& out, PhantasmaError* err = 0)
 ```
 
 ```cpp
@@ -5055,7 +5091,7 @@ PhantasmaJsonAPI::static bool ParseGetOrganizationResponse(const JSONValue&, Org
 ```
 
 ```cpp
-PhantasmaJsonAPI::static bool ParseGetOrganizationsResponse(const JSONValue&, PHANTASMA_VECTOR<Organization>& out, PhantasmaError* err = 0)
+PhantasmaJsonAPI::static bool ParseGetOrganizationsResponse(const JSONValue&, CursorPaginatedResult<Organization>& out, PhantasmaError* err = 0)
 ```
 
 ```cpp
@@ -5235,15 +5271,19 @@ PhantasmaJsonAPI::static void MakeGetNexusRequest(JSONBuilder&, bool extended)
 ```
 
 ```cpp
-PhantasmaJsonAPI::static void MakeGetOrganizationByNameRequest(JSONBuilder&, const Char* name, bool extended)
+PhantasmaJsonAPI::static void MakeGetOrganizationMemberRequest(JSONBuilder&, const Char* name, const Char* address, bool checkAddressReservedByte, const Char* addressType)
 ```
 
 ```cpp
-PhantasmaJsonAPI::static void MakeGetOrganizationRequest(JSONBuilder&, const Char* ID)
+PhantasmaJsonAPI::static void MakeGetOrganizationMembersRequest(JSONBuilder&, const Char* name, UInt32 pageSize, const Char* cursor, bool includeMemberTime)
 ```
 
 ```cpp
-PhantasmaJsonAPI::static void MakeGetOrganizationsRequest(JSONBuilder&, bool extended)
+PhantasmaJsonAPI::static void MakeGetOrganizationRequest(JSONBuilder&, const Char* name, bool includeMemberCount)
+```
+
+```cpp
+PhantasmaJsonAPI::static void MakeGetOrganizationsRequest(JSONBuilder&, UInt32 pageSize, const Char* cursor, bool includeMemberCount)
 ```
 
 ```cpp

@@ -1,16 +1,8 @@
 # Go SDK Public API Inventory
 
-This page lists public classes, methods, functions, enum values,
-fields, and constants from the cited source baseline. Use it to check
-exact names when working with lower-level SDK APIs.
-
-Source baseline:
-
-| Item | Value |
-| ---- | ----- |
-| Source repo | `phantasma-sdk-go` |
-| Source commit | `6f3a4dd7223fc26f2af5e109dd97a7faccfbd185` |
-| Scope | exported identifiers in non-test Go files under `pkg/**` |
+This page lists the public classes, methods, functions, enum values,
+fields, and constants of the SDK. Use it to check exact names when
+working with lower-level SDK APIs.
 
 ## github.com/phantasma-io/phantasma-sdk-go/pkg/blockchain
 
@@ -2666,7 +2658,7 @@ Source: `pkg/domain`
 ### Declarations
 
 ```go
-const SDKVersion = "0.10.1"
+const SDKVersion = "0.10.2"
 ```
 
 ```go
@@ -3834,6 +3826,14 @@ type PhantasmaRPC struct {
 ### Methods
 
 ```go
+func (addressType AddressType) MarshalJSON() ([]byte, error)
+```
+
+```go
+func (addressType AddressType) String() string
+```
+
+```go
 func (rpc PhantasmaRPC) Call(ctx context.Context, method string, params ...interface{}) (*jsonrpc.RPCResponse, error)
 ```
 
@@ -3982,15 +3982,19 @@ func (rpc PhantasmaRPC) GetNexus(ctx context.Context, extended bool) (resp.Nexus
 ```
 
 ```go
-func (rpc PhantasmaRPC) GetOrganization(ctx context.Context, id string, extended bool) (resp.OrganizationResult, error)
+func (rpc PhantasmaRPC) GetOrganization(ctx context.Context, name string, includeMemberCount bool) (resp.OrganizationResult, error)
 ```
 
 ```go
-func (rpc PhantasmaRPC) GetOrganizationByName(ctx context.Context, name string, extended bool) (resp.OrganizationResult, error)
+func (rpc PhantasmaRPC) GetOrganizationMember(ctx context.Context, name string, address string, checkAddressReservedByte bool, addressType AddressType) (resp.OrganizationMemberResult, error)
 ```
 
 ```go
-func (rpc PhantasmaRPC) GetOrganizations(ctx context.Context, extended bool) ([]resp.OrganizationResult, error)
+func (rpc PhantasmaRPC) GetOrganizationMembers(ctx context.Context, name string, pageSize int, cursor string, includeMemberTime bool) (resp.CursorPaginatedResult[[]resp.OrganizationMemberResult], error)
+```
+
+```go
+func (rpc PhantasmaRPC) GetOrganizations(ctx context.Context, pageSize int, cursor string, includeMemberCount bool) (resp.CursorPaginatedResult[[]resp.OrganizationResult], error)
 ```
 
 ```go
@@ -4240,6 +4244,10 @@ type OracleResult struct {
 ```
 
 ```go
+type OrganizationMemberResult struct {
+```
+
+```go
 type OrganizationResult struct {
 ```
 
@@ -4338,6 +4346,7 @@ type ValidatorResult struct {
 ### Fields
 
 - `Active         bool   `json:"active"``
+- `Address       *string `json:"address,omitempty"``
 - `Address       string                `json:"address"``
 - `Address      *string  `json:"address,omitempty"``
 - `Address   string          `json:"address"``
@@ -4360,8 +4369,10 @@ type ValidatorResult struct {
 - `BuildTimeUTC string `json:"buildTimeUtc"``
 - `BurnedSupply   *string               `json:"burnedSupply,omitempty"``
 - `BurnedSupply  string                `json:"burnedSupply"``
+- `CarbonAddress *string `json:"carbonAddress,omitempty"``
 - `CarbonID      string                `json:"carbonId"``
 - `CarbonNFTAddress string                `json:"carbonNftAddress"``
+- `CarbonOwner *string               `json:"carbonOwner,omitempty"``
 - `CarbonSeriesID   string                `json:"carbonSeriesId"``
 - `CarbonSeriesID string                `json:"carbonSeriesId"``
 - `CarbonTokenID    string                `json:"carbonTokenId"``
@@ -4455,12 +4466,12 @@ type ValidatorResult struct {
 - `Height       uint     `json:"height"``
 - `High      string `json:"High"``
 - `ID               string                `json:"id"``
-- `ID      *string  `json:"id,omitempty"``
 - `Ids      []string `json:"ids,omitempty"``
 - `Index          int    `json:"index"``
 - `Index     string `json:"index"``
 - `Infusion         []TokenPropertyResult `json:"infusion"``
 - `Interop  []InteropResult `json:"interop"``
+- `IsMember      bool    `json:"isMember"``
 - `IsStored              bool   `json:"isStored"``
 - `Key   string `json:"key"``
 - `Kind     string      `json:"kind"``
@@ -4472,9 +4483,11 @@ type ValidatorResult struct {
 - `MaxMint        string                `json:"maxMint"``
 - `MaxSupply      string                `json:"maxSupply"``
 - `MaxSupply     string                `json:"maxSupply"``
-- `Members []string `json:"members,omitempty"``
+- `MemberCount *string               `json:"memberCount,omitempty"``
+- `MemberTime    *uint64 `json:"memberTime,omitempty"``
 - `Metadata       []TokenPropertyResult `json:"metadata"``
 - `Metadata      []TokenPropertyResult `json:"metadata,omitempty"``
+- `Metadata    []TokenPropertyResult `json:"metadata,omitempty"``
 - `Methods        []ABIMethodResult     `json:"methods,omitempty"``
 - `Methods []ABIMethodResult `json:"methods,omitempty"``
 - `Mint             string                `json:"mint"``
@@ -4487,11 +4500,11 @@ type ValidatorResult struct {
 - `Name          string                `json:"name"``
 - `Name          string `json:"name"``
 - `Name         *string  `json:"name,omitempty"``
+- `Name        *string               `json:"name,omitempty"``
 - `Name        string `json:"name"``
 - `Name       string               `json:"name"``
 - `Name      string          `json:"name"``
 - `Name     string `json:"name"``
-- `Name    *string  `json:"name,omitempty"``
 - `Name    string            `json:"name"``
 - `Name    string `json:"name"``
 - `Name   string                 `json:"name"``
@@ -4505,6 +4518,7 @@ type ValidatorResult struct {
 - `Organization *string  `json:"organization,omitempty"``
 - `Organizations []string           `json:"organizations,omitempty"``
 - `Owner         string                `json:"owner"``
+- `Owner       *string               `json:"owner,omitempty"``
 - `Owner   *string           `json:"owner,omitempty"``
 - `OwnerAddress     string                `json:"ownerAddress"``
 - `OwnerAddress   string                `json:"ownerAddress"``

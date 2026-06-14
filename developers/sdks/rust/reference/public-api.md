@@ -1,16 +1,8 @@
 # Rust SDK Public API Inventory
 
-This page lists public classes, methods, functions, enum values,
-fields, and constants from the cited source baseline. Use it to check
-exact names when working with lower-level SDK APIs.
-
-Source baseline:
-
-| Item | Value |
-| ---- | ----- |
-| Source repo | `phantasma-sdk-rs` |
-| Source commit | `3119caab252a7fa4e00308cc46542dbd4d367135` |
-| Scope | public items in `src/**/*.rs` |
+This page lists the public classes, methods, functions, enum values,
+fields, and constants of the SDK. Use it to check exact names when
+working with lower-level SDK APIs.
 
 ## phantasma_sdk::binary
 
@@ -1914,6 +1906,10 @@ pub struct OracleResult
 ```
 
 ```rust
+pub struct OrganizationMemberResult
+```
+
+```rust
 pub struct OrganizationResult
 ```
 
@@ -2171,9 +2167,15 @@ pub type VersionResult = BuildInfoResult
 - `NftResult.pub status: String`
 - `OracleResult.pub content: String`
 - `OracleResult.pub url: String`
-- `OrganizationResult.pub id: Option<String>`
-- `OrganizationResult.pub members: Option<Vec<String>>`
+- `OrganizationMemberResult.pub address: Option<String>`
+- `OrganizationMemberResult.pub carbon_address: Option<String>`
+- `OrganizationMemberResult.pub is_member: bool`
+- `OrganizationMemberResult.pub member_time: Option<u64>`
+- `OrganizationResult.pub carbon_owner: Option<String>`
+- `OrganizationResult.pub member_count: Option<String>`
+- `OrganizationResult.pub metadata: Vec<TokenPropertyResult>`
 - `OrganizationResult.pub name: Option<String>`
+- `OrganizationResult.pub owner: Option<String>`
 - `PaginatedResult.pub page: u32`
 - `PaginatedResult.pub page_size: u32`
 - `PaginatedResult.pub result: Option<T>`
@@ -2541,11 +2543,15 @@ impl PhantasmaRpc<T>: pub async fn get_organization(
 ```
 
 ```rust
-impl PhantasmaRpc<T>: pub async fn get_organization_by_name(
+impl PhantasmaRpc<T>: pub async fn get_organization_member(
 ```
 
 ```rust
-impl PhantasmaRpc<T>: pub async fn get_organizations(&self, extended: bool) -> Result<Vec<OrganizationResult>>
+impl PhantasmaRpc<T>: pub async fn get_organization_members(
+```
+
+```rust
+impl PhantasmaRpc<T>: pub async fn get_organizations(
 ```
 
 ```rust
