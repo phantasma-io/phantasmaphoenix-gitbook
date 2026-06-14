@@ -71,6 +71,7 @@ Use these for uppercase token symbols. Do not try to deploy an uppercase token-b
 ### NFT operations
 
 - `Runtime.GetOwnerships`
+- `Runtime.GetOwnershipsBySeries`
 - `Runtime.TransferToken`
 - `Runtime.MintToken`
 - `Runtime.BurnToken`
@@ -79,6 +80,7 @@ Use these for uppercase token symbols. Do not try to deploy an uppercase token-b
 - `Runtime.ReadTokenROM`
 - `Runtime.ReadTokenRAM`
 - `Runtime.ReadInfusions`
+- `Runtime.WriteToken`
 - `Nexus.CreateTokenSeries`
 
 ### Contract storage
@@ -87,13 +89,12 @@ Use these for uppercase token symbols. Do not try to deploy an uppercase token-b
 - `Map.Has`, `Map.Get`, `Map.Set`, `Map.Remove`, `Map.Count`, `Map.Clear`, `Map.Keys`
 - `List.Get`, `List.Add`, `List.Replace`, `List.RemoveAt`, `List.Count`, `List.Clear`
 
-## Methods That Still Exist In Old Tables But Are Not Ready
+## Methods Not Yet Available
 
 Do not write new examples around these yet:
 
 - `Runtime.KillContract`
 - `Runtime.SwapTokens`
-- `Runtime.WriteToken`
 - `Runtime.AESDecrypt`
 - `Runtime.AESEncrypt`
 - `Organization.*`

@@ -2,7 +2,7 @@
 
 Interop calls are the bridge between VM bytecode and native chain functionality. A script uses `EXTCALL` with a method name such as `Runtime.TransferTokens` or `Data.Get`, and the validator handles the real token, NFT, storage, or contract lifecycle operation in native code.
 
-This page reflects the current Carbon validator behavior. It is not a wishlist and it is not an archival Gen2 table.
+This page reflects the current Carbon validator behavior: it lists the interops the validator implements today and flags the ones that are not yet available.
 
 ## How To Think About Interop
 
@@ -31,7 +31,7 @@ These methods are currently available.
 | `Runtime.Log` | `message` | implemented | Emits a VM-side log line. |
 | `Runtime.Notify` | `eventKind, address, payload` | implemented | Requires a real deployed contract context; emits a contract event payload. |
 
-These names exist in older tables but are not implemented in the current validator and should not be documented as working:
+These names appear in older documentation but are not implemented in the current validator; calls to them are rejected:
 
 - `Runtime.TransactionHash`
 - `Runtime.Validator`
@@ -45,7 +45,7 @@ These names exist in older tables but are not implemented in the current validat
 | --- | --- | --- | --- |
 | `Runtime.DeployContract` | `from, contractName, script, abi` | implemented | Deploys a standalone custom contract. Requires minimal proof of work. Custom names are lowercase. |
 | `Runtime.UpgradeContract` | `from, contractName, script, abi` | implemented | Upgrades an existing deployed contract. Also used later for token-backed contracts after they already exist. Requires minimal proof of work. |
-| `Runtime.KillContract` | `from, contractName` | not implemented | Do not document as a working flow yet. |
+| `Runtime.KillContract` | `from, contractName` | not implemented | Rejected by the current validator. |
 | `Nexus.CreateToken` | `from, script, abi` | implemented | Creates a new token-backed contract from contract metadata. Requires minimal proof of work. |
 | `Nexus.AttachTokenContract` | `from, symbol, script, abi` | implemented | Attaches VM code to an already existing token. Requires minimal proof of work and current validator version support. |
 
@@ -73,6 +73,7 @@ Important lifecycle rules:
 | Method | Args | Status | Notes |
 | --- | --- | --- | --- |
 | `Runtime.GetOwnerships` | `address, symbol` | implemented | NFT-only. Returns a deterministic `BigInteger[]`-style VM object of owned Phantasma NFT IDs. |
+| `Runtime.GetOwnershipsBySeries` | `address, symbol, seriesID` | implemented | NFT-only. Like `GetOwnerships`, but limited to a single series. |
 | `Runtime.TransferToken` | `source, destination, symbol, tokenID` | implemented | Uses runtime-visible Phantasma NFT IDs, not raw Carbon instance IDs. |
 | `Runtime.MintToken` | `source, destination, symbol, rom, ram, seriesID` | implemented | Uses Phantasma series metadata IDs and preserves VM-facing ROM behavior. Triggers `onMint` when token-backed contract code exists. |
 | `Runtime.BurnToken` | `source, symbol, tokenID` | implemented | NFT burn path. |
@@ -96,7 +97,7 @@ For `Runtime.ReadToken` and related NFT interops, the current validator intentio
 | `Runtime.GetTokenFlags` | `symbol` | implemented | Reads current token flags. |
 | `Runtime.GetTokenOwner` | `symbol` | implemented | Returns the current token owner address object. |
 
-Older public tables sometimes mention `Runtime.GetTokenSupply` or `Runtime.GetAvailableTokenSymbols`. Those methods are not part of the current Carbon VM interop surface and should not be documented as available.
+`Runtime.GetTokenSupply` and `Runtime.GetAvailableTokenSymbols` appear in older documentation but are not part of the current Carbon VM interop surface; calls to them are rejected.
 
 ## NFT Series
 
