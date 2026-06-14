@@ -48,7 +48,7 @@ REST and JSON-RPC interfaces use the same endpoint and argument names.
 
 | Type                                  | Link                                                                                                     |
 | ------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| Mainnet Explorer                      | [https://explorer.phantasma.info](https://test-explorer.phantasma.info)                                  |
+| Mainnet Explorer                      | [https://explorer.phantasma.info](https://explorer.phantasma.info)                                       |
 | Mainnet RPC1 REST API Documentation   | [https://pharpc1.phantasma.info](https://pharpc1.phantasma.info)                                         |
 | Mainnet RPC1 REST API                 | [https://pharpc1.phantasma.info/api/v1](https://pharpc1.phantasma.info/api/v1)                           |
 | Mainnet RPC1 RPC API                  | [https://pharpc1.phantasma.info/rpc](https://pharpc1.phantasma.info/rpc)                                 |
