@@ -15,8 +15,8 @@ caller.
 
 | Type | Used by | Default behavior |
 | ---- | ------- | ---------------- |
-| `FeeOptions` | generic Carbon messages and NFT mint helpers | `CalculateMaxGas()` for one item or `CalculateMaxGasForCount(count)` where exposed by the concrete type |
-| `CreateTokenFeeOptions` | `BuildCreateTokenTx*` | includes create-token base and symbol-length fee estimate |
+| `FeeOptions` | generic Carbon messages | `CalculateMaxGas()` or `CalculateMaxGasForCount(count)` |
+| `CreateTokenFeeOptions` | `BuildCreateTokenTx*` | create-token base + symbol-length fee estimate; uses `CalculateMaxGas(symbol)` |
 | `CreateSeriesFeeOptions` | `BuildCreateTokenSeriesTx*` | includes create-series base estimate |
 | `MintNFTFeeOptions` | NFT mint helpers | `CalculateMaxGasForCount(count)` scales mint gas by a positive count |
 
