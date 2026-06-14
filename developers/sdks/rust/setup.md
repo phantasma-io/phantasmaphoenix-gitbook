@@ -15,7 +15,7 @@ Add the SDK to `Cargo.toml`:
 
 ```toml
 [dependencies]
-phantasma-sdk = "1.1.2"
+phantasma-sdk = "1.1.3"
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 ```
 

@@ -14,7 +14,7 @@ TypeScript SDK Complete API Reference
 | Item | Value |
 | ---- | ----- |
 | Package | `phantasma-sdk-ts` |
-| Current source version | `0.9.1` |
+| Current source version | `0.9.2` |
 | Runtime | Node `>=22`; browser bundles depend on the wallet/link feature being used |
 | Recommended import | `phantasma-sdk-ts/public` |
 

@@ -120,4 +120,4 @@ when a node method should run without that Carbon id filter.
 | `writeArchive(hashText, blockIndex, blockContent)` | Writes archive block content. |
 
 `writeArchive(...)` accepts already encoded block content as a string. The
-TypeScript client does not expose a `readArchive` wrapper in version `0.9.1`.
+TypeScript client does not expose a `readArchive` wrapper.

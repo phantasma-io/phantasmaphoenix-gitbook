@@ -17,7 +17,7 @@ CLI tool for decoding Phantasma Carbon + VM transactions, contract lifecycle scr
 
 ## Requirements
 
-- Node.js with ESM support (Node 18+ recommended).
+- Node.js with ESM support (Node `>=22`).
 
 ## Installation
 

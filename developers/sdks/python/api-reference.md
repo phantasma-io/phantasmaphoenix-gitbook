@@ -16,7 +16,7 @@ Python SDK Complete API Reference
 | ---- | ----- |
 | Package | `phantasma-sdk-py` |
 | Import namespace | `phantasma_py` |
-| Current source version | `2.1.1` |
+| Current source version | `2.1.2` |
 | Python | `>=3.11` |
 
 ## Top-Level Imports

@@ -92,7 +92,7 @@ If you use [`just`](https://github.com/casey/just), the repo also ships helper r
 
 ## Requirements
 
-- Node.js `>=16`
+- Node.js `>=22`
 - `pha-tomb >= 2.1.0` for `contract compile`
 
 `contract compile` resolves `pha-tomb` in this order:
@@ -458,7 +458,7 @@ Attach output also prints the resolved token symbol used in the interop call.
 Example:
 
 ```text
-pha-deploy 0.5.0
+pha-deploy 0.5.1
 pha-tomb version 2.1.0
 pha-tomb path /usr/local/bin/pha-tomb
 ```
