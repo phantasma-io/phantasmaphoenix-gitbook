@@ -1,104 +1,51 @@
 ---
-description: The connecting Wallets to Dapps
+description: Connecting wallets to dApps
 ---
 
 # 🔗 Phantasma Link Client
 
-Phantasma Link is a protocol designed to allow dapps to sign transactions and do other on-chain operations on the behalf of users, in a transparent way, without requiring access to the user private key.
+Phantasma Link is a protocol that lets dApps sign transactions and run on-chain operations on behalf of users, in a transparent way, without ever accessing the user's private key.
 
 {% hint style="info" %}
-This page is a protocol reference, not a TypeScript guide.
+This page is a protocol overview, not a TypeScript guide.
 If you're building in TS, start here:
+
 - [Frontend Guide](/developers/sdks/ts/frontend/frontend.md)
 
 Then use these pages as needed:
+
 - [Phantasma Link (TS)](/developers/sdks/ts/shared-methods/phantasmalink.md)
 - [EasyConnect (TS)](/developers/sdks/ts/shared-methods/easyconnect.md)
 - [React Wallet Connection](/developers/sdks/ts/frontend/connect-react.md)
 {% endhint %}
 
-{% hint style="info" %}
-The methods below describe wallet authorization, account access, script
-invocation, transaction signing, and archive writes exposed by the Phantasma
-Link Client protocol.
-{% endhint %}
+## Protocol operations
 
-### Authorize
+A wallet that implements Phantasma Link answers a small set of requests from a connected dApp. Each request is sent to the wallet over the link transport and answered asynchronously. The concrete method names and callback shapes depend on the SDK you use (see [Implementations](#implementations)); the operations below are what those methods map to.
 
-```csharp
-protected abstract void Authorize(string dapp, string token, int version, Action<bool, string> callback);
-```
+### Authorization
 
-The `Authorize` method is used to authenticate the user and grant the specified dApp access to the user's wallet. It requires the dApp identifier, an authentication token, and the version number. The `callback` returns a boolean indicating whether the authorization was successful and an optional error message.
+The dApp requests a wallet session, identifying itself with a dApp id and the link protocol version. The wallet prompts the user and, on approval, returns a session token and the connected nexus. SDKs send this as `authorize/{dappID}/{version}`.
 
-### GetAccount
+### Account access
 
-```csharp
-protected abstract void GetAccount(string platform, int version, Action<Account, string> callback);
-```
+Once authorized, the dApp can read the connected account: its address, registered name, and token balances. SDKs send this as `getAccount/{platform}`.
 
-The `GetAccount` method retrieves the user's account details for the specified platform and version. The `callback` returns the account object and an optional error message.
+### Data signing
 
-### GetPeer
+The dApp can ask the wallet to sign arbitrary bytes with the user's key, without exposing the private key. The wallet returns the signature over the supplied data.
 
-```csharp
-protected abstract void GetPeer(Action<string> callback);
-```
+### Transaction signing
 
-The `GetPeer` method retrieves the current peer node of the Phantasma blockchain. The `callback` returns the peer node URL.
+The dApp builds a transaction script and asks the wallet to sign and broadcast it. The wallet signs with the user's key, submits the transaction, and returns the resulting transaction hash.
 
-### GetNexus
+### Logout
 
-```csharp
-protected abstract void GetNexus(Action<string> callback);
-```
+The dApp ends the session. The wallet clears the session token and cached account state.
 
-The `GetNexus` method retrieves the current nexus name of the Phantasma blockchain. The `callback` returns the nexus name.
+## Implementations
 
-### InvokeScript
+Use the SDK pages for the concrete method signatures and examples:
 
-```csharp
-protected abstract void InvokeScript(string chain, byte[] script, int id, Action<string[], string> callback);
-```
-
-The `InvokeScript` method allows you to execute a script on the specified chain in the Phantasma blockchain. It requires the chain name, the script as a byte array, and a unique identifier. The `callback` returns an array of results and an optional error message.
-
-### SignData
-
-```csharp
-protected abstract void SignData(string platform, SignatureKind kind, byte[] data, int id, Action<string, string, string> callback);
-```
-
-The `SignData` method signs a given data using the user's private key. It requires the platform, the signature type, the data as a byte array, and a unique identifier. The `callback` returns the signed data, random appended bytes, and an optional error message.
-
-### SignTransactionSignature
-
-```csharp
-protected abstract void SignTransactionSignature(Phantasma.Core.Domain.Transaction transaction, string platform, SignatureKind kind, Action<Phantasma.Core.Cryptography.Signature, string> callback);
-```
-
-The `SignTransactionSignature` method signs a given transaction using the user's private key. It requires the transaction object, the platform, and the signature type. The `callback` returns the transaction signature and an optional error message.
-
-### FetchAndMultiSignature
-
-```csharp
-protected abstract void FetchAndMultiSignature(string subject, string platform, SignatureKind kind, int id, Action<bool, string> callback);
-```
-
-The `FetchAndMultiSignature` method retrieves the user's multi-signature account for the specified subject and platform, signs it with the user's private key, and submits it to the blockchain. It requires the subject, the platform, the signature type, and a unique identifier. The `callback` returns a boolean indicating the success of the operation and an optional error message.
-
-### SignTransaction
-
-```csharp
-protected abstract void SignTransaction(string platform, SignatureKind kind, string chain, byte[] script, byte[] payload, int id, ProofOfWork pow, Action<Hash, string> callback);
-```
-
-The `SignTransaction` method creates, signs, and broadcasts a transaction to the Phantasma blockchain. It requires the platform, the signature type, the chain name, the script and payload as byte arrays, a unique identifier, and an optional Proof of Work (PoW) object. The `callback` returns the transaction hash and an optional error message.
-
-### WriteArchive
-
-```csharp
-protected abstract void WriteArchive(Hash hash, int blockIndex, byte[] data, Action<bool, string> callback);
-```
-
-The `WriteArchive` method writes data to the Phantasma blockchain's archive. It requires the archive hash, the block index, and the data as a byte array. The `callback` returns a boolean indicating the success of the operation and an optional error message.
+- TypeScript: [Phantasma Link](/developers/sdks/ts/shared-methods/phantasmalink.md), [EasyConnect](/developers/sdks/ts/shared-methods/easyconnect.md)
+- Unity: [Unity Link Client](/developers/sdks/unity/reference/link-client.md)
