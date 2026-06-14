@@ -81,9 +81,10 @@ operation results.
 | `getContracts(chainAddressOrName?, extended?)` | Reads contracts on a chain. |
 | `getContract(chainAddressOrName, contractName)` | Reads a contract by name. |
 | `getContractByAddress(chainAddressOrName, contractAddress)` | Reads a contract by address. |
-| `getOrganization(ID, extended?)` | Reads an organization by id. |
-| `getOrganizationByName(name, extended?)` | Reads an organization by name. |
-| `getOrganizations(extended?)` | Reads organization list. |
+| `getOrganization(name, includeMemberCount?)` | Reads one organization by name. |
+| `getOrganizations(pageSize?, cursor?, includeMemberCount?)` | Lists organizations with cursor pagination. |
+| `getOrganizationMembers(name, pageSize?, cursor?, includeMemberTime?)` | Lists organization members with cursor pagination. |
+| `getOrganizationMember(name, address, checkAddressReservedByte?, addressType?)` | Checks one address's membership in an organization. |
 | `getLeaderboard(name)` | Reads leaderboard rows. |
 | `getVersion()` | Reads node build metadata. |
 | `getPhantasmaVmConfig(chainAddressOrName)` | Reads VM gas/config values. |

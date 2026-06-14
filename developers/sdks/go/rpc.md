@@ -58,7 +58,7 @@ SDKs:
 | ---- | ------- |
 | Build and chain config | `GetVersion`, `GetPhantasmaVMConfig`, `GetChains`, `GetChain`, `GetNexus` |
 | Blocks and transactions | `GetBlockByHash`, `GetLatestBlock`, `GetBlockTransactionCountByHashOnChain`, `GetTransactionByBlockHashAndIndexOnChain` |
-| Contracts and organizations | `GetContracts`, `GetContractByName`, `GetContractByAddress`, `GetOrganization`, `GetOrganizationByName`, `GetOrganizations`, `GetLeaderboard` |
+| Contracts and organizations | `GetContracts`, `GetContractByName`, `GetContractByAddress`, `GetOrganization`, `GetOrganizations`, `GetOrganizationMembers`, `GetOrganizationMember`, `GetLeaderboard` |
 | Token definitions | `GetTokens`, `GetTokensByOwner`, `GetToken`, `GetTokenWithID`, `GetTokenData`, `GetTokenBalance` |
 | Series and NFTs | `GetTokenSeries`, `GetTokenSeriesByID`, `GetTokenNFTs`, `GetTokenNFTsWithSeriesID`, `GetNFT`, `GetNFTs` |
 | Account inventory | `GetAccountFungibleTokens`, `GetAccountNFTs`, `GetAccountOwnedTokens`, `GetAccountOwnedTokenSeries` and address-type variants |

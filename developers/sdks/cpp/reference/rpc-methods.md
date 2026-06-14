@@ -32,7 +32,7 @@ is configured otherwise.
 | Transactions | `GetTransaction`, `GetTransactionByBlockHashAndIndex`, `SendRawTransaction`, `SendCarbonTransaction`, `InvokeRawScript` |
 | Chain metadata | `GetChains`, `GetChain`, `GetNexus`, `GetVersion`, `GetPhantasmaVmConfig` |
 | Contracts | `GetContracts`, `GetContract`, `GetContractByAddress` |
-| Organizations and leaderboards | `GetOrganization`, `GetOrganizationByName`, `GetOrganizations`, `GetLeaderboard` |
+| Organizations and leaderboards | `GetOrganization`, `GetOrganizations`, `GetOrganizationMembers`, `GetOrganizationMember`, `GetLeaderboard` |
 | Tokens | `GetTokens`, `GetToken`, `GetTokenSeries`, `GetTokenSeriesById`, `GetTokenNFTs`, `GetTokenData`, `GetTokenBalance` |
 | Account token inventory | `GetAccountFungibleTokens`, `GetAccountNFTs`, `GetAccountOwnedTokens`, `GetAccountOwnedTokenSeries` |
 | NFT and marketplace | `GetNFT`, `GetNFTs`, `GetAuctionsCount`, `GetAuctions`, `GetAuction` |
@@ -65,8 +65,6 @@ The generated source currently marks these wrappers as stubbed node methods:
 | `GetChains` | empty array |
 | `GetChain` | default chain object |
 | `GetNexus` | default nexus object |
-| `GetOrganization`, `GetOrganizationByName` | default organization object |
-| `GetOrganizations` | empty array |
 | `GetLeaderboard` | default leaderboard object |
 | `GetArchive` | default archive object |
 | `WriteArchive` | false without persistence |

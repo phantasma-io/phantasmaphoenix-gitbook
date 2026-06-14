@@ -62,8 +62,6 @@ data sources until the node returns real values:
 | `GetChains` | returns an empty array |
 | `GetChain` | returns a default chain object |
 | `GetNexus` | returns a default nexus object |
-| `GetOrganization`, `GetOrganizationByName` | return a default organization object |
-| `GetOrganizations` | returns an empty array |
 | `GetLeaderboard` | returns a default leaderboard object |
 | `GetArchive` | returns a default archive object |
 | `WriteArchive` | returns false without persisting data |

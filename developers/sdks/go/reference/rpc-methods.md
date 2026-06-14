@@ -72,9 +72,10 @@ whose id set does not match the request set, and enforces
 | `GetContract(ctx, name, chainName)` | Legacy order wrapper for contract by name. |
 | `GetContractByName(ctx, chainAddressOrName, contractName)` | Chain-first contract by name. |
 | `GetContractByAddress(ctx, chainAddressOrName, contractAddress)` | Reads a contract by address. |
-| `GetOrganization(ctx, id, extended)` | Reads organization metadata by id. |
-| `GetOrganizationByName(ctx, name, extended)` | Reads organization metadata by name. |
-| `GetOrganizations(ctx, extended)` | Reads organization list. |
+| `GetOrganization(ctx, name, includeMemberCount)` | Reads one organization by name. |
+| `GetOrganizations(ctx, pageSize, cursor, includeMemberCount)` | Lists organizations with cursor pagination. |
+| `GetOrganizationMembers(ctx, name, pageSize, cursor, includeMemberTime)` | Lists organization members with cursor pagination. |
+| `GetOrganizationMember(ctx, name, address, checkAddressReservedByte, addressType)` | Checks one address's membership in an organization. |
 | `GetLeaderboard(ctx, name)` | Reads leaderboard rows. |
 
 ## Tokens, Series, And NFTs
