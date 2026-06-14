@@ -24,7 +24,7 @@ Without options, `EasyConnect` starts with:
 
 - `requiredVersion = 4`
 - `platform = "phantasma"`
-- `providerHint = "poltergeist"`
+- `providerHint = ""` (auto-selected; becomes `"ecto"` when `window.PhantasmaLinkSocket` is present)
 - `nexus = null` until a real connection succeeds
 
 Important change: `EasyConnect.nexus` is no longer pre-filled with a fake default network. It stays `null` until the underlying link reports a recognized nexus.

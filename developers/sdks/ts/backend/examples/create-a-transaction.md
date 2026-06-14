@@ -39,5 +39,5 @@ const wif = "YOUR_WIF"; // REPLACE with WIF of your wallet
 const keys = PhantasmaKeys.fromWIF(wif);
 
 transaction.signWithKeys(keys);
-const transactionSignedHex = transaction.toString(true);
+const transactionSignedHex = transaction.toStringEncoded(true);
 ```

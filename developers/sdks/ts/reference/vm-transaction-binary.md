@@ -63,8 +63,8 @@ removal at v1.0.
 | `mineTransaction(difficulty)` | Mutates transaction payload for proof of work. |
 | `deserialize(serialized)` | Static deserializer for bytes. |
 
-Use `toStringEncoded(true)` or `toString(true)` for `sendRawTransaction` only
-after the transaction has the required signatures.
+Use `toStringEncoded(true)` for `sendRawTransaction` only after the transaction
+has the required signatures (`toString(true)` is a deprecated alias).
 
 ## VM Objects And Event Helpers
 

@@ -26,7 +26,7 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
  * @param transaction Transaction to send already signed
  */
 async function SendATransaction(transaction: Transaction) {
-  let transactionSignedBytes = transaction.toString(true); // Get the transaction in bytes convert it to string
+  let transactionSignedBytes = transaction.toStringEncoded(true); // Get the transaction in bytes convert it to string
   let txHash = await RPC.sendRawTransaction(transactionSignedBytes); // Send the transaction to the network
   await delay(5000); // Wait 5 seconds or more
   let result = await RPC.getTransaction(txHash); // Get the result of the transaction

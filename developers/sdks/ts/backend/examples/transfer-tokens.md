@@ -80,7 +80,7 @@ export async function transferSoulTokens() {
 
   transaction.signWithKeys(keys);
 
-  let hexEncodedTx = transaction.toString(true); // converts transaction to base16 string; true means transaction is signed
+  let hexEncodedTx = transaction.toStringEncoded(true); // converts transaction to base16 string; true means transaction is signed
   console.log("Broadcasting transaction:", hexEncodedTx);
 
   // Broadcasting transaction
