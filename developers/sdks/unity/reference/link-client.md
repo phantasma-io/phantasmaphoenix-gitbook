@@ -106,7 +106,7 @@ for the random and encoded data fields.
 
 ## Platform Enum
 
-`PlatformKind` values exposed by this source baseline:
+`PlatformKind` values:
 
 | Name | Value |
 | ---- | ---- |

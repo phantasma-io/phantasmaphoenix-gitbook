@@ -93,7 +93,7 @@ decide whether the call is valid.
 | `ValidateNexus(Nexus chainNexus)` | Parses the transaction nexus name and compares it with the supplied enum value. |
 
 Gas-specific constructor parameters are present, but gas serialization is
-commented out in the current source baseline. Do not rely on those constructor
+currently commented out in the SDK. Do not rely on those constructor
 arguments to write gas fields into the serialized transaction.
 
 ## VM Objects

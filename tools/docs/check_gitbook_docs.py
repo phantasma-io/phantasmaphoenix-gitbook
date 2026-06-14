@@ -40,6 +40,20 @@ KNOWN_STALE_PATTERNS = (
     ),
 )
 
+# Public pages document the product, not how the docs are produced. Internal
+# provenance/generation notes (commit hashes, "source baseline" framing) read as
+# maintainer metadata and go stale immediately, so they are publication blockers.
+META_PROSE_PATTERNS = (
+    (
+        re.compile(r"(?i)\bsource baseline\b"),
+        "Public docs must not reference an internal source baseline.",
+    ),
+    (
+        re.compile(r"(?i)\bsource commit\b"),
+        "Public docs must not cite an internal source commit.",
+    ),
+)
+
 
 @dataclass(frozen=True)
 class Issue:
@@ -316,6 +330,18 @@ def check_known_stale_patterns(root: Path, path: Path, text: str) -> List[Issue]
     return issues
 
 
+def check_meta_prose(root: Path, path: Path, text: str) -> List[Issue]:
+    rel = path.relative_to(root)
+    issues: List[Issue] = []
+    searchable = strip_code_fences(text)
+
+    for regex, message in META_PROSE_PATTERNS:
+        for match in regex.finditer(searchable):
+            issues.append(Issue(rel, line_for_offset(text, match.start()), message))
+
+    return issues
+
+
 def check_file(root: Path, path: Path) -> List[Issue]:
     issues: List[Issue] = []
     raw = path.read_bytes()
@@ -332,6 +358,7 @@ def check_file(root: Path, path: Path) -> List[Issue]:
     issues.extend(check_links(root, path, text))
     issues.extend(check_content_ref_blocks(root, path, text))
     issues.extend(check_known_stale_patterns(root, path, text))
+    issues.extend(check_meta_prose(root, path, text))
 
     if path.name in SUMMARY_FILES:
         issues.extend(check_summary(root, path, text))
