@@ -37,7 +37,7 @@ Phantasma Link connects dApps to wallets for signing transactions and interactin
 
 ## Tools and SDKs
 
-Use the Token Deployment UI for Carbon workflows and contract lifecycle actions: [Token Deployment UI](/about/token-deployment-ui.md). Developers can also build directly with the TypeScript, C#, and Unity SDKs, or use `pha-deploy` for repeatable CLI workflows.
+Use the Token Deployment UI for Carbon workflows and contract lifecycle actions: [Token Deployment UI](/about/token-deployment-ui.md). Developers can also build directly with the C#, Unity, TypeScript/JavaScript, Go, Python, Rust, and C++ SDKs, or use `pha-deploy` for repeatable CLI workflows.
 
 ## On-chain storage
 

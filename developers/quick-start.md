@@ -60,7 +60,7 @@ REST and JSON-RPC interfaces use the same endpoint and argument names.
 ### Phantasma SDK's
 
 {% hint style="info" %}
-Explore our wide selection of Phantasma blockchain SDKs available for platforms like Unity, Typescript, and C++. These tools empower you to innovate and integrate with the Phantasma ecosystem, irrespective of your preferred development environment. Click to unleash the potential of decentralized technology.
+Phantasma ships SDKs for C#, Unity, TypeScript/JavaScript, Go, Python, Rust, and C++. Pick the one that matches your stack.
 {% endhint %}
 
 
