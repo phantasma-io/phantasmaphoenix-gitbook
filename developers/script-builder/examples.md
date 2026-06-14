@@ -1,6 +1,6 @@
 # Examples
 
-The following examples demonstrate how to use the ScriptBuilder class to create various transaction scripts for the Phantasma blockchain.
+The following examples use the C# SDK `ScriptBuilder` to create transaction scripts.
 
 #### Example 1: Transfer Tokens
 

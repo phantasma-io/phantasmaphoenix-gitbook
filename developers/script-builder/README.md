@@ -1,6 +1,10 @@
-# 📝 Phantasma ScriptBuilder Class Documentation
+# 📝 ScriptBuilder (C# SDK)
 
-The Phantasma ScriptBuilder class is a utility for creating transaction scripts in the Phantasma blockchain. This class provides methods for various operations such as transferring tokens, interacting with smart contracts, and managing gas for transactions.
+`ScriptBuilder` is the C# SDK helper for assembling Phantasma transaction scripts: it allocates gas, transfers fungible tokens and NFTs, and calls contracts. The methods below are C# extension methods from `PhantasmaPhoenix.VM`; each one emits the VM `EXTCALL` interops the validator runs.
+
+{% hint style="info" %}
+For the underlying VM interop surface (and the script builders in the other SDKs), see [External Calls](external-calls.md).
+{% endhint %}
 
 ### Methods
 
