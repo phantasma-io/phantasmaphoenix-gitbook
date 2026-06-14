@@ -241,15 +241,27 @@ public IEnumerator GetNexus(Action<NexusResult> callback, Action<EPHANTASMA_SDK_
 ```
 
 ```csharp
-public IEnumerator GetOrganization(string ID, Action<OrganizationResult> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
+public IEnumerator GetOrganization(string name, Action<OrganizationResult> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
 ```
 
 ```csharp
-public IEnumerator GetOrganizationByName(string name, Action<OrganizationResult> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
+public IEnumerator GetOrganization(string name, bool includeMemberCount, Action<OrganizationResult> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
 ```
 
 ```csharp
-public IEnumerator GetOrganizations(Action<OrganizationResult[]> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
+public IEnumerator GetOrganizationMember(string name, string address, bool checkAddressReservedByte, RpcAddressType addressType, Action<OrganizationMemberResult> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
+```
+
+```csharp
+public IEnumerator GetOrganizationMembers(string name, uint pageSize, string cursor, bool includeMemberTime, Action<CursorPaginatedResult<OrganizationMemberResult[]>> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
+```
+
+```csharp
+public IEnumerator GetOrganizations(Action<CursorPaginatedResult<OrganizationResult[]>> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
+```
+
+```csharp
+public IEnumerator GetOrganizations(uint pageSize, string cursor, bool includeMemberCount, Action<CursorPaginatedResult<OrganizationResult[]>> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
 ```
 
 ```csharp

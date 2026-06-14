@@ -14,7 +14,7 @@
 
 * All RPC methods accept an optional `Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback` plus optional `timeout` and `retries` arguments.
 * Block-hash methods provide both main-chain defaults and explicit `chainAddressOrName` overloads for transaction counts and transaction-by-block-position reads.
-* The Unity wrappers for Chain, Leaderboard, Nexus, Organization, and Storage exist, but the current RPC backend still returns stubbed/default data for those endpoint groups.
+* The Unity wrappers for Chain, Leaderboard, Nexus, and Storage exist, but the current RPC backend still returns stubbed/default data for those endpoint groups.
 
 #### Methods
 
@@ -72,11 +72,10 @@ Current backend status: stubbed nexus query; `GetNexus` returns a default result
 
 **Organization**
 
-Current backend status: stubbed organization queries; single-organization calls return default results and the list call returns an empty array.
-
-* `public IEnumerator GetOrganization(string ID, Action<OrganizationResult> callback, ...);`
-* `public IEnumerator GetOrganizationByName(string name, Action<OrganizationResult> callback, ...);`
-* `public IEnumerator GetOrganizations(Action<OrganizationResult[]> callback, ...);`
+* `public IEnumerator GetOrganization(string name, bool includeMemberCount, Action<OrganizationResult> callback, ...);`
+* `public IEnumerator GetOrganizations(uint pageSize, string cursor, bool includeMemberCount, Action<CursorPaginatedResult<OrganizationResult[]>> callback, ...);`
+* `public IEnumerator GetOrganizationMembers(string name, uint pageSize, string cursor, bool includeMemberTime, Action<CursorPaginatedResult<OrganizationMemberResult[]>> callback, ...);`
+* `public IEnumerator GetOrganizationMember(string name, string address, bool checkAddressReservedByte, RpcAddressType addressType, Action<OrganizationMemberResult> callback, ...);`
 
 **Token**
 

@@ -65,9 +65,10 @@ callback.
 | `GetContracts` | Lists main-chain contracts. | `Action<ContractResult[]>` |
 | `GetLeaderboard(name, ...)` | Stubbed leaderboard query; returns a default result. | `Action<LeaderboardResult>` |
 | `GetNexus` | Stubbed nexus query; returns a default result. | `Action<NexusResult>` |
-| `GetOrganization(ID, ...)` | Stubbed organization query; returns a default result. | `Action<OrganizationResult>` |
-| `GetOrganizationByName(name, ...)` | Stubbed organization query; returns a default result. | `Action<OrganizationResult>` |
-| `GetOrganizations` | Stubbed organization query; returns an empty array. | `Action<OrganizationResult[]>` |
+| `GetOrganization(name, includeMemberCount, ...)` | Reads one organization by name. | `Action<OrganizationResult>` |
+| `GetOrganizations(pageSize, cursor, includeMemberCount, ...)` | Lists organizations with cursor pagination. | `Action<CursorPaginatedResult<OrganizationResult[]>>` |
+| `GetOrganizationMembers(name, pageSize, cursor, includeMemberTime, ...)` | Lists organization members with cursor pagination. | `Action<CursorPaginatedResult<OrganizationMemberResult[]>>` |
+| `GetOrganizationMember(name, address, checkAddressReservedByte, addressType, ...)` | Checks one address's membership in an organization. | `Action<OrganizationMemberResult>` |
 
 ## Tokens And NFTs
 
