@@ -75,7 +75,7 @@ pha-decode address --pha P2KKzrLNZK75f4Vtp4wwWocfgoqywBo3zKBWxBXjLgbxXmL
 
 `pha-decode` supports four commands:
 
-- `tx` (default): decode a transaction from hex (`--hex`) or from hash (`--hash` + `--rpc`).
+- `tx` (default): decode a transaction. Provide it as raw hex (`--hex`), fetch it by hash (`--hash` with `--rpc`), pass an RPC transaction JSON (`--rpc-json <path|->`), or decode a Carbon transaction body (`--carbon-tx-data`, with optional `--carbon-tx-type`). Optional context: `--payload`, `--expiration`, `--gas-payer`, `--signature-count`.
 - `event`: decode legacy event data from hex (`--hex`) with an optional event kind (`--kind`).
 - `rom`: decode ROM hex (`--hex`) with optional `--symbol`, `--token-id`, and `--rom-format`.
 - `address`: convert or derive addresses from `--bytes32`, `--pha`, `--wif`, `--private-key`, `--mnemonic`, or `--mnemonic-legacy`.
