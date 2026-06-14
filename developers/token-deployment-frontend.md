@@ -114,7 +114,7 @@ Decimals define how many digits are allowed after the decimal point, and therefo
 - If decimals = 0, fractional values are not allowed.
 
 Limits:
-- Fungible tokens: decimals must be 0 to 64 (chain validation, enforced by the UI).
+- Fungible tokens: the UI accepts decimals 0 to 64; the chain and the `pha-deploy` CLI allow up to 255.
 - Fungible max supply: up to 2^255 - 1 base units (about 5.79e76). This is a chain limit, not a recommendation.
 - NFTs: decimals are fixed to 0.
 - NFT max supply must fit into Int64 (<= 9,223,372,036,854,775,807).
