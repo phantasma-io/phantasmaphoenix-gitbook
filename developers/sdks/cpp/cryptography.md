@@ -69,8 +69,9 @@ Ed25519Signature sig = keys.Sign(msg.data(), (int)msg.size());
 
 **Example — parse and derive**
 ```cpp
-Address a = Address::FromText("P2K...");  // parse from base58 form
-bool ok = a.IsValid();
+bool parseError = false;
+Address a = Address::FromText("P2K...", &parseError);  // parse from base58 form
+bool ok = !parseError;
 String text = a.ToString();
 
 // From PhantasmaKeys / public key
