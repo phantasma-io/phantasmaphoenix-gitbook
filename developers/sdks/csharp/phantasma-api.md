@@ -341,37 +341,56 @@ Gets nexus metadata including an array of all chains deployed on Phantasma
 
 ## Organization
 
-{% hint style="warning" %}
-The current RPC source exposes the organization endpoints, but `getOrganization` and `getOrganizationByName` return default `OrganizationResult` values, and `getOrganizations` returns an empty array. Do not use this section as reliable organization data until those backend queries are implemented.
-{% endhint %}
-
-### `Task<OrganizationResult?> GetOrganizationAsync(string id)`
-Gets organization data by id
+### `Task<OrganizationResult?> GetOrganizationAsync(string name, bool includeMemberCount = false)`
+Gets organization data by name.
 
 **Parameters**
-- `id` — organization id
+- `name` — organization name, for example `"masters"`
+- `includeMemberCount` — include the member count (requires a server-side member range scan)
 
 **Returns**
 - organization data or `null`
 
 ---
 
-### `Task<OrganizationResult?> GetOrganizationByNameAsync(string name)`
-Gets organization data by name
+### `Task<CursorPaginatedResult<OrganizationResult[]>?> GetOrganizationsAsync(uint pageSize = 10, string cursor = "", bool includeMemberCount = false)`
+Lists organizations deployed on Phantasma using cursor pagination.
+
+**Parameters**
+- `pageSize` — items per page
+- `cursor` — cursor for the next page
+- `includeMemberCount` — include the member count per organization
+
+**Returns**
+- cursor-paginated organizations or `null`
+
+---
+
+### `Task<CursorPaginatedResult<OrganizationMemberResult[]>?> GetOrganizationMembersAsync(string name, uint pageSize = 10, string cursor = "", bool includeMemberTime = true)`
+Lists members of an organization by name using cursor pagination.
 
 **Parameters**
 - `name` — organization name
+- `pageSize` — items per page
+- `cursor` — cursor for the next page
+- `includeMemberTime` — include each member's join timestamp
 
 **Returns**
-- organization data or `null`
+- cursor-paginated organization members or `null`
 
 ---
 
-### `Task<OrganizationResult[]?> GetOrganizationsAsync()`
-Gets all organizations deployed on Phantasma
+### `Task<OrganizationMemberResult?> GetOrganizationMemberAsync(string name, string address, bool checkAddressReservedByte = true, RpcAddressType addressType = RpcAddressType.Phantasma)`
+Gets membership status for an address in an organization.
+
+**Parameters**
+- `name` — organization name
+- `address` — address to check
+- `checkAddressReservedByte` — validate the address reserved byte
+- `addressType` — address text format
 
 **Returns**
-- array of organizations or `null`
+- organization member status or `null`
 
 ---
 

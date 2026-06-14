@@ -85,9 +85,10 @@ address families or wants reserved-byte validation to be explicit.
 | `GetContractsAsync()` | `getContracts` | Listing main-chain contracts. The SDK passes `DomainSettings.RootChainName`. | `Task<ContractResult[]?>` |
 | `GetLeaderboardAsync(name)` | `getLeaderboard` | Reading one leaderboard. Current backend behavior is stubbed and returns a default result. | `Task<LeaderboardResult?>` |
 | `GetNexusAsync()` | `getNexus` | Reading nexus metadata. Current backend behavior is stubbed and returns a default result. | `Task<NexusResult?>` |
-| `GetOrganizationAsync(id)` | `getOrganization` | Reading one organization by id. Current backend behavior is stubbed. | `Task<OrganizationResult?>` |
-| `GetOrganizationByNameAsync(name)` | `getOrganizationByName` | Reading one organization by name. Current backend behavior is stubbed. | `Task<OrganizationResult?>` |
-| `GetOrganizationsAsync()` | `getOrganizations` | Listing organizations. Current backend behavior is stubbed and returns an empty array. | `Task<OrganizationResult[]?>` |
+| `GetOrganizationAsync(name, includeMemberCount)` | `getOrganization` | Reading one organization by name. | `Task<OrganizationResult?>` |
+| `GetOrganizationsAsync(pageSize, cursor, includeMemberCount)` | `getOrganizations` | Listing organizations with cursor pagination. | `Task<CursorPaginatedResult<OrganizationResult[]>?>` |
+| `GetOrganizationMembersAsync(name, pageSize, cursor, includeMemberTime)` | `getOrganizationMembers` | Listing organization members with cursor pagination. | `Task<CursorPaginatedResult<OrganizationMemberResult[]>?>` |
+| `GetOrganizationMemberAsync(name, address, checkAddressReservedByte, addressType)` | `getOrganizationMember` | Checking one address's membership in an organization. | `Task<OrganizationMemberResult?>` |
 
 ## Tokens And NFTs
 
