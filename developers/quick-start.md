@@ -33,7 +33,7 @@ For example, on mainnet node 1, JSON-RPC is `https://pharpc1.phantasma.info/rpc`
 
 ### Mainnet
 
-<table><thead><tr><th>Resource</th><th>Endpoint</th></tr></thead><tbody>
+<table><thead><tr><th width="25%">Resource</th><th width="75%">Endpoint</th></tr></thead><tbody>
 <tr><td>Explorer</td><td><a href="https://explorer.phantasma.info">explorer.phantasma.info</a></td></tr>
 <tr><td>RPC node 1</td><td>
 
@@ -67,7 +67,7 @@ https://peers.phantasma.info/mainnet-getpeers.json
 
 ### Testnet
 
-<table><thead><tr><th>Resource</th><th>Endpoint</th></tr></thead><tbody>
+<table><thead><tr><th width="25%">Resource</th><th width="75%">Endpoint</th></tr></thead><tbody>
 <tr><td>Explorer</td><td><a href="https://testnet-explorer.phantasma.info">testnet-explorer.phantasma.info</a></td></tr>
 <tr><td>RPC node</td><td>
 
@@ -87,7 +87,7 @@ https://peers.phantasma.info/testnet-getpeers.json
 
 ### Devnet
 
-<table><thead><tr><th>Resource</th><th>Endpoint</th></tr></thead><tbody>
+<table><thead><tr><th width="25%">Resource</th><th width="75%">Endpoint</th></tr></thead><tbody>
 <tr><td>Explorer</td><td><a href="https://devnet-explorer.phantasma.info">devnet-explorer.phantasma.info</a></td></tr>
 <tr><td>RPC node</td><td>
 
