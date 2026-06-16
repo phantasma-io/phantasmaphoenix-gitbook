@@ -12,7 +12,7 @@ by wallet-facing examples.
 | Field or property | Use |
 | ---- | ---- |
 | `Version` | Link protocol version. The inspector default is `2`. |
-| `DappID` | DApp or contract identifier included in wallet authorization requests. |
+| `DappID` | dApp or contract identifier included in wallet authorization requests. |
 | `Host` | Wallet endpoint host. The inspector default is `localhost:7090`. |
 | `Platform` | Signing platform. Default is `PlatformKind.Phantasma`. |
 | `Signature` | Signature kind. Default is `SignatureKind.Ed25519`. |

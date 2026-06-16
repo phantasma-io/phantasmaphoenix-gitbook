@@ -35,7 +35,7 @@ transactions from a Unity project.
 
 #### DappID
 
-DappID is a unique identifier for your decentralized application on the Phantasma blockchain. It is used to associate your DApp with a specific smart contract and is displayed when users log in to your application.
+DappID is a unique identifier for your decentralized application on the Phantasma blockchain. It is used to associate your dApp with a specific smart contract and is displayed when users log in to your application.
 
 ### ScriptBuilder
 
