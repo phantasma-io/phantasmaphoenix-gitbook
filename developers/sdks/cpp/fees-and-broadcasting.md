@@ -16,6 +16,15 @@ confirmation policy.
 `CalculateMaxGas(count)` rejects zero counts and reports overflow through the
 SDK exception mechanism configured by `PHANTASMA_EXCEPTION`.
 
+Default constructor values (from `Carbon/Tx.h`):
+
+| Type | Defaults |
+| ---- | -------- |
+| `FeeOptions` | base `10000`, multiplier `1000` |
+| `CreateTokenFeeOptions` | base `10000`, create-token base `10000000000`, symbol base `10000000000`, multiplier `10000` |
+| `CreateSeriesFeeOptions` | base `10000`, create-series base `2500000000`, multiplier `10000` |
+| `MintNftFeeOptions` | base `10000`, multiplier `1000` |
+
 ## Defaults
 
 | Helper | Default gas behavior |
