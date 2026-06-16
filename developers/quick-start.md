@@ -33,29 +33,77 @@ For example, on mainnet node 1, JSON-RPC is `https://pharpc1.phantasma.info/rpc`
 
 ### Mainnet
 
-| Resource | URL |
-| --- | --- |
-| Explorer | https://explorer.phantasma.info |
-| RPC node 1 | https://pharpc1.phantasma.info |
-| RPC node 2 | https://pharpc2.phantasma.info |
-| RPC node 3 | https://pharpc3.phantasma.info |
-| Peers list | https://peers.phantasma.info/mainnet-getpeers.json |
+<table><thead><tr><th>Resource</th><th>Endpoint</th></tr></thead><tbody>
+<tr><td>Explorer</td><td><a href="https://explorer.phantasma.info">explorer.phantasma.info</a></td></tr>
+<tr><td>RPC node 1</td><td>
+
+```
+https://pharpc1.phantasma.info
+```
+
+</td></tr>
+<tr><td>RPC node 2</td><td>
+
+```
+https://pharpc2.phantasma.info
+```
+
+</td></tr>
+<tr><td>RPC node 3</td><td>
+
+```
+https://pharpc3.phantasma.info
+```
+
+</td></tr>
+<tr><td>Peers list</td><td>
+
+```
+https://peers.phantasma.info/mainnet-getpeers.json
+```
+
+</td></tr>
+</tbody></table>
 
 ### Testnet
 
-| Resource | URL |
-| --- | --- |
-| Explorer | https://testnet-explorer.phantasma.info |
-| RPC node | https://testnet.phantasma.info |
-| Peers list | https://peers.phantasma.info/testnet-getpeers.json |
+<table><thead><tr><th>Resource</th><th>Endpoint</th></tr></thead><tbody>
+<tr><td>Explorer</td><td><a href="https://testnet-explorer.phantasma.info">testnet-explorer.phantasma.info</a></td></tr>
+<tr><td>RPC node</td><td>
+
+```
+https://testnet.phantasma.info
+```
+
+</td></tr>
+<tr><td>Peers list</td><td>
+
+```
+https://peers.phantasma.info/testnet-getpeers.json
+```
+
+</td></tr>
+</tbody></table>
 
 ### Devnet
 
-| Resource | URL |
-| --- | --- |
-| Explorer | https://devnet-explorer.phantasma.info |
-| RPC node | https://devnet.phantasma.info |
-| Peers list | https://peers.phantasma.info/devnet-getpeers.json |
+<table><thead><tr><th>Resource</th><th>Endpoint</th></tr></thead><tbody>
+<tr><td>Explorer</td><td><a href="https://devnet-explorer.phantasma.info">devnet-explorer.phantasma.info</a></td></tr>
+<tr><td>RPC node</td><td>
+
+```
+https://devnet.phantasma.info
+```
+
+</td></tr>
+<tr><td>Peers list</td><td>
+
+```
+https://peers.phantasma.info/devnet-getpeers.json
+```
+
+</td></tr>
+</tbody></table>
 
 ### Phantasma SDK's
 
