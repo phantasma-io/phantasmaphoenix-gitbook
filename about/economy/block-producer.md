@@ -1,5 +1,9 @@
 # Block Producers (BP)
 
+{% hint style="warning" %}
+This page describes the block-producer model and rewards at a high level. The specific figures below are governance-controlled and can change; for current supply, issuance, and fee values see [Supply And Issuance](inflation.md) and [Fees](fees.md), and read live values from the chain rather than hardcoding them.
+{% endhint %}
+
 Phantasma is made up of a decentralized network of nodes - also known as Block Producers. These BP's are responsible for validating transactions on the blockchain. The block producers use a rotational scheduling per side-chain to define who the active block producer is. This process occurs in parallel for each side chain, which will allow for horizontal scaling to boost the theoretical TPS of Phantasma Chain. Each block producer is responsible for accepting transactions from Phantasma users, verifying signatures & transaction contents. Once the transaction is accepted, the block producer adds it to the next block
 
 Inflation is important because it incentivizes the growth of the ecosystem. This will inspire developers to build dApps on Phantasma. It also serves the purpose of helping to fund Phantom Force our decentralized developer team and it also pays our block producers. The yearly inflation is coded to be 3%. On top of receiving fees for verifying transactions, block producers receive 2% of the annual 3%, or 0.75% per quarter.
