@@ -18,44 +18,44 @@ Smart Contracts
 ## Connecting to the Chain APIs
 
 {% hint style="info" %}
-All Phantasma Phoenix RPCs come with both REST and RPC interfaces.
-In these pages, `RPC` refers to the node endpoint unless the REST or JSON-RPC
-interface is called out explicitly.
+Every Phantasma node serves both a JSON-RPC and a REST interface on the same host. In these pages, "RPC" means the node endpoint unless REST or JSON-RPC is called out explicitly.
 {% endhint %}
 
-To access the REST API reference served through Swagger, open the node URL in a
-browser. It redirects to the Swagger page.
-For example, opening https://testnet.phantasma.info/ redirects to:
-https://testnet.phantasma.info/swagger/index.html
+The interface paths are the same on every node and network:
 
-To send a JSON-RPC query, add `/rpc` to the node URL. For testnet, the endpoint
-is:
-https://testnet.phantasma.info/rpc
+| Interface | Path | Notes |
+| --- | --- | --- |
+| JSON-RPC | `/rpc` | Primary programmatic interface (HTTP POST). |
+| REST | `/api/v1` | Same methods and argument names as JSON-RPC. |
+| API reference | `/` | The node root redirects to the interactive Swagger UI. |
 
-REST and JSON-RPC interfaces use the same endpoint and argument names.
+For example, on mainnet node 1, JSON-RPC is `https://pharpc1.phantasma.info/rpc` and REST is `https://pharpc1.phantasma.info/api/v1`. In production, discover live nodes from the network's peers list instead of hardcoding a single node.
 
-### Testnet URLs
+### Mainnet
 
-| Type                                | Link                                                                                                     |
-| ----------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| Testnet Explorer                    | [https://test-explorer.phantasma.info](https://test-explorer.phantasma.info)                             |
-| Testnet RPC1 REST API Documentation | [https://testnet.phantasma.info](https://testnet.phantasma.info)                                         |
-| Testnet RPC1 REST API               | [https://testnet.phantasma.info/api/v1](https://testnet.phantasma.info/api/v1)                           |
-| Testnet RPC1 RPC API                | [https://testnet.phantasma.info/rpc](https://testnet.phantasma.info/rpc)                                 |
-| JSON with available testnet RPCs    | [https://peers.phantasma.info/testnet-getpeers.json](https://peers.phantasma.info/testnet-getpeers.json) |
+| Resource | URL |
+| --- | --- |
+| Explorer | https://explorer.phantasma.info |
+| RPC node 1 | https://pharpc1.phantasma.info |
+| RPC node 2 | https://pharpc2.phantasma.info |
+| RPC node 3 | https://pharpc3.phantasma.info |
+| Peers list | https://peers.phantasma.info/mainnet-getpeers.json |
 
-### Mainnet URLs
+### Testnet
 
-| Type                                  | Link                                                                                                     |
-| ------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| Mainnet Explorer                      | [https://explorer.phantasma.info](https://explorer.phantasma.info)                                       |
-| Mainnet RPC1 REST API Documentation   | [https://pharpc1.phantasma.info](https://pharpc1.phantasma.info)                                         |
-| Mainnet RPC1 REST API                 | [https://pharpc1.phantasma.info/api/v1](https://pharpc1.phantasma.info/api/v1)                           |
-| Mainnet RPC1 RPC API                  | [https://pharpc1.phantasma.info/rpc](https://pharpc1.phantasma.info/rpc)                                 |
-| Mainnet RPC2 REST API Documentation   | [https://pharpc2.phantasma.info](https://pharpc2.phantasma.info)                                         |
-| Mainnet RPC2 REST API                 | [https://pharpc2.phantasma.info/api/v1](https://pharpc2.phantasma.info/api/v1)                           |
-| Mainnet RPC2 RPC API                  | [https://pharpc2.phantasma.info/rpc](https://pharpc2.phantasma.info/rpc)                                 |
-| JSON with available mainnet RPCs      | [https://peers.phantasma.info/mainnet-getpeers.json](https://peers.phantasma.info/mainnet-getpeers.json) |
+| Resource | URL |
+| --- | --- |
+| Explorer | https://testnet-explorer.phantasma.info |
+| RPC node | https://testnet.phantasma.info |
+| Peers list | https://peers.phantasma.info/testnet-getpeers.json |
+
+### Devnet
+
+| Resource | URL |
+| --- | --- |
+| Explorer | https://devnet-explorer.phantasma.info |
+| RPC node | https://devnet.phantasma.info |
+| Peers list | https://peers.phantasma.info/devnet-getpeers.json |
 
 ### Phantasma SDK's
 
