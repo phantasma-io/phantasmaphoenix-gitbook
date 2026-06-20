@@ -759,7 +759,7 @@ public static void If(Func<bool> lambda, string constraintName)
 ```
 
 ```csharp
-public static void IfEmpty(string argumentValue, string argumentName)
+public static void IfEmpty( #if NET6_0_OR_GREATER #endif string? argumentValue, string argumentName)
 ```
 
 ```csharp
@@ -767,7 +767,7 @@ public static void IfEmpty<T>(IEnumerable<T> argumentValue, string argumentName)
 ```
 
 ```csharp
-public static void IfHasNull<T>(ICollection<T> argumentValue, string argumentName)
+public static void IfHasNull<T>(ICollection<T>? argumentValue, string argumentName)
 ```
 
 ```csharp
@@ -783,19 +783,19 @@ public static void IfNot(Func<bool> lambda, string constraintName)
 ```
 
 ```csharp
-public static void IfNull(object? argumentValue, string argumentName)
+public static void IfNull( #if NET6_0_OR_GREATER #endif object? argumentValue, string argumentName)
 ```
 
 ```csharp
-public static void IfNull<T>(T? argumentValue, string argumentName) where T : struct
+public static void IfNull<T>( #if NET6_0_OR_GREATER #endif T? argumentValue, string argumentName) where T : struct
 ```
 
 ```csharp
-public static void IfNullOrEmpty(ICollection argumentValue, string argumentName)
+public static void IfNullOrEmpty( #if NET6_0_OR_GREATER #endif ICollection? argumentValue, string argumentName)
 ```
 
 ```csharp
-public static void IfNullOrEmpty(string argumentValue, string argumentName)
+public static void IfNullOrEmpty( #if NET6_0_OR_GREATER #endif string? argumentValue, string argumentName)
 ```
 
 ```csharp
@@ -6353,7 +6353,7 @@ public sealed class LinkDeeplinkEndpoint
 ### Methods
 
 ```csharp
-public LinkDeeplinkEndpoint(WalletLinkV5 dispatcher, IWalletLinkV5Ops ops, ILinkPairingStore pairings, LinkRelayClient? relay = null)
+public LinkDeeplinkEndpoint(WalletLinkV5 dispatcher, IWalletLinkV5Ops ops, ILinkPairingStore pairings, LinkRelayClient? relay = null, Action<string>? log = null)
 ```
 
 ```csharp
@@ -6480,6 +6480,10 @@ public string DappName { get; set; } = "";
 ```
 
 ```csharp
+public string SessionId { get; set; } = "";
+```
+
+```csharp
 public string Topic { get; set; } = "";
 ```
 
@@ -6570,7 +6574,7 @@ public ILinkRelaySocket? Socket;
 ```
 
 ```csharp
-public LinkRelayClient( WalletLinkV5 dispatcher, ILinkPairingStore pairings, ILinkRelaySocketFactory sockets, Action<Action>? marshal = null, int[]? reconnectDelaysMs = null, Action<string>? log = null)
+public LinkRelayClient( WalletLinkV5 dispatcher, ILinkPairingStore pairings, ILinkRelaySocketFactory sockets, Action<Action>? marshal = null, int[]? reconnectDelaysMs = null, Action<string>? log = null, int relaySessionCap = 6, TimeSpan? idleTtl = null)
 ```
 
 ```csharp
@@ -6623,6 +6627,10 @@ public void PublishHandshake(LinkPairingRecord pairing, byte[] walletPublicKey, 
 
 ```csharp
 public void PublishSealed(LinkPairingRecord pairing, string envelopeJson)
+```
+
+```csharp
+public void RevokeSession(string sessionId)
 ```
 
 ```csharp
@@ -6983,11 +6991,19 @@ public const int ProtocolVersion = 5;
 ```
 
 ```csharp
+public const string SessionDeletedEvent = "pha_sessionDeleted";
+```
+
+```csharp
 public const string SessionEstablishedEvent = "pha_sessionEstablished";
 ```
 
 ```csharp
 public int PendingTakeoverSeconds { get; set; } = 150;
+```
+
+```csharp
+public string BuildSessionDeletedEnvelope(string sessionId)
 ```
 
 ```csharp
@@ -7012,6 +7028,7 @@ public enum LinkFailure
 
 - `Internal`
 - `InvalidTransaction`
+- `NexusMismatch`
 - `None = 0`
 - `NotLoggedIn`
 - `UnsupportedSignatureKind`
@@ -11306,15 +11323,15 @@ public int Value { get; set; }
 ```
 
 ```csharp
-public string Description { get; set; }
+public string Description { get; set; } = "";
 ```
 
 ```csharp
-public string Name { get; set; }
+public string Name { get; set; } = "";
 ```
 
 ```csharp
-public string ReturnType { get; set; }
+public string ReturnType { get; set; } = "";
 ```
 
 ## PhantasmaPhoenix.RPC.Models.ABIMethodResult
@@ -11334,15 +11351,15 @@ public ABIMethodResult() { }
 ```
 
 ```csharp
-public ABIParameterResult[] Parameters { get; set; }
+public ABIParameterResult[] Parameters { get; set; } = Array.Empty<ABIParameterResult>();
 ```
 
 ```csharp
-public string Name { get; set; }
+public string Name { get; set; } = "";
 ```
 
 ```csharp
-public string ReturnType { get; set; }
+public string ReturnType { get; set; } = "";
 ```
 
 ## PhantasmaPhoenix.RPC.Models.ABIParameterResult
@@ -11362,11 +11379,11 @@ public ABIParameterResult() { }
 ```
 
 ```csharp
-public string Name { get; set; }
+public string Name { get; set; } = "";
 ```
 
 ```csharp
-public string Type { get; set; }
+public string Type { get; set; } = "";
 ```
 
 ## PhantasmaPhoenix.RPC.Models.AccountResult
@@ -11386,35 +11403,35 @@ public AccountResult() { }
 ```
 
 ```csharp
-public BalanceResult[] Balances { get; set; }
+public BalanceResult[] Balances { get; set; } = Array.Empty<BalanceResult>();
 ```
 
 ```csharp
-public StakeResult Stakes { get; set; }
+public StakeResult Stakes { get; set; } = new();
 ```
 
 ```csharp
-public StorageResult Storage { get; set; }
+public StorageResult Storage { get; set; } = new();
 ```
 
 ```csharp
-public string Address { get; set; }
+public string Address { get; set; } = "";
 ```
 
 ```csharp
-public string Name { get; set; }
+public string Name { get; set; } = "";
 ```
 
 ```csharp
-public string Stake { get; set; } //Deprecated
+public string Stake { get; set; } = ""; //Deprecated
 ```
 
 ```csharp
-public string Unclaimed { get; set; } //Deprecated
+public string Unclaimed { get; set; } = ""; //Deprecated
 ```
 
 ```csharp
-public string Validator { get; set; }
+public string Validator { get; set; } = "";
 ```
 
 ```csharp
@@ -11442,11 +11459,11 @@ public AccountTransactionsResult() { }
 ```
 
 ```csharp
-public TransactionResult[] Txs { get; set; }
+public TransactionResult[] Txs { get; set; } = Array.Empty<TransactionResult>();
 ```
 
 ```csharp
-public string Address { get; set; }
+public string Address { get; set; } = "";
 ```
 
 ## PhantasmaPhoenix.RPC.Models.ArchiveResult
@@ -11514,55 +11531,55 @@ public AuctionResult() { }
 ```
 
 ```csharp
-public string BaseSymbol { get; set; }
+public string BaseSymbol { get; set; } = "";
 ```
 
 ```csharp
-public string ChainAddress { get; set; }
+public string ChainAddress { get; set; } = "";
 ```
 
 ```csharp
-public string CreatorAddress { get; set; }
+public string CreatorAddress { get; set; } = "";
 ```
 
 ```csharp
-public string CurrentWinner { get; set; }
+public string CurrentWinner { get; set; } = "";
 ```
 
 ```csharp
-public string EndPrice { get; set; }
+public string EndPrice { get; set; } = "";
 ```
 
 ```csharp
-public string ExtensionPeriod { get; set; }
+public string ExtensionPeriod { get; set; } = "";
 ```
 
 ```csharp
-public string ListingFee { get; set; }
+public string ListingFee { get; set; } = "";
 ```
 
 ```csharp
-public string Price { get; set; }
+public string Price { get; set; } = "";
 ```
 
 ```csharp
-public string QuoteSymbol { get; set; }
+public string QuoteSymbol { get; set; } = "";
 ```
 
 ```csharp
-public string Ram { get; set; }
+public string Ram { get; set; } = "";
 ```
 
 ```csharp
-public string Rom { get; set; }
+public string Rom { get; set; } = "";
 ```
 
 ```csharp
-public string TokenId { get; set; }
+public string TokenId { get; set; } = "";
 ```
 
 ```csharp
-public string Type { get; set; }
+public string Type { get; set; } = "";
 ```
 
 ```csharp
@@ -11590,15 +11607,15 @@ public BalanceResult() { }
 ```
 
 ```csharp
-public string Amount { get; set; }
+public string Amount { get; set; } = "";
 ```
 
 ```csharp
-public string Chain { get; set; }
+public string Chain { get; set; } = "";
 ```
 
 ```csharp
-public string Symbol { get; set; }
+public string Symbol { get; set; } = "";
 ```
 
 ```csharp
@@ -11634,27 +11651,27 @@ public OracleResult[]? Oracles { get; set; }
 ```
 
 ```csharp
-public TransactionResult[] Txs { get; set; }
+public TransactionResult[] Txs { get; set; } = Array.Empty<TransactionResult>();
 ```
 
 ```csharp
-public string ChainAddress { get; set; }
+public string ChainAddress { get; set; } = "";
 ```
 
 ```csharp
-public string Hash { get; set; }
+public string Hash { get; set; } = "";
 ```
 
 ```csharp
-public string PreviousHash { get; set; }
+public string PreviousHash { get; set; } = "";
 ```
 
 ```csharp
-public string Reward { get; set; }
+public string Reward { get; set; } = "";
 ```
 
 ```csharp
-public string ValidatorAddress { get; set; }
+public string ValidatorAddress { get; set; } = "";
 ```
 
 ```csharp
@@ -11738,15 +11755,15 @@ public ContractResult() { }
 ```
 
 ```csharp
-public string Address { get; set; }
+public string Address { get; set; } = "";
 ```
 
 ```csharp
-public string Name { get; set; }
+public string Name { get; set; } = "";
 ```
 
 ```csharp
-public string Script { get; set; }
+public string Script { get; set; } = "";
 ```
 
 ```csharp
@@ -11850,11 +11867,11 @@ public GovernanceResult() { }
 ```
 
 ```csharp
-public string Name { get; set; }
+public string? Name { get; set; }
 ```
 
 ```csharp
-public string Value { get; set; }
+public string? Value { get; set; }
 ```
 
 ## PhantasmaPhoenix.RPC.Models.LeaderboardResult
@@ -11898,11 +11915,11 @@ public LeaderboardRowResult() { }
 ```
 
 ```csharp
-public string Address { get; set; }
+public string? Address { get; set; }
 ```
 
 ```csharp
-public string Value { get; set; }
+public string? Value { get; set; }
 ```
 
 ## PhantasmaPhoenix.RPC.Models.NexusResult
@@ -11962,11 +11979,11 @@ public OracleResult() { }
 ```
 
 ```csharp
-public string Content { get; set; }
+public string Content { get; set; } = "";
 ```
 
 ```csharp
-public string Url { get; set; }
+public string Url { get; set; } = "";
 ```
 
 ## PhantasmaPhoenix.RPC.Models.OrganizationMemberResult
@@ -12050,11 +12067,11 @@ public class ScriptResult
 ### Methods
 
 ```csharp
-public EventResult[] Events { get; set; }
+public EventResult[] Events { get; set; } = Array.Empty<EventResult>();
 ```
 
 ```csharp
-public OracleResult[] Oracles { get; set; }
+public OracleResult[] Oracles { get; set; } = Array.Empty<OracleResult>();
 ```
 
 ```csharp
@@ -12078,7 +12095,7 @@ public string? State { get; set; }
 ```
 
 ```csharp
-public string[] Results { get; set; }
+public string[] Results { get; set; } = Array.Empty<string>();
 ```
 
 ## PhantasmaPhoenix.RPC.Models.StakeResult
@@ -12098,11 +12115,11 @@ public StakeResult() { }
 ```
 
 ```csharp
-public string Amount { get; set; }
+public string Amount { get; set; } = "";
 ```
 
 ```csharp
-public string Unclaimed { get; set; }
+public string Unclaimed { get; set; } = "";
 ```
 
 ```csharp
@@ -12122,7 +12139,7 @@ public class StorageResult
 ### Methods
 
 ```csharp
-public ArchiveResult[] Archives { get; set; }
+public ArchiveResult[] Archives { get; set; } = Array.Empty<ArchiveResult>();
 ```
 
 ```csharp
@@ -12130,7 +12147,7 @@ public StorageResult() { }
 ```
 
 ```csharp
-public string Avatar { get; set; }
+public string Avatar { get; set; } = "";
 ```
 
 ```csharp
@@ -12406,15 +12423,15 @@ public TokenSchemasResult() { }
 ```
 
 ```csharp
-public VmStructSchemaResult Ram { get; set; }
+public VmStructSchemaResult Ram { get; set; } = new();
 ```
 
 ```csharp
-public VmStructSchemaResult Rom { get; set; }
+public VmStructSchemaResult Rom { get; set; } = new();
 ```
 
 ```csharp
-public VmStructSchemaResult SeriesMetadata { get; set; }
+public VmStructSchemaResult SeriesMetadata { get; set; } = new();
 ```
 
 ## PhantasmaPhoenix.RPC.Models.TokenSeriesResult
@@ -12434,7 +12451,7 @@ public ABIMethodResult[]? Methods { get; set; }
 ```
 
 ```csharp
-public TokenPropertyResult[] Metadata { get; set; }
+public TokenPropertyResult[] Metadata { get; set; } = Array.Empty<TokenPropertyResult>();
 ```
 
 ```csharp
@@ -12442,35 +12459,35 @@ public TokenSeriesResult() { }
 ```
 
 ```csharp
-public string CurrentSupply { get; set; }
+public string CurrentSupply { get; set; } = "";
 ```
 
 ```csharp
-public string MaxMint { get; set; }
+public string MaxMint { get; set; } = "";
 ```
 
 ```csharp
-public string MaxSupply { get; set; }
+public string MaxSupply { get; set; } = "";
 ```
 
 ```csharp
-public string MintCount { get; set; }
+public string MintCount { get; set; } = "";
 ```
 
 ```csharp
-public string OwnerAddress { get; set; }
+public string OwnerAddress { get; set; } = "";
 ```
 
 ```csharp
-public string SeriesId { get; set; }
+public string SeriesId { get; set; } = "";
 ```
 
 ```csharp
-public string carbonSeriesId { get; set; }
+public string carbonSeriesId { get; set; } = "";
 ```
 
 ```csharp
-public string carbonTokenId { get; set; }
+public string carbonTokenId { get; set; } = "";
 ```
 
 ```csharp
@@ -12498,11 +12515,11 @@ public class TransactionResult
 ### Methods
 
 ```csharp
-public EventExResult[] ExtendedEvents { get; set; }
+public EventExResult[]? ExtendedEvents { get; set; }
 ```
 
 ```csharp
-public EventResult[] Events { get; set; }
+public EventResult[]? Events { get; set; }
 ```
 
 ```csharp
@@ -12534,30 +12551,6 @@ public byte CarbonTxType { get; set; }
 ```
 
 ```csharp
-public string BlockHash { get; set; }
-```
-
-```csharp
-public string CarbonTxData { get; set; }
-```
-
-```csharp
-public string ChainAddress { get; set; }
-```
-
-```csharp
-public string Fee { get; set; }
-```
-
-```csharp
-public string GasLimit { get; set; }
-```
-
-```csharp
-public string GasPayer { get; set; }
-```
-
-```csharp
 public string GasPrice { get; set; } = "";
 ```
 
@@ -12566,19 +12559,7 @@ public string GasTarget { get; set; } = "NULL";
 ```
 
 ```csharp
-public string Hash { get; set; }
-```
-
-```csharp
-public string Payload { get; set; }
-```
-
-```csharp
-public string Result { get; set; }
-```
-
-```csharp
-public string Script { get; set; }
+public string Hash { get; set; } = "";
 ```
 
 ```csharp
@@ -12586,7 +12567,43 @@ public string Sender { get; set; } = Address.Null.Text; // Initialized as in ori
 ```
 
 ```csharp
+public string? BlockHash { get; set; }
+```
+
+```csharp
+public string? CarbonTxData { get; set; }
+```
+
+```csharp
+public string? ChainAddress { get; set; }
+```
+
+```csharp
 public string? DebugComment { get; set; }
+```
+
+```csharp
+public string? Fee { get; set; }
+```
+
+```csharp
+public string? GasLimit { get; set; }
+```
+
+```csharp
+public string? GasPayer { get; set; }
+```
+
+```csharp
+public string? Payload { get; set; }
+```
+
+```csharp
+public string? Result { get; set; }
+```
+
+```csharp
+public string? Script { get; set; }
 ```
 
 ## PhantasmaPhoenix.RPC.Models.TransactionSignatureResult
@@ -12630,11 +12647,11 @@ public VmNamedVariableSchemaResult() { }
 ```
 
 ```csharp
-public VmVariableSchemaResult Schema { get; set; }
+public VmVariableSchemaResult Schema { get; set; } = new();
 ```
 
 ```csharp
-public string Name { get; set; }
+public string Name { get; set; } = "";
 ```
 
 ## PhantasmaPhoenix.RPC.Models.VmStructSchemaResult
@@ -12650,7 +12667,7 @@ public class VmStructSchemaResult
 ### Methods
 
 ```csharp
-public VmNamedVariableSchemaResult[] Fields { get; set; }
+public VmNamedVariableSchemaResult[] Fields { get; set; } = Array.Empty<VmNamedVariableSchemaResult>();
 ```
 
 ```csharp
@@ -12674,7 +12691,7 @@ public class VmVariableSchemaResult
 ### Methods
 
 ```csharp
-public VmStructSchemaResult Schema { get; set; }
+public VmStructSchemaResult? Schema { get; set; }
 ```
 
 ```csharp
@@ -12698,7 +12715,7 @@ public class PhantasmaAPI : IDisposable
 ### Methods
 
 ```csharp
-public PhantasmaAPI(string host, RpcClient? rpcClient)
+public PhantasmaAPI(string host, RpcClient? rpcClient = null, string? apiKey = null)
 ```
 
 ```csharp
@@ -12962,7 +12979,7 @@ public sealed class RpcClient : IDisposable
 ### Methods
 
 ```csharp
-public RpcClient(HttpClient? httpClient = null, ILogger? logger = null, int maxRetries = 0, int retryDelayMs = 1000, long maxResponseBytes = DefaultMaxResponseBytes)
+public RpcClient(HttpClient? httpClient = null, ILogger? logger = null, int maxRetries = 0, int retryDelayMs = 1000, long maxResponseBytes = DefaultMaxResponseBytes, string? apiKey = null)
 ```
 
 ```csharp
@@ -12979,6 +12996,10 @@ public async Task<T?> SendRpcAsync<T>(string url, string method, params object[]
 
 ```csharp
 public const long DefaultMaxResponseBytes = 16L * 1024 * 1024;
+```
+
+```csharp
+public const string ApiKeyHeaderName = "X-Api-Key";
 ```
 
 ```csharp

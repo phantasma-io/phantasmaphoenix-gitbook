@@ -2658,7 +2658,7 @@ Source: `pkg/domain`
 ### Declarations
 
 ```go
-const SDKVersion = "0.10.2"
+const SDKVersion = "0.11.0"
 ```
 
 ```go
@@ -3816,6 +3816,10 @@ const AddressTypePhantasma AddressType = iota
 ```
 
 ```go
+const ApiKeyHeader = "X-Api-Key"
+```
+
+```go
 type AddressType int
 ```
 
@@ -4139,6 +4143,10 @@ func NewRPCSetMainnet() []PhantasmaRPC
 
 ```go
 func NewRPCTestnet() PhantasmaRPC
+```
+
+```go
+func NewRPCWithApiKey(endpoint, apiKey string) PhantasmaRPC
 ```
 
 ## github.com/phantasma-io/phantasma-sdk-go/pkg/rpc/response

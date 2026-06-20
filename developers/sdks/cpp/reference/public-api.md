@@ -131,6 +131,14 @@ struct PhantasmaError
 ### Methods
 
 ```cpp
+CurlClient::CurlClient& operator=(const CurlClient&) = delete
+```
+
+```cpp
+CurlClient::CurlClient(const PHANTASMA_STRING& host = "http: : host(host), result(maxResponseBytes) } ~CurlClient() } CurlClient(const CurlClient&) = delete
+```
+
+```cpp
 CurlClient::ReallocBuffer result
 ```
 

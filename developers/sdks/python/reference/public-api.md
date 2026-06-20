@@ -12,14 +12,6 @@ Source: `src/phantasma_py/__init__.py`
 
 - `__all__`
 
-## phantasma_py._version
-
-Source: `src/phantasma_py/_version.py`
-
-### Fields
-
-- `__version__`
-
 ## phantasma_py.binary
 
 Source: `src/phantasma_py/binary.py`
@@ -2526,11 +2518,11 @@ BalanceResult.decimal_amount(self) -> str
 ```
 
 ```python
-HTTPSession.post(self, url: str, *, json: Mapping[str, Any], timeout: float, stream: bool = False) -> Any
+HTTPSession.post(self, url: str, *, json: Mapping[str, Any], timeout: float, stream: bool = False, headers: Mapping[str, str] | None = None) -> Any
 ```
 
 ```python
-JsonRpcClient.__init__(self, endpoint: str, *, session: HTTPSession | None = None, timeout: float = 30.0, max_response_bytes: int = DEFAULT_MAX_RPC_RESPONSE_BYTES) -> None
+JsonRpcClient.__init__(self, endpoint: str, *, session: HTTPSession | None = None, timeout: float = 30.0, max_response_bytes: int = DEFAULT_MAX_RPC_RESPONSE_BYTES, api_key: str | None = None) -> None
 ```
 
 ```python
@@ -2538,7 +2530,7 @@ JsonRpcClient.call(self, method: str, *params) -> Any
 ```
 
 ```python
-PhantasmaRPC.__init__(self, endpoint: str, *, session: HTTPSession | None = None, timeout: float = 30.0, max_response_bytes: int = DEFAULT_MAX_RPC_RESPONSE_BYTES) -> None
+PhantasmaRPC.__init__(self, endpoint: str, *, session: HTTPSession | None = None, timeout: float = 30.0, max_response_bytes: int = DEFAULT_MAX_RPC_RESPONSE_BYTES, api_key: str | None = None) -> None
 ```
 
 ```python

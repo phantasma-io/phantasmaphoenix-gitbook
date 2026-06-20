@@ -1,8 +1,8 @@
 # Unity SDK Public API Inventory
 
-This page lists public classes, methods, functions, enum values,
-fields, and constants of the SDK. Use it to check
-exact names when working with lower-level SDK APIs.
+This page lists the public classes, methods, functions, enum values,
+fields, and constants of the SDK. Use it to check exact names when
+working with lower-level SDK APIs.
 
 ## PhantasmaPhoenix.Unity.Core.Logging.Log
 
@@ -369,7 +369,11 @@ public IEnumerator WriteArchive(string hashText, int blockIndex, byte[] blockCon
 ```
 
 ```csharp
-public PhantasmaAPI(string host)
+public PhantasmaAPI(string host, string apiKey = null)
+```
+
+```csharp
+public readonly string ApiKey;
 ```
 
 ```csharp
@@ -466,7 +470,7 @@ public static IEnumerator RESTPost<T>(string url, string serializedJson, Action<
 ```
 
 ```csharp
-public static IEnumerator RPCRequest<T>(string url, string method, int timeout, int retriesOnNetworkError, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback, Action<T> callback, params object[] parameters)
+public static IEnumerator RPCRequest<T>(string url, string apiKey, string method, int timeout, int retriesOnNetworkError, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback, Action<T> callback, params object[] parameters)
 ```
 
 ```csharp
@@ -694,7 +698,7 @@ public class Login : MonoBehaviour
 ### Methods
 
 ```csharp
-public event Action<string,bool> OnLoginEvent;
+public event Action<string, bool> OnLoginEvent;
 ```
 
 ```csharp

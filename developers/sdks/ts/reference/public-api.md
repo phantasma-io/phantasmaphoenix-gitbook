@@ -3629,13 +3629,13 @@ export declare class PhantasmaLink5 {
     constructor(transport: LinkTransport, options?: PhantasmaLink5Options);
     /** Build a client over the desktop loopback transport (plaintext, trusted-local). */
     static loopback(options?: LoopbackTransportOptions): PhantasmaLink5;
-    /** Build a client over the deeplink transport (spec §19). The channel key from pairing is
+    /** Build a client over the deeplink transport (spec §17). The channel key from pairing is
      * MANDATORY here: deeplink URLs are interceptable, so plaintext frames are never allowed. */
     static deeplink(options: DeeplinkTransportOptions & {
         sessionKey: Uint8Array;
         requestTimeoutMs?: number;
     }): PhantasmaLink5;
-    /** Build a client over the relay transport (spec §6.4/§18). The channel key from
+    /** Build a client over the relay transport (spec §6.4/§16). The channel key from
      * pairing is MANDATORY: relay payloads are ALWAYS encrypted (spec §8) - the relay is
      * E2E-blind and must stay that way. */
     static relay(options: RelayTransportOptions & {
@@ -3643,7 +3643,7 @@ export declare class PhantasmaLink5 {
         requestTimeoutMs?: number;
     }): PhantasmaLink5;
     /**
-     * Build a client for the ecdh pairing fallback (spec §17/§20.1): the custom-scheme
+     * Build a client for the ecdh pairing fallback (spec §15/§18.1): the custom-scheme
      * channel is hijackable, so NO secret rides the pairing URI - only the dApp's
      * ephemeral X25519 PUBLIC key. The wallet answers over the relay with its own public
      * key plus the sealed connect result; the session key is derived on arrival and the
@@ -3657,7 +3657,7 @@ export declare class PhantasmaLink5 {
         requestTimeoutMs?: number;
     }): PhantasmaLink5;
     /**
-     * Build a ready-to-use client for a WEB dApp over the deeplink transport (spec §19),
+     * Build a ready-to-use client for a WEB dApp over the deeplink transport (spec §17),
      * bundling the per-dApp glue: pairing material generation, the pairing URI, persistence
      * (localStorage by default), restore + session resume across page loads, and intake of
      * the response URLs the wallet opens back at the page (initial URL + `hashchange`).
@@ -3672,6 +3672,11 @@ export declare class PhantasmaLink5 {
      * The web-deeplink factory wires this automatically; SPAs whose routing swallows
      * `hashchange` call it explicitly on route events. */
     deliverUrl(url: string): boolean;
+    /** Take (and clear) a wallet response that arrived with no in-flight request to match it -
+     * the deeplink reload case, where the page that issued the request was discarded before the
+     * answer returned. The web-deeplink factory delivers it during construction, so read it right
+     * after building the client. Returns undefined when there is nothing to recover. */
+    takeUnmatchedResponse(): UnmatchedResponse | undefined;
     /** The pairing URI for this client's channel (set by pairing-capable factories such as
      * {@link webDeeplink}); render it as a link/QR for the one-time wallet pairing consent. */
     get pairingUri(): string | undefined;
@@ -3696,6 +3701,11 @@ export declare class PhantasmaLink5 {
     /** Read-only VM invoke (no keys, no approval). */
     invokeScript(params: InvokeScriptParams): Promise<InvokeScriptResult>;
     disconnect(): Promise<DisconnectResult>;
+    /** Drop the local (and persisted) session WITHOUT notifying the wallet. Use when a wallet
+     * round-trip is undesirable - notably deeplink, where pha_disconnect would navigate to the
+     * wallet and reload this page, so the cleanup after the request never runs and the session
+     * would resume on the next load. The wallet's side lapses on its own session TTL (spec §7). */
+    forgetSession(): void;
     /** Subscribe to wallet->dApp events; returns an unsubscribe function. */
     onEvent(handler: LinkEventHandler): () => void;
     /** Close the underlying transport and reject any in-flight requests. */
@@ -3748,6 +3758,10 @@ export interface DeeplinkTransportOptions {
     opener: (url: string) => void;
     /** Wallet base; defaults to the custom scheme {@link WALLET_SCHEME_BASE}. */
     walletBase?: string;
+    /** Optional diagnostic sink for inbound response URLs: whether a delivered URL matched this
+     * channel's topic or was ignored (foreign topic / not a v5 response). METADATA ONLY - never the
+     * sealed `f` payload. Default: no-op. */
+    log?: (message: string) => void;
 }
 ```
 
@@ -4190,7 +4204,7 @@ export interface PairingParams {
     symKey?: Uint8Array;
     /** Present when `mode === 'ecdh'`. */
     dappPublicKey?: Uint8Array;
-    /** Where the wallet opens response deeplinks for this pairing (spec §19). */
+    /** Where the wallet opens response deeplinks for this pairing (spec §17). */
     callback?: string;
     meta?: DappMetadata;
 }
@@ -4268,7 +4282,7 @@ export declare const LinkEvent: {
     readonly ChainChanged: "pha_chainChanged";
     readonly SessionDeleted: "pha_sessionDeleted";
     readonly SessionExpired: "pha_sessionExpired";
-    /** Unsolicited connect result pushed right after a pairing approval (spec §17 step 3),
+    /** Unsolicited connect result pushed right after a pairing approval (spec §15 step 3),
      * letting the first connection complete in one user gesture. Unlike the other events it
      * also rides the deeplink transport: the wallet is foreground at the approval moment, so
      * it CAN open the callback (this is a reply to the pairing, not a spontaneous push).
@@ -4319,7 +4333,7 @@ export declare const RELAY_CHUNK_BYTES = 900000;
 
 ```ts
 export interface RelayTransportOptions {
-    /** The pairing topic both sides subscribe to (bearer capability, spec §18). */
+    /** The pairing topic both sides subscribe to (bearer capability, spec §16). */
     topic: string;
     /** Relay WebSocket URL; default {@link DEFAULT_RELAY_URL}. */
     url?: string;
@@ -4333,10 +4347,14 @@ export interface RelayTransportOptions {
     publishAckTimeoutMs?: number;
     /** Reconnect backoff ladder; the last entry repeats. Default 0.5/1/2/5/15 s. */
     reconnectDelaysMs?: number[];
-    /** ecdh pairing (spec §20.1): called ONCE with the wallet's ephemeral X25519 public key
+    /** ecdh pairing (spec §18.1): called ONCE with the wallet's ephemeral X25519 public key
      * (base64url) when the key hop arrives; the caller derives the session key before any
      * sealed frame embedded in the same payload is forwarded. */
     onWalletKey?: (publicKeyB64Url: string) => void;
+    /** Optional sink for diagnostics the transport cannot attribute to a caller - notably relay
+     * `error` frames that match no in-flight publish (spec §16: clients MUST surface error frames,
+     * not drop them). Defaults to console.warn; wire this to redirect or silence. */
+    log?: (message: string) => void;
 }
 ```
 
@@ -4349,7 +4367,7 @@ export declare class RelayTransport implements LinkTransport {
     close(): void;
     /** Collect one chunk; emit the reassembled frame when complete. Bounds: chunk count,
      * total bytes, concurrent partial messages, and a staleness GC - a hostile peer can
-     * waste its own topic, but not this client's memory (spec §18). */
+     * waste its own topic, but not this client's memory (spec §16). */
 }
 ```
 
@@ -4466,6 +4484,24 @@ export interface LinkSessionClientOptions {
     sessionId?: string;
     /** Per-request timeout in ms; 0 disables. Default 60000. */
     requestTimeoutMs?: number;
+    /** Sink for responses with no matching in-flight request (the deeplink page reloaded while
+     * the wallet was open, discarding the original request promise). Without it such responses
+     * are dropped. Never fires on same-page flows - those always have a pending entry. */
+    onUnmatchedResponse?: (response: UnmatchedResponse) => void;
+    /** Optional diagnostic sink for the receive path: frames dropped (undecodable / wrong key) and
+     * events received. Mirrors the relay transport's `log` seam so a host can trace the otherwise
+     * silent deeplink/relay receive path. METADATA ONLY - never receives secrets or plaintext
+     * payloads. Default: no-op. */
+    log?: (message: string) => void;
+}
+```
+
+```ts
+export interface UnmatchedResponse {
+    id: string;
+    ok: boolean;
+    result?: unknown;
+    error?: unknown;
 }
 ```
 
@@ -4478,7 +4514,7 @@ export declare class LinkSessionClient {
     /** The current session id, if a session is established. */
     getSessionId(): string | undefined;
     /** Install the channel key once it is established (ecdh pairing derives it only after
-     * the wallet's ephemeral public key arrives, spec §20.1). From here on every frame is
+     * the wallet's ephemeral public key arrives, spec §18.1). From here on every frame is
      * sealed/opened with it, exactly as if it had been passed at construction. */
     setSessionKey(key: Uint8Array): void;
     /** Subscribe to wallet->dApp events; returns an unsubscribe function. */
@@ -4535,6 +4571,10 @@ export interface WebDeeplinkOptions {
     callback?: string;
     /** Per-request timeout; the web default is 5 minutes (an app switch + human consent). */
     requestTimeoutMs?: number;
+    /** Optional diagnostic sink for the deeplink lifecycle (return-URL matched / ignored, frame
+     * drops, events received). METADATA ONLY - never the symKey or sealed payload. Default: no-op.
+     * A host can wire this to surface why a deeplink return did or did not land. */
+    log?: (message: string) => void;
 }
 ```
 
@@ -5921,6 +5961,8 @@ Source: `dist/types/rpc/phantasma.d.ts`
 ```ts
 export interface PhantasmaAPIOptions {
     maxRpcResponseBytes?: number;
+    /** Optional API key sent in the X-Api-Key header on every RPC request. */
+    apiKey?: string;
 }
 ```
 
@@ -5940,6 +5982,7 @@ export declare class PhantasmaAPI {
     JSONRPCResult<T = unknown>(method: string, params: JsonRpcParam[]): Promise<RpcResult<T>>;
     JSONRPC(method: string, params: JsonRpcParam[]): Promise<unknown>;
     setMaxRpcResponseBytes(maxBytes: number): this;
+    setApiKey(apiKey: string): this;
     setRpcHost(rpcHost: string): void;
     setRpcByName(rpcName: string): void;
     setNexus(nexus: string): void;

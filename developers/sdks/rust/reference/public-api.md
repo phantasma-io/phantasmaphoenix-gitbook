@@ -1802,6 +1802,10 @@ Source: `src/rpc.rs`
 ### Declarations
 
 ```rust
+pub const API_KEY_HEADER: &str = "X-Api-Key"
+```
+
+```rust
 pub const DEFAULT_MAX_RPC_RESPONSE_BYTES: usize = 16 * 1024 * 1024
 ```
 
@@ -2355,6 +2359,10 @@ impl PhantasmaRpc<ReqwestTransport>: pub fn testnet() -> Self
 ```
 
 ```rust
+impl PhantasmaRpc<ReqwestTransport>: pub fn with_api_key(mut self, api_key: impl Into<String>) -> Self
+```
+
+```rust
 impl PhantasmaRpc<ReqwestTransport>: pub fn with_max_response_bytes(mut self, max_response_bytes: usize) -> Self
 ```
 
@@ -2720,6 +2728,10 @@ impl PhantasmaRpc<T>: pub fn with_timeout(mut self, timeout: Duration) -> Self
 
 ```rust
 impl PhantasmaRpc<T>: pub fn with_transport(endpoint: impl Into<String>, transport: T) -> Self
+```
+
+```rust
+impl ReqwestTransport: pub fn with_api_key(mut self, api_key: impl Into<String>) -> Self
 ```
 
 ```rust
