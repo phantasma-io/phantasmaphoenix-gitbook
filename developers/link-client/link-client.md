@@ -19,6 +19,17 @@ Then use these pages as needed:
 - [React Wallet Connection](/developers/sdks/ts/frontend/connect-react.md)
 {% endhint %}
 
+## Phantasma Link v5
+
+Phantasma Link v5 is the current protocol generation. It keeps the same goal — signing on the user's behalf without exposing the private key — but replaces the v1-v4 string protocol with a structured JSON envelope: typed parameters, numeric error codes, capability negotiation, end-to-end encryption, and revocable sessions. It uses two transports:
+
+- **Deeplink** ping-pong (app to app): the primary path. It works on iOS and keeps signing working even when the relay is down.
+- **Relay**: for large payloads and cross-device flows.
+
+v5 also raises the request size limit from about 32 KB to the chain ceiling (1 MiB metadata, 32 MiB transaction). The TypeScript SDK is the reference implementation, exposed under the `phantasma-sdk-ts/link/v5` entry point, and the full protocol is specified in `spec/phantasma-link-v5.md` in that SDK.
+
+The v1-v4 string protocol described below remains supported during a deprecation window.
+
 ## Protocol operations
 
 A wallet that implements Phantasma Link answers a small set of requests from a connected dApp. Each request is sent to the wallet over the link transport and answered asynchronously. The concrete method names and callback shapes depend on the SDK you use (see [Implementations](#implementations)); the operations below are what those methods map to.

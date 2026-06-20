@@ -4,6 +4,10 @@
 
 `PhantasmaLink` is the low-level browser wallet bridge in `phantasma-sdk-ts`. It connects a dApp to a wallet such as Poltergeist or Ecto and exposes the raw Link signing and query methods.
 
+{% hint style="info" %}
+`PhantasmaLink` implements the v1-v4 string protocol. The current protocol generation, [Phantasma Link v5](/developers/link-client/link-client.md), is exposed separately under the `phantasma-sdk-ts/link/v5` entry point.
+{% endhint %}
+
 Use it when you want direct control over:
 
 - transport selection
