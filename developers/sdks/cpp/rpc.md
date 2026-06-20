@@ -23,6 +23,13 @@ if (err.code != 0) {
 Methods return typed result objects and write errors into the optional
 `PhantasmaError*`.
 
+For nodes that require an API key, pass it as the third argument of the cURL
+adapter; it is sent in the `X-Api-Key` header on every request:
+
+```cpp
+HttpClient http("http://localhost:5172/rpc", PHANTASMA_DEFAULT_MAX_RPC_RESPONSE_BYTES, "your-api-key");
+```
+
 ## Low-Level Calls
 
 `PhantasmaJsonAPI` has matching `Make...Request` and `Parse...Response` methods.

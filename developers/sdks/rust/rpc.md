@@ -22,6 +22,13 @@ async fn main() -> Result<()> {
 advanced applications can use `PhantasmaRpc::with_transport(...)` with a custom
 transport.
 
+Use `.with_api_key(api_key)` to send an API key in the `X-Api-Key` header on
+every request:
+
+```rust
+let rpc = PhantasmaRpc::new("http://localhost:5172/rpc").with_api_key("your-api-key");
+```
+
 ## Accounts And Balances
 
 ```rust

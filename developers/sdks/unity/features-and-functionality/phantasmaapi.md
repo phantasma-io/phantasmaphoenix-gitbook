@@ -5,10 +5,11 @@
 #### Variables
 
 * `public readonly string Host;`: The RPC host URL (for example, `https://testnet.phantasma.info/rpc`).
+* `public readonly string ApiKey;`: Optional API key sent in the `X-Api-Key` header on every RPC request.
 
 #### Constructor
 
-* `public PhantasmaAPI(string host);`: Initializes a new `PhantasmaAPI` instance with the specified RPC host.
+* `public PhantasmaAPI(string host, string apiKey = null);`: Initializes a new `PhantasmaAPI` instance with the specified RPC host and optional API key.
 
 #### Method Notes
 

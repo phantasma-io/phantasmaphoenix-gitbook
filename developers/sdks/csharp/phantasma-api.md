@@ -6,12 +6,13 @@ Plain .NET RPC wrapper for the Phantasma API using `RpcClient` with `async` / `a
 
 ## Initialization
 
-### `PhantasmaAPI(string host, RpcClient? rpcClient)`
+### `PhantasmaAPI(string host, RpcClient? rpcClient = null, string? apiKey = null)`
 Creates a new Phantasma API wrapper using the given `RpcClient` or a new internal instance
 
 **Parameters**
 - `host` — RPC endpoint URL like `https://testnet.phantasma.info/rpc`
 - `rpcClient` — optional `RpcClient` to use. If `null`, a new instance will be created and disposed by this object
+- `apiKey` — optional API key sent in the `X-Api-Key` header on every request. Used only when this wrapper creates its own `RpcClient` (when `rpcClient` is `null`)
 
 **Ownership**
 - If `rpcClient` is not provided, the internal client is owned by `PhantasmaAPI` and will be disposed on `Dispose()`

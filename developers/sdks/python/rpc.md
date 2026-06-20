@@ -17,6 +17,12 @@ print(version.version, version.commit)
 `JsonRpcClient` sends positional JSON-RPC parameters, validates response ids, and
 raises `RPCError` for transport and RPC failures.
 
+Pass `api_key=...` to send an API key in the `X-Api-Key` header on every request:
+
+```python
+rpc = PhantasmaRPC("http://localhost:5172/rpc", api_key="your-api-key")
+```
+
 ```python
 from phantasma_py.errors import RPCError
 from phantasma_py.rpc import PhantasmaRPC

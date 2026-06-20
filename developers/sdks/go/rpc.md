@@ -17,6 +17,10 @@ Use `client.Call(ctx, method, params...)` only when a node method is needed
 before the SDK has a typed wrapper. Typed wrappers perform response decoding and
 should be preferred for application code.
 
+For nodes that require an API key, use `rpc.NewRPCWithApiKey(endpoint, apiKey)`.
+The key is sent in the `X-Api-Key` header on every request; an empty key behaves
+like `NewRPC`.
+
 ## Common Parameters
 
 | Parameter | Meaning |

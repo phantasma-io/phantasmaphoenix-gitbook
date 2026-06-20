@@ -8,17 +8,19 @@ call path. Code that needs explicit result objects can call `JSONRPCResult<T>`.
 
 | API | Purpose |
 | --- | ------- |
-| `new PhantasmaAPI(defHost, peersUrlJson, nexus, options?)` | Creates a client with default host, optional peers URL, nexus name, and optional RPC response size limit. |
+| `new PhantasmaAPI(defHost, peersUrlJson, nexus, options?)` | Creates a client with default host, optional peers URL, nexus name, and `options` (RPC response size limit and API key). |
 | `pingAsync(host)` | Measures endpoint latency. |
 | `setRpcHost(rpcHost)` | Sets the active RPC host directly. |
 | `setRpcByName(rpcName)` | Selects an RPC host by configured name. |
 | `setNexus(nexus)` | Sets the nexus name used by the client. |
 | `setMaxRpcResponseBytes(maxBytes)` | Replaces the maximum accepted JSON-RPC response body size. |
+| `setApiKey(apiKey)` | Sets the API key sent in the `X-Api-Key` header on every request. |
 | `updateRpc()` | Refreshes the active RPC host selection. |
 | `convertDecimals(amount, decimals)` | Decimal conversion helper retained on the client. |
 
 `options.maxRpcResponseBytes` and `setMaxRpcResponseBytes(...)` default to
 `DEFAULT_MAX_RPC_RESPONSE_BYTES`, currently 16 MiB. Values must be positive.
+`options.apiKey` and `setApiKey(...)` send the key as the `X-Api-Key` header.
 
 ## Raw JSON-RPC
 
