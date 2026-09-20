@@ -47,7 +47,7 @@ Carbon message types.
 
 | Type | Purpose |
 | ---- | ---- |
-| `TxMsg` | Top-level Carbon message wrapper used by helper builders and `SignAndSendCarbonTransactionAsync`. |
+| `TxMsg` | Top-level Carbon message wrapper used by helper builders and `SendTransactionAsync`. |
 | `SignedTxMsg` | A `TxMsg` plus one or more `Witness` entries. |
 | `TxMsgCall` / `TxMsgCall_Multi` | Contract call messages. |
 | `TxMsgPhantasma` / `TxMsgPhantasma_Raw` | Phantasma-specific message wrappers. |
@@ -67,27 +67,39 @@ ids, fees, permissions, and contract state after the SDK serializes the message.
 | ---- | ---- | ---- |
 | `CreateTokenTxHelper` | `BuildTx`, `BuildTxAndSign`, `BuildTxAndSignHex`, `ParseResult` | Creating a Carbon token and optionally signing/hex-encoding the transaction. |
 | `CreateTokenSeriesTxHelper` | `BuildTx`, `BuildTxAndSign`, `BuildTxAndSignHex`, `ParseResult` | Creating a new series for an NFT token. |
-| `MintNonFungibleTxHelper` | `BuildTx`, `BuildTxAndSign`, `BuildTxAndSignHex` | Minting Carbon NFT instances. |
 | `MintPhantasmaNonFungibleTxHelper` | `BuildTx`, `BuildTxAndSign`, `BuildTxAndSignHex`, `ParseResult` | Minting Phantasma-style NFT instances and parsing mint results. |
-| `TxMsgSigner` | `Sign(TxMsg msg, PhantasmaKeys keys)` | Producing signed Carbon transaction bytes from a `TxMsg`. |
+| `NativeTxHelper` | `TransferFungible`, `TransferNonFungible`, `MintFungible`, `BurnFungible`, `BurnNonFungible` | Building a native transfer, mint or burn, which needs no VM script. |
+| `TxMsgSigner` | `SignWithKeys`, `SignAndSerializeWithKeys`, `SignWithAsync`, `SignAndSerializeWithAsync` | Producing signed Carbon transaction bytes from a `TxMsg`. |
 
-Helper `BuildTx` methods return unsigned `TxMsg` values. `BuildTxAndSign`
-returns signed bytes. `BuildTxAndSignHex` returns a hex string ready for
+Helper `BuildTx` methods return unsigned `TxMsg` values with a zero gas offer.
+`BuildTxAndSign` takes a `GasConfig`, plans the message, signs it and returns
+the bytes. `BuildTxAndSignHex` returns a hex string ready for
 `SendCarbonTransactionAsync`.
 
-## Fee Options
+The SDK carries no builder for a direct `MintNonFungible`. The chain refuses
+that operation where governance has not allowed caller-supplied ROM ids, and
+that is the state of the public chains today.
 
-| Type | Behavior |
+## Fee Planning
+
+Builders carry no prices. A message is priced after it is built, from the
+message itself and the chain's own gas configuration.
+
+| Type | Use |
 | ---- | ---- |
-| `IFeeOptions` | Exposes `FeeMultiplier` and `CalculateMaxGas(params object[] args)`. |
-| `FeeOptions` | Base implementation with `GasFeeBase = 10_000` and `FeeMultiplier = 1_000` defaults. |
-| `CreateTokenFeeOptions` | Adds token-creation base and symbol-length fee components. |
-| `CreateSeriesFeeOptions` | Adds series-creation base fee. |
-| `MintNftFeeOptions` | Uses mint count or collection length when estimating mint gas. |
+| `ChainFeePlanner` | `PhantasmaAPI.Fees`. It reads the gas configuration, caches it and prices messages. |
+| `FeePlanner.Plan(msg, config, options?)` | The same calculation against a `GasConfig` the caller holds. |
+| `FeePlan` | `MaxGas`, `MaxData`, `ExpectedGasBill`, `Kinds`, `Exact`, `EnvelopeBytes`, `Apply(msg)`. |
+| `FeePlanOptions` | The chain-state facts a caller may state, plus `WitnessCount`. |
+| `FeePlanSummary.Summarize(plan)` | `GasBill`, `GasOffer` and `StorageCeiling` as decimal strings. |
+| `NativeFeeKind` | The operation kinds the planner prices. |
+| `FeePlanner.BurnedInstances(msg)` | The NFT instances a message burns, in any shape. |
+| `TxLimits` | `MaxGas`, `MaxData` and `Expiry`, plus `DefaultExpiryMs` and `ExpiryWithin`. |
+| `ITxSigner`, `KeyPairSigner` | Any witness that can sign, and the in-memory adapter. |
 
-Fee option methods validate count arguments and use checked arithmetic. Passing
-zero, negative, too many, or wrong-typed count arguments throws before the
-transaction is built.
+{% content-ref url="/developers/sdks/csharp/fees-and-broadcasting.md" %}
+[Fees And Broadcasting](/developers/sdks/csharp/fees-and-broadcasting.md)
+{% endcontent-ref %}
 
 ## Token Builders And Metadata
 

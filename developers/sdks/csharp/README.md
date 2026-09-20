@@ -8,6 +8,7 @@ coverY: 0
 
 # Interacting with the chain
 - [High-level API](/developers/sdks/csharp/phantasma-api.md)
+- [Fees And Broadcasting](/developers/sdks/csharp/fees-and-broadcasting.md)
 - [Complete API Reference](/developers/sdks/csharp/reference/README.md)
 
 # Examples

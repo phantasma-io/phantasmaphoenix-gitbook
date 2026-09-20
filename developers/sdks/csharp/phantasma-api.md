@@ -24,6 +24,37 @@ Disposes this API instance and the internal `RpcClient` if owned
 
 ## Account
 
+### `Task<AccountInfoResult?> GetAccountInfoAsync(string account)`
+Gets the account name and staking info of an address
+
+**Parameters**
+- `account` — account address text
+
+**Returns**
+- `AccountInfoResult` or `null` if not found
+
+**Notes**
+- The cost does not depend on how much the address holds, which makes this the
+  call for a wallet refresh loop. Balances and NFTs are read separately through
+  the cursor-paginated account methods.
+
+---
+
+### `Task<AccountInfoResult[]?> GetAccountInfosAsync(string[] accounts)`
+Gets the same record for a batch of up to 100 addresses in one call
+
+**Parameters**
+- `accounts` — array of account address texts
+
+**Returns**
+- array of `AccountInfoResult` or `null`
+
+**Notes**
+- The node answers every address from one state snapshot and returns the records
+  in request order. A malformed address rejects the whole batch.
+
+---
+
 ### `Task<AccountResult?> GetAccountAsync(string address)`
 Gets account information, including balances, for the specified address
 
@@ -32,6 +63,13 @@ Gets account information, including balances, for the specified address
 
 **Returns**
 - `AccountResult` or `null` if not found
+
+**Notes**
+- Deprecated. The response embeds every NFT id the address owns, so it grows
+  with the size of the account. The node caps each `Balances[].Ids` list at
+  10000 entries while `Balances[].Amount` keeps the true count, so the list is
+  silently partial for a large holder. Use `GetAccountInfoAsync` with
+  `GetAccountFungibleTokensAsync` and `GetAccountNFTsAsync`.
 
 ---
 
@@ -57,6 +95,10 @@ Gets account information for multiple addresses
 
 **Returns**
 - array of `AccountResult` or `null`
+
+**Notes**
+- Deprecated, for the same reason as `GetAccountAsync`, multiplied by the number
+  of addresses in one call. Use `GetAccountInfoAsync`.
 
 ---
 
@@ -524,7 +566,8 @@ Gets token data for a specific token id
 - token data or `null`
 
 **Notes**
-- On current Carbon nodes this is a deprecated alias for `GetNFTAsync(symbol, tokenId, loadProperties: false)`.
+- Deprecated. The node serves this as a strict subset of `getNFT`, with property
+  loading forced off, so `GetNFTAsync` covers it entirely.
 
 ---
 
@@ -626,15 +669,29 @@ Invokes a VM script without state changes and returns its result
 
 ---
 
-### `Task<string?> SignAndSendCarbonTransactionAsync(IKeyPair keys, TxMsg txMsg)`
-Signs, serializes, and broadcasts a Carbon transaction
+### `Task<string> SendTransactionAsync(TxMsg msg, ITxSigner signer, SendTransactionOptions? options = null, CancellationToken cancellationToken = default)`
+Plans, pre-flights, signs and broadcasts a Carbon message
 
 **Parameters**
-- `keys` — key pair used to sign the Carbon transaction
-- `txMsg` — Carbon `TxMsg` struct
+- `msg` — the Carbon message a builder produced
+- `signer` — one `ITxSigner`. Overloads take `IReadOnlyList<ITxSigner>`, one
+  `IKeyPair` or an `IKeyPair[]`
+- `options` — fee-plan options plus `Preflight`, which defaults to `true`
+- `cancellationToken` — cancels the call
 
 **Returns**
-- transaction hash text or `null`
+- transaction hash text
+
+**Behavior**
+- A message whose `MaxGas` is still zero is planned against this chain's prices.
+  A message the caller already planned is sent as it is.
+- A token creation is refused when the chain says the symbol is taken, and when
+  the lookup established nothing. The call then throws
+  `TransactionPreflightException`.
+
+{% content-ref url="/developers/sdks/csharp/fees-and-broadcasting.md" %}
+[Fees And Broadcasting](/developers/sdks/csharp/fees-and-broadcasting.md)
+{% endcontent-ref %}
 
 ---
 
@@ -675,6 +732,71 @@ Builds, signs and broadcasts a transaction with a binary payload
 - Transaction expiration is set to `DateTime.UtcNow + 20 minutes`
 - The transaction is signed and sent as hex using `SendRawTransactionAsync`
 - If the hash returned by RPC differs from the locally computed hash an `Exception` is thrown
+
+---
+
+## Fees And Gas Configuration
+
+### `ChainFeePlanner Fees`
+The fee planner of the chain this client talks to
+
+**Notes**
+- It reads `getGasConfig` through this client, caches it for a minute, and
+  prices messages with it. Call it as `api.Fees.PlanAsync(msg)`.
+
+---
+
+### `Task<GasConfigResult?> GetGasConfigAsync()`
+Gets the on-chain gas configuration and the chain parameters fee estimation needs
+
+**Returns**
+- `GasConfigResult` or `null`
+
+**Notes**
+- The configuration changes only through a governance resolution, so the result
+  is safe to cache.
+
+---
+
+### `Task<EstimateTransactionResult?> EstimateTransactionAsync(string txData)`
+Dry-runs a serialized transaction envelope against current chain state
+
+**Parameters**
+- `txData` — the serialized envelope as hex
+
+**Returns**
+- `EstimateTransactionResult` or `null`
+
+**Notes**
+- Signatures inside the envelope may be zero-filled dummies of the correct
+  length. The simulation skips signature checks, and the dummies keep the exact
+  byte length the bill depends on.
+- The method returns a standard RPC error until the estimate service is
+  launched. The local planner is the fallback.
+
+---
+
+### `Task<ulong?> ControlTokenIdAsync()`
+Gets the gas token's id, which the pre-flight uses as its control lookup
+
+**Returns**
+- the token id, or `null` when this client cannot read the gas configuration
+
+---
+
+### `Task<IReadOnlyList<InfusedAsset>> InfusedAssetsAsync(ulong tokenId, ulong instanceId)`
+Gets what an NFT holds at its own address, in the form the fee planner prices
+
+**Parameters**
+- `tokenId` — the Carbon token id
+- `instanceId` — the Carbon instance id
+
+**Returns**
+- the list of infused assets, which is empty when the NFT holds nothing
+
+**Notes**
+- A burn returns every one of these to the burner and pays for each, so a burn
+  cannot be planned without this list.
 
 ---
 

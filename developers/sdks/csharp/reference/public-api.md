@@ -71,6 +71,10 @@ public static byte[]? DupBytes(byte[] src)
 ```
 
 ```csharp
+public static int HashBytes(byte[]? bytes)
+```
+
+```csharp
 public static int SearchBytes(this byte[] haystack, byte[] needle)
 ```
 
@@ -344,6 +348,92 @@ public override byte[] ReadJson(JsonReader reader, Type objectType, byte[]? exis
 
 ```csharp
 public override void WriteJson(JsonWriter writer, byte[]? value, JsonSerializer serializer)
+```
+
+## PhantasmaPhoenix.Core.HexBytes
+
+Source: `PhantasmaPhoenix.Core/src/HexBytes.cs`
+
+### Declarations
+
+```csharp
+public sealed class HexBytes : IEquatable<HexBytes>
+```
+
+### Methods
+
+```csharp
+public bool Equals(HexBytes? other)
+```
+
+```csharp
+public byte[] ToArray()
+```
+
+```csharp
+public int ByteLength => _count;
+```
+
+```csharp
+public override bool Equals(object? obj) => Equals(obj as HexBytes);
+```
+
+```csharp
+public override int GetHashCode()
+```
+
+```csharp
+public override string ToString() => _array.ToHex(_offset, _count);
+```
+
+```csharp
+public static HexBytes FromBytes(byte[] array) => FromBytes(array ?? throw new ArgumentNullException(nameof(array)), 0, array.Length);
+```
+
+```csharp
+public static HexBytes FromBytes(byte[] array, int offset, int count)
+```
+
+```csharp
+public static HexBytes? FromHex(string? hex)
+```
+
+```csharp
+public static implicit operator string?(HexBytes? value) => value?.ToString();
+```
+
+```csharp
+public void WriteTo(IHexValueWriter writer)
+```
+
+## PhantasmaPhoenix.Core.HexBytesJsonConverter
+
+Source: `PhantasmaPhoenix.Core/src/HexBytesJsonConverter.cs`
+
+### Declarations
+
+```csharp
+public class HexBytesJsonConverter : JsonConverter<HexBytes?>
+```
+
+### Methods
+
+```csharp
+public override HexBytes? ReadJson(JsonReader reader, Type objectType, HexBytes? existingValue, bool hasExistingValue, JsonSerializer serializer)
+```
+
+```csharp
+public override void WriteJson(JsonWriter writer, HexBytes? value, JsonSerializer serializer)
+```
+
+## PhantasmaPhoenix.Core.IHexValueWriter
+
+Source: `PhantasmaPhoenix.Core/src/IHexValueWriter.cs`
+
+### Declarations
+
+```csharp
+public interface IHexValueWriter
 ```
 
 ## PhantasmaPhoenix.Core.Compression
@@ -1702,13 +1792,17 @@ Source: `PhantasmaPhoenix.Cryptography/src/Structures/Address.cs`
 ### Declarations
 
 ```csharp
-public struct Address : ISerializable, IComparable<Address>
+public struct Address : ISerializable, IComparable<Address>, IEquatable<Address>
 ```
 
 ### Methods
 
 ```csharp
 public AddressKind Kind => IsNull ? AddressKind.System : (_bytes[0] >= 3) ? AddressKind.Interop : (AddressKind)_bytes[0];
+```
+
+```csharp
+public bool Equals(Address otherAddress)
 ```
 
 ```csharp
@@ -5602,6 +5696,304 @@ public ulong CarbonInstanceId;
 public ulong CarbonQuoteTokenId;
 ```
 
+## PhantasmaPhoenix.Protocol.ExtendedEvents.SpecialResolutionArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionArguments.cs`
+
+### Declarations
+
+```csharp
+public abstract class SpecialResolutionArguments
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.RawArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class RawArguments : SpecialResolutionArguments
+```
+
+### Methods
+
+```csharp
+public HexBytes RawArgs { get; set; } = HexBytes.FromBytes(System.Array.Empty<byte>());
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.ContractStorageRow
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class ContractStorageRow
+```
+
+### Methods
+
+```csharp
+public HexBytes Key { get; set; } = HexBytes.FromBytes(System.Array.Empty<byte>());
+```
+
+```csharp
+public HexBytes Value { get; set; } = HexBytes.FromBytes(System.Array.Empty<byte>());
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.ContractStorageTable
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class ContractStorageTable
+```
+
+### Methods
+
+```csharp
+public ContractStorageRow[] Rows { get; set; } = System.Array.Empty<ContractStorageRow>();
+```
+
+```csharp
+public string Name { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.ImportedContract
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class ImportedContract
+```
+
+### Methods
+
+```csharp
+public ContractStorageRow[] RootVariables { get; set; } = System.Array.Empty<ContractStorageRow>();
+```
+
+```csharp
+public ContractStorageTable[] Tables { get; set; } = System.Array.Empty<ContractStorageTable>();
+```
+
+```csharp
+public HexBytes Abi { get; set; } = HexBytes.FromBytes(System.Array.Empty<byte>());
+```
+
+```csharp
+public HexBytes Script { get; set; } = HexBytes.FromBytes(System.Array.Empty<byte>());
+```
+
+```csharp
+public string Address { get; set; } = string.Empty;
+```
+
+```csharp
+public string Name { get; set; } = string.Empty;
+```
+
+```csharp
+public string Owner { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.ImportContractsArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class ImportContractsArguments : SpecialResolutionArguments
+```
+
+### Methods
+
+```csharp
+public ImportedContract[] Contracts { get; set; } = System.Array.Empty<ImportedContract>();
+```
+
+```csharp
+public string ContractsCount { get; set; } = "0";
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.SeriesSupplement
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class SeriesSupplement
+```
+
+### Methods
+
+```csharp
+public HexBytes Abi { get; set; } = HexBytes.FromBytes(System.Array.Empty<byte>());
+```
+
+```csharp
+public HexBytes Rom { get; set; } = HexBytes.FromBytes(System.Array.Empty<byte>());
+```
+
+```csharp
+public HexBytes Script { get; set; } = HexBytes.FromBytes(System.Array.Empty<byte>());
+```
+
+```csharp
+public string MaxSupply { get; set; } = string.Empty;
+```
+
+```csharp
+public string MintCount { get; set; } = string.Empty;
+```
+
+```csharp
+public string Mode { get; set; } = string.Empty;
+```
+
+```csharp
+public string PhantasmaSeriesId { get; set; } = string.Empty;
+```
+
+```csharp
+public string Token { get; set; } = string.Empty;
+```
+
+```csharp
+public string TokenId { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.SeriesMintCountRepair
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class SeriesMintCountRepair
+```
+
+### Methods
+
+```csharp
+public HexBytes Abi { get; set; } = HexBytes.FromBytes(System.Array.Empty<byte>());
+```
+
+```csharp
+public HexBytes Script { get; set; } = HexBytes.FromBytes(System.Array.Empty<byte>());
+```
+
+```csharp
+public string ImportedLiveCount { get; set; } = string.Empty;
+```
+
+```csharp
+public string PhantasmaSeriesId { get; set; } = string.Empty;
+```
+
+```csharp
+public string Token { get; set; } = string.Empty;
+```
+
+```csharp
+public string TokenId { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.RepairSeriesArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class RepairSeriesArguments : SpecialResolutionArguments
+```
+
+### Methods
+
+```csharp
+public SeriesMintCountRepair[] Repairs { get; set; } = System.Array.Empty<SeriesMintCountRepair>();
+```
+
+```csharp
+public SeriesSupplement[] Supplements { get; set; } = System.Array.Empty<SeriesSupplement>();
+```
+
+```csharp
+public string RepairsCount { get; set; } = "0";
+```
+
+```csharp
+public string SupplementsCount { get; set; } = "0";
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.TokenRepair
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class TokenRepair
+```
+
+### Methods
+
+```csharp
+public HexBytes Abi { get; set; } = HexBytes.FromBytes(System.Array.Empty<byte>());
+```
+
+```csharp
+public HexBytes Script { get; set; } = HexBytes.FromBytes(System.Array.Empty<byte>());
+```
+
+```csharp
+public string RepairMask { get; set; } = string.Empty;
+```
+
+```csharp
+public string Symbol { get; set; } = string.Empty;
+```
+
+```csharp
+public string Token { get; set; } = string.Empty;
+```
+
+```csharp
+public string TokenFlags { get; set; } = string.Empty;
+```
+
+```csharp
+public string TokenId { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.RepairTokenArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class RepairTokenArguments : SpecialResolutionArguments
+```
+
+### Methods
+
+```csharp
+public TokenRepair[] Repairs { get; set; } = System.Array.Empty<TokenRepair>();
+```
+
+```csharp
+public string RepairsCount { get; set; } = "0";
+```
+
 ## PhantasmaPhoenix.Protocol.ExtendedEvents.SpecialResolutionCall
 
 Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionData.cs`
@@ -5615,11 +6007,11 @@ public struct SpecialResolutionCall
 ### Methods
 
 ```csharp
-public Dictionary<string, string>? Arguments;
+public SpecialResolutionArguments? Arguments;
 ```
 
 ```csharp
-public SpecialResolutionCall( uint moduleId, string module, uint methodId, string method, Dictionary<string, string>? arguments = null, SpecialResolutionCall[]? calls = null)
+public SpecialResolutionCall( uint moduleId, string module, uint methodId, string method, SpecialResolutionArguments? arguments = null, SpecialResolutionCall[]? calls = null)
 ```
 
 ```csharp
@@ -5670,6 +6062,902 @@ public string? Description;
 public ulong ResolutionId;
 ```
 
+## PhantasmaPhoenix.Protocol.ExtendedEvents.GasConfigArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionGovernanceArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class GasConfigArguments : SpecialResolutionArguments
+```
+
+### Methods
+
+```csharp
+public string DataEscrowPerRow { get; set; } = string.Empty;
+```
+
+```csharp
+public string DataTokenId { get; set; } = string.Empty;
+```
+
+```csharp
+public string FeeMultiplier { get; set; } = string.Empty;
+```
+
+```csharp
+public string FeeShift { get; set; } = string.Empty;
+```
+
+```csharp
+public string GasBurnRatioMul { get; set; } = string.Empty;
+```
+
+```csharp
+public string GasBurnRatioShift { get; set; } = string.Empty;
+```
+
+```csharp
+public string GasFeeCreateTokenBase { get; set; } = string.Empty;
+```
+
+```csharp
+public string GasFeeCreateTokenSeries { get; set; } = string.Empty;
+```
+
+```csharp
+public string GasFeeCreateTokenSymbol { get; set; } = string.Empty;
+```
+
+```csharp
+public string GasFeePerByte { get; set; } = string.Empty;
+```
+
+```csharp
+public string GasFeeQuery { get; set; } = string.Empty;
+```
+
+```csharp
+public string GasFeeRegisterName { get; set; } = string.Empty;
+```
+
+```csharp
+public string GasFeeTransfer { get; set; } = string.Empty;
+```
+
+```csharp
+public string GasTokenId { get; set; } = string.Empty;
+```
+
+```csharp
+public string MaxNameLength { get; set; } = string.Empty;
+```
+
+```csharp
+public string MaxStructureSize { get; set; } = string.Empty;
+```
+
+```csharp
+public string MaxTokenSymbolLength { get; set; } = string.Empty;
+```
+
+```csharp
+public string MinimumGasOffer { get; set; } = string.Empty;
+```
+
+```csharp
+public string Version { get; set; } = string.Empty;
+```
+
+```csharp
+public string? GasDappRatioMul { get; set; }
+```
+
+```csharp
+public string? GasDappRatioShift { get; set; }
+```
+
+```csharp
+public string? GasProducerRatioMul { get; set; }
+```
+
+```csharp
+public string? GasProducerRatioShift { get; set; }
+```
+
+```csharp
+public string? LegacyDataEscrowPerRow { get; set; }
+```
+
+```csharp
+public string? MinimumGasBill { get; set; }
+```
+
+```csharp
+public string? PolicyFeeCreateTokenBase { get; set; }
+```
+
+```csharp
+public string? PolicyFeeCreateTokenSeries { get; set; }
+```
+
+```csharp
+public string? PolicyFeeCreateTokenSymbol { get; set; }
+```
+
+```csharp
+public string? PolicyFeeRegisterName { get; set; }
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.ChainConfigArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionGovernanceArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class ChainConfigArguments : SpecialResolutionArguments
+```
+
+### Methods
+
+```csharp
+public string AllowedTxTypes { get; set; } = string.Empty;
+```
+
+```csharp
+public string BlockRateTarget { get; set; } = string.Empty;
+```
+
+```csharp
+public string ExpiryWindow { get; set; } = string.Empty;
+```
+
+```csharp
+public string Reserved1 { get; set; } = string.Empty;
+```
+
+```csharp
+public string Reserved2 { get; set; } = string.Empty;
+```
+
+```csharp
+public string Reserved3 { get; set; } = string.Empty;
+```
+
+```csharp
+public string Version { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.NestedResolutionArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionGovernanceArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class NestedResolutionArguments : SpecialResolutionArguments
+```
+
+### Methods
+
+```csharp
+public string ResolutionId { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.MetadataArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionGovernanceArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class MetadataArguments : SpecialResolutionArguments
+```
+
+### Methods
+
+```csharp
+public Dictionary<string, VmValue> Metadata { get; set; } = new Dictionary<string, VmValue>();
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.ConsensusNode
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionGovernanceArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class ConsensusNode
+```
+
+### Methods
+
+```csharp
+public string Id { get; set; } = string.Empty;
+```
+
+```csharp
+public string Type { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.NodeConfigArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionGovernanceArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class NodeConfigArguments : SpecialResolutionArguments
+```
+
+### Methods
+
+```csharp
+public ConsensusNode[] Nodes { get; set; } = System.Array.Empty<ConsensusNode>();
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.RegisterNameArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionGovernanceArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class RegisterNameArguments : SpecialResolutionArguments
+```
+
+### Methods
+
+```csharp
+public string Address { get; set; } = string.Empty;
+```
+
+```csharp
+public string Name { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.AddressArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionGovernanceArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class AddressArguments : SpecialResolutionArguments
+```
+
+### Methods
+
+```csharp
+public string Address { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.NameArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionGovernanceArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class NameArguments : SpecialResolutionArguments
+```
+
+### Methods
+
+```csharp
+public string Name { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.ExecuteScriptArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionGovernanceArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class ExecuteScriptArguments : SpecialResolutionArguments
+```
+
+### Methods
+
+```csharp
+public HexBytes Script { get; set; } = HexBytes.FromBytes(System.Array.Empty<byte>());
+```
+
+```csharp
+public string GasFrom { get; set; } = string.Empty;
+```
+
+```csharp
+public string MaxGas { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.RegisterTokenContractArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionGovernanceArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class RegisterTokenContractArguments : SpecialResolutionArguments
+```
+
+### Methods
+
+```csharp
+public HexBytes Abi { get; set; } = HexBytes.FromBytes(System.Array.Empty<byte>());
+```
+
+```csharp
+public HexBytes Script { get; set; } = HexBytes.FromBytes(System.Array.Empty<byte>());
+```
+
+```csharp
+public string Symbol { get; set; } = string.Empty;
+```
+
+```csharp
+public string TokenId { get; set; } = string.Empty;
+```
+
+```csharp
+public string? Token { get; set; }
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.DeployContractArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionGovernanceArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class DeployContractArguments : SpecialResolutionArguments
+```
+
+### Methods
+
+```csharp
+public HexBytes Abi { get; set; } = HexBytes.FromBytes(System.Array.Empty<byte>());
+```
+
+```csharp
+public HexBytes Script { get; set; } = HexBytes.FromBytes(System.Array.Empty<byte>());
+```
+
+```csharp
+public string ContractName { get; set; } = string.Empty;
+```
+
+```csharp
+public string From { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.PhantasmaVmConfigArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionGovernanceArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class PhantasmaVmConfigArguments : SpecialResolutionArguments
+```
+
+### Methods
+
+```csharp
+public string FeatureLevel { get; set; } = string.Empty;
+```
+
+```csharp
+public string FuelPerContractDeploy { get; set; } = string.Empty;
+```
+
+```csharp
+public string GasAccount { get; set; } = string.Empty;
+```
+
+```csharp
+public string GasConstructor { get; set; } = string.Empty;
+```
+
+```csharp
+public string GasLeaderboard { get; set; } = string.Empty;
+```
+
+```csharp
+public string GasNexus { get; set; } = string.Empty;
+```
+
+```csharp
+public string GasOracle { get; set; } = string.Empty;
+```
+
+```csharp
+public string GasOrganization { get; set; } = string.Empty;
+```
+
+```csharp
+public string GasStandard { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.TokenReferenceArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionTokenArguments.cs`
+
+### Declarations
+
+```csharp
+public class TokenReferenceArguments : SpecialResolutionArguments
+```
+
+### Methods
+
+```csharp
+public string Token { get; set; } = string.Empty;
+```
+
+```csharp
+public string TokenId { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.TokenSeriesReferenceArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionTokenArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class TokenSeriesReferenceArguments : TokenReferenceArguments
+```
+
+### Methods
+
+```csharp
+public string SeriesId { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.SymbolArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionTokenArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class SymbolArguments : SpecialResolutionArguments
+```
+
+### Methods
+
+```csharp
+public string Symbol { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.TransferFungibleArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionTokenArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class TransferFungibleArguments : TokenReferenceArguments
+```
+
+### Methods
+
+```csharp
+public string Amount { get; set; } = string.Empty;
+```
+
+```csharp
+public string From { get; set; } = string.Empty;
+```
+
+```csharp
+public string To { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.TransferNonFungibleArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionTokenArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class TransferNonFungibleArguments : TokenReferenceArguments
+```
+
+### Methods
+
+```csharp
+public string From { get; set; } = string.Empty;
+```
+
+```csharp
+public string To { get; set; } = string.Empty;
+```
+
+```csharp
+public string[] InstanceIds { get; set; } = System.Array.Empty<string>();
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.MintFungibleArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionTokenArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class MintFungibleArguments : TokenReferenceArguments
+```
+
+### Methods
+
+```csharp
+public string Amount { get; set; } = string.Empty;
+```
+
+```csharp
+public string To { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.BurnFungibleArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionTokenArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class BurnFungibleArguments : TokenReferenceArguments
+```
+
+### Methods
+
+```csharp
+public string Amount { get; set; } = string.Empty;
+```
+
+```csharp
+public string From { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.BalanceArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionTokenArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class BalanceArguments : TokenReferenceArguments
+```
+
+### Methods
+
+```csharp
+public string Address { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.CreateTokenArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionTokenArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class CreateTokenArguments : SpecialResolutionArguments
+```
+
+### Methods
+
+```csharp
+public Dictionary<string, VmValue>? Metadata { get; set; }
+```
+
+```csharp
+public HexBytes? TokenSchemas { get; set; }
+```
+
+```csharp
+public string Decimals { get; set; } = string.Empty;
+```
+
+```csharp
+public string Flags { get; set; } = string.Empty;
+```
+
+```csharp
+public string MaxSupply { get; set; } = string.Empty;
+```
+
+```csharp
+public string Owner { get; set; } = string.Empty;
+```
+
+```csharp
+public string Symbol { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.TokenSeriesArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionTokenArguments.cs`
+
+### Declarations
+
+```csharp
+public class TokenSeriesArguments : TokenReferenceArguments
+```
+
+### Methods
+
+```csharp
+public Dictionary<string, VmValue>? Metadata { get; set; }
+```
+
+```csharp
+public HexBytes? MetadataRaw { get; set; }
+```
+
+```csharp
+public string MaxMint { get; set; } = string.Empty;
+```
+
+```csharp
+public string MaxSupply { get; set; } = string.Empty;
+```
+
+```csharp
+public string Owner { get; set; } = string.Empty;
+```
+
+```csharp
+public string? SeriesId { get; set; }
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.CreateMintedTokenSeriesArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionTokenArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class CreateMintedTokenSeriesArguments : TokenSeriesArguments
+```
+
+### Methods
+
+```csharp
+public HexBytes[] Rams { get; set; } = System.Array.Empty<HexBytes>();
+```
+
+```csharp
+public HexBytes[] Roms { get; set; } = System.Array.Empty<HexBytes>();
+```
+
+```csharp
+public string Recipient { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.NftMint
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionTokenArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class NftMint
+```
+
+### Methods
+
+```csharp
+public HexBytes Ram { get; set; } = HexBytes.FromBytes(System.Array.Empty<byte>());
+```
+
+```csharp
+public HexBytes Rom { get; set; } = HexBytes.FromBytes(System.Array.Empty<byte>());
+```
+
+```csharp
+public string SeriesId { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.PhantasmaNftMint
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionTokenArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class PhantasmaNftMint
+```
+
+### Methods
+
+```csharp
+public HexBytes Ram { get; set; } = HexBytes.FromBytes(System.Array.Empty<byte>());
+```
+
+```csharp
+public HexBytes Rom { get; set; } = HexBytes.FromBytes(System.Array.Empty<byte>());
+```
+
+```csharp
+public string PhantasmaSeriesId { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.MintNonFungibleArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionTokenArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class MintNonFungibleArguments : TokenReferenceArguments
+```
+
+### Methods
+
+```csharp
+public NftMint[] Tokens { get; set; } = System.Array.Empty<NftMint>();
+```
+
+```csharp
+public string Owner { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.MintPhantasmaNonFungibleArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionTokenArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class MintPhantasmaNonFungibleArguments : TokenReferenceArguments
+```
+
+### Methods
+
+```csharp
+public PhantasmaNftMint[] Tokens { get; set; } = System.Array.Empty<PhantasmaNftMint>();
+```
+
+```csharp
+public string Owner { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.BurnNonFungibleArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionTokenArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class BurnNonFungibleArguments : TokenReferenceArguments
+```
+
+### Methods
+
+```csharp
+public string Address { get; set; } = string.Empty;
+```
+
+```csharp
+public string[] InstanceIds { get; set; } = System.Array.Empty<string>();
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.NonFungibleInfoArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionTokenArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class NonFungibleInfoArguments : TokenReferenceArguments
+```
+
+### Methods
+
+```csharp
+public string GetSchemas { get; set; } = string.Empty;
+```
+
+```csharp
+public string InstanceId { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.NonFungibleInfoByRomIdArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionTokenArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class NonFungibleInfoByRomIdArguments : TokenReferenceArguments
+```
+
+### Methods
+
+```csharp
+public string GetSchemas { get; set; } = string.Empty;
+```
+
+```csharp
+public string RomId { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.SeriesInfoByMetaIdArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionTokenArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class SeriesInfoByMetaIdArguments : TokenReferenceArguments
+```
+
+### Methods
+
+```csharp
+public string RomId { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.TokensConfigArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionTokenArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class TokensConfigArguments : SpecialResolutionArguments
+```
+
+### Methods
+
+```csharp
+public string Flags { get; set; } = string.Empty;
+```
+
+```csharp
+public string[] FlagsNames { get; set; } = System.Array.Empty<string>();
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.UpdateTokenMetadataArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionTokenArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class UpdateTokenMetadataArguments : TokenReferenceArguments
+```
+
+### Methods
+
+```csharp
+public Dictionary<string, VmValue>? Metadata { get; set; }
+```
+
+## PhantasmaPhoenix.Protocol.ExtendedEvents.UpdateSeriesMetadataArguments
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/SpecialResolutionTokenArguments.cs`
+
+### Declarations
+
+```csharp
+public sealed class UpdateSeriesMetadataArguments : TokenReferenceArguments
+```
+
+### Methods
+
+```csharp
+public HexBytes Metadata { get; set; } = HexBytes.FromBytes(System.Array.Empty<byte>());
+```
+
+```csharp
+public string SeriesId { get; set; } = string.Empty;
+```
+
 ## PhantasmaPhoenix.Protocol.ExtendedEvents.TokenCreateData
 
 Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/TokenCreateData.cs`
@@ -5708,58 +6996,6 @@ public string Symbol;
 
 ```csharp
 public uint Decimals;
-```
-
-## PhantasmaPhoenix.Protocol.ExtendedEvents.TokenMintData
-
-Source: `PhantasmaPhoenix.Protocol/src/Structures/ExtendedEvents/TokenMintData.cs`
-
-### Declarations
-
-```csharp
-public struct TokenMintData
-```
-
-### Methods
-
-```csharp
-public Dictionary<string, string> Metadata;
-```
-
-```csharp
-public TokenMintData(string symbol, string tokenId, string seriesId, uint mintNumber, ulong carbonTokenId, uint carbonSeriesId, ulong carbonInstanceId, string owner, Dictionary<string, string> metadata)
-```
-
-```csharp
-public string Owner;
-```
-
-```csharp
-public string SeriesId;
-```
-
-```csharp
-public string Symbol;
-```
-
-```csharp
-public string TokenId;
-```
-
-```csharp
-public uint CarbonSeriesId;
-```
-
-```csharp
-public uint MintNumber;
-```
-
-```csharp
-public ulong CarbonInstanceId;
-```
-
-```csharp
-public ulong CarbonTokenId;
 ```
 
 ## PhantasmaPhoenix.Protocol.ExtendedEvents.TokenSeriesCreateData
@@ -6192,6 +7428,54 @@ public readonly string Chain;
 
 ```csharp
 public readonly string Platform;
+```
+
+## PhantasmaPhoenix.Protocol.VmValue
+
+Source: `PhantasmaPhoenix.Protocol/src/Structures/Vm/VmValue.cs`
+
+### Declarations
+
+```csharp
+public sealed class VmValue
+```
+
+### Methods
+
+```csharp
+public Dictionary<string, VmValue>? Fields { get; }
+```
+
+```csharp
+public VmValue[]? Items { get; }
+```
+
+```csharp
+public bool IsText => Text != null;
+```
+
+```csharp
+public override string ToString() => Text ?? string.Empty;
+```
+
+```csharp
+public static VmValue FromFields(Dictionary<string, VmValue> fields) => new VmValue(null, null, fields);
+```
+
+```csharp
+public static VmValue FromItems(VmValue[] items) => new VmValue(null, items, null);
+```
+
+```csharp
+public static VmValue FromText(string? text) => new VmValue(text, null, null);
+```
+
+```csharp
+public static implicit operator string?(VmValue? value) => value?.Text;
+```
+
+```csharp
+public string? Text { get; }
 ```
 
 ## PhantasmaPhoenix.Protocol.ValidationUtils
@@ -7508,6 +8792,21 @@ public enum TokenContract_Methods
 - `UpdateSeriesMetadata = 26`
 - `UpdateTokenMetadata = 23`
 
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.Modules.GovernanceContract_Methods
+
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Enums/Blockchain/Modules/Enums.cs`
+
+### Declarations
+
+```csharp
+public enum GovernanceContract_Methods
+```
+
+### Variants
+
+- `RegisterName = 1`
+- `SetGasConfig = 3`
+
 ## PhantasmaPhoenix.Protocol.Carbon.Blockchain.Modules.MarketContract_Methods
 
 Source: `PhantasmaPhoenix.Protocol.Carbon/src/Enums/Blockchain/Modules/Enums.cs`
@@ -7582,6 +8881,40 @@ public class VmException : Exception
 
 ```csharp
 public VmException(string message) : base(message) { }
+```
+
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.ITxSigner
+
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/ITxSigner.cs`
+
+### Declarations
+
+```csharp
+public interface ITxSigner
+```
+
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.KeyPairSigner
+
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/ITxSigner.cs`
+
+### Declarations
+
+```csharp
+public sealed class KeyPairSigner : ITxSigner
+```
+
+### Methods
+
+```csharp
+public KeyPairSigner(IKeyPair keys)
+```
+
+```csharp
+public Task<byte[]> SignAsync(byte[] message, CancellationToken cancellationToken = default)
+```
+
+```csharp
+public byte[] PublicKey => _keys.PublicKey;
 ```
 
 ## PhantasmaPhoenix.Protocol.Carbon.Blockchain.Modules.Builders.IdHelper
@@ -7861,15 +9194,15 @@ public static class CreateTokenSeriesTxHelper
 ### Methods
 
 ```csharp
-public static TxMsg BuildTx(ulong tokenId, SeriesInfo seriesInfo, Bytes32 creatorPublicKey, CreateSeriesFeeOptions? feeOptions = null, ulong? maxData = null, long? expiry = null)
+public static TxMsg BuildTx(ulong tokenId, SeriesInfo seriesInfo, Bytes32 creatorPublicKey, TxLimits? limits = null)
 ```
 
 ```csharp
-public static byte[] BuildTxAndSign(ulong tokenId, SeriesInfo seriesInfo, PhantasmaKeys signer, CreateSeriesFeeOptions? feeOptions = null, ulong? maxData = null, long? expiry = null)
+public static byte[] BuildTxAndSign(ulong tokenId, SeriesInfo seriesInfo, PhantasmaKeys signer, in GasConfig config, PlanAndSignOptions? options = null)
 ```
 
 ```csharp
-public static string BuildTxAndSignHex(ulong tokenId, SeriesInfo seriesInfo, PhantasmaKeys signer, CreateSeriesFeeOptions? feeOptions = null, ulong? maxData = null, long? expiry = null)
+public static string BuildTxAndSignHex(ulong tokenId, SeriesInfo seriesInfo, PhantasmaKeys signer, in GasConfig config, PlanAndSignOptions? options = null)
 ```
 
 ```csharp
@@ -7889,153 +9222,223 @@ public static class CreateTokenTxHelper
 ### Methods
 
 ```csharp
-public static TxMsg BuildTx(TokenInfo tokenInfo, Bytes32 creatorPublicKey, CreateTokenFeeOptions? feeOptions = null, ulong? maxData = null, long? expiry = null)
+public static TxMsg BuildTx(TokenInfo tokenInfo, Bytes32 creatorPublicKey, TxLimits? limits = null)
 ```
 
 ```csharp
-public static byte[] BuildTxAndSign(TokenInfo tokenInfo, PhantasmaKeys signer, CreateTokenFeeOptions? feeOptions = null, ulong? maxData = null, long? expiry = null)
+public static byte[] BuildTxAndSign(TokenInfo tokenInfo, PhantasmaKeys signer, in GasConfig config, PlanAndSignOptions? options = null)
 ```
 
 ```csharp
-public static string BuildTxAndSignHex(TokenInfo tokenInfo, PhantasmaKeys signer, CreateTokenFeeOptions? feeOptions = null, ulong? maxData = null, long? expiry = null)
+public static string BuildTxAndSignHex(TokenInfo tokenInfo, PhantasmaKeys signer, in GasConfig config, PlanAndSignOptions? options = null)
 ```
 
 ```csharp
 public static ulong ParseResult(string resultHex)
 ```
 
-## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.IFeeOptions
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.FeePlanSummary
 
-Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/FeeOptions.cs`
-
-### Declarations
-
-```csharp
-public interface IFeeOptions
-```
-
-## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.FeeOptions
-
-Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/FeeOptions.cs`
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/FeePlanSummary.cs`
 
 ### Declarations
 
 ```csharp
-public class FeeOptions : IFeeOptions
+public sealed class FeePlanSummary
 ```
 
 ### Methods
 
 ```csharp
-public FeeOptions(ulong gasFeeBase = 10_000UL, ulong feeMultiplier = 1_000UL)
+public const uint DataTokenDecimals = 8;
 ```
 
 ```csharp
-public ulong FeeMultiplier { get; }
+public const uint GasTokenDecimals = 10;
 ```
 
 ```csharp
-public ulong GasFeeBase { get; }
+public static FeePlanSummary Summarize(FeePlan plan, uint gasDecimals = GasTokenDecimals, uint dataDecimals = DataTokenDecimals)
 ```
 
 ```csharp
-public virtual ulong CalculateMaxGas(params object[] args)
+public string GasBill { get; }
 ```
 
-## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.CreateTokenFeeOptions
+```csharp
+public string GasOffer { get; }
+```
 
-Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/FeeOptions.cs`
+```csharp
+public string StorageCeiling { get; }
+```
+
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.FeePlanOptions
+
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/FeePlanner.cs`
 
 ### Declarations
 
 ```csharp
-public class CreateTokenFeeOptions : FeeOptions, IFeeOptions
+public class FeePlanOptions
 ```
 
 ### Methods
 
 ```csharp
-public CreateTokenFeeOptions( ulong gasFeeBase = 10_000UL, ulong gasFeeCreateTokenBase = 10_000_000_000UL, ulong gasFeeCreateTokenSymbol = 10_000_000_000UL, ulong feeMultiplier = 10_000UL) : base(gasFeeBase, feeMultiplier)
+public FeePlanOptions Clone() => (FeePlanOptions)MemberwiseClone();
 ```
 
 ```csharp
-public override ulong CalculateMaxGas(params object[] args)
+public IReadOnlyList<InfusedAsset>? Infusions { get; set; }
 ```
 
 ```csharp
-public ulong GasFeeCreateTokenBase { get; }
+public bool? BigFungible { get; set; }
 ```
 
 ```csharp
-public ulong GasFeeCreateTokenSymbol { get; }
+public bool? DuplicatedSeries { get; set; }
 ```
 
-## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.CreateSeriesFeeOptions
+```csharp
+public bool? RecipientHoldsToken { get; set; }
+```
 
-Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/FeeOptions.cs`
+```csharp
+public bool? RomHasMetaId { get; set; }
+```
+
+```csharp
+public bool? SeriesHasMetaId { get; set; }
+```
+
+```csharp
+public bool? SupplyRowExists { get; set; }
+```
+
+```csharp
+public bool? TokenBurnedBefore { get; set; }
+```
+
+```csharp
+public int? WitnessCount { get; set; }
+```
+
+```csharp
+public uint? ScriptEventBytes { get; set; }
+```
+
+```csharp
+public uint? ScriptStorageQuanta { get; set; }
+```
+
+```csharp
+public ulong? ScriptUnitsAllowance { get; set; }
+```
+
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.FeePlan
+
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/FeePlanner.cs`
 
 ### Declarations
 
 ```csharp
-public class CreateSeriesFeeOptions : FeeOptions, IFeeOptions
+public sealed class FeePlan
 ```
 
 ### Methods
 
 ```csharp
-public CreateSeriesFeeOptions( ulong gasFeeBase = 10_000UL, ulong gasFeeCreateSeriesBase = 2_500_000_000UL, ulong feeMultiplier = 10_000UL) : base(gasFeeBase, feeMultiplier)
+public FeePlan(IReadOnlyList<NativeFeeKind> kinds, bool exact, int envelopeBytes, NativeFeeEstimate estimate)
 ```
 
 ```csharp
-public override ulong CalculateMaxGas(params object[] args)
+public IReadOnlyList<NativeFeeKind> Kinds { get; }
 ```
 
 ```csharp
-public ulong GasFeeCreateSeriesBase { get; }
+public NativeFeeEstimate Estimate { get; }
 ```
 
-## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.MintNftFeeOptions
+```csharp
+public TxMsg Apply(TxMsg msg)
+```
 
-Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/FeeOptions.cs`
+```csharp
+public bool Exact { get; }
+```
+
+```csharp
+public int EnvelopeBytes { get; }
+```
+
+```csharp
+public uint DeletedStorageQuanta => Estimate.DeletedStorageQuanta;
+```
+
+```csharp
+public uint NewStorageQuanta => Estimate.NewStorageQuanta;
+```
+
+```csharp
+public ulong ExpectedGasBill => Estimate.ExpectedGasBill;
+```
+
+```csharp
+public ulong MaxData => Estimate.MaxData;
+```
+
+```csharp
+public ulong MaxGas => Estimate.MaxGas;
+```
+
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.FeePlanner
+
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/FeePlanner.cs`
 
 ### Declarations
 
 ```csharp
-public class MintNftFeeOptions : FeeOptions, IFeeOptions
+public static class FeePlanner
 ```
 
 ### Methods
 
 ```csharp
-public MintNftFeeOptions(ulong gasFeeBase = 10_000UL, ulong feeMultiplier = 1_000UL) : base(gasFeeBase, feeMultiplier) { }
+public static FeePlan Plan(in TxMsg msg, in GasConfig config, FeePlanOptions? options = null)
 ```
 
 ```csharp
-public override ulong CalculateMaxGas(params object[] args)
+public static IReadOnlyList<(UInt64 TokenId, UInt64 InstanceId)> BurnedInstances(in TxMsg msg)
 ```
 
-## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.MintNonFungibleTxHelper
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.PhantasmaNftMintParams
 
-Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/MintNonFungibleTxHelper.cs`
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/MintPhantasmaNonFungibleTxHelper.cs`
 
 ### Declarations
 
 ```csharp
-public static class MintNonFungibleTxHelper
+public sealed class PhantasmaNftMintParams
 ```
 
 ### Methods
 
 ```csharp
-public static TxMsg BuildTx( ulong tokenId, uint seriesId, Bytes32 senderPublicKey, Bytes32 receiverPublicKey, byte[] rom, byte[]? ram, MintNftFeeOptions? feeOptions = null, ulong? maxData = null, long? expiry = null)
+public Bytes32 Sender { get; set; }
 ```
 
 ```csharp
-public static byte[] BuildTxAndSign( ulong tokenId, uint seriesId, PhantasmaKeys signer, Bytes32 receiverPublicKey, byte[] rom, byte[]? ram, MintNftFeeOptions? feeOptions = null, ulong? maxData = null, long? expiry = null)
+public Bytes32 To { get; set; }
 ```
 
 ```csharp
-public static string BuildTxAndSignHex( ulong tokenId, uint seriesId, PhantasmaKeys signer, Bytes32 receiverPublicKey, byte[] rom, byte[]? ram, MintNftFeeOptions? feeOptions = null, ulong? maxData = null, long? expiry = null)
+public PhantasmaNftMintInfo[] Tokens { get; set; } = Array.Empty<PhantasmaNftMintInfo>();
+```
+
+```csharp
+public ulong TokenId { get; set; }
 ```
 
 ## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.MintPhantasmaNonFungibleTxHelper
@@ -8055,27 +9458,631 @@ public static PhantasmaNftMintResult[] ParseResult(string resultHex)
 ```
 
 ```csharp
-public static TxMsg BuildTx( ulong tokenId, BigInteger phantasmaSeriesId, Bytes32 senderPublicKey, Bytes32 receiverPublicKey, byte[] publicRom, byte[]? ram, MintNftFeeOptions? feeOptions = null, ulong? maxData = null, long? expiry = null)
+public static TxMsg BuildTx(PhantasmaNftMintParams p, TxLimits? limits = null)
 ```
 
 ```csharp
-public static TxMsg BuildTx( ulong tokenId, Bytes32 senderPublicKey, Bytes32 receiverPublicKey, PhantasmaNftMintInfo[] tokens, MintNftFeeOptions? feeOptions = null, ulong? maxData = null, long? expiry = null)
+public static byte[] BuildTxAndSign(PhantasmaNftMintParams p, PhantasmaKeys signer, in GasConfig config, PlanAndSignOptions? options = null)
 ```
 
 ```csharp
-public static byte[] BuildTxAndSign( ulong tokenId, BigInteger phantasmaSeriesId, PhantasmaKeys signer, Bytes32 receiverPublicKey, byte[] publicRom, byte[]? ram, MintNftFeeOptions? feeOptions = null, ulong? maxData = null, long? expiry = null)
+public static string BuildTxAndSignHex(PhantasmaNftMintParams p, PhantasmaKeys signer, in GasConfig config, PlanAndSignOptions? options = null)
+```
+
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.NativeFeeKind
+
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/NativeFeeEstimator.cs`
+
+### Declarations
+
+```csharp
+public enum NativeFeeKind
+```
+
+### Variants
+
+- `BurnFungible`
+- `BurnNonFungible`
+- `CreateToken`
+- `CreateTokenSeries`
+- `MintFungible`
+- `MintNonFungible`
+- `MintPhantasmaNonFungible`
+- `RegisterName`
+- `Script`
+- `TransferFungible`
+- `TransferNonFungible`
+
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.NativeFeeParams
+
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/NativeFeeEstimator.cs`
+
+### Declarations
+
+```csharp
+public sealed class NativeFeeParams
+```
+
+### Methods
+
+```csharp
+public IReadOnlyList<InfusedAsset>? Infusions { get; set; }
 ```
 
 ```csharp
-public static byte[] BuildTxAndSign( ulong tokenId, PhantasmaNftMintInfo[] tokens, PhantasmaKeys signer, Bytes32 receiverPublicKey, MintNftFeeOptions? feeOptions = null, ulong? maxData = null, long? expiry = null)
+public bool HasInflationSchedule { get; set; }
 ```
 
 ```csharp
-public static string BuildTxAndSignHex( ulong tokenId, BigInteger phantasmaSeriesId, PhantasmaKeys signer, Bytes32 receiverPublicKey, byte[] publicRom, byte[]? ram, MintNftFeeOptions? feeOptions = null, ulong? maxData = null, long? expiry = null)
+public bool HasPreBurn { get; set; }
 ```
 
 ```csharp
-public static string BuildTxAndSignHex( ulong tokenId, PhantasmaNftMintInfo[] tokens, PhantasmaKeys signer, Bytes32 receiverPublicKey, MintNftFeeOptions? feeOptions = null, ulong? maxData = null, long? expiry = null)
+public bool HasStakingOrganisation { get; set; }
+```
+
+```csharp
+public bool HasStakingRewardToken { get; set; }
+```
+
+```csharp
+public bool NonFungible { get; set; }
+```
+
+```csharp
+public bool RecipientHoldsToken { get; set; }
+```
+
+```csharp
+public bool SupplyRowExists { get; set; }
+```
+
+```csharp
+public bool ToIsNftAddress { get; set; }
+```
+
+```csharp
+public bool TokenBurnedBefore { get; set; }
+```
+
+```csharp
+public bool? BigFungible { get; set; }
+```
+
+```csharp
+public bool? DuplicatedSeries { get; set; }
+```
+
+```csharp
+public bool? RomHasMetaId { get; set; }
+```
+
+```csharp
+public bool? SeriesHasMetaId { get; set; }
+```
+
+```csharp
+public int NameLength { get; set; }
+```
+
+```csharp
+public int SymbolLength { get; set; }
+```
+
+```csharp
+public uint Count { get; set; } = 1;
+```
+
+```csharp
+public uint DistinctSeriesCount { get; set; } = 1;
+```
+
+```csharp
+public uint PayloadBytes { get; set; }
+```
+
+```csharp
+public uint RamBytes { get; set; }
+```
+
+```csharp
+public uint RomBytes { get; set; }
+```
+
+```csharp
+public uint ScriptEventBytes { get; set; } = 512;
+```
+
+```csharp
+public uint ScriptStorageQuanta { get; set; } = 4;
+```
+
+```csharp
+public uint SeriesInfoBytes { get; set; }
+```
+
+```csharp
+public uint TokenInfoBytes { get; set; }
+```
+
+```csharp
+public uint? EnvelopeBytes { get; set; }
+```
+
+```csharp
+public uint[]? RamBytesPerInstance { get; set; }
+```
+
+```csharp
+public uint[]? RomBytesPerInstance { get; set; }
+```
+
+```csharp
+public ulong ScriptUnitsAllowance { get; set; } = 5000;
+```
+
+```csharp
+public ulong? TokenId { get; set; }
+```
+
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.NativeFeePart
+
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/NativeFeeEstimator.cs`
+
+### Declarations
+
+```csharp
+public sealed class NativeFeePart
+```
+
+### Methods
+
+```csharp
+public NativeFeeKind Kind { get; }
+```
+
+```csharp
+public NativeFeeParams Params { get; }
+```
+
+```csharp
+public NativeFeePart(NativeFeeKind kind, NativeFeeParams? p = null)
+```
+
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.NativeFeeTransaction
+
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/NativeFeeEstimator.cs`
+
+### Declarations
+
+```csharp
+public sealed class NativeFeeTransaction
+```
+
+### Methods
+
+```csharp
+public uint PayloadBytes { get; set; }
+```
+
+```csharp
+public uint? EnvelopeBytes { get; set; }
+```
+
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.InfusedAsset
+
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/NativeFeeEstimator.cs`
+
+### Declarations
+
+```csharp
+public sealed class InfusedAsset
+```
+
+### Methods
+
+```csharp
+public bool BurnerHoldsToken { get; set; }
+```
+
+```csharp
+public bool NonFungible { get; set; }
+```
+
+```csharp
+public uint InstanceCount { get; set; } = 1;
+```
+
+```csharp
+public ulong? TokenId { get; set; }
+```
+
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.FeeQuote
+
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/NativeFeeEstimator.cs`
+
+### Declarations
+
+```csharp
+public readonly struct FeeQuote
+```
+
+### Methods
+
+```csharp
+public FeeQuote(ulong maxGas, ulong maxData, ulong expectedGasBill)
+```
+
+```csharp
+public ulong ExpectedGasBill { get; }
+```
+
+```csharp
+public ulong MaxData { get; }
+```
+
+```csharp
+public ulong MaxGas { get; }
+```
+
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.NativeFeeEstimate
+
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/NativeFeeEstimator.cs`
+
+### Declarations
+
+```csharp
+public readonly struct NativeFeeEstimate
+```
+
+### Methods
+
+```csharp
+public FeeQuote ToQuote() => new(MaxGas, MaxData, ExpectedGasBill);
+```
+
+```csharp
+public NativeFeeEstimate(ulong maxGas, ulong maxData, ulong expectedGasBill, uint newStorageQuanta, uint deletedStorageQuanta)
+```
+
+```csharp
+public uint DeletedStorageQuanta { get; }
+```
+
+```csharp
+public uint NewStorageQuanta { get; }
+```
+
+```csharp
+public ulong ExpectedGasBill { get; }
+```
+
+```csharp
+public ulong MaxData { get; }
+```
+
+```csharp
+public ulong MaxGas { get; }
+```
+
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.NativeFeeEstimator
+
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/NativeFeeEstimator.cs`
+
+### Declarations
+
+```csharp
+public static class NativeFeeEstimator
+```
+
+### Methods
+
+```csharp
+public OperationModel(ulong workUnits, ulong policyFee, uint resultBytes, uint newQuanta, uint deletedQuanta)
+```
+
+```csharp
+public const uint NativeSignatureBytes = 64;
+```
+
+```csharp
+public const uint StorageQuantumBytes = 1024;
+```
+
+```csharp
+public const uint WitnessArrayEntryBytes = 96;
+```
+
+```csharp
+public const ulong GasModelV2UnitsPerBlockDataByte = 25;
+```
+
+```csharp
+public readonly uint DeletedQuanta;
+```
+
+```csharp
+public readonly uint NewQuanta;
+```
+
+```csharp
+public readonly uint ResultBytes;
+```
+
+```csharp
+public readonly ulong PolicyFee;
+```
+
+```csharp
+public readonly ulong WorkUnits;
+```
+
+```csharp
+public static NativeFeeEstimate EstimateNativeFee(NativeFeeKind kind, in GasConfig config, NativeFeeParams? p = null)
+```
+
+```csharp
+public static NativeFeeEstimate EstimateNativeFeeBatch(IReadOnlyList<NativeFeePart> parts, in GasConfig config, NativeFeeTransaction? transaction = null)
+```
+
+```csharp
+public static uint EnvelopeBytesFor(NativeFeeKind kind, int serializedMessageLength, int witnessCount)
+```
+
+```csharp
+public static uint PhantasmaCanonicalRomBytes(uint publicRomBytes) => publicRomBytes * 2 + PhantasmaCanonicalRomOverhead;
+```
+
+```csharp
+public static uint StorageQuantaFor(uint rowBytes) => (rowBytes + StorageQuantumBytes - 1) / StorageQuantumBytes;
+```
+
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.NativeTxParties
+
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/NativeTxHelper.cs`
+
+### Declarations
+
+```csharp
+public class NativeTxParties : TxLimits
+```
+
+### Methods
+
+```csharp
+public Bytes32 From { get; set; }
+```
+
+```csharp
+public Bytes32? GasPayer { get; set; }
+```
+
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.TransferFungibleParams
+
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/NativeTxHelper.cs`
+
+### Declarations
+
+```csharp
+public sealed class TransferFungibleParams : NativeTxParties
+```
+
+### Methods
+
+```csharp
+public Bytes32 To { get; set; }
+```
+
+```csharp
+public ulong Amount { get; set; }
+```
+
+```csharp
+public ulong TokenId { get; set; }
+```
+
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.TransferNonFungibleParams
+
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/NativeTxHelper.cs`
+
+### Declarations
+
+```csharp
+public sealed class TransferNonFungibleParams : NativeTxParties
+```
+
+### Methods
+
+```csharp
+public Bytes32 To { get; set; }
+```
+
+```csharp
+public ulong TokenId { get; set; }
+```
+
+```csharp
+public ulong[] InstanceIds { get; set; } = Array.Empty<ulong>();
+```
+
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.MintFungibleParams
+
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/NativeTxHelper.cs`
+
+### Declarations
+
+```csharp
+public sealed class MintFungibleParams : TxLimits
+```
+
+### Methods
+
+```csharp
+public Bytes32 Owner { get; set; }
+```
+
+```csharp
+public Bytes32 To { get; set; }
+```
+
+```csharp
+public IntX Amount { get; set; }
+```
+
+```csharp
+public ulong TokenId { get; set; }
+```
+
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.BurnFungibleParams
+
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/NativeTxHelper.cs`
+
+### Declarations
+
+```csharp
+public sealed class BurnFungibleParams : NativeTxParties
+```
+
+### Methods
+
+```csharp
+public IntX Amount { get; set; }
+```
+
+```csharp
+public ulong TokenId { get; set; }
+```
+
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.BurnNonFungibleParams
+
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/NativeTxHelper.cs`
+
+### Declarations
+
+```csharp
+public sealed class BurnNonFungibleParams : NativeTxParties
+```
+
+### Methods
+
+```csharp
+public ulong InstanceId { get; set; }
+```
+
+```csharp
+public ulong TokenId { get; set; }
+```
+
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.NativeTxHelper
+
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/NativeTxHelper.cs`
+
+### Declarations
+
+```csharp
+public static class NativeTxHelper
+```
+
+### Methods
+
+```csharp
+public static TxMsg BurnFungible(BurnFungibleParams p)
+```
+
+```csharp
+public static TxMsg BurnNonFungible(BurnNonFungibleParams p)
+```
+
+```csharp
+public static TxMsg MintFungible(MintFungibleParams p)
+```
+
+```csharp
+public static TxMsg TransferFungible(TransferFungibleParams p)
+```
+
+```csharp
+public static TxMsg TransferNonFungible(TransferNonFungibleParams p)
+```
+
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.PlanAndSignOptions
+
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/PlanAndSign.cs`
+
+### Declarations
+
+```csharp
+public sealed class PlanAndSignOptions : FeePlanOptions
+```
+
+### Methods
+
+```csharp
+public TxLimits Limits => new() { MaxGas = MaxGas, MaxData = MaxData, Expiry = Expiry };
+```
+
+```csharp
+public long? Expiry { get; set; }
+```
+
+```csharp
+public ulong? MaxData { get; set; }
+```
+
+```csharp
+public ulong? MaxGas { get; set; }
+```
+
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.PlanAndSign
+
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/PlanAndSign.cs`
+
+### Declarations
+
+```csharp
+public static class PlanAndSign
+```
+
+### Methods
+
+```csharp
+public static byte[] WithKeys(TxMsg msg, IKeyPair[] keys, in GasConfig config, PlanAndSignOptions? options = null)
+```
+
+## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxHelpers.TxLimits
+
+Source: `PhantasmaPhoenix.Protocol.Carbon/src/Helpers/Blockchain/TxHelpers/TxLimits.cs`
+
+### Declarations
+
+```csharp
+public class TxLimits
+```
+
+### Methods
+
+```csharp
+public const long DefaultExpiryMs = 45_000;
+```
+
+```csharp
+public long? Expiry { get; set; }
+```
+
+```csharp
+public static long DefaultExpiry() => DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() + DefaultExpiryMs;
+```
+
+```csharp
+public static long ExpiryWithin(long expiryWindowMs, long marginMs = 5_000)
+```
+
+```csharp
+public ulong? MaxData { get; set; }
+```
+
+```csharp
+public ulong? MaxGas { get; set; }
 ```
 
 ## PhantasmaPhoenix.Protocol.Carbon.Blockchain.TxMsgSigner
@@ -8091,7 +10098,35 @@ public static class TxMsgSigner
 ### Methods
 
 ```csharp
-public static byte[] Sign(TxMsg msg, PhantasmaKeys keys)
+public WitnessSlot(Bytes32 address, ITxSigner signer)
+```
+
+```csharp
+public readonly Bytes32 Address;
+```
+
+```csharp
+public readonly ITxSigner Signer;
+```
+
+```csharp
+public static SignedTxMsg SignWithKeys(TxMsg msg, params IKeyPair[] keys)
+```
+
+```csharp
+public static async Task<SignedTxMsg> SignWithAsync(TxMsg msg, IReadOnlyList<ITxSigner> signers, CancellationToken cancellationToken = default)
+```
+
+```csharp
+public static async Task<byte[]> SignAndSerializeWithAsync(TxMsg msg, IReadOnlyList<ITxSigner> signers, CancellationToken cancellationToken = default) => CarbonBlob.Serialize(await SignWithAsync(msg, signers, cancellationToken).ConfigureAwait(false));
+```
+
+```csharp
+public static byte[] Sign(TxMsg msg, PhantasmaKeys keys) => SignAndSerializeWithKeys(msg, keys);
+```
+
+```csharp
+public static byte[] SignAndSerializeWithKeys(TxMsg msg, params IKeyPair[] keys) => CarbonBlob.Serialize(SignWithKeys(msg, keys));
 ```
 
 ## PhantasmaPhoenix.Protocol.Carbon.Blockchain.Vm.VmGlobal
@@ -8527,6 +10562,14 @@ public Byte gasBurnRatioShift;
 ```
 
 ```csharp
+public Byte gasDappRatioShift;
+```
+
+```csharp
+public Byte gasProducerRatioShift;
+```
+
+```csharp
 public Byte maxNameLength;
 ```
 
@@ -8559,6 +10602,10 @@ public UInt64 gasBurnRatioMul;
 ```
 
 ```csharp
+public UInt64 gasDappRatioMul;
+```
+
+```csharp
 public UInt64 gasFeeCreateTokenBase;
 ```
 
@@ -8587,11 +10634,43 @@ public UInt64 gasFeeTransfer;
 ```
 
 ```csharp
+public UInt64 gasProducerRatioMul;
+```
+
+```csharp
 public UInt64 gasTokenId;
 ```
 
 ```csharp
+public UInt64 legacyDataEscrowPerRow;
+```
+
+```csharp
+public UInt64 minimumGasBill;
+```
+
+```csharp
 public UInt64 minimumGasOffer;
+```
+
+```csharp
+public UInt64 policyFeeCreateTokenBase;
+```
+
+```csharp
+public UInt64 policyFeeCreateTokenSeries;
+```
+
+```csharp
+public UInt64 policyFeeCreateTokenSymbol;
+```
+
+```csharp
+public UInt64 policyFeeRegisterName;
+```
+
+```csharp
+public bool HasGasModelV2 => version >= 1;
 ```
 
 ```csharp
@@ -9533,6 +11612,14 @@ public static Bytes32 GetNftAddress(UInt64 tokenId, UInt64 instanceId)
 ```
 
 ```csharp
+public static bool IsNftAddress(Bytes32 address) => IsNftAddress(address.bytes);
+```
+
+```csharp
+public static bool IsNftAddress(byte[] address)
+```
+
+```csharp
 public static void UnpackNftInstanceId(UInt64 instanceId, out uint seriesId, out uint mintNumber)
 ```
 
@@ -9716,6 +11803,14 @@ public TxMsg msg;
 
 ```csharp
 public Witness[] witnesses;
+```
+
+```csharp
+public static Bytes32[]? RequiredWitnesses(in TxMsg msg)
+```
+
+```csharp
+public static int EnvelopeBytes(in TxMsg msg, int? witnessCount = null)
 ```
 
 ```csharp
@@ -10451,6 +12546,10 @@ public static SmallString id = new("_i");
 ```
 
 ```csharp
+public static SmallString inflation_period = new("_ip");
+```
+
+```csharp
 public static SmallString name = new("_n");
 ```
 
@@ -10945,7 +13044,7 @@ Source: `PhantasmaPhoenix.Protocol.Carbon/src/Structures/Bytes32.cs`
 ### Declarations
 
 ```csharp
-public struct Bytes32 : ICarbonBlob
+public struct Bytes32 : ICarbonBlob, IEquatable<Bytes32>
 ```
 
 ### Methods
@@ -11009,7 +13108,7 @@ Source: `PhantasmaPhoenix.Protocol.Carbon/src/Structures/Bytes64.cs`
 ### Declarations
 
 ```csharp
-public struct Bytes64 : ICarbonBlob
+public struct Bytes64 : ICarbonBlob, IEquatable<Bytes64>
 ```
 
 ### Methods
@@ -11302,6 +13401,138 @@ public readonly int CacheDuration;
 public readonly string? CacheTag;
 ```
 
+## PhantasmaPhoenix.RPC.IGasConfigSource
+
+Source: `PhantasmaPhoenix.RPC/src/ChainFeePlanner.cs`
+
+### Declarations
+
+```csharp
+public interface IGasConfigSource
+```
+
+## PhantasmaPhoenix.RPC.IInfusionSource
+
+Source: `PhantasmaPhoenix.RPC/src/ChainFeePlanner.cs`
+
+### Declarations
+
+```csharp
+public interface IInfusionSource
+```
+
+## PhantasmaPhoenix.RPC.ChainFeePlannerOptions
+
+Source: `PhantasmaPhoenix.RPC/src/ChainFeePlanner.cs`
+
+### Declarations
+
+```csharp
+public sealed class ChainFeePlannerOptions
+```
+
+### Methods
+
+```csharp
+public int ConfigTtlMs { get; set; } = 60_000;
+```
+
+## PhantasmaPhoenix.RPC.PlanRequestOptions
+
+Source: `PhantasmaPhoenix.RPC/src/ChainFeePlanner.cs`
+
+### Declarations
+
+```csharp
+public class PlanRequestOptions : FeePlanOptions
+```
+
+### Methods
+
+```csharp
+public bool RefreshConfig { get; set; }
+```
+
+## PhantasmaPhoenix.RPC.ChainFeeParams
+
+Source: `PhantasmaPhoenix.RPC/src/ChainFeePlanner.cs`
+
+### Declarations
+
+```csharp
+public readonly struct ChainFeeParams
+```
+
+### Methods
+
+```csharp
+public ChainFeeParams(uint expiryWindow, uint blockRateTarget, uint gasModelVersion)
+```
+
+```csharp
+public uint BlockRateTarget { get; }
+```
+
+```csharp
+public uint ExpiryWindow { get; }
+```
+
+```csharp
+public uint GasModelVersion { get; }
+```
+
+## PhantasmaPhoenix.RPC.ChainFeePlanner
+
+Source: `PhantasmaPhoenix.RPC/src/ChainFeePlanner.cs`
+
+### Declarations
+
+```csharp
+public sealed class ChainFeePlanner
+```
+
+### Methods
+
+```csharp
+public Cached(GasConfig config, ChainFeeParams @params, long fetchedAt) { Config = config; Params = @params; FetchedAt = fetchedAt; }
+```
+
+```csharp
+public ChainFeeParams Params;
+```
+
+```csharp
+public ChainFeePlanner(IGasConfigSource source, ChainFeePlannerOptions? options = null)
+```
+
+```csharp
+public FeePlan PlanWith(in GasConfig config, TxMsg msg, FeePlanOptions? options = null) => FeePlanner.Plan(msg, config, options);
+```
+
+```csharp
+public GasConfig Config;
+```
+
+```csharp
+public async Task<ChainFeeParams> ChainParamsAsync(bool refresh = false) => (await ReadAsync(refresh).ConfigureAwait(false)).Params;
+```
+
+```csharp
+public async Task<FeePlan> PlanAsync(TxMsg msg, PlanRequestOptions? options = null)
+```
+
+```csharp
+public async Task<GasConfig> ConfigAsync(bool refresh = false) => (await ReadAsync(refresh).ConfigureAwait(false)).Config;
+```
+
+```csharp
+public long FetchedAt;
+```
+
+```csharp
+public void Invalidate() => _cached = null;
+```
+
 ## PhantasmaPhoenix.RPC.Models.ABIEventResult
 
 Source: `PhantasmaPhoenix.RPC/src/Models/ABIEventResult.cs`
@@ -11386,6 +13617,34 @@ public string Name { get; set; } = "";
 public string Type { get; set; } = "";
 ```
 
+## PhantasmaPhoenix.RPC.Models.AccountInfoResult
+
+Source: `PhantasmaPhoenix.RPC/src/Models/AccountInfoResult.cs`
+
+### Declarations
+
+```csharp
+public class AccountInfoResult
+```
+
+### Methods
+
+```csharp
+public AccountInfoResult() { }
+```
+
+```csharp
+public StakeResult Stake { get; set; } = new();
+```
+
+```csharp
+public string Address { get; set; } = "";
+```
+
+```csharp
+public string Name { get; set; } = "";
+```
+
 ## PhantasmaPhoenix.RPC.Models.AccountResult
 
 Source: `PhantasmaPhoenix.RPC/src/Models/AccountResult.cs`
@@ -11423,11 +13682,11 @@ public string Name { get; set; } = "";
 ```
 
 ```csharp
-public string Stake { get; set; } = ""; //Deprecated
+public string Stake { get; set; } = "";
 ```
 
 ```csharp
-public string Unclaimed { get; set; } = ""; //Deprecated
+public string Unclaimed { get; set; } = "";
 ```
 
 ```csharp
@@ -11675,6 +13934,10 @@ public string ValidatorAddress { get; set; } = "";
 ```
 
 ```csharp
+public string? ProducerAddress { get; set; }
+```
+
+```csharp
 public uint Height { get; set; }
 ```
 
@@ -11770,6 +14033,58 @@ public string Script { get; set; } = "";
 public string? Owner { get; set; }
 ```
 
+## PhantasmaPhoenix.RPC.Models.EstimateTransactionResult
+
+Source: `PhantasmaPhoenix.RPC/src/Models/EstimateTransactionResult.cs`
+
+### Declarations
+
+```csharp
+public class EstimateTransactionResult
+```
+
+### Methods
+
+```csharp
+public EstimateTransactionResult() { }
+```
+
+```csharp
+public FeeQuote ToFeeQuote()
+```
+
+```csharp
+public bool WouldAbort { get; set; }
+```
+
+```csharp
+public string? AbortReason { get; set; }
+```
+
+```csharp
+public string? DataEscrowAtoms { get; set; }
+```
+
+```csharp
+public string? DataRefundAtoms { get; set; }
+```
+
+```csharp
+public string? DataRows { get; set; }
+```
+
+```csharp
+public string? GasBillKcalBase { get; set; }
+```
+
+```csharp
+public string? RecommendedMaxData { get; set; }
+```
+
+```csharp
+public string? RecommendedMaxGas { get; set; }
+```
+
 ## PhantasmaPhoenix.RPC.Models.EventExResult
 
 Source: `PhantasmaPhoenix.RPC/src/Models/EventExResult.cs`
@@ -11848,6 +14163,178 @@ public string Kind { get; set; } = string.Empty;
 
 ```csharp
 public string Name { get; set; } = string.Empty;
+```
+
+## PhantasmaPhoenix.RPC.Models.GasConfigResult
+
+Source: `PhantasmaPhoenix.RPC/src/Models/GasConfigResult.cs`
+
+### Declarations
+
+```csharp
+public class GasConfigResult
+```
+
+### Methods
+
+```csharp
+public GasConfig ToGasConfig()
+```
+
+```csharp
+public GasConfigDataResult? GasConfig { get; set; }
+```
+
+```csharp
+public GasConfigResult() { }
+```
+
+```csharp
+public uint BlockRateTarget { get; set; }
+```
+
+```csharp
+public uint ExpiryWindow { get; set; }
+```
+
+```csharp
+public uint GasModelVersion { get; set; }
+```
+
+```csharp
+public uint? UnitsPerBlockDataByte { get; set; }
+```
+
+## PhantasmaPhoenix.RPC.Models.GasConfigDataResult
+
+Source: `PhantasmaPhoenix.RPC/src/Models/GasConfigResult.cs`
+
+### Declarations
+
+```csharp
+public class GasConfigDataResult
+```
+
+### Methods
+
+```csharp
+public GasConfigDataResult() { }
+```
+
+```csharp
+public byte FeeShift { get; set; }
+```
+
+```csharp
+public byte GasBurnRatioShift { get; set; }
+```
+
+```csharp
+public byte MaxNameLength { get; set; }
+```
+
+```csharp
+public byte MaxTokenSymbolLength { get; set; }
+```
+
+```csharp
+public byte Version { get; set; }
+```
+
+```csharp
+public byte? GasDappRatioShift { get; set; }
+```
+
+```csharp
+public byte? GasProducerRatioShift { get; set; }
+```
+
+```csharp
+public string? DataEscrowPerRow { get; set; }
+```
+
+```csharp
+public string? DataTokenId { get; set; }
+```
+
+```csharp
+public string? FeeMultiplier { get; set; }
+```
+
+```csharp
+public string? GasBurnRatioMul { get; set; }
+```
+
+```csharp
+public string? GasDappRatioMul { get; set; }
+```
+
+```csharp
+public string? GasFeeCreateTokenBase { get; set; }
+```
+
+```csharp
+public string? GasFeeCreateTokenSeries { get; set; }
+```
+
+```csharp
+public string? GasFeeCreateTokenSymbol { get; set; }
+```
+
+```csharp
+public string? GasFeePerByte { get; set; }
+```
+
+```csharp
+public string? GasFeeQuery { get; set; }
+```
+
+```csharp
+public string? GasFeeRegisterName { get; set; }
+```
+
+```csharp
+public string? GasFeeTransfer { get; set; }
+```
+
+```csharp
+public string? GasProducerRatioMul { get; set; }
+```
+
+```csharp
+public string? GasTokenId { get; set; }
+```
+
+```csharp
+public string? LegacyDataEscrowPerRow { get; set; }
+```
+
+```csharp
+public string? MinimumGasBill { get; set; }
+```
+
+```csharp
+public string? MinimumGasOffer { get; set; }
+```
+
+```csharp
+public string? PolicyFeeCreateTokenBase { get; set; }
+```
+
+```csharp
+public string? PolicyFeeCreateTokenSeries { get; set; }
+```
+
+```csharp
+public string? PolicyFeeCreateTokenSymbol { get; set; }
+```
+
+```csharp
+public string? PolicyFeeRegisterName { get; set; }
+```
+
+```csharp
+public uint MaxStructureSize { get; set; }
 ```
 
 ## PhantasmaPhoenix.RPC.Models.GovernanceResult
@@ -12307,11 +14794,11 @@ public TokenPropertyResult() { }
 ```
 
 ```csharp
-public string Key { get; set; } = string.Empty;
+public VmValue? Value { get; set; }
 ```
 
 ```csharp
-public string Value { get; set; } = string.Empty;
+public string Key { get; set; } = string.Empty;
 ```
 
 ## PhantasmaPhoenix.RPC.Models.TokenResult
@@ -12527,6 +15014,10 @@ public ExecutionState State { get; set; }
 ```
 
 ```csharp
+public HexBytes? CarbonTxData { get; set; }
+```
+
+```csharp
 public TransactionResult() { }
 ```
 
@@ -12568,10 +15059,6 @@ public string Sender { get; set; } = Address.Null.Text; // Initialized as in ori
 
 ```csharp
 public string? BlockHash { get; set; }
-```
-
-```csharp
-public string? CarbonTxData { get; set; }
 ```
 
 ```csharp
@@ -12702,6 +15189,22 @@ public VmType Type { get; set; }
 public VmVariableSchemaResult() { }
 ```
 
+## PhantasmaPhoenix.RPC.SendTransactionOptions
+
+Source: `PhantasmaPhoenix.RPC/src/PhantasmaAPI.cs`
+
+### Declarations
+
+```csharp
+public sealed class SendTransactionOptions : PlanRequestOptions
+```
+
+### Methods
+
+```csharp
+public bool Preflight { get; set; } = true;
+```
+
 ## PhantasmaPhoenix.RPC.PhantasmaAPI
 
 Source: `PhantasmaPhoenix.RPC/src/PhantasmaAPI.cs`
@@ -12709,13 +15212,33 @@ Source: `PhantasmaPhoenix.RPC/src/PhantasmaAPI.cs`
 ### Declarations
 
 ```csharp
-public class PhantasmaAPI : IDisposable
+public class PhantasmaAPI : IDisposable, IGasConfigSource, IPreflightSource, IInfusionSource
 ```
 
 ### Methods
 
 ```csharp
+public ChainFeePlanner Fees => _fees ??= new ChainFeePlanner(this);
+```
+
+```csharp
 public PhantasmaAPI(string host, RpcClient? rpcClient = null, string? apiKey = null)
+```
+
+```csharp
+public Task<AccountInfoResult?> GetAccountInfoAsync( string account, bool checkAddressReservedByte, RpcAddressType addressType) => _rpc.SendRpcAsync<AccountInfoResult>(Host, "getAccountInfo", account, checkAddressReservedByte, addressType);
+```
+
+```csharp
+public Task<AccountInfoResult?> GetAccountInfoAsync(string account) => _rpc.SendRpcAsync<AccountInfoResult>(Host, "getAccountInfo", account);
+```
+
+```csharp
+public Task<AccountInfoResult[]?> GetAccountInfosAsync( string[] accounts, bool checkAddressReservedByte, RpcAddressType addressType) => _rpc.SendRpcAsync<AccountInfoResult[]>(Host, "getAccountInfos", accounts ?? Array.Empty<string>(), checkAddressReservedByte, addressType);
+```
+
+```csharp
+public Task<AccountInfoResult[]?> GetAccountInfosAsync(string[] accounts) => _rpc.SendRpcAsync<AccountInfoResult[]>(Host, "getAccountInfos", new object[] { accounts ?? Array.Empty<string>() });
 ```
 
 ```csharp
@@ -12831,6 +15354,14 @@ public Task<CursorPaginatedResult<TokenSeriesResult[]>?> GetTokenSeriesAsync( st
 ```
 
 ```csharp
+public Task<EstimateTransactionResult?> EstimateTransactionAsync(string txData) => _rpc.SendRpcAsync<EstimateTransactionResult>(Host, "estimateTransaction", txData);
+```
+
+```csharp
+public Task<GasConfigResult?> GetGasConfigAsync() => _rpc.SendRpcAsync<GasConfigResult>(Host, "getGasConfig");
+```
+
+```csharp
 public Task<LeaderboardResult?> GetLeaderboardAsync(string name) => _rpc.SendRpcAsync<LeaderboardResult>(Host, "getLeaderboard", name);
 ```
 
@@ -12895,6 +15426,18 @@ public Task<TransactionResult?> GetTransactionByBlockHashAndIndexAsync( string c
 ```
 
 ```csharp
+public Task<string> SendTransactionAsync(TxMsg msg, IKeyPair keys, SendTransactionOptions? options = null, CancellationToken cancellationToken = default) => SendTransactionAsync(msg, new ITxSigner[] { new KeyPairSigner(keys ?? throw new ArgumentNullException(nameof(keys))) }, options, cancellationToken);
+```
+
+```csharp
+public Task<string> SendTransactionAsync(TxMsg msg, IKeyPair[] keys, SendTransactionOptions? options = null, CancellationToken cancellationToken = default)
+```
+
+```csharp
+public Task<string> SendTransactionAsync(TxMsg msg, ITxSigner signer, SendTransactionOptions? options = null, CancellationToken cancellationToken = default) => SendTransactionAsync(msg, new[] { signer ?? throw new ArgumentNullException(nameof(signer)) }, options, cancellationToken);
+```
+
+```csharp
 public Task<string?> LookUpNameAsync(string name) => _rpc.SendRpcAsync<string>(Host, "lookUpName", name);
 ```
 
@@ -12919,6 +15462,10 @@ public async Task<(AuctionResult[]? result, uint page, uint total, uint totalPag
 ```
 
 ```csharp
+public async Task<IReadOnlyList<InfusedAsset>> InfusedAssetsAsync(ulong tokenId, ulong instanceId)
+```
+
+```csharp
 public async Task<bool> WriteArchiveAsync(string hash, int blockIndex, byte[] blockContent)
 ```
 
@@ -12939,7 +15486,7 @@ public async Task<long> GetBlockHeightAsync(string chain)
 ```
 
 ```csharp
-public async Task<string?> SignAndSendCarbonTransactionAsync( IKeyPair keys, TxMsg txMsg)
+public async Task<string> SendTransactionAsync(TxMsg msg, IReadOnlyList<ITxSigner> signers, SendTransactionOptions? options = null, CancellationToken cancellationToken = default)
 ```
 
 ```csharp
@@ -12948,6 +15495,10 @@ public async Task<string?> SignAndSendTransactionAsync( IKeyPair keys, string ne
 
 ```csharp
 public async Task<string?> SignAndSendTransactionAsync( IKeyPair keys, string nexus, byte[] script, string chain, string payload, Func<byte[], byte[], byte[], byte[]>? customSignFunction = null)
+```
+
+```csharp
+public async Task<ulong?> ControlTokenIdAsync()
 ```
 
 ```csharp
@@ -13004,6 +15555,105 @@ public const string ApiKeyHeaderName = "X-Api-Key";
 
 ```csharp
 public void Dispose()
+```
+
+## PhantasmaPhoenix.RPC.TransactionPreflightException
+
+Source: `PhantasmaPhoenix.RPC/src/TransactionPreflight.cs`
+
+### Declarations
+
+```csharp
+public class TransactionPreflightException : Exception
+```
+
+### Methods
+
+```csharp
+public TransactionPreflightException(string message) : base(message) { }
+```
+
+## PhantasmaPhoenix.RPC.IPreflightSource
+
+Source: `PhantasmaPhoenix.RPC/src/TransactionPreflight.cs`
+
+### Declarations
+
+```csharp
+public interface IPreflightSource
+```
+
+## PhantasmaPhoenix.RPC.PreflightVerdict
+
+Source: `PhantasmaPhoenix.RPC/src/TransactionPreflight.cs`
+
+### Declarations
+
+```csharp
+public enum PreflightVerdict
+```
+
+### Variants
+
+- `Free`
+- `NotApplicable`
+- `Taken`
+- `Unknown`
+
+## PhantasmaPhoenix.RPC.PreflightResult
+
+Source: `PhantasmaPhoenix.RPC/src/TransactionPreflight.cs`
+
+### Declarations
+
+```csharp
+public sealed class PreflightResult
+```
+
+### Methods
+
+```csharp
+public PreflightResult(PreflightVerdict verdict, string? subject = null, string? reason = null)
+```
+
+```csharp
+public PreflightVerdict Verdict { get; }
+```
+
+```csharp
+public string? Reason { get; }
+```
+
+```csharp
+public string? Subject { get; }
+```
+
+## PhantasmaPhoenix.RPC.TransactionPreflight
+
+Source: `PhantasmaPhoenix.RPC/src/TransactionPreflight.cs`
+
+### Declarations
+
+```csharp
+public static class TransactionPreflight
+```
+
+### Methods
+
+```csharp
+public LookUp(bool ok, string? reason) { Ok = ok; Reason = reason; }
+```
+
+```csharp
+public readonly bool Ok;
+```
+
+```csharp
+public readonly string? Reason;
+```
+
+```csharp
+public static async Task<PreflightResult> PreflightAsync(IPreflightSource source, TxMsg msg)
 ```
 
 ## PhantasmaPhoenix.RPC.Types.CursorPaginatedResult

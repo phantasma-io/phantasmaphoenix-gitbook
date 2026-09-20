@@ -63,6 +63,7 @@
       - [Setup](developers/sdks/csharp/setup.md)
       - [Godot](developers/sdks/csharp/godot.md)
       - [High-level API](developers/sdks/csharp/phantasma-api.md)
+      - [Fees And Broadcasting](developers/sdks/csharp/fees-and-broadcasting.md)
       - [Complete API Reference](developers/sdks/csharp/reference/README.md)
         - [RPC Methods](developers/sdks/csharp/reference/rpc-methods.md)
         - [Keys, VM, and Transactions](developers/sdks/csharp/reference/keys-vm-and-transactions.md)
