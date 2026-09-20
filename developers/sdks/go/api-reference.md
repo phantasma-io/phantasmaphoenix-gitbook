@@ -15,7 +15,7 @@ Go SDK Complete API Reference
 | Module | `github.com/phantasma-io/phantasma-sdk-go` |
 | Go | `1.25+` |
 | Current local branch observed | `master` |
-| Current public tag | `v0.11.0` |
+| Current public tag | `v0.18.0` |
 
 ## `pkg/rpc`
 
@@ -25,6 +25,9 @@ Go SDK Complete API Reference
 | `NewRPCMainnet()` / `NewRPCSetMainnet()` / `NewRPCTestnet()` | Create clients for public endpoint defaults. |
 | `PhantasmaRPC.Call(ctx, method, params...)` | Low-level JSON-RPC call for methods without typed wrappers. |
 | Typed RPC wrappers | Account, block, transaction, token, series, NFT, archive, auction, contract, organization, VM config, and broadcast methods. |
+| `PhantasmaRPC.Fees()` | The fee planner of this chain. It caches the gas config and prices messages. |
+| `PhantasmaRPC.SendTransaction(...)` | Plans, pre-flights, signs and broadcasts a Carbon message in one call. |
+| `PreflightTransaction(...)` | Asks the chain whether a token creation's symbol is already taken. |
 | `AddressTypePhantasma`, `AddressTypeCarbon` | Address interpretation selectors for wrappers that expose node address-type parameters. |
 
 Details: [RPC Client](reference/rpc-methods.md).
@@ -67,7 +70,20 @@ Details: [VM and Transaction APIs](reference/vm-transaction-binary.md).
 | `Writer`, `Reader`, `Serialize`, `Deserialize` | Carbon wire-format primitives. |
 | `Bytes16`, `Bytes32`, `Bytes64`, `SmallString`, `IntX` | Checked Carbon primitive types. |
 | `TokenInfo`, `SeriesInfo`, `TokenSchemas`, `TxMsg`, `SignedTxMsg`, `Witness` | Carbon token, schema, transaction, and signing structures. |
-| Lifecycle builders | Create token, create series, direct NFT mint, and Phantasma NFT mint builders. |
-| Result parsers | Create token, create series, direct NFT mint, and Phantasma NFT mint result parsers. |
+| Lifecycle builders | Create token, create series and Phantasma NFT mint builders. |
+| Native builders | Transfers, fungible mints and burns, which need no VM script. |
+| Fee planning | `PlanFees`, `FeePlan`, `FeePlanOptions`, `SummarizeFeePlan`, `TxLimits`, `ExpiryWithin`, `BurnedInstances`. |
+| Signing | `TxSigner`, `KeyPairSigners`, `SignTxMsg`, `SignTxMsgWith`. |
+| Result parsers | Create token, create series, NFT mint and Phantasma NFT mint result parsers. |
 
 Details: [Carbon API and Wire Format](reference/carbon-wire.md).
+
+## Fees
+
+Under gas model v2 the chain bills every byte a transaction puts in the block,
+and it escrows every new storage row. Builders carry no prices, so a message is
+planned before it is signed.
+
+{% content-ref url="/developers/sdks/go/fees-and-broadcasting.md" %}
+[Fees And Broadcasting](/developers/sdks/go/fees-and-broadcasting.md)
+{% endcontent-ref %}

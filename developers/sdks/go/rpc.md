@@ -36,22 +36,25 @@ like `NewRPC`.
 
 ```go
 height, err := client.GetBlockHeight(ctx, "main")
-account, err := client.GetAccount(ctx, "P...")
+info, err := client.GetAccountInfo(ctx, "P...")
 tx, err := client.GetTransaction(ctx, "HASH")
 tokens, err := client.GetTokens(ctx, true)
 ```
 
-Use account-level helpers when you already loaded a full account:
+`GetAccountInfo` returns the account name and the staking info. Its cost does
+not depend on how much the address holds, which makes it the call for a refresh
+loop. `GetAccountInfos` answers up to 100 addresses in one call.
+
+Read balances and NFTs through the cursor methods:
 
 ```go
-token, err := client.GetToken(ctx, "SOUL", true)
-if err != nil {
-    return err
-}
-
-balance := account.GetTokenBalance(token)
-fmt.Println(balance.ConvertDecimals())
+balances, err := client.GetAccountFungibleTokens(ctx, "P...", "", 0, 100, "")
 ```
+
+`GetAccount` and `GetAccounts` are deprecated. Their response embeds every NFT
+id the address owns, so it grows with the size of the account. The node caps
+each `Balances[].Ids` list at 10000 entries while `Balances[].Amount` keeps the
+true count, so the list is silently partial for a large holder.
 
 ## Carbon And Current RPC Wrappers
 
@@ -63,11 +66,13 @@ SDKs:
 | Build and chain config | `GetVersion`, `GetPhantasmaVMConfig`, `GetChains`, `GetChain`, `GetNexus` |
 | Blocks and transactions | `GetBlockByHash`, `GetLatestBlock`, `GetBlockTransactionCountByHashOnChain`, `GetTransactionByBlockHashAndIndexOnChain` |
 | Contracts and organizations | `GetContracts`, `GetContractByName`, `GetContractByAddress`, `GetOrganization`, `GetOrganizations`, `GetOrganizationMembers`, `GetOrganizationMember`, `GetLeaderboard` |
-| Token definitions | `GetTokens`, `GetTokensByOwner`, `GetToken`, `GetTokenWithID`, `GetTokenData`, `GetTokenBalance` |
+| Token definitions | `GetTokens`, `GetTokensByOwner`, `GetToken`, `GetTokenWithID`, `GetTokenBalance`. `GetTokenData` is deprecated, and `GetNFT` covers it entirely |
 | Series and NFTs | `GetTokenSeries`, `GetTokenSeriesByID`, `GetTokenNFTs`, `GetTokenNFTsWithSeriesID`, `GetNFT`, `GetNFTs` |
+| Accounts | `GetAccountInfo`, `GetAccountInfos` and their address-type variants. `GetAccount` and `GetAccounts` are deprecated |
 | Account inventory | `GetAccountFungibleTokens`, `GetAccountNFTs`, `GetAccountOwnedTokens`, `GetAccountOwnedTokenSeries` and address-type variants |
+| Fees | `GetGasConfig`, `EstimateTransaction`, `Fees()`, `ControlTokenID`, `InfusedAssets` |
 | Archives and auctions | `GetArchive`, `ReadArchive`, `WriteArchive`, `WriteArchiveBase64`, `GetAuctionsCount`, `GetAuctions`, `GetAuction` |
-| Broadcast | `SendRawTransaction`, `SendCarbonTransaction`, `SignAndSendTransaction`, `SignAndSendCarbonTransaction` |
+| Broadcast | `SendTransaction`, `SendRawTransaction`, `SendCarbonTransaction`, `SignAndSendTransaction` |
 
 ## Cursor Pagination
 
@@ -98,3 +103,12 @@ auctions and address transaction history.
 `SendCarbonTransaction` broadcasts signed Carbon transaction hex. Neither method
 waits for final execution state; poll `GetTransaction(ctx, hash)` and check
 `TransactionResult.StateIsSuccess()`.
+
+## Fee Planning And Sending
+
+`SendTransaction` plans the fee, runs the token-creation pre-flight, signs with
+every witness and broadcasts, all in one call.
+
+{% content-ref url="/developers/sdks/go/fees-and-broadcasting.md" %}
+[Fees And Broadcasting](/developers/sdks/go/fees-and-broadcasting.md)
+{% endcontent-ref %}

@@ -8,7 +8,9 @@ metadata helpers.
 
 | Layer | Main APIs | Use it for |
 | ----- | --------- | ---------- |
-| Lifecycle builders | `BuildCreateTokenTx`, `BuildCreateTokenSeriesTx`, `BuildMintNonFungibleTx`, `BuildMintPhantasmaNonFungibleTx`, signed and hex variants | Token deployment, series creation, direct NFT mints, and deterministic Phantasma NFT mints. |
+| Lifecycle builders | `BuildCreateTokenTx`, `BuildCreateTokenSeriesTx`, `BuildMintPhantasmaNonFungibleTx`, signed and hex variants | Token deployment, series creation, and deterministic Phantasma NFT mints. |
+| Native builders | `BuildTransferFungibleTx`, `BuildTransferNonFungibleTx`, `BuildMintFungibleTx`, `BuildBurnFungibleTx`, `BuildBurnNonFungibleTx` | Transfers, fungible mints and burns, which need no VM script. |
+| Fee planning | `PlanFees`, `FeePlan`, `FeePlanOptions`, `SummarizeFeePlan`, `TxLimits`, `ExpiryWithin` | Pricing a message before it is signed. |
 | Typed messages | `TxMsg`, `SignedTxMsg`, `Witness`, `TxMsg*`, module argument structs | Inspecting, assembling, signing, or serializing Carbon transactions directly. |
 | Wire primitives | `Writer`, `Reader`, `Serialize`, `Deserialize`, fixed bytes, `IntX`, `SmallString` | Protocol tooling, tests, diagnostics, and custom Carbon messages. |
 
@@ -54,7 +56,6 @@ hexTx, err := carbon.SignAndSerializeTxMsgHex(tx, keys)
 | -------------- | ------- |
 | `BuildCreateTokenTx*` | Create a Carbon token definition. |
 | `BuildCreateTokenSeriesTx*` | Create a series under an NFT token. |
-| `BuildMintNonFungibleTx*` | Mint one direct Carbon NFT instance. |
 | `BuildMintPhantasmaNonFungibleTx*` | Mint one or more deterministic Phantasma NFT instances. |
 | `BuildMintPhantasmaNonFungibleSingleTx*` | Convenience wrapper for one deterministic Phantasma NFT. |
 

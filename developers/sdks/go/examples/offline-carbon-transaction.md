@@ -51,12 +51,13 @@ func main() {
         log.Fatal(err)
     }
 
+    // Signing needs the chain's prices. Carry the gas config to the offline
+    // machine, or read it there from a node the machine can reach.
     signedHex, err := carbon.BuildCreateTokenTxAndSignHex(
         tokenInfo,
         keys,
-        carbon.DefaultCreateTokenFeeOptions(),
-        100_000_000,
-        time.Now().UTC().Add(20*time.Minute).UnixMilli(),
+        &gasConfig,
+        carbon.PlanAndSignOptions{},
     )
     if err != nil {
         log.Fatal(err)
@@ -65,6 +66,15 @@ func main() {
     fmt.Println(signedHex)
 }
 ```
+
+The gas config comes from `client.GetGasConfig(ctx)` and `ToGasConfig()`. It
+changes only through a governance resolution, so an offline signer can hold a
+copy. A message signed against a stale config may offer too little gas, and a
+short offer is rejected.
+
+A message also expires. The default lifetime is 45 seconds, so an offline flow
+should set `TxLimits.Expiry` from the chain's own window with
+`carbon.ExpiryWithin`.
 
 Broadcast the hex with `rpc.PhantasmaRPC.SendCarbonTransaction` only after the
 application has selected the target network and funding key.

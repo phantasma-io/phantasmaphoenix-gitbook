@@ -27,9 +27,7 @@ args := carbon.Serialize(carbon.TransferFungibleArgs{
 
 msg := carbon.TxMsg{
     Type:    carbon.TxTypeCall,
-    Expiry:  carbon.NowUnixMillis() + 60_000,
-    MaxGas:  carbon.DefaultFeeOptions().CalculateMaxGas(),
-    MaxData: 100_000_000,
+    Expiry:  carbon.DefaultExpiry(),
     GasFrom: sender,
     Call: &carbon.TxMsgCall{
         ModuleID: uint32(carbon.ModuleIDToken),
@@ -37,10 +35,20 @@ msg := carbon.TxMsg{
         Args:     args,
     },
 }
+
+// The message carries no prices. Plan it, then sign and send.
+hash, err := client.SendTransaction(ctx, msg, carbon.KeyPairSigners(keyPair), rpc.SendTransactionOptions{})
 ```
+
+A `Call` chooses its own witness set, so a plan made by hand needs
+`WitnessCount`. `SendTransaction` fills it in from the signers it was given.
 
 Prefer lifecycle builders when they cover the operation. Use direct message
 construction only when the module call is outside the higher-level helper set.
+
+{% content-ref url="/developers/sdks/go/fees-and-broadcasting.md" %}
+[Fees And Broadcasting](/developers/sdks/go/fees-and-broadcasting.md)
+{% endcontent-ref %}
 
 ## Archive And Auction Reads
 

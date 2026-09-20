@@ -96,14 +96,27 @@ Module argument structures:
 | `UpdateSeriesMetadataArgs` | `TokenID`, `SeriesID`, `Metadata`. |
 | `TokenListing`, `MarketConfig`, `Market*Args` | Market listing configuration and sell/cancel/buy/query argument payloads. |
 
-## Fee Options
+## Fee Planning
 
-| Type | Defaults and formula |
-| ---- | -------------------- |
-| `FeeOptions` | `GasFeeBase = 10_000`, `FeeMultiplier = 1_000`; `CalculateMaxGas()` returns base times multiplier; `CalculateMaxGasForCount(count)` multiplies by a positive count and reports overflow. |
-| `CreateTokenFeeOptions` | Adds create-token base and symbol-length fee. `CalculateMaxGas(symbol)` uses `GasFeeCreateTokenSymbol >> (len(symbol)-1)` when a symbol is present. |
-| `CreateSeriesFeeOptions` | Adds create-series base. `CalculateMaxGas()` returns `(GasFeeBase + GasFeeCreateSeriesBase) * FeeMultiplier`. |
-| `MintNFTFeeOptions` | NFT mint fee options. `CalculateMaxGasForCount(count)` scales by the number of minted items. |
+Builders carry no prices. A message is priced after it is built, from the
+message itself and the chain's own gas configuration.
+
+| API | Purpose |
+| --- | ------- |
+| `PhantasmaRPC.Fees()` | The `*rpc.FeePlanner` of this chain. It caches the gas config and prices messages. |
+| `carbon.PlanFees(msg, config, options)` | The same calculation against a `carbon.GasConfig` the caller holds. |
+| `carbon.FeePlan` | `MaxGas`, `MaxData`, `ExpectedGasBill`, `Kinds`, `Exact`, `EnvelopeBytes`, `Apply(msg)`. |
+| `carbon.FeePlanOptions` | The chain-state facts a caller may state, plus `WitnessCount`. |
+| `carbon.SummarizeFeePlan(plan)` | `GasBill`, `GasOffer` and `StorageCeiling` as decimal strings. |
+| `carbon.NativeFeeKind` | The operation kinds the planner prices. |
+| `carbon.BurnedInstances(msg)` | The NFT instances a message burns, in any shape. |
+| `carbon.TxLimits` | `MaxGas`, `MaxData` and `Expiry`, plus `DefaultTxExpiry` and `ExpiryWithin`. |
+| `carbon.TxSigner`, `carbon.KeyPairSigners` | Any witness that can sign, and the in-memory adapter. |
+| `carbon.PlanAndSignOptions` | `FeePlanOptions` and `TxLimits`, taken by the `Build...TxAndSign` helpers. |
+
+{% content-ref url="/developers/sdks/go/fees-and-broadcasting.md" %}
+[Fees And Broadcasting](/developers/sdks/go/fees-and-broadcasting.md)
+{% endcontent-ref %}
 
 ## Lifecycle Builders
 
@@ -113,8 +126,6 @@ Module argument structures:
 | `BuildCreateTokenTxAndSign` / `BuildCreateTokenTxAndSignHex` | Signed create-token bytes or hex. |
 | `BuildCreateTokenSeriesTx` | Builds unsigned create-series `TxMsg`. |
 | `BuildCreateTokenSeriesTxAndSign` / `BuildCreateTokenSeriesTxAndSignHex` | Signed create-series bytes or hex. |
-| `BuildMintNonFungibleTx` | Builds direct one-NFT Carbon mint. |
-| `BuildMintNonFungibleTxAndSign` / `BuildMintNonFungibleTxAndSignHex` | Signed direct NFT mint bytes or hex. |
 | `BuildMintPhantasmaNonFungibleTx` | Builds deterministic Phantasma NFT mint for a token slice. |
 | `BuildMintPhantasmaNonFungibleSingleTx` | Convenience wrapper for one deterministic Phantasma NFT. |
 

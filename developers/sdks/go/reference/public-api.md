@@ -89,6 +89,26 @@ Source: `pkg/carbon`
 ### Declarations
 
 ```go
+const DefaultTxExpiry = 45 * time.Second
+```
+
+```go
+const GasModelV2UnitsPerBlockDataByte = 25
+```
+
+```go
+const GovernanceMethodRegisterName GovernanceContractMethod = 1
+```
+
+```go
+const GovernanceMethodSetGasConfig GovernanceContractMethod = 3
+```
+
+```go
+const KCALDecimals = 10
+```
+
+```go
 const ListingTypeFixedPrice ListingType = 0
 ```
 
@@ -197,7 +217,139 @@ const ModuleIDToken ModuleID = 1
 ```
 
 ```go
+const NativeFeeBurnFungible
+```
+
+```go
+const NativeFeeBurnNonFungible
+```
+
+```go
+const NativeFeeCreateToken
+```
+
+```go
+const NativeFeeCreateTokenSeries
+```
+
+```go
+const NativeFeeMintFungible
+```
+
+```go
+const NativeFeeMintNonFungible
+```
+
+```go
+const NativeFeeMintPhantasmaNonFungible
+```
+
+```go
+const NativeFeeRegisterName
+```
+
+```go
+const NativeFeeScript
+```
+
+```go
+const NativeFeeTransferFungible NativeFeeKind = iota
+```
+
+```go
+const NativeFeeTransferNonFungible
+```
+
+```go
+const NativeSignatureBytes = 64
+```
+
+```go
+const SOULDecimals = 8
+```
+
+```go
+const StandardMetaChainAddress = "_a"
+```
+
+```go
+const StandardMetaChainName = "_n"
+```
+
+```go
+const StandardMetaChainNexus = "_x"
+```
+
+```go
+const StandardMetaChainTokenomics = "_t"
+```
+
+```go
 const StandardMetaID = "_i"
+```
+
+```go
+const StandardMetaTokenInflationPeriod = "_ip"
+```
+
+```go
+const StandardMetaTokenPhantasmaABI = "_phb"
+```
+
+```go
+const StandardMetaTokenPhantasmaScript = "_phs"
+```
+
+```go
+const StandardMetaTokenPreBurn = "_brn"
+```
+
+```go
+const StandardMetaTokenStakingBoosterDiv = "_sbd"
+```
+
+```go
+const StandardMetaTokenStakingBoosterLimit = "_sbl"
+```
+
+```go
+const StandardMetaTokenStakingBoosterMul = "_sbm"
+```
+
+```go
+const StandardMetaTokenStakingBoosterToken = "_sbt"
+```
+
+```go
+const StandardMetaTokenStakingLock = "_sl"
+```
+
+```go
+const StandardMetaTokenStakingOrgID = "_soi"
+```
+
+```go
+const StandardMetaTokenStakingOrgThreshold = "_sot"
+```
+
+```go
+const StandardMetaTokenStakingRewardDiv = "_srd"
+```
+
+```go
+const StandardMetaTokenStakingRewardMul = "_srm"
+```
+
+```go
+const StandardMetaTokenStakingRewardPeriod = "_srp"
+```
+
+```go
+const StandardMetaTokenStakingRewardToken = "_srt"
+```
+
+```go
+const StorageQuantumBytes = 1024
 ```
 
 ```go
@@ -529,6 +681,10 @@ const VMTypeStruct VMType = 2 << 1
 ```
 
 ```go
+const WitnessArrayEntryBytes = 96
+```
+
+```go
 type Blob interface {
 ```
 
@@ -537,7 +693,19 @@ type BurnFungibleArgs struct {
 ```
 
 ```go
+type BurnFungibleParams struct {
+```
+
+```go
 type BurnNonFungibleArgs struct {
+```
+
+```go
+type BurnNonFungibleParams struct {
+```
+
+```go
+type BurnedInstance struct {
 ```
 
 ```go
@@ -565,19 +733,23 @@ type CreateMintedTokenSeriesArgs struct {
 ```
 
 ```go
-type CreateSeriesFeeOptions struct {
-```
-
-```go
-type CreateTokenFeeOptions struct {
-```
-
-```go
 type CreateTokenSeriesArgs struct {
 ```
 
 ```go
-type FeeOptions struct {
+type FeePlan struct {
+```
+
+```go
+type FeePlanOptions struct {
+```
+
+```go
+type FeePlanSummary struct {
+```
+
+```go
+type FeeQuote struct {
 ```
 
 ```go
@@ -589,7 +761,19 @@ type GasConfig struct {
 ```
 
 ```go
+type GovernanceContractMethod uint32
+```
+
+```go
+type InfusedAsset struct {
+```
+
+```go
 type IntX struct {
+```
+
+```go
+type KeyPairSigner struct {
 ```
 
 ```go
@@ -653,7 +837,7 @@ type MintFungibleArgs struct {
 ```
 
 ```go
-type MintNFTFeeOptions struct {
+type MintFungibleParams struct {
 ```
 
 ```go
@@ -677,6 +861,26 @@ type NFTMintInfo struct {
 ```
 
 ```go
+type NativeFeeEstimate struct {
+```
+
+```go
+type NativeFeeKind int
+```
+
+```go
+type NativeFeeParams struct {
+```
+
+```go
+type NativeFeePart struct {
+```
+
+```go
+type NativeFeeTransactionParams struct {
+```
+
+```go
 type PhantasmaNFTMintInfo struct {
 ```
 
@@ -685,7 +889,15 @@ type PhantasmaNFTMintResult struct {
 ```
 
 ```go
+type PlanAndSignOptions struct {
+```
+
+```go
 type Reader struct {
+```
+
+```go
+type RegisterNameArgs struct {
 ```
 
 ```go
@@ -737,7 +949,19 @@ type TransferFungibleArgs struct {
 ```
 
 ```go
+type TransferFungibleParams struct {
+```
+
+```go
 type TransferNonFungibleArgs struct {
+```
+
+```go
+type TransferNonFungibleParams struct {
+```
+
+```go
+type TxLimits struct {
 ```
 
 ```go
@@ -814,6 +1038,10 @@ type TxMsgTransferNonFungibleSingleGasPayer struct {
 
 ```go
 type TxPayload interface {
+```
+
+```go
+type TxSigner interface {
 ```
 
 ```go
@@ -903,27 +1131,37 @@ var SystemAddressNull = systemAddress(0)
 - `AllowedTxTypes  uint32`
 - `Amount  IntX`
 - `Amount  uint64`
+- `Amount IntX`
+- `Amount uint64`
 - `Args           []byte`
 - `Args     []byte`
 - `Blob`
 - `BlockRateTarget uint32`
 - `BurnF     []TxMsgBurnFungibleGasPayer`
 - `BurnN     []TxMsgBurnNonFungibleGasPayer`
+- `BurnerHoldsToken bool`
 - `Calls []TxMsgCall`
 - `CarbonInstanceID uint64`
 - `Chain  SmallString`
+- `Count int`
 - `Data any`
 - `DataEscrowPerRow        uint64`
 - `DataTokenID             uint64`
 - `Decimals     byte`
+- `DeletedStorageQuanta int`
 - `DelistingGrace     uint64`
+- `DistinctSeriesCount int`
 - `EndDate      int64`
 - `EndDate     int64`
+- `EnvelopeBytes int`
+- `Exact bool`
+- `ExpectedGasBill uint64`
 - `Expiry  int64`
+- `Expiry int64`
 - `ExpiryWindow    uint32`
 - `FeeMultiplier           uint64`
-- `FeeMultiplier          uint64`
-- `FeeMultiplier uint64`
+- `FeePlanOptions`
+- `FeeQuote`
 - `FeeShift                byte`
 - `Fields []VMNamedDynamicVariable`
 - `Fields []VMNamedVariableSchema`
@@ -934,13 +1172,14 @@ var SystemAddressNull = systemAddress(0)
 - `From         Bytes32`
 - `From        Bytes32`
 - `From       Bytes32`
+- `From     Bytes32`
 - `From    Bytes32`
+- `From Bytes32`
+- `GasBill string`
 - `GasBurnRatioMul         uint64`
 - `GasBurnRatioShift       byte`
-- `GasFeeBase              uint64`
-- `GasFeeBase             uint64`
-- `GasFeeBase    uint64`
-- `GasFeeCreateSeriesBase uint64`
+- `GasDappRatioMul   uint64`
+- `GasDappRatioShift byte`
 - `GasFeeCreateTokenBase   uint64`
 - `GasFeeCreateTokenSeries uint64`
 - `GasFeeCreateTokenSymbol uint64`
@@ -949,15 +1188,32 @@ var SystemAddressNull = systemAddress(0)
 - `GasFeeRegisterName      uint64`
 - `GasFeeTransfer          uint64`
 - `GasFrom Bytes32`
+- `GasOffer string`
+- `GasPayer   Bytes32`
+- `GasPayer Bytes32`
+- `GasProducerRatioMul   uint64`
+- `GasProducerRatioShift byte`
 - `GasTokenID              uint64`
+- `HasInflationSchedule bool`
+- `HasPreBurn bool`
+- `HasStakingOrganisation bool`
+- `HasStakingRewardToken bool`
 - `Info    SeriesInfo`
+- `Infusions []InfusedAsset`
+- `InstanceCount int`
 - `InstanceID   uint64`
 - `InstanceID  VMDynamicVariable`
 - `InstanceID VMDynamicVariable`
 - `InstanceID uint64`
 - `InstanceIDs []uint64`
+- `Int64Balances bool`
+- `Keys cryptography.KeyPair`
+- `Kind   NativeFeeKind`
+- `Kinds []NativeFeeKind`
+- `LegacyDataEscrowPerRow uint64`
 - `MaxData uint64`
 - `MaxGas  uint64`
+- `MaxGas uint64`
 - `MaxMint   uint32`
 - `MaxNameLength           byte`
 - `MaxStructureSize        uint32`
@@ -970,6 +1226,7 @@ var SystemAddressNull = systemAddress(0)
 - `Metadata VMDynamicStruct`
 - `Metadata []byte`
 - `MethodID uint32`
+- `MinimumGasBill uint64`
 - `MinimumGasOffer         uint64`
 - `MinimumListingTime uint64`
 - `MintF     []TxMsgMintFungible`
@@ -977,18 +1234,31 @@ var SystemAddressNull = systemAddress(0)
 - `ModuleID uint32`
 - `Msg       TxMsg`
 - `Msg     TxPayload`
+- `Name    SmallString`
 - `Name   SmallString`
 - `Name  SmallString`
 - `Name  string`
 - `Name string `json:"name"``
+- `NameLength int`
+- `NativeFeeEstimate`
+- `NewStorageQuanta int`
 - `Nexus  SmallString`
+- `NonFungible bool`
 - `Owner        Bytes32`
 - `Owner     Bytes32`
+- `Owner   Bytes32`
+- `Params NativeFeeParams`
 - `Payload SmallString`
+- `PayloadBytes int`
 - `PhantasmaNFTID   Bytes32`
 - `PhantasmaSeriesID IntX`
+- `PolicyFeeCreateTokenBase uint64`
+- `PolicyFeeCreateTokenSeries uint64`
+- `PolicyFeeCreateTokenSymbol uint64`
+- `PolicyFeeRegisterName uint64`
 - `Price        IntX`
 - `Price       IntX`
+- `PublicKey() []byte`
 - `QuoteSymbol SmallString`
 - `QuoteTokenID uint64`
 - `RAM               []byte`
@@ -996,58 +1266,77 @@ var SystemAddressNull = systemAddress(0)
 - `RAM            []FieldType `json:"ram"``
 - `RAM       VMStructSchema`
 - `RAM      []byte`
+- `RAMBytes []int`
 - `RAMs    [][]byte`
 - `ROM               []byte`
 - `ROM            VMStructSchema`
 - `ROM            []FieldType `json:"rom"``
 - `ROM       VMStructSchema`
 - `ROM      []byte`
+- `ROMBytes []int`
 - `ROMs    [][]byte`
 - `ReadCarbon(*Reader)`
+- `RecipientHoldsToken bool`
 - `RegisterOffset int32`
 - `Reserved1       byte`
 - `Reserved2       byte`
 - `Reserved3       byte`
+- `RomWithoutMetaID bool`
 - `Schema  VMStructSchema`
 - `Schema VMVariableSchema`
 - `Script []byte`
+- `ScriptEventBytes int`
+- `ScriptStorageQuanta int`
+- `ScriptUnitsAllowance uint64`
 - `Sections *MsgCallArgSections`
 - `Sections []CallArgSection`
 - `Seller       Bytes32`
 - `SeriesID uint32`
+- `SeriesInfoBytes int`
 - `SeriesMetadata VMStructSchema`
 - `SeriesMetadata []FieldType `json:"seriesMetadata"``
+- `SeriesWithoutMetaID bool`
+- `SignMessage(ctx context.Context, message []byte) ([]byte, error)`
 - `Signature Bytes64`
 - `StartDate    int64`
+- `StorageCeiling string`
 - `StructDef *VMStructSchema`
 - `Structs []VMDynamicStruct`
+- `SupplyRowExists bool`
 - `Symbol       SmallString`
 - `Symbol      SmallString`
 - `Symbol     SmallString`
+- `SymbolLength int`
 - `To          Bytes32`
 - `To         Bytes32`
 - `To       Bytes32`
 - `To      Bytes32`
+- `ToIsNFTAddress bool`
+- `TokenBurnedBefore bool`
 - `TokenID      uint64`
 - `TokenID     uint64`
 - `TokenID    uint64`
 - `TokenID  uint64`
 - `TokenID uint64`
+- `TokenInfoBytes int`
 - `TokenSchemas []byte`
 - `Tokens  []NFTMintInfo`
 - `Tokens  []PhantasmaNFTMintInfo`
 - `Transaction []byte`
 - `TransferF []TxMsgTransferFungibleGasPayer`
 - `TransferN []TxMsgTransferNonFungibleSingleGasPayer`
+- `TxLimits`
 - `Type         ListingType`
 - `Type      VMType`
 - `Type    TxType`
 - `Type VMType`
 - `Type VMType `json:"type"``
+- `UniqueSeries bool`
 - `Value VMDynamicVariable`
 - `Value any`
 - `Version                 byte`
 - `Version         byte`
+- `WitnessCount int`
 - `Witnesses []Witness`
 - `WriteCarbon(*Writer)`
 
@@ -1182,6 +1471,14 @@ func (a *MintPhantasmaNonFungibleArgs) WriteCarbon(w *Writer)
 ```
 
 ```go
+func (a *RegisterNameArgs) ReadCarbon(r *Reader)
+```
+
+```go
+func (a *RegisterNameArgs) WriteCarbon(w *Writer)
+```
+
+```go
 func (a *TransferFungibleArgs) ReadCarbon(r *Reader)
 ```
 
@@ -1270,6 +1567,10 @@ func (c *ChainConfig) WriteCarbon(w *Writer)
 ```
 
 ```go
+func (c *GasConfig) HasGasModelV2() bool
+```
+
+```go
 func (c *GasConfig) ReadCarbon(r *Reader)
 ```
 
@@ -1298,27 +1599,7 @@ func (f *FieldType) UnmarshalJSON(data []byte) error
 ```
 
 ```go
-func (f CreateSeriesFeeOptions) CalculateMaxGas() uint64
-```
-
-```go
-func (f CreateTokenFeeOptions) CalculateMaxGas(symbol SmallString) uint64
-```
-
-```go
-func (f FeeOptions) CalculateMaxGas() uint64
-```
-
-```go
-func (f FeeOptions) CalculateMaxGasForCount(count uint64) (uint64, error)
-```
-
-```go
 func (f FieldType) MarshalJSON() ([]byte, error)
-```
-
-```go
-func (f MintNFTFeeOptions) CalculateMaxGasForCount(count uint64) (uint64, error)
 ```
 
 ```go
@@ -1335,6 +1616,10 @@ func (i *PhantasmaNFTMintInfo) ReadCarbon(r *Reader)
 
 ```go
 func (i *PhantasmaNFTMintInfo) WriteCarbon(w *Writer)
+```
+
+```go
+func (k NativeFeeKind) String() string
 ```
 
 ```go
@@ -1495,6 +1780,10 @@ func (m *TxMsgTransferNonFungibleSingleGasPayer) ReadCarbon(r *Reader)
 
 ```go
 func (m *TxMsgTransferNonFungibleSingleGasPayer) WriteCarbon(w *Writer)
+```
+
+```go
+func (p FeePlan) Apply(msg TxMsg) TxMsg
 ```
 
 ```go
@@ -1674,6 +1963,14 @@ func (s *VMVariableSchema) WriteCarbon(w *Writer)
 ```
 
 ```go
+func (s KeyPairSigner) PublicKey() []byte
+```
+
+```go
+func (s KeyPairSigner) SignMessage(_ context.Context, message []byte) ([]byte, error)
+```
+
+```go
 func (s MsgCallArgSections) HasSections() bool
 ```
 
@@ -1699,6 +1996,10 @@ func (t *TokenInfo) ReadCarbon(r *Reader)
 
 ```go
 func (t *TokenInfo) WriteCarbon(w *Writer)
+```
+
+```go
+func (t TxType) String() string
 ```
 
 ```go
@@ -1854,63 +2155,63 @@ func BuildAndSerializeTokenSchemas(schemas *TokenSchemas) []byte
 ```
 
 ```go
-func BuildCreateTokenSeriesTx(tokenID uint64, seriesInfo SeriesInfo, creator Bytes32, fees CreateSeriesFeeOptions, maxData uint64, expiry int64) TxMsg
+func BuildBurnFungibleTx(p BurnFungibleParams) TxMsg
 ```
 
 ```go
-func BuildCreateTokenSeriesTxAndSign(tokenID uint64, seriesInfo SeriesInfo, signer cryptography.KeyPair, fees CreateSeriesFeeOptions, maxData uint64, expiry int64) ([]byte, error)
+func BuildBurnNonFungibleTx(p BurnNonFungibleParams) TxMsg
 ```
 
 ```go
-func BuildCreateTokenSeriesTxAndSignHex(tokenID uint64, seriesInfo SeriesInfo, signer cryptography.KeyPair, fees CreateSeriesFeeOptions, maxData uint64, expiry int64) (string, error)
+func BuildCreateTokenSeriesTx(tokenID uint64, seriesInfo SeriesInfo, creator Bytes32, limits TxLimits) TxMsg
 ```
 
 ```go
-func BuildCreateTokenTx(tokenInfo TokenInfo, creator Bytes32, fees CreateTokenFeeOptions, maxData uint64, expiry int64) TxMsg
+func BuildCreateTokenSeriesTxAndSign(tokenID uint64, seriesInfo SeriesInfo, signer cryptography.KeyPair, config *GasConfig, options PlanAndSignOptions) ([]byte, error)
 ```
 
 ```go
-func BuildCreateTokenTxAndSign(tokenInfo TokenInfo, signer cryptography.KeyPair, fees CreateTokenFeeOptions, maxData uint64, expiry int64) ([]byte, error)
+func BuildCreateTokenSeriesTxAndSignHex(tokenID uint64, seriesInfo SeriesInfo, signer cryptography.KeyPair, config *GasConfig, options PlanAndSignOptions) (string, error)
 ```
 
 ```go
-func BuildCreateTokenTxAndSignHex(tokenInfo TokenInfo, signer cryptography.KeyPair, fees CreateTokenFeeOptions, maxData uint64, expiry int64) (string, error)
+func BuildCreateTokenTx(tokenInfo TokenInfo, creator Bytes32, limits TxLimits) TxMsg
 ```
 
 ```go
-func BuildMintNonFungibleTx(tokenID uint64, seriesID uint32, sender Bytes32, receiver Bytes32, rom []byte, ram []byte, fees MintNFTFeeOptions, maxData uint64, expiry int64) TxMsg
+func BuildCreateTokenTxAndSign(tokenInfo TokenInfo, signer cryptography.KeyPair, config *GasConfig, options PlanAndSignOptions) ([]byte, error)
 ```
 
 ```go
-func BuildMintNonFungibleTxAndSign(tokenID uint64, seriesID uint32, signer cryptography.KeyPair, receiver Bytes32, rom []byte, ram []byte, fees MintNFTFeeOptions, maxData uint64, expiry int64) ([]byte, error)
+func BuildCreateTokenTxAndSignHex(tokenInfo TokenInfo, signer cryptography.KeyPair, config *GasConfig, options PlanAndSignOptions) (string, error)
 ```
 
 ```go
-func BuildMintNonFungibleTxAndSignHex(tokenID uint64, seriesID uint32, signer cryptography.KeyPair, receiver Bytes32, rom []byte, ram []byte, fees MintNFTFeeOptions, maxData uint64, expiry int64) (string, error)
+func BuildMintFungibleTx(p MintFungibleParams) TxMsg
 ```
 
 ```go
-func BuildMintPhantasmaNonFungibleSingleTx(tokenID uint64, phantasmaSeriesID *big.Int, sender Bytes32, receiver Bytes32, publicRom []byte, ram []byte, fees MintNFTFeeOptions, maxData uint64, expiry int64) (TxMsg, error)
+func BuildMintPhantasmaNonFungibleSingleTx(tokenID uint64, phantasmaSeriesID *big.Int, sender Bytes32, receiver Bytes32, publicRom []byte, ram []byte, limits TxLimits) (TxMsg, error)
 ```
 
 ```go
-func BuildMintPhantasmaNonFungibleSingleTxAndSign(tokenID uint64, phantasmaSeriesID *big.Int, signer cryptography.KeyPair, receiver Bytes32, publicRom []byte, ram []byte, fees MintNFTFeeOptions, maxData uint64, expiry int64) ([]byte, error)
+func BuildMintPhantasmaNonFungibleSingleTxAndSign(tokenID uint64, phantasmaSeriesID *big.Int, signer cryptography.KeyPair, receiver Bytes32, publicRom []byte, ram []byte, config *GasConfig, options PlanAndSignOptions) ([]byte, error)
 ```
 
 ```go
-func BuildMintPhantasmaNonFungibleSingleTxAndSignHex(tokenID uint64, phantasmaSeriesID *big.Int, signer cryptography.KeyPair, receiver Bytes32, publicRom []byte, ram []byte, fees MintNFTFeeOptions, maxData uint64, expiry int64) (string, error)
+func BuildMintPhantasmaNonFungibleSingleTxAndSignHex(tokenID uint64, phantasmaSeriesID *big.Int, signer cryptography.KeyPair, receiver Bytes32, publicRom []byte, ram []byte, config *GasConfig, options PlanAndSignOptions) (string, error)
 ```
 
 ```go
-func BuildMintPhantasmaNonFungibleTx(tokenID uint64, sender Bytes32, receiver Bytes32, tokens []PhantasmaNFTMintInfo, fees MintNFTFeeOptions, maxData uint64, expiry int64) (TxMsg, error)
+func BuildMintPhantasmaNonFungibleTx(tokenID uint64, sender Bytes32, receiver Bytes32, tokens []PhantasmaNFTMintInfo, limits TxLimits) (TxMsg, error)
 ```
 
 ```go
-func BuildMintPhantasmaNonFungibleTxAndSign(tokenID uint64, signer cryptography.KeyPair, receiver Bytes32, tokens []PhantasmaNFTMintInfo, fees MintNFTFeeOptions, maxData uint64, expiry int64) ([]byte, error)
+func BuildMintPhantasmaNonFungibleTxAndSign(tokenID uint64, signer cryptography.KeyPair, receiver Bytes32, tokens []PhantasmaNFTMintInfo, config *GasConfig, options PlanAndSignOptions) ([]byte, error)
 ```
 
 ```go
-func BuildMintPhantasmaNonFungibleTxAndSignHex(tokenID uint64, signer cryptography.KeyPair, receiver Bytes32, tokens []PhantasmaNFTMintInfo, fees MintNFTFeeOptions, maxData uint64, expiry int64) (string, error)
+func BuildMintPhantasmaNonFungibleTxAndSignHex(tokenID uint64, signer cryptography.KeyPair, receiver Bytes32, tokens []PhantasmaNFTMintInfo, config *GasConfig, options PlanAndSignOptions) (string, error)
 ```
 
 ```go
@@ -1946,6 +2247,18 @@ func BuildTokenSeriesMetadata(schema VMStructSchema, phantasmaSeriesID *big.Int,
 ```
 
 ```go
+func BuildTransferFungibleTx(p TransferFungibleParams) TxMsg
+```
+
+```go
+func BuildTransferNonFungibleTx(p TransferNonFungibleParams) (TxMsg, error)
+```
+
+```go
+func BurnedInstances(msg TxMsg) []BurnedInstance
+```
+
+```go
 func Bytes16FromHex(value string) (Bytes16, error)
 ```
 
@@ -1978,15 +2291,7 @@ func DecodeHex(value string) ([]byte, error)
 ```
 
 ```go
-func DefaultCreateSeriesFeeOptions() CreateSeriesFeeOptions
-```
-
-```go
-func DefaultCreateTokenFeeOptions() CreateTokenFeeOptions
-```
-
-```go
-func DefaultFeeOptions() FeeOptions
+func DefaultExpiry() int64
 ```
 
 ```go
@@ -1994,7 +2299,23 @@ func DefaultMarketConfig() MarketConfig
 ```
 
 ```go
-func DefaultMintNFTFeeOptions() MintNFTFeeOptions
+func EnvelopeBytes(msg TxMsg, witnessCount int) (int, error)
+```
+
+```go
+func EnvelopeBytesFor(kind NativeFeeKind, serializedMessageLength int, witnessCount int) (int, error)
+```
+
+```go
+func EstimateNativeFee(kind NativeFeeKind, config *GasConfig, params NativeFeeParams) (NativeFeeEstimate, error)
+```
+
+```go
+func EstimateNativeFeeBatch(parts []NativeFeePart, config *GasConfig, transaction NativeFeeTransactionParams) (NativeFeeEstimate, error)
+```
+
+```go
+func ExpiryWithin(expiryWindow, margin time.Duration) (int64, error)
 ```
 
 ```go
@@ -2006,7 +2327,15 @@ func IntXFromInt64(value int64) IntX
 ```
 
 ```go
-func MustBuildMintPhantasmaNonFungibleSingleTx(tokenID uint64, phantasmaSeriesID *big.Int, sender Bytes32, receiver Bytes32, publicRom []byte, ram []byte, fees MintNFTFeeOptions, maxData uint64, expiry int64) TxMsg
+func IsNFTAddress(address Bytes32) bool
+```
+
+```go
+func KeyPairSigners(keys ...cryptography.KeyPair) []TxSigner
+```
+
+```go
+func MustBuildMintPhantasmaNonFungibleSingleTx(tokenID uint64, phantasmaSeriesID *big.Int, sender Bytes32, receiver Bytes32, publicRom []byte, ram []byte, limits TxLimits) TxMsg
 ```
 
 ```go
@@ -2118,23 +2447,7 @@ func NewBytes64(data []byte) (Bytes64, error)
 ```
 
 ```go
-func NewCreateSeriesFeeOptions(gasFeeBase, feeMultiplier, createSeriesBase uint64) CreateSeriesFeeOptions
-```
-
-```go
-func NewCreateTokenFeeOptions(gasFeeBase, feeMultiplier, createTokenBase, createTokenSymbol uint64) CreateTokenFeeOptions
-```
-
-```go
-func NewFeeOptions(gasFeeBase, feeMultiplier uint64) FeeOptions
-```
-
-```go
 func NewIntX(value *big.Int) IntX
-```
-
-```go
-func NewMintNFTFeeOptions(gasFeeBase, feeMultiplier uint64) MintNFTFeeOptions
 ```
 
 ```go
@@ -2190,7 +2503,23 @@ func ParseTokenSchemasJSON(data string) (TokenSchemasJSON, error)
 ```
 
 ```go
+func PhantasmaCanonicalROMBytes(publicROMBytes int) (int, error)
+```
+
+```go
+func PlanAndSignWithKeys(msg TxMsg, keys []cryptography.KeyPair, config *GasConfig, options PlanAndSignOptions) ([]byte, error)
+```
+
+```go
+func PlanFees(msg TxMsg, config *GasConfig, options FeePlanOptions) (FeePlan, error)
+```
+
+```go
 func PrepareStandardTokenSchemas(sharedMetadata bool) TokenSchemas
+```
+
+```go
+func RequiredWitnesses(msg TxMsg) (addresses []Bytes32, fixed bool)
 ```
 
 ```go
@@ -2206,19 +2535,43 @@ func SerializeTokenSchemasHex(schemas TokenSchemas) string
 ```
 
 ```go
-func SignAndSerializeTxMsg(msg TxMsg, keys cryptography.KeyPair) ([]byte, error)
+func SignAndSerializeTxMsg(msg TxMsg, keys ...cryptography.KeyPair) ([]byte, error)
 ```
 
 ```go
-func SignAndSerializeTxMsgHex(msg TxMsg, keys cryptography.KeyPair) (string, error)
+func SignAndSerializeTxMsgHex(msg TxMsg, keys ...cryptography.KeyPair) (string, error)
 ```
 
 ```go
-func SignTxMsg(msg TxMsg, keys cryptography.KeyPair) (SignedTxMsg, error)
+func SignAndSerializeTxMsgWith(ctx context.Context, msg TxMsg, signers ...TxSigner) ([]byte, error)
+```
+
+```go
+func SignTxMsg(msg TxMsg, keys ...cryptography.KeyPair) (SignedTxMsg, error)
+```
+
+```go
+func SignTxMsgWith(ctx context.Context, msg TxMsg, signers ...TxSigner) (SignedTxMsg, error)
+```
+
+```go
+func StorageQuantaFor(rowBytes int) (int, error)
+```
+
+```go
+func SummarizeFeePlan(plan FeePlan) FeePlanSummary
+```
+
+```go
+func SummarizeFeePlanWithDecimals(plan FeePlan, gasDecimals, dataDecimals int) FeePlanSummary
 ```
 
 ```go
 func TokenSchemasFromJSON(data string) (TokenSchemas, error)
+```
+
+```go
+func UnpackNFTAddress(address Bytes32) (carbonTokenID uint64, instanceID uint64)
 ```
 
 ```go
@@ -2658,7 +3011,7 @@ Source: `pkg/domain`
 ### Declarations
 
 ```go
-const SDKVersion = "0.11.0"
+const SDKVersion = "0.18.0"
 ```
 
 ```go
@@ -3820,12 +4173,90 @@ const ApiKeyHeader = "X-Api-Key"
 ```
 
 ```go
+const PreflightFree
+```
+
+```go
+const PreflightNotApplicable PreflightVerdict = iota
+```
+
+```go
+const PreflightTaken
+```
+
+```go
+const PreflightUnknown
+```
+
+```go
 type AddressType int
+```
+
+```go
+type ChainFeeParams struct {
+```
+
+```go
+type FeePlanner struct {
+```
+
+```go
+type FeePlannerOptions struct {
+```
+
+```go
+type GasConfigSource interface {
+```
+
+```go
+type InfusionSource interface {
 ```
 
 ```go
 type PhantasmaRPC struct {
 ```
+
+```go
+type PlanRequestOptions struct {
+```
+
+```go
+type PreflightError struct {
+```
+
+```go
+type PreflightResult struct {
+```
+
+```go
+type PreflightSource interface {
+```
+
+```go
+type PreflightVerdict int
+```
+
+```go
+type SendTransactionOptions struct {
+```
+
+### Fields
+
+- `BlockRateTarget time.Duration`
+- `ConfigTTL time.Duration`
+- `ControlTokenID(ctx context.Context) (uint64, error)`
+- `ExpiryWindow time.Duration`
+- `GasModelVersion uint32`
+- `GetGasConfig(ctx context.Context) (resp.GasConfigResult, error)`
+- `GetTokenWithID(ctx context.Context, symbol string, extended bool, carbonTokenID uint64) (resp.TokenResult, error)`
+- `InfusedAssets(ctx context.Context, tokenID, instanceID uint64) ([]carbon.InfusedAsset, error)`
+- `Message string`
+- `PlanRequestOptions`
+- `Reason string`
+- `RefreshConfig bool`
+- `SkipPreflight bool`
+- `Subject string`
+- `Verdict PreflightVerdict`
 
 ### Methods
 
@@ -3838,7 +4269,43 @@ func (addressType AddressType) String() string
 ```
 
 ```go
+func (e *PreflightError) Error() string
+```
+
+```go
+func (p *FeePlanner) ChainParams(ctx context.Context, refresh bool) (ChainFeeParams, error)
+```
+
+```go
+func (p *FeePlanner) Config(ctx context.Context, refresh bool) (carbon.GasConfig, error)
+```
+
+```go
+func (p *FeePlanner) Invalidate()
+```
+
+```go
+func (p *FeePlanner) Plan(ctx context.Context, msg carbon.TxMsg, options PlanRequestOptions) (carbon.FeePlan, error)
+```
+
+```go
+func (p *FeePlanner) PlanWith(config *carbon.GasConfig, msg carbon.TxMsg, options carbon.FeePlanOptions) (carbon.FeePlan, error)
+```
+
+```go
 func (rpc PhantasmaRPC) Call(ctx context.Context, method string, params ...interface{}) (*jsonrpc.RPCResponse, error)
+```
+
+```go
+func (rpc PhantasmaRPC) ControlTokenID(ctx context.Context) (uint64, error)
+```
+
+```go
+func (rpc PhantasmaRPC) EstimateTransaction(ctx context.Context, txData string) (resp.EstimateTransactionResult, error)
+```
+
+```go
+func (rpc PhantasmaRPC) Fees() *FeePlanner
 ```
 
 ```go
@@ -3851,6 +4318,22 @@ func (rpc PhantasmaRPC) GetAccountFungibleTokens(ctx context.Context, account st
 
 ```go
 func (rpc PhantasmaRPC) GetAccountFungibleTokensWithAddressType(ctx context.Context, account string, tokenSymbol string, carbonTokenID uint64, pageSize int, cursor string, checkAddressReservedByte bool, addressType AddressType) (resp.CursorPaginatedResult[[]resp.BalanceResult], error)
+```
+
+```go
+func (rpc PhantasmaRPC) GetAccountInfo(ctx context.Context, address string) (resp.AccountInfoResult, error)
+```
+
+```go
+func (rpc PhantasmaRPC) GetAccountInfoWithAddressType(ctx context.Context, address string, checkAddressReservedByte bool, addressType AddressType) (resp.AccountInfoResult, error)
+```
+
+```go
+func (rpc PhantasmaRPC) GetAccountInfos(ctx context.Context, addresses []string) ([]resp.AccountInfoResult, error)
+```
+
+```go
+func (rpc PhantasmaRPC) GetAccountInfosWithAddressType(ctx context.Context, addresses []string, checkAddressReservedByte bool, addressType AddressType) ([]resp.AccountInfoResult, error)
 ```
 
 ```go
@@ -3959,6 +4442,10 @@ func (rpc PhantasmaRPC) GetContractByName(ctx context.Context, chainAddressOrNam
 
 ```go
 func (rpc PhantasmaRPC) GetContracts(ctx context.Context, chainAddressOrName string, extended bool) ([]resp.ContractResult, error)
+```
+
+```go
+func (rpc PhantasmaRPC) GetGasConfig(ctx context.Context) (resp.GasConfigResult, error)
 ```
 
 ```go
@@ -4082,6 +4569,10 @@ func (rpc PhantasmaRPC) GetVersion(ctx context.Context) (resp.BuildInfoResult, e
 ```
 
 ```go
+func (rpc PhantasmaRPC) InfusedAssets(ctx context.Context, tokenID, instanceID uint64) ([]carbon.InfusedAsset, error)
+```
+
+```go
 func (rpc PhantasmaRPC) InvokeRawScript(ctx context.Context, chain, script string) (resp.ScriptResult, error)
 ```
 
@@ -4102,11 +4593,11 @@ func (rpc PhantasmaRPC) SendRawTransaction(ctx context.Context, txData string) (
 ```
 
 ```go
-func (rpc PhantasmaRPC) SignAndSendBuiltTransaction(ctx context.Context, tx chain.Transaction, keys cryptography.KeyPair) (string, error)
+func (rpc PhantasmaRPC) SendTransaction(ctx context.Context, msg carbon.TxMsg, signers []carbon.TxSigner, options SendTransactionOptions) (string, error)
 ```
 
 ```go
-func (rpc PhantasmaRPC) SignAndSendCarbonTransaction(ctx context.Context, msg carbon.TxMsg, keys cryptography.KeyPair) (string, error)
+func (rpc PhantasmaRPC) SignAndSendBuiltTransaction(ctx context.Context, tx chain.Transaction, keys cryptography.KeyPair) (string, error)
 ```
 
 ```go
@@ -4130,6 +4621,14 @@ func (rpc PhantasmaRPC) WriteArchiveBase64(ctx context.Context, hash string, blo
 ```
 
 ```go
+func (v PreflightVerdict) String() string
+```
+
+```go
+func NewFeePlanner(source GasConfigSource, options FeePlannerOptions) *FeePlanner
+```
+
+```go
 func NewRPC(endpoint string) PhantasmaRPC
 ```
 
@@ -4149,11 +4648,27 @@ func NewRPCTestnet() PhantasmaRPC
 func NewRPCWithApiKey(endpoint, apiKey string) PhantasmaRPC
 ```
 
+```go
+func PreflightTransaction(ctx context.Context, source PreflightSource, msg carbon.TxMsg) (PreflightResult, error)
+```
+
 ## github.com/phantasma-io/phantasma-sdk-go/pkg/rpc/response
 
 Source: `pkg/rpc/response`
 
 ### Declarations
+
+```go
+const VMValueFields
+```
+
+```go
+const VMValueItems
+```
+
+```go
+const VMValueText VMValueKind = iota
+```
 
 ```go
 type ABIEventResult struct {
@@ -4168,7 +4683,15 @@ type ABIParameterResult struct {
 ```
 
 ```go
+type AccountInfoResult struct {
+```
+
+```go
 type AccountResult struct {
+```
+
+```go
+type AddressArguments struct {
 ```
 
 ```go
@@ -4184,6 +4707,10 @@ type AuctionResult struct {
 ```
 
 ```go
+type BalanceArguments struct {
+```
+
+```go
 type BalanceResult struct {
 ```
 
@@ -4196,6 +4723,18 @@ type BuildInfoResult struct {
 ```
 
 ```go
+type BurnFungibleArguments struct {
+```
+
+```go
+type BurnNonFungibleArguments struct {
+```
+
+```go
+type ChainConfigArguments struct {
+```
+
+```go
 type ChainResult struct {
 ```
 
@@ -4204,7 +4743,27 @@ type ChannelResult struct {
 ```
 
 ```go
+type ConsensusNode struct {
+```
+
+```go
 type ContractResult struct {
+```
+
+```go
+type ContractStorageRow struct {
+```
+
+```go
+type ContractStorageTable struct {
+```
+
+```go
+type CreateMintedTokenSeriesArguments struct {
+```
+
+```go
+type CreateTokenArguments struct {
 ```
 
 ```go
@@ -4216,7 +4775,19 @@ type DappResult struct {
 ```
 
 ```go
+type DeployContractArguments struct {
+```
+
+```go
 type ErrorResult struct {
+```
+
+```go
+type EstimateTransactionResult struct {
+```
+
+```go
+type EventData interface {
 ```
 
 ```go
@@ -4228,7 +4799,31 @@ type EventResult struct {
 ```
 
 ```go
+type ExecuteScriptArguments struct {
+```
+
+```go
+type GasConfigArguments struct {
+```
+
+```go
+type GasConfigDataResult struct {
+```
+
+```go
+type GasConfigResult struct {
+```
+
+```go
 type GovernanceResult struct {
+```
+
+```go
+type ImportContractsArguments struct {
+```
+
+```go
+type ImportedContract struct {
 ```
 
 ```go
@@ -4244,7 +4839,51 @@ type LeaderboardRowResult struct {
 ```
 
 ```go
+type MarketOrderData struct {
+```
+
+```go
+type MetadataArguments struct {
+```
+
+```go
+type MintFungibleArguments struct {
+```
+
+```go
+type MintNonFungibleArguments struct {
+```
+
+```go
+type MintPhantasmaNonFungibleArguments struct {
+```
+
+```go
+type NFTMint struct {
+```
+
+```go
+type NameArguments struct {
+```
+
+```go
+type NestedResolutionArguments struct {
+```
+
+```go
 type NexusResult struct {
+```
+
+```go
+type NodeConfigArguments struct {
+```
+
+```go
+type NonFungibleInfoArguments struct {
+```
+
+```go
+type NonFungibleInfoByRomIDArguments struct {
 ```
 
 ```go
@@ -4264,6 +4903,14 @@ type PeerResult struct {
 ```
 
 ```go
+type PhantasmaNFTMint struct {
+```
+
+```go
+type PhantasmaVMConfigArguments struct {
+```
+
+```go
 type PhantasmaVMConfigResult struct {
 ```
 
@@ -4272,7 +4919,27 @@ type PlatformResult struct {
 ```
 
 ```go
+type RawArguments struct {
+```
+
+```go
 type ReceiptResult struct {
+```
+
+```go
+type RegisterNameArguments struct {
+```
+
+```go
+type RegisterTokenContractArguments struct {
+```
+
+```go
+type RepairSeriesArguments struct {
+```
+
+```go
+type RepairTokenArguments struct {
 ```
 
 ```go
@@ -4284,11 +4951,35 @@ type SendRawTxResult struct {
 ```
 
 ```go
+type SeriesInfoByMetaIDArguments struct {
+```
+
+```go
+type SeriesMintCountRepair struct {
+```
+
+```go
+type SeriesSupplement struct {
+```
+
+```go
 type SignatureResult struct {
 ```
 
 ```go
 type SingleResult struct {
+```
+
+```go
+type SpecialResolutionArguments interface {
+```
+
+```go
+type SpecialResolutionCall struct {
+```
+
+```go
+type SpecialResolutionData struct {
 ```
 
 ```go
@@ -4301,6 +4992,14 @@ type StorageResult struct {
 
 ```go
 type SwapResult struct {
+```
+
+```go
+type SymbolArguments struct {
+```
+
+```go
+type TokenCreateData struct {
 ```
 
 ```go
@@ -4320,6 +5019,14 @@ type TokenPropertyResult struct {
 ```
 
 ```go
+type TokenReferenceArguments struct {
+```
+
+```go
+type TokenRepair struct {
+```
+
+```go
 type TokenResult struct {
 ```
 
@@ -4328,11 +5035,51 @@ type TokenSchemasResult struct {
 ```
 
 ```go
+type TokenSeriesArguments struct {
+```
+
+```go
+type TokenSeriesCreateData struct {
+```
+
+```go
+type TokenSeriesReferenceArguments struct {
+```
+
+```go
 type TokenSeriesResult struct {
 ```
 
 ```go
+type TokensConfigArguments struct {
+```
+
+```go
 type TransactionResult struct {
+```
+
+```go
+type TransferFungibleArguments struct {
+```
+
+```go
+type TransferNonFungibleArguments struct {
+```
+
+```go
+type UnknownEventData struct {
+```
+
+```go
+type UnrecognizedArguments struct {
+```
+
+```go
+type UpdateSeriesMetadataArguments struct {
+```
+
+```go
+type UpdateTokenMetadataArguments struct {
 ```
 
 ```go
@@ -4341,6 +5088,14 @@ type VMNamedVariableSchemaResult struct {
 
 ```go
 type VMStructSchemaResult struct {
+```
+
+```go
+type VMValue struct {
+```
+
+```go
+type VMValueKind uint8
 ```
 
 ```go
@@ -4353,38 +5108,59 @@ type ValidatorResult struct {
 
 ### Fields
 
+- `Abi               string `json:"abi"``
+- `Abi          string `json:"abi"``
+- `Abi        string `json:"abi"``
+- `Abi     string `json:"abi"``
+- `AbortReason string `json:"abortReason,omitempty"``
 - `Active         bool   `json:"active"``
 - `Address       *string `json:"address,omitempty"``
 - `Address       string                `json:"address"``
 - `Address      *string  `json:"address,omitempty"``
+- `Address     string   `json:"address"``
 - `Address   string          `json:"address"``
-- `Address  string      `json:"address"``
 - `Address  string `json:"address"``
 - `Address string              `json:"address"``
 - `Address string            `json:"address"``
+- `Address string      `json:"address"``
 - `Address string `json:"address"``
+- `AllowedTxTypes  string `json:"allowedTxTypes"``
 - `Amount    string `json:"amount"``
 - `Amount   string   `json:"amount"``
+- `Amount string `json:"amount"``
 - `Archives  []ArchiveResult `json:"archives"``
+- `Arguments SpecialResolutionArguments `json:"arguments,omitempty"``
 - `Available uint            `json:"available"``
 - `Avatar    string          `json:"avatar"``
 - `Balance        string `json:"balance"``
 - `Balances  []BalanceResult `json:"balances"``
 - `BaseSymbol      string `json:"baseSymbol"``
+- `BaseSymbol  string `json:"baseSymbol"``
 - `BlockCount    int      `json:"blockCount"``
 - `BlockHash      string            `json:"blockHash"``
 - `BlockHeight    int               `json:"blockHeight"``
+- `BlockRateTarget string `json:"blockRateTarget"``
+- `BlockRateTarget uint32 `json:"blockRateTarget"``
 - `BuildTimeUTC string `json:"buildTimeUtc"``
 - `BurnedSupply   *string               `json:"burnedSupply,omitempty"``
 - `BurnedSupply  string                `json:"burnedSupply"``
+- `Buyer     string `json:"buyer"``
+- `Calls       []SpecialResolutionCall `json:"calls"``
+- `Calls     []SpecialResolutionCall    `json:"calls,omitempty"``
 - `CarbonAddress *string `json:"carbonAddress,omitempty"``
+- `CarbonBaseTokenID  uint64 `json:"carbonBaseTokenId"``
 - `CarbonID      string                `json:"carbonId"``
+- `CarbonInstanceID   uint64 `json:"carbonInstanceId"``
 - `CarbonNFTAddress string                `json:"carbonNftAddress"``
 - `CarbonOwner *string               `json:"carbonOwner,omitempty"``
+- `CarbonQuoteTokenID uint64 `json:"carbonQuoteTokenId"``
 - `CarbonSeriesID   string                `json:"carbonSeriesId"``
 - `CarbonSeriesID string                `json:"carbonSeriesId"``
+- `CarbonSeriesID uint32 `json:"carbonSeriesId"``
 - `CarbonTokenID    string                `json:"carbonTokenId"``
 - `CarbonTokenID  string                `json:"carbonTokenId"``
+- `CarbonTokenID  uint64 `json:"carbonTokenId"``
+- `CarbonTokenID uint64 `json:"carbonTokenId"``
 - `CarbonTxData   string            `json:"carbonTxData"``
 - `CarbonTxType   uint32            `json:"carbonTxType"``
 - `Chain          string `json:"chain"``
@@ -4400,9 +5176,11 @@ type ValidatorResult struct {
 - `Close     string `json:"Close"``
 - `Commit       string `json:"commit"``
 - `Content string `json:"content"``
-- `Contract string      `json:"contract"``
 - `Contract string `json:"contract"``
+- `ContractName string `json:"contractName"``
+- `Contracts      []ImportedContract `json:"contracts"``
 - `Contracts    []string `json:"contracts,omitempty"``
+- `ContractsCount string             `json:"contractsCount"``
 - `CreationTime   uint   `json:"creationTime"``
 - `Creator       string `json:"creator"``
 - `CreatorAddress   string                `json:"creatorAddress"``
@@ -4412,12 +5190,22 @@ type ValidatorResult struct {
 - `CurrentSupply string                `json:"currentSupply"``
 - `CurrentWinner   string `json:"currentWinner"``
 - `Dapps        []string `json:"dapps,omitempty"``
-- `Data     interface{} `json:"data"``
 - `Data     string `json:"data"``
+- `Data EventData `json:"data,omitempty"``
 - `Data string `json:"data"``
+- `DataEscrowAtoms *string `json:"dataEscrowAtoms,omitempty"``
+- `DataEscrowPerRow        *string `json:"dataEscrowPerRow,omitempty"``
+- `DataEscrowPerRow        string `json:"dataEscrowPerRow"``
+- `DataRefundAtoms *string `json:"dataRefundAtoms,omitempty"``
+- `DataRows *string `json:"dataRows,omitempty"``
+- `DataTokenID             *string `json:"dataTokenId,omitempty"``
+- `DataTokenID             string `json:"dataTokenId"``
 - `DebugComment   *string           `json:"debugComment,omitempty"``
 - `Decimals      int                   `json:"decimals"``
+- `Decimals      uint32 `json:"decimals"``
+- `Decimals  string `json:"decimals"``
 - `Decimals uint     `json:"decimals"``
+- `Description *string                 `json:"description,omitempty"``
 - `Description string `json:"description"``
 - `DestinationAddress  string `json:"destinationAddress"``
 - `DestinationChain    string `json:"destinationChain"``
@@ -4426,41 +5214,88 @@ type ValidatorResult struct {
 - `Encryption    *string  `json:"encryption,omitempty"``
 - `EndDate         uint   `json:"endDate"``
 - `EndDate       uint   `json:"endDate"``
+- `EndDate   int64  `json:"endDate"``
 - `EndPrice        string `json:"endPrice"``
+- `EndPrice  string `json:"endPrice"``
 - `Error   *string        `json:"error,omitempty"``
 - `Error string `json:"error"``
-- `Events           []EventResult       `json:"events,omitempty"``
+- `Events          []EventResult  `json:"events,omitempty"``
 - `Events         []EventResult     `json:"events"``
 - `Events  []ABIEventResult  `json:"events,omitempty"``
 - `Events  []EventResult  `json:"events"``
 - `Expiration     uint              `json:"expiration"``
+- `ExpiryWindow    string `json:"expiryWindow"``
+- `ExpiryWindow uint32 `json:"expiryWindow"``
 - `ExtendedEvents []EventExResult   `json:"extendedEvents"``
 - `ExtensionPeriod string `json:"extensionPeriod"``
 - `External      []TokenExternalResult `json:"external,omitempty"``
 - `External string `json:"external"``
 - `FeatureLevel          int    `json:"featureLevel"``
+- `FeatureLevel          string `json:"featureLevel"``
 - `Fee            string            `json:"fee"``
 - `Fee            string `json:"fee"``
 - `Fee     string `json:"fee"``
+- `FeeMultiplier           *string `json:"feeMultiplier,omitempty"``
+- `FeeMultiplier           string `json:"feeMultiplier"``
+- `FeeShift                byte    `json:"feeShift"``
+- `FeeShift                string `json:"feeShift"``
 - `Fields []VMNamedVariableSchemaResult `json:"fields"``
+- `Fields map[string]VMValue`
 - `Flags         string                `json:"flags"``
 - `Flags         string `json:"flags"``
+- `Flags     string `json:"flags"``
 - `Flags   string `json:"flags"``
 - `Flags  uint                          `json:"flags"``
+- `Flags string `json:"flags"``
+- `FlagsNames []string `json:"flagsNames"``
+- `From         string `json:"from"``
+- `From        string   `json:"from"``
+- `From   string `json:"from"``
 - `Fuel     string          `json:"fuel"``
 - `FuelPerContractDeploy string `json:"fuelPerContractDeploy"``
 - `Gas     *string        `json:"gas,omitempty"``
 - `GasAccount            string `json:"gasAccount"``
+- `GasBillKcalBase *string `json:"gasBillKcalBase,omitempty"``
+- `GasBurnRatioMul         *string `json:"gasBurnRatioMul,omitempty"``
+- `GasBurnRatioMul         string `json:"gasBurnRatioMul"``
+- `GasBurnRatioShift       byte    `json:"gasBurnRatioShift"``
+- `GasBurnRatioShift       string `json:"gasBurnRatioShift"``
+- `GasConfig *GasConfigDataResult `json:"gasConfig,omitempty"``
 - `GasConstructor        string `json:"gasConstructor"``
+- `GasDappRatioMul            *string `json:"gasDappRatioMul,omitempty"``
+- `GasDappRatioShift          *byte   `json:"gasDappRatioShift,omitempty"``
+- `GasDappRatioShift          *string `json:"gasDappRatioShift,omitempty"``
+- `GasFeeCreateTokenBase   *string `json:"gasFeeCreateTokenBase,omitempty"``
+- `GasFeeCreateTokenBase   string `json:"gasFeeCreateTokenBase"``
+- `GasFeeCreateTokenSeries *string `json:"gasFeeCreateTokenSeries,omitempty"``
+- `GasFeeCreateTokenSeries string `json:"gasFeeCreateTokenSeries"``
+- `GasFeeCreateTokenSymbol *string `json:"gasFeeCreateTokenSymbol,omitempty"``
+- `GasFeeCreateTokenSymbol string `json:"gasFeeCreateTokenSymbol"``
+- `GasFeePerByte           *string `json:"gasFeePerByte,omitempty"``
+- `GasFeePerByte           string `json:"gasFeePerByte"``
+- `GasFeeQuery             *string `json:"gasFeeQuery,omitempty"``
+- `GasFeeQuery             string `json:"gasFeeQuery"``
+- `GasFeeRegisterName      *string `json:"gasFeeRegisterName,omitempty"``
+- `GasFeeRegisterName      string `json:"gasFeeRegisterName"``
+- `GasFeeTransfer          *string `json:"gasFeeTransfer,omitempty"``
+- `GasFeeTransfer          string `json:"gasFeeTransfer"``
+- `GasFrom string `json:"gasFrom"``
 - `GasLeaderboard        string `json:"gasLeaderboard"``
 - `GasLimit       string            `json:"gasLimit"``
+- `GasModelVersion uint32 `json:"gasModelVersion"``
 - `GasNexus              string `json:"gasNexus"``
 - `GasOracle             string `json:"gasOracle"``
 - `GasOrganization       string `json:"gasOrganization"``
 - `GasPayer       string            `json:"gasPayer"``
 - `GasPrice       string            `json:"gasPrice"``
+- `GasProducerRatioMul        *string `json:"gasProducerRatioMul,omitempty"``
+- `GasProducerRatioShift      *byte   `json:"gasProducerRatioShift,omitempty"``
+- `GasProducerRatioShift      *string `json:"gasProducerRatioShift,omitempty"``
 - `GasStandard           string `json:"gasStandard"``
 - `GasTarget      string            `json:"gasTarget"``
+- `GasTokenID              *string `json:"gasTokenId,omitempty"``
+- `GasTokenID              string `json:"gasTokenId"``
+- `GetSchemas string `json:"getSchemas"``
 - `GlobalHardCap string `json:"globalHardCap"``
 - `GlobalSoftCap string `json:"globalSoftCap"``
 - `Governance    []GovernanceResult `json:"governance,omitempty"``
@@ -4474,34 +5309,70 @@ type ValidatorResult struct {
 - `Height       uint     `json:"height"``
 - `High      string `json:"High"``
 - `ID               string                `json:"id"``
+- `ID   string `json:"id"``
 - `Ids      []string `json:"ids,omitempty"``
+- `ImportedLiveCount string `json:"importedLiveCount"``
 - `Index          int    `json:"index"``
 - `Index     string `json:"index"``
 - `Infusion         []TokenPropertyResult `json:"infusion"``
+- `InstanceID string `json:"instanceId"``
+- `InstanceIDs []string `json:"instanceIds"``
 - `Interop  []InteropResult `json:"interop"``
 - `IsMember      bool    `json:"isMember"``
+- `IsNonFungible bool   `json:"isNonFungible"``
 - `IsStored              bool   `json:"isStored"``
+- `Items  []VMValue`
+- `JSON json.RawMessage`
 - `Key   string `json:"key"``
-- `Kind     string      `json:"kind"``
+- `Key string `json:"key"``
 - `Kind     string `json:"kind"``
+- `Kind   VMValueKind`
 - `Kind string `json:"kind"``
+- `LegacyDataEscrowPerRow     *string `json:"legacyDataEscrowPerRow,omitempty"``
 - `ListingFee      string `json:"listingFee"``
 - `Local    string `json:"local"``
 - `Low       string `json:"Low"``
+- `MaxGas  string `json:"maxGas"``
 - `MaxMint        string                `json:"maxMint"``
+- `MaxMint        uint32 `json:"maxMint"``
+- `MaxMint   string `json:"maxMint"``
+- `MaxNameLength           byte    `json:"maxNameLength"``
+- `MaxNameLength           string `json:"maxNameLength"``
+- `MaxStructureSize        string `json:"maxStructureSize"``
+- `MaxStructureSize        uint32  `json:"maxStructureSize"``
+- `MaxSupply         string `json:"maxSupply"``
 - `MaxSupply      string                `json:"maxSupply"``
+- `MaxSupply      uint32 `json:"maxSupply"``
 - `MaxSupply     string                `json:"maxSupply"``
+- `MaxSupply     string `json:"maxSupply"``
+- `MaxSupply string `json:"maxSupply"``
+- `MaxTokenSymbolLength    byte    `json:"maxTokenSymbolLength"``
+- `MaxTokenSymbolLength    string `json:"maxTokenSymbolLength"``
 - `MemberCount *string               `json:"memberCount,omitempty"``
 - `MemberTime    *uint64 `json:"memberTime,omitempty"``
 - `Metadata       []TokenPropertyResult `json:"metadata"``
 - `Metadata      []TokenPropertyResult `json:"metadata,omitempty"``
 - `Metadata    []TokenPropertyResult `json:"metadata,omitempty"``
+- `Metadata map[string]VMValue `json:"metadata"``
+- `Metadata map[string]VMValue `json:"metadata,omitempty"``
+- `Metadata map[string]string `json:"metadata"``
+- `Metadata string `json:"metadata"``
+- `MetadataRaw *string `json:"metadataRaw,omitempty"``
+- `Method   string `json:"method"``
+- `MethodID uint32 `json:"methodId"``
 - `Methods        []ABIMethodResult     `json:"methods,omitempty"``
 - `Methods []ABIMethodResult `json:"methods,omitempty"``
+- `MinimumGasBill             *string `json:"minimumGasBill,omitempty"``
+- `MinimumGasOffer         *string `json:"minimumGasOffer,omitempty"``
+- `MinimumGasOffer         string `json:"minimumGasOffer"``
 - `Mint             string                `json:"mint"``
+- `MintCount         string `json:"mintCount"``
 - `MintCount      string                `json:"mintCount"``
 - `MissingBlocks []int    `json:"missingBlocks,omitempty"``
+- `Mode              string `json:"mode"``
 - `Mode           *string               `json:"mode,omitempty"``
+- `Module   string `json:"module"``
+- `ModuleID uint32 `json:"moduleId"``
 - `Name           string `json:"name"``
 - `Name          *string            `json:"name,omitempty"``
 - `Name          *string  `json:"name,omitempty"``
@@ -4514,67 +5385,115 @@ type ValidatorResult struct {
 - `Name      string          `json:"name"``
 - `Name     string `json:"name"``
 - `Name    string            `json:"name"``
+- `Name    string      `json:"name"``
 - `Name    string `json:"name"``
 - `Name   string                 `json:"name"``
 - `Name  string `json:"name"``
 - `Name *string                `json:"name,omitempty"``
+- `Name string               `json:"name"``
 - `Name string `json:"name"``
 - `Nexus     string `json:"nexus"``
+- `Nodes []ConsensusNode `json:"nodes"``
 - `Open      string `json:"Open"``
-- `Oracles          []OracleResult      `json:"oracles,omitempty"``
+- `Oracles         []OracleResult `json:"oracles,omitempty"``
 - `Oracles []OracleResult `json:"oracles"``
 - `Organization *string  `json:"organization,omitempty"``
 - `Organizations []string           `json:"organizations,omitempty"``
+- `Owner          string `json:"owner"``
 - `Owner         string                `json:"owner"``
 - `Owner       *string               `json:"owner,omitempty"``
+- `Owner     string `json:"owner"``
 - `Owner   *string           `json:"owner,omitempty"``
+- `Owner   string `json:"owner"``
+- `Owner  string             `json:"owner"``
+- `Owner  string    `json:"owner"``
 - `OwnerAddress     string                `json:"ownerAddress"``
 - `OwnerAddress   string                `json:"ownerAddress"``
 - `Owners        []string `json:"owners,omitempty"``
 - `Parameters []ABIParameterResult `json:"parameters"``
 - `Parent       *string  `json:"parent,omitempty"``
 - `Payload        string            `json:"payload"``
+- `PhantasmaSeriesID string `json:"phantasmaSeriesId"``
 - `Platform string          `json:"platform"``
 - `Platform string `json:"platform"``
 - `Platforms     []PlatformResult   `json:"platforms,omitempty"``
+- `PolicyFeeCreateTokenBase   *string `json:"policyFeeCreateTokenBase,omitempty"``
+- `PolicyFeeCreateTokenSeries *string `json:"policyFeeCreateTokenSeries,omitempty"``
+- `PolicyFeeCreateTokenSymbol *string `json:"policyFeeCreateTokenSymbol,omitempty"``
+- `PolicyFeeRegisterName      *string `json:"policyFeeRegisterName,omitempty"``
 - `Pow     uint   `json:"pow"``
 - `PreviousHash     string              `json:"previousHash"``
 - `Price           string `json:"price"``
 - `Price         []TokenPriceResult    `json:"price,omitempty"``
 - `Price         uint   `json:"price"``
+- `Price     string `json:"price"``
+- `ProducerAddress *string        `json:"producerAddress,omitempty"``
 - `Properties       []TokenPropertyResult `json:"properties"``
 - `Protocol         uint                `json:"protocol"``
 - `Protocol      uint               `json:"protocol"``
 - `QuoteSymbol     string `json:"quoteSymbol"``
+- `QuoteSymbol string `json:"quoteSymbol"``
 - `RAM              string                `json:"ram"``
 - `RAM             string `json:"ram"``
 - `RAM            VMStructSchemaResult `json:"ram"``
 - `ROM              string                `json:"rom"``
 - `ROM             string `json:"rom"``
 - `ROM            VMStructSchemaResult `json:"rom"``
+- `Ram               string `json:"ram"``
+- `Ram      string `json:"ram"``
+- `Rams      []string `json:"rams"``
+- `RawArgs string `json:"rawArgs"``
 - `ReceiveSymbol string `json:"receiveSymbol"``
 - `Receiver  string `json:"receiver"``
+- `Recipient string   `json:"recipient"``
+- `RecommendedMaxData *string `json:"recommendedMaxData,omitempty"``
+- `RecommendedMaxGas *string `json:"recommendedMaxGas,omitempty"``
 - `Relay     *string         `json:"relay,omitempty"``
+- `RepairMask string `json:"repairMask"``
+- `Repairs          []SeriesMintCountRepair `json:"repairs"``
+- `Repairs      []TokenRepair `json:"repairs"``
+- `RepairsCount     string                  `json:"repairsCount"``
+- `RepairsCount string        `json:"repairsCount"``
+- `Reserved1       string `json:"reserved1"``
+- `Reserved2       string `json:"reserved2"``
+- `Reserved3       string `json:"reserved3"``
+- `ResolutionID string `json:"resolutionId"``
+- `ResolutionID uint64 `json:"resolutionId"``
 - `Result         string            `json:"result"``
 - `Result  string         `json:"result,omitempty"``
 - `Results []string       `json:"results"``
 - `ReturnType  string `json:"returnType"``
 - `ReturnType string               `json:"returnType"``
-- `Reward           string              `json:"reward"``
+- `Reward          string         `json:"reward"``
+- `Rom               string `json:"rom"``
+- `Rom      string `json:"rom"``
+- `RomID      string `json:"romId"``
+- `RomID string `json:"romId"``
+- `Roms      []string `json:"roms"``
+- `RootVariables []ContractStorageRow `json:"rootVariables"``
+- `Rows []ContractStorageRow `json:"rows"``
 - `Rows []LeaderboardRowResult `json:"rows,omitempty"``
 - `Schema *VMStructSchemaResult `json:"schema,omitempty"``
 - `Schema VMVariableSchemaResult `json:"schema"``
+- `Script            string `json:"script"``
 - `Script         *string               `json:"script,omitempty"``
 - `Script         string            `json:"script"``
 - `Script        *string               `json:"script,omitempty"``
+- `Script       string `json:"script"``
+- `Script     string `json:"script"``
 - `Script    string `json:"script"``
 - `Script  string            `json:"script"``
+- `Script  string `json:"script"``
 - `SellSymbol    string `json:"sellSymbol"``
+- `Seller             string `json:"seller"``
 - `Sender         string            `json:"sender"``
 - `Sender    string `json:"sender"``
 - `Series           string                `json:"series"``
 - `Series        []TokenSeriesResult   `json:"series"``
 - `SeriesID       string                `json:"seriesId"``
+- `SeriesID       string `json:"seriesId"``
+- `SeriesID *string `json:"seriesId,omitempty"``
+- `SeriesID string `json:"seriesId"``
 - `SeriesMetadata VMStructSchemaResult `json:"seriesMetadata"``
 - `Signatures     []SignatureResult `json:"signatures"``
 - `Size          uint     `json:"size"``
@@ -4583,28 +5502,55 @@ type ValidatorResult struct {
 - `SourceHash          string `json:"sourceHash"``
 - `SourcePlatform      string `json:"sourcePlatform"``
 - `Stake     string          `json:"stake"``
+- `Stake   StakeResult `json:"stake"``
 - `Stakes    StakeResult     `json:"stakes"``
 - `StartDate       uint   `json:"startDate"``
 - `StartDate     uint   `json:"startDate"``
+- `StartDate int64  `json:"startDate"``
 - `State          string            `json:"state"``
 - `State   *string        `json:"state,omitempty"``
 - `Status           string                `json:"status"``
 - `Storage   StorageResult   `json:"storage"``
+- `Supplements      []SeriesSupplement      `json:"supplements"``
+- `SupplementsCount string                  `json:"supplementsCount"``
 - `Symbol              string `json:"symbol"``
 - `Symbol         string `json:"symbol"``
 - `Symbol        string                `json:"symbol"``
+- `Symbol        string `json:"symbol"``
+- `Symbol     string `json:"symbol"``
+- `Symbol    string `json:"symbol"``
 - `Symbol   string   `json:"symbol"``
+- `Symbol  string `json:"symbol"``
+- `Symbol string `json:"symbol"``
+- `Tables []ContractStorageTable `json:"tables"``
 - `TargetAddress  string `json:"targetAddress"``
+- `Text   string`
 - `Time          uint     `json:"time"``
 - `Time      uint   `json:"time"``
 - `Timestamp        uint                `json:"timestamp"``
 - `Timestamp      uint              `json:"timestamp"``
 - `Timestamp uint   `json:"Timestamp"``
 - `Timestamp uint   `json:"timestamp"``
+- `To          string   `json:"to"``
+- `To     string `json:"to"``
+- `Token             string `json:"token"``
+- `Token      string `json:"token"``
+- `Token   string `json:"token"``
+- `Token *string `json:"token,omitempty"``
+- `TokenFlags string `json:"tokenFlags"``
+- `TokenID            string `json:"tokenId"``
+- `TokenID           string `json:"tokenId"``
 - `TokenID         string `json:"tokenId"``
+- `TokenID    string `json:"tokenId"``
+- `TokenID string `json:"tokenId"``
+- `TokenReferenceArguments`
 - `TokenSchemas  *TokenSchemasResult   `json:"tokenSchemas"``
+- `TokenSchemas *string `json:"tokenSchemas,omitempty"``
+- `TokenSeriesArguments`
 - `Tokens        []TokenResult      `json:"tokens,omitempty"``
 - `Tokens   []string        `json:"tokens"``
+- `Tokens []NFTMint `json:"tokens"``
+- `Tokens []PhantasmaNFTMint `json:"tokens"``
 - `Txs              []TransactionResult `json:"txs"``
 - `Txs       []string        `json:"txs,omitempty"``
 - `Txs     []TransactionResult `json:"txs"``
@@ -4615,6 +5561,7 @@ type ValidatorResult struct {
 - `URL     string `json:"url"``
 - `Unclaimed string          `json:"unclaimed"``
 - `Unclaimed string `json:"unclaimed"``
+- `UnitsPerBlockDataByte *uint32 `json:"unitsPerBlockDataByte,omitempty"``
 - `Used      uint            `json:"used"``
 - `UserHardCap   string `json:"userHardCap"``
 - `UserSoftCap   string `json:"userSoftCap"``
@@ -4623,10 +5570,15 @@ type ValidatorResult struct {
 - `Value               string `json:"value"``
 - `Value       int    `json:"value"``
 - `Value   string `json:"value"``
+- `Value VMValue `json:"value"``
 - `Value interface{} `json:"error"``
 - `Value string `json:"value"``
+- `Version                 byte    `json:"version"``
+- `Version                 string `json:"version"``
+- `Version         string `json:"version"``
 - `Version      string `json:"version"``
 - `Version string `json:"version"``
+- `WouldAbort bool `json:"wouldAbort"``
 
 ### Methods
 
@@ -4651,6 +5603,14 @@ func (b BalanceResult) ConvertDecimalsToFloat() *big.Float
 ```
 
 ```go
+func (c *SpecialResolutionCall) UnmarshalJSON(data []byte) error
+```
+
+```go
+func (e *EstimateTransactionResult) ToFeeQuote() (carbon.FeeQuote, error)
+```
+
+```go
 func (e *EventExResult) UnmarshalJSON(data []byte) error
 ```
 
@@ -4659,11 +5619,19 @@ func (e *EventResult) UnmarshalJSON(data []byte) error
 ```
 
 ```go
+func (g *GasConfigResult) ToGasConfig() (carbon.GasConfig, error)
+```
+
+```go
 func (p *TokenPropertyResult) UnmarshalJSON(data []byte) error
 ```
 
 ```go
 func (s *SignatureResult) UnmarshalJSON(data []byte) error
+```
+
+```go
+func (s *SpecialResolutionData) UnmarshalJSON(data []byte) error
 ```
 
 ```go
@@ -4732,6 +5700,62 @@ func (t TransactionResult) StateIsFault() bool
 
 ```go
 func (t TransactionResult) StateIsSuccess() bool
+```
+
+```go
+func (u UnknownEventData) MarshalJSON() ([]byte, error)
+```
+
+```go
+func (u UnrecognizedArguments) MarshalJSON() ([]byte, error)
+```
+
+```go
+func (v *VMValue) UnmarshalJSON(data []byte) error
+```
+
+```go
+func (v VMValue) AsFields() (fields map[string]VMValue, ok bool)
+```
+
+```go
+func (v VMValue) AsItems() (items []VMValue, ok bool)
+```
+
+```go
+func (v VMValue) AsText() (text string, ok bool)
+```
+
+```go
+func (v VMValue) Field(name string) (field VMValue, ok bool)
+```
+
+```go
+func (v VMValue) IsText() bool
+```
+
+```go
+func (v VMValue) MarshalJSON() ([]byte, error)
+```
+
+```go
+func DecodeEventData(kind string, data json.RawMessage) EventData
+```
+
+```go
+func DecodeSpecialResolutionArguments(module, method string, data json.RawMessage) SpecialResolutionArguments
+```
+
+```go
+func VMFields(fields map[string]VMValue) VMValue
+```
+
+```go
+func VMItems(items ...VMValue) VMValue
+```
+
+```go
+func VMText(text string) VMValue
 ```
 
 ## github.com/phantasma-io/phantasma-sdk-go/pkg/util

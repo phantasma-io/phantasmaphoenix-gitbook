@@ -35,12 +35,25 @@ whose id set does not match the request set, and enforces
 | API | Purpose |
 | --- | ------- |
 | `GetPlatforms(ctx)` | Reads configured platforms and interop mappings. |
-| `GetAccount(ctx, address)` | Reads one account with compact account data. |
+| `GetAccountInfo(ctx, address)` | Reads the account name and staking info of one address. |
+| `GetAccountInfoWithAddressType(ctx, address, checkAddressReservedByte, addressType)` | The same with explicit address controls. |
+| `GetAccountInfos(ctx, addresses)` | Reads the same record for up to 100 addresses in one call. |
+| `GetAccountInfosWithAddressType(ctx, addresses, checkAddressReservedByte, addressType)` | The same with explicit address controls. |
+| `GetAccount(ctx, address)` | Deprecated. Reads one account with compact account data. |
 | `GetAccountWithAddressType(ctx, address, extended, checkAddressReservedByte, addressType)` | Reads one account while forwarding node address validation controls. |
-| `GetAccounts(ctx, addresses...)` | Reads multiple accounts from variadic address strings. |
+| `GetAccounts(ctx, addresses...)` | Deprecated. Reads multiple accounts from variadic address strings. |
 | `GetAccountsText(ctx, addresses)` | Reads multiple accounts from a comma-separated RPC string. |
 | `GetAccountsWithAddressType(ctx, addresses, extended, checkAddressReservedByte, addressType)` | Reads multiple accounts with explicit address controls. |
 | `LookupName(ctx, name)` | Resolves a registered name to an address string. |
+
+`GetAccountInfo` costs the same whatever the address holds. `GetAccount` and
+`GetAccounts` are deprecated, because their response embeds every NFT id the
+address owns and the node caps each `Balances[].Ids` list at 10000 entries while
+`Balances[].Amount` keeps the true count.
+
+The cursor methods accept a `pageSize` of 1 to 100. The NFT methods accept 1 to
+50 when `extended` is true.
+
 | `GetTokenBalance(ctx, address, tokenSymbol, chainAddressOrName)` | Reads one token balance without loading the full account. |
 | `GetTokenBalanceChecked(ctx, address, tokenSymbol, chainAddressOrName, checkAddressReservedByte)` | Balance read with reserved-byte validation flag. |
 | `GetTokenBalanceWithAddressType(ctx, address, tokenSymbol, chainAddressOrName, checkAddressReservedByte, addressType)` | Balance read with reserved-byte and address-type controls. |
@@ -88,7 +101,7 @@ whose id set does not match the request set, and enforces
 | `GetTokensByOwnerWithAddressType(ctx, extended, ownerAddress, addressType)` | Owner-filtered token read with address type. |
 | `GetToken(ctx, symbol, extended)` | Reads a token by symbol. |
 | `GetTokenWithID(ctx, symbol, extended, carbonTokenID)` | Reads a token by symbol and optional Carbon token id. |
-| `GetTokenData(ctx, symbol, tokenID)` | Reads token data for a Phantasma NFT id. |
+| `GetTokenData(ctx, symbol, tokenID)` | Deprecated. Reads token data for a Phantasma NFT id. `GetNFT` covers it entirely. |
 | `GetTokenSeries(ctx, symbol, carbonTokenID, pageSize, cursor)` | Reads cursor-paginated series. |
 | `GetTokenSeriesByID(ctx, symbol, carbonTokenID, seriesID, carbonSeriesID)` | Reads one series by Phantasma or Carbon id. |
 | `GetTokenNFTs(ctx, carbonTokenID, carbonSeriesID, pageSize, cursor, extended)` | Reads cursor-paginated NFTs for a Carbon token. |
@@ -130,4 +143,18 @@ parameter.
 | `SignAndSendTransactionWithExpiration(...)` | VM sign-and-send with explicit expiration. |
 | `SignAndSendTransactionTextPayload(...)` | VM sign-and-send where payload is provided as text and encoded by the SDK. |
 | `SignAndSendBuiltTransaction(ctx, tx, keys)` | Signs and broadcasts an existing VM transaction. |
-| `SignAndSendCarbonTransaction(ctx, msg, keys)` | Signs, serializes, and broadcasts a Carbon `TxMsg`. |
+| `SendTransaction(ctx, msg, signers, options)` | Plans, pre-flights, signs and broadcasts a Carbon message. |
+
+## Fees And Gas Configuration
+
+| API | Purpose |
+| --- | ------- |
+| `Fees()` | The fee planner of this chain. |
+| `GetGasConfig(ctx)` | Reads the on-chain gas configuration and the chain parameters. |
+| `EstimateTransaction(ctx, txData)` | Dry-runs a serialized envelope against current chain state. |
+| `ControlTokenID(ctx)` | Reads the gas token's id, which the pre-flight uses as its control lookup. |
+| `InfusedAssets(ctx, tokenID, instanceID)` | Reads what an NFT holds at its own address, which a burn plan requires. |
+
+{% content-ref url="/developers/sdks/go/fees-and-broadcasting.md" %}
+[Fees And Broadcasting](/developers/sdks/go/fees-and-broadcasting.md)
+{% endcontent-ref %}

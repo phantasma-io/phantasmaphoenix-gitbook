@@ -39,26 +39,32 @@ func main() {
         log.Fatal(err)
     }
 
-    txHex, err := carbon.BuildMintNonFungibleTxAndSignHex(
-        42,
-        1,
-        keys,
+    msg, err := carbon.BuildMintPhantasmaNonFungibleSingleTx(
+        42,             // Carbon token id
+        big.NewInt(777), // Phantasma series id
+        sender,
         receiver,
         rom,
-        nil,
-        carbon.DefaultMintNFTFeeOptions(),
-        100_000_000,
-        time.Now().UTC().Add(20*time.Minute).UnixMilli(),
+        nil, // RAM
+        carbon.TxLimits{},
     )
     if err != nil {
         log.Fatal(err)
     }
 
-    fmt.Println(txHex)
+    client := rpc.NewRPCTestnet()
+    hash, err := client.SendTransaction(ctx, msg, carbon.KeyPairSigners(keys), rpc.SendTransactionOptions{})
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    fmt.Println(hash)
 }
 ```
 
-For deterministic Phantasma NFT mints, build public ROM with
-`BuildPhantasmaNFTRom` and call
-`BuildMintPhantasmaNonFungibleSingleTxAndSignHex` or the batch helper. Batch
-helpers scale mint gas by the number of token records.
+Build the public ROM with `BuildPhantasmaNFTRom`. For batch mints, pass a slice
+of `carbon.PhantasmaNFTMintInfo` to `BuildMintPhantasmaNonFungibleTx`.
+
+The SDK carries no builder for a direct `MintNonFungible`. The chain refuses
+that operation where governance has not allowed caller-supplied ROM ids, and
+that is the state of the public chains today.

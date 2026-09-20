@@ -56,19 +56,13 @@ func main() {
         log.Fatal(err)
     }
 
-    txHex, err := carbon.BuildCreateTokenTxAndSignHex(
-        tokenInfo,
-        keys,
-        carbon.DefaultCreateTokenFeeOptions(),
-        100_000_000,
-        time.Now().UTC().Add(20*time.Minute).UnixMilli(),
-    )
-    if err != nil {
-        log.Fatal(err)
-    }
+    // The builder carries no prices. The message leaves it with a zero gas offer.
+    msg := carbon.BuildCreateTokenTx(tokenInfo, owner, carbon.TxLimits{})
 
     client := rpc.NewRPCTestnet()
-    hash, err := client.SendCarbonTransaction(ctx, txHex)
+
+    // Plans the fee, checks that the symbol is free, signs and broadcasts.
+    hash, err := client.SendTransaction(ctx, msg, carbon.KeyPairSigners(keys), rpc.SendTransactionOptions{})
     if err != nil {
         log.Fatal(err)
     }
