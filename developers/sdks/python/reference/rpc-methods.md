@@ -57,8 +57,10 @@ height = rpc.get_block_height("main")
 | API | Purpose and parameters | Returns and failures | Use it when |
 | --- | ---------------------- | -------------------- | ----------- |
 | `get_platforms()` | Calls `getPlatforms` to read configured external platforms and interop mappings. | Returns `list[PlatformResult]`. Raises `RPCError` if the endpoint does not return an array. | Explorer or bridge tooling needs platform metadata. |
-| `get_account(address, *, extended=False, check_address_reserved_byte=None, address_type=None)` | Reads one account. `extended` controls nested account data. The optional address controls are forwarded only when provided. | Returns `AccountResult`. Raises `RPCError` when the node rejects the address or returns a non-object result. | A wallet, dashboard, or backend needs profile, staking, storage, and balances for one address. |
-| `get_accounts(addresses, *, extended=False, check_address_reserved_byte=None, address_type=None)` | Reads multiple accounts. `addresses` can be a comma-separated string or a sequence that the SDK joins with commas. | Returns `list[AccountResult]`. Raises `RPCError` for RPC failure or non-array results. | Batch account reads are cheaper for the caller than issuing one request per address. |
+| `get_account_info(address, *, check_address_reserved_byte=None, address_type=None)` | Reads the account name and staking info of one address. | Returns `AccountInfoResult`. Raises `RPCError` for node or decode failures. | A wallet refresh loop needs the account name and stake. The cost does not depend on how much the address holds. |
+| `get_account_infos(addresses, *, check_address_reserved_byte=None, address_type=None)` | Reads the same record for up to 100 addresses in one call. | Returns `list[AccountInfoResult]`. Raises `RPCError` for node or decode failures. | Several addresses are read at once. The node answers them from one state snapshot. |
+| `get_account(address, *, extended=False, check_address_reserved_byte=None, address_type=None)` | Deprecated. Reads one account. `extended` controls nested account data. Emits a `DeprecationWarning`. | Returns `AccountResult`. Raises `RPCError` when the node rejects the address or returns a non-object result. | Legacy code still needs the inline balance list. New code uses `get_account_info` with the cursor methods. |
+| `get_accounts(addresses, *, extended=False, check_address_reserved_byte=None, address_type=None)` | Deprecated. Reads multiple accounts. `addresses` can be a comma-separated string or a sequence that the SDK joins with commas. | Returns `list[AccountResult]`. Raises `RPCError` for RPC failure or non-array results. | Batch account reads are cheaper for the caller than issuing one request per address. |
 | `get_accounts_text(addresses, *, extended=False)` | Compatibility form of `get_accounts(...)` for a prebuilt comma-separated address string. | Returns `list[AccountResult]`. Same failure behavior as `get_accounts(...)`. | The caller already has the comma-separated wire-format address list. |
 | `get_account_with_address_type(address, extended, check_address_reserved_byte, address_type)` | Explicit variant of `get_account(...)` that always passes the address reserved-byte and address-type controls. | Returns `AccountResult`. Raises `RPCError` for node or decode failures. | Infrastructure code must exercise the node's address-type parameters directly. |
 | `get_accounts_with_address_type(addresses, extended, check_address_reserved_byte, address_type)` | Explicit variant of `get_accounts(...)` with address reserved-byte and type controls. | Returns `list[AccountResult]`. Raises `RPCError` for node or decode failures. | Batch account reads need the node's address-type parameters. |
@@ -70,12 +72,21 @@ height = rpc.get_block_height("main")
 | `get_token_balance_checked(address, symbol, chain, check_address_reserved_byte)` | Compatibility helper that passes `check_address_reserved_byte` to `get_token_balance(...)`. | Returns `BalanceResult`. Same failures as `get_token_balance(...)`. | Code needs the reserved-byte control but not an address type. |
 | `get_token_balance_with_address_type(address, symbol, chain, check_address_reserved_byte, address_type)` | Explicit helper that passes both address validation controls to `get_token_balance(...)`. | Returns `BalanceResult`. Same failures as `get_token_balance(...)`. | Node-specific address-type behavior matters for this balance read. |
 
+`get_account` and `get_accounts` are deprecated. Their response embeds every NFT
+id the address owns, so it grows with the size of the account. The node caps
+each `balances[].ids` list at 10000 entries while `balances[].amount` keeps the
+true count, so the list is silently partial for a large holder.
+
+The cursor methods accept a `page_size` of 1 to 100. The NFT methods accept 1 to
+50 when `extended` is true.
+
 Example:
 
 ```python
-account = rpc.get_account("P...", extended=True)
-soul = account.get_token_balance("SOUL", decimals=8)
-print(soul.decimal_amount())
+info = rpc.get_account_info("P...")
+print(info.name, info.stake.amount)
+
+balances = rpc.get_account_fungible_tokens("P...", page_size=100)
 ```
 
 ## Blocks And Transactions
@@ -187,7 +198,11 @@ should request wallet signatures instead of passing private keys into the SDK.
 | --- | ---------------------- | -------------------- | ----------- |
 | `sign_and_send_transaction(keys, nexus, script, chain="main", payload=b"", *, expiration=None)` | Builds a VM `Transaction` from a script, payload, nexus, chain, and expiration. If `expiration` is omitted, the SDK uses current Unix time plus 20 minutes. The transaction is signed with `keys` and sent with `send_raw_transaction(...)`. | Returns the transaction hash. Raises `RPCError` for send failures; transaction construction or signing can raise SDK crypto/serialization errors from the underlying types. | Trusted code has a VM script and wants one call for transaction construction, signing, and broadcast. |
 | `sign_and_send_built_transaction(tx, keys)` | Signs an existing `Transaction` object and broadcasts it with `send_raw_transaction(...)`. | Returns the transaction hash. Raises `RPCError` for send failures and propagates signing errors from the transaction/key types. | Code has already set transaction fields such as nexus, chain, payload, and expiration. |
-| `sign_carbon_transaction(msg, keys)` | Signs an unsigned Carbon `TxMsg` with `keys`. | Returns `SignedTxMsg`. Propagates signing or serialization-related SDK errors from Carbon helpers. | A caller needs the signed Carbon message object before deciding how to serialize or send it. |
-| `sign_and_send_carbon_transaction(msg, keys)` | Signs a Carbon `TxMsg`, serializes the signed message, and broadcasts it with `send_carbon_transaction(...)`. | Returns the transaction hash. Raises `RPCError` for send failures and propagates Carbon signing/serialization errors. | Trusted code owns the private key and wants to broadcast an unsigned Carbon message. |
+| `send_transaction(msg, signers, options=None)` | Plans the fee, runs the token-creation pre-flight, signs with every witness and broadcasts. | Returns the transaction hash. Raises `PreflightError` when the symbol is taken or the lookup established nothing, and `RPCError` for send failures. | A Carbon message has to reach the chain in one call. |
+| `preflight_transaction(msg)` | Asks the chain whether a token creation's symbol is already taken. | Returns `PreflightResult` with a `PreflightVerdict` of `FREE`, `TAKEN`, `UNKNOWN` or `NOT_APPLICABLE`. | The caller wants to decide for itself and then send with `skip_preflight=True`. |
+| `control_token_id()` | Reads the gas token's id, which the pre-flight uses as its control lookup. | Returns `int`. | Diagnostic code needs the control the pre-flight relies on. |
+| `infused_assets(token_id, instance_id)` | Reads what an NFT holds at its own address, in the form the fee planner prices. | Returns `list[InfusedAsset]`. | A burn is planned by hand with `plan_fees`. |
+| `get_gas_config()` | Reads the on-chain gas configuration and the chain parameters. | Returns `GasConfigResult`. | The caller plans fees without the client's planner, or caches the prices. |
+| `estimate_transaction(tx_data)` | Dry-runs a serialized envelope against current chain state. | Returns `EstimateTransactionResult`. Returns a standard RPC error until the estimate service is launched. | The exact bill of a VM script is needed, which the local planner can only budget. |
 | `parse_create_token_result(result_hex)` | Delegates to the Carbon create-token result parser. `result_hex` should be `TransactionResult.result` from a finalized successful transaction. | Returns the created Carbon token id as `int`. Parser errors are raised by the Carbon parser when the result hex is malformed or not the expected shape. | After `get_transaction(...)` reports success for a create-token transaction, the caller needs the new token id. |
 | `parse_create_token_series_result(result_hex)` | Delegates to the Carbon create-series result parser. `result_hex` should be `TransactionResult.result` from a finalized successful transaction. | Returns the created Carbon series id as `int`. Parser errors are raised by the Carbon parser when the result hex is malformed or not the expected shape. | After `get_transaction(...)` reports success for a create-series transaction, the caller needs the new series id. |

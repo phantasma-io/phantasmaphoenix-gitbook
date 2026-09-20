@@ -1,8 +1,11 @@
 # Deploy Carbon NFT Token
 
-This example builds the `CreateToken` and `CreateTokenSeries` transaction
-payloads for a standard Carbon NFT collection. It prints signed transaction
-hex, but does not broadcast.
+This example builds and signs the `CreateToken` and `CreateTokenSeries`
+transaction payloads for a standard Carbon NFT collection. It prints the signed
+transaction hex, and it does not broadcast.
+
+Signing needs the chain's prices, because the builders carry none. The example
+reads the gas configuration from a node and plans against it.
 
 ```python
 from phantasma_py.carbon import (
@@ -17,9 +20,11 @@ from phantasma_py.carbon import (
     serialize,
 )
 from phantasma_py.crypto import PhantasmaKeys
+from phantasma_py.rpc import PhantasmaRPC
 
 
 def main() -> None:
+    rpc = PhantasmaRPC("https://testnet.phantasma.info/rpc")
     keys = PhantasmaKeys.generate()
     owner = bytes32_from_public_key(keys.public_key)
     schemas = prepare_standard_token_schemas(shared_metadata=False)
@@ -41,7 +46,9 @@ def main() -> None:
         token_schemas=serialize(schemas),
     )
 
-    create_token_hex = build_create_token_tx_and_sign_hex(token_info, keys)
+    config = rpc.fees.config()
+
+    create_token_hex = build_create_token_tx_and_sign_hex(token_info, keys, config)
     print(f"signer: {keys.address.text}")
     print(f"create token tx: {create_token_hex}")
 
@@ -57,6 +64,7 @@ def main() -> None:
         carbon_token_id,
         series_info,
         keys,
+        config,
     )
     print(f"create series tx: {create_series_hex}")
 

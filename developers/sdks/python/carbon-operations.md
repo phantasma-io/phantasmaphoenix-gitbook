@@ -13,7 +13,6 @@ one of the lifecycle helper functions.
 | ---- | ------------- |
 | Create a token | `build_create_token_tx*` |
 | Create a token series | `build_create_token_series_tx*` |
-| Mint direct Carbon NFTs | `build_mint_non_fungible_tx*` |
 | Mint Phantasma NFT helper metadata | `build_mint_phantasma_non_fungible_*` |
 | Transfer, burn, market, config, metadata update, custom calls | `TxMsg`, `TxMsgCall`, typed args, and `sign_tx_msg(...)` |
 

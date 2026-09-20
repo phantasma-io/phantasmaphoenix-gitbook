@@ -33,12 +33,7 @@ EXTERNAL_PREFIXES = (
     "javascript:",
 )
 
-KNOWN_STALE_PATTERNS = (
-    (
-        re.compile(r"\bPhantasmaRPC\.send_transaction\b"),
-        "Python docs should use send_raw_transaction(...) or send_carbon_transaction(...).",
-    ),
-)
+KNOWN_STALE_PATTERNS: tuple[tuple[re.Pattern[str], str], ...] = ()
 
 # Public pages document the product, not how the docs are produced. Internal
 # provenance/generation notes (commit hashes, "source baseline" framing) read as

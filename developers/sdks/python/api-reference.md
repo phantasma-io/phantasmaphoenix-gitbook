@@ -16,7 +16,7 @@ Python SDK Complete API Reference
 | ---- | ----- |
 | Package | `phantasma-sdk-py` |
 | Import namespace | `phantasma_py` |
-| Current source version | `2.2.0` |
+| Current source version | `4.0.0` |
 | Python | `>=3.11` |
 
 ## Top-Level Imports
@@ -115,9 +115,10 @@ for signatures, and [RPC Models](reference/rpc-models.md) for result fields.
 | `TxMsg`, `SignedTxMsg`, `Witness` | Carbon transaction message structures. |
 | `build_token_metadata`, `build_token_info`, `prepare_standard_token_schemas` | Metadata and schema helpers. |
 | `token_schemas_from_json`, `parse_token_schemas_json`, `build_token_schemas_from_fields`, `verify_token_schemas` | Custom schema parsing and validation helpers. |
-| `build_create_token_tx`, `build_create_token_series_tx`, `build_mint_non_fungible_tx` | Token lifecycle transaction builders. |
+| `build_create_token_tx`, `build_create_token_series_tx`, `build_mint_phantasma_non_fungible_tx` | Token lifecycle transaction builders. |
+| `build_transfer_fungible_tx`, `build_transfer_non_fungible_tx`, `build_mint_fungible_tx`, `build_burn_fungible_tx`, `build_burn_non_fungible_tx` | Native transfer, mint and burn builders, which need no VM script. |
 | `sign_tx_msg`, `sign_and_serialize_tx_msg`, `sign_and_serialize_tx_msg_hex` | Carbon transaction signing helpers. |
-| `FeeOptions`, `CreateTokenFeeOptions`, `CreateSeriesFeeOptions`, `MintNFTFeeOptions` | Carbon fee option structures used by lifecycle builders. |
+| `plan_fees`, `FeePlan`, `FeePlanOptions`, `summarize_fee_plan`, `burned_instances`, `TxLimits`, `expiry_within` | Fee planning from the message and the chain's gas configuration. |
 | Result parsers | `parse_create_token_result`, `parse_create_token_series_result`, `parse_mint_non_fungible_result`, `parse_mint_phantasma_non_fungible_result`. |
 
 The Carbon module also exposes module-call argument structs for token, market,

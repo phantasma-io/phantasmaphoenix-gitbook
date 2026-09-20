@@ -14,7 +14,7 @@ or custom messages not covered by a builder.
 
 | Layer | Main APIs | Use it for |
 | ----- | --------- | ---------- |
-| Lifecycle builders | `build_create_token_tx`, `build_create_token_series_tx`, `build_mint_non_fungible_tx`, `build_mint_phantasma_non_fungible_tx`, signed and hex builder variants | Build token, series, and NFT transaction messages with SDK fee defaults, expiry defaults, schema validation, and signer-derived addresses where the signed variants provide them. |
+| Lifecycle builders | `build_create_token_tx`, `build_create_token_series_tx`, `build_mint_phantasma_non_fungible_tx`, signed and hex builder variants | Build token, series and NFT transaction messages. The builders carry no prices, so the signed variants plan the message against a `GasConfig` first. |
 | Typed messages | `TxMsg`, `TxPayload`, `TxMsg*`, `SignedTxMsg`, `Witness`, module argument structures | Inspect, assemble, sign, serialize, or deserialize Carbon transaction messages directly when a lifecycle builder is not the right shape. |
 | Wire primitives | `CarbonReader`, `CarbonWriter`, `serialize`, `deserialize`, `VMType`, `VMDynamicVariable`, `VMDynamicStruct` | Implement protocol tooling, tests, diagnostics, schema-aware metadata handling, or custom message support that does not have a lifecycle builder. |
 
@@ -279,36 +279,42 @@ Call and transaction payload structures:
 
 | Type or method | Purpose | Defaults and formula |
 | -------------- | ------- | -------------------- |
-| `FeeOptions` | Base fee policy for mint operations. | Defaults: `gas_fee_base = 10_000`, `fee_multiplier = 1_000`. `calculate_max_gas(count=1)` returns `gas_fee_base * fee_multiplier * count` and rejects non-positive counts. |
-| `CreateTokenFeeOptions` | Fee policy for create-token messages. | Defaults: `gas_fee_base = 10_000`, `fee_multiplier = 10_000`, `gas_fee_create_token_base = 10_000_000_000`, `gas_fee_create_token_symbol = 10_000_000_000`. |
-| `CreateTokenFeeOptions.calculate_max_gas_for_symbol(symbol)` | Calculates create-token gas from symbol length. | `shift = max(len(symbol.value.encode("utf-8")) - 1, 0)`. Symbol fee is `gas_fee_create_token_symbol >> shift` when `shift < 64`, otherwise zero. Final value is `(gas_fee_base + gas_fee_create_token_base + symbol_part) * fee_multiplier`. |
-| `CreateSeriesFeeOptions` | Fee policy for create-series messages. | Defaults: `gas_fee_base = 10_000`, `fee_multiplier = 10_000`, `gas_fee_create_series_base = 2_500_000_000`. `calculate_max_gas()` returns `(gas_fee_base + gas_fee_create_series_base) * fee_multiplier`. |
-| `MintNFTFeeOptions` | Mint fee policy. | `calculate_max_gas(count_or_tokens=1)` accepts a positive integer count or a token sequence and returns `gas_fee_base * fee_multiplier * count`. Direct NFT mint builders pass `1`; Phantasma NFT batch builders pass the token sequence. |
+| `FeePlanOptions` | The chain-state facts a caller may state, plus `witness_count`. | Every field is optional. The default of each is the reading that costs more. |
+| `plan_fees(msg, config, options=None)` | Prices a message against a `GasConfig`. | Returns a `FeePlan`. It touches no network. |
+| `FeePlan` | `max_gas`, `max_data`, `expected_gas_bill`, `kinds`, `exact`, `envelope_bytes`, `apply(msg)`. | `apply` returns a copy of the message with the ceilings set. |
+| `summarize_fee_plan(plan)` | Renders the plan in KCAL and SOUL. | Returns `gas_bill`, `gas_offer` and `storage_ceiling` as decimal strings. |
+| `burned_instances(msg)` | The NFT instances a message burns, in any shape. | An empty answer means no infusion list is needed. |
+| `TxLimits` | `max_gas`, `max_data` and `expiry`. | `DEFAULT_TX_EXPIRY_MS` is 45,000. `expiry_within` takes the chain's whole window. |
 
 ## Lifecycle Builders
 
-All lifecycle builders use `expiry or now_unix_millis() + 60_000`. Pass a
-non-zero `expiry` when the application must control the expiration timestamp.
-All builder default `max_data` values are `100_000_000`.
+Builders carry no prices. A message leaves a builder with `max_gas` at `0`,
+which marks it as not yet planned. `TxLimits` is where a caller sets `max_gas`,
+`max_data` and `expiry` by hand. An unset expiry becomes `DEFAULT_TX_EXPIRY_MS`
+from now, which is 45,000 milliseconds.
+
+The `_and_sign` variants take a `GasConfig` and plan the message before signing
+it. `PlanAndSignOptions` carries the plan facts and the limits.
 
 | Builder | Purpose | Inputs | Returns and failures |
 | ------- | ------- | ------ | -------------------- |
 | `now_unix_millis()` | Current Unix time in milliseconds. | None. | Returns `int`. |
-| `build_create_token_tx(token_info, creator, fees=None, max_data=100000000, expiry=0)` | Builds unsigned create-token `CALL` message. | `token_info`: `TokenInfo`. `creator`: `Bytes32` used as `gas_from`. | Returns `TxMsg` with `ModuleID.TOKEN`, `TokenContractMethod.CREATE_TOKEN`, serialized `TokenInfo`, empty `SmallString` payload, default expiry if `expiry` is zero, and create-token gas formula. Propagates serialization failures. |
-| `build_create_token_tx_and_sign(...)` | Builds, signs, and serializes create-token message. | `signer`: `PhantasmaKeys`. Other args match `build_create_token_tx`. | Returns signed bytes. Derives `creator` from `signer.public_key`. |
+| `build_create_token_tx(token_info, creator, limits=None)` | Builds unsigned create-token `CALL` message. | `token_info`: `TokenInfo`. `creator`: `Bytes32` used as `gas_from`. | Returns `TxMsg` with `ModuleID.TOKEN`, `TokenContractMethod.CREATE_TOKEN` and the serialized `TokenInfo`. Propagates serialization failures. |
+| `build_create_token_tx_and_sign(token_info, signer, config=None, options=None)` | Plans, signs and serializes the create-token message. | `signer`: `PhantasmaKeys`. `config`: `GasConfig`. | Returns signed bytes. Derives `creator` from `signer.public_key`. |
 | `build_create_token_tx_and_sign_hex(...)` | Hex form of the signed create-token message. | Same as `_and_sign`. | Returns lowercase hex string. |
-| `build_create_token_series_tx(token_id, series_info, creator, fees=None, max_data=100000000, expiry=0)` | Builds unsigned create-series `CALL` message. | `token_id`: Carbon token id. `series_info`: `SeriesInfo`. `creator`: `Bytes32`. | Returns `TxMsg` with `TokenContractMethod.CREATE_TOKEN_SERIES`; args are `token_id` as `u64` followed by serialized `SeriesInfo`. |
-| `build_create_token_series_tx_and_sign(...)` | Builds, signs, and serializes create-series message. | `signer`: `PhantasmaKeys`. | Returns signed bytes; derives creator from `signer.public_key`. |
-| `build_create_token_series_tx_and_sign_hex(...)` | Hex form of signed create-series message. | Same as `_and_sign`. | Returns lowercase hex string. |
-| `build_mint_non_fungible_tx(token_id, series_id, sender, receiver, rom, ram=b"", fees=None, max_data=100000000, expiry=0)` | Builds direct `MINT_NON_FUNGIBLE` message. | Carbon token id, Carbon series id, sender and receiver `Bytes32`, ROM bytes, optional RAM bytes. | Returns `TxMsg` with `TxType.MINT_NON_FUNGIBLE`; `sender` is `gas_from`. |
-| `build_mint_non_fungible_tx_and_sign(...)` | Builds, signs, and serializes direct NFT mint message. | `signer`: `PhantasmaKeys`; receiver and metadata args match unsigned builder. | Returns signed bytes; derives sender from `signer.public_key`. |
-| `build_mint_non_fungible_tx_and_sign_hex(...)` | Hex form of signed direct NFT mint message. | Same as `_and_sign`. | Returns lowercase hex string. |
-| `build_mint_phantasma_non_fungible_tx(token_id, sender, receiver, tokens, fees=None, max_data=100000000, expiry=0)` | Builds `CALL` message for `MINT_PHANTASMA_NON_FUNGIBLE`. | `tokens`: sequence of `PhantasmaNFTMintInfo`. | Returns `TxMsg` with serialized `MintPhantasmaNonFungibleArgs`. |
-| `build_mint_phantasma_non_fungible_tx_and_sign(...)` | Builds, signs, and serializes batch Phantasma NFT mint message. | `signer`: `PhantasmaKeys`. | Returns signed bytes; derives sender from `signer.public_key`. |
-| `build_mint_phantasma_non_fungible_tx_and_sign_hex(...)` | Hex form of signed batch Phantasma NFT mint message. | Same as `_and_sign`. | Returns lowercase hex string. |
-| `build_mint_phantasma_non_fungible_single_tx(token_id, phantasma_series_id, sender, receiver, public_rom, ram=b"", fees=None, max_data=100000000, expiry=0)` | Builds batch Phantasma NFT mint message for one token. | `phantasma_series_id`: required int. `public_rom`: public ROM bytes. | Returns `TxMsg`; internally wraps one `PhantasmaNFTMintInfo(IntX(phantasma_series_id), public_rom, ram)`. |
-| `build_mint_phantasma_non_fungible_single_tx_and_sign(...)` | Builds, signs, and serializes one-token Phantasma NFT mint message. | `signer`: `PhantasmaKeys`. | Returns signed bytes. |
-| `build_mint_phantasma_non_fungible_single_tx_and_sign_hex(...)` | Hex form of signed one-token Phantasma NFT mint message. | Same as `_and_sign`. | Returns lowercase hex string. |
+| `build_create_token_series_tx(token_id, series_info, creator, limits=None)` | Builds unsigned create-series `CALL` message. | `token_id`: Carbon token id. `series_info`: `SeriesInfo`. `creator`: `Bytes32`. | Returns `TxMsg` with `TokenContractMethod.CREATE_TOKEN_SERIES`; args are `token_id` as `u64` followed by the serialized `SeriesInfo`. |
+| `build_create_token_series_tx_and_sign(token_id, series_info, signer, config=None, options=None)` | Plans, signs and serializes the create-series message. | `signer`: `PhantasmaKeys`. | Returns signed bytes; derives creator from `signer.public_key`. |
+| `build_create_token_series_tx_and_sign_hex(...)` | Hex form of the signed create-series message. | Same as `_and_sign`. | Returns lowercase hex string. |
+| `build_mint_phantasma_non_fungible_tx(token_id, sender, receiver, tokens, limits=None)` | Builds the `CALL` message for `MINT_PHANTASMA_NON_FUNGIBLE`. | `tokens`: sequence of `PhantasmaNFTMintInfo`. | Returns `TxMsg` with the serialized `MintPhantasmaNonFungibleArgs`. |
+| `build_mint_phantasma_non_fungible_tx_and_sign(...)` | Plans, signs and serializes the batch mint message. | `signer`: `PhantasmaKeys`. | Returns signed bytes; derives sender from `signer.public_key`. |
+| `build_mint_phantasma_non_fungible_tx_and_sign_hex(...)` | Hex form of the signed batch mint message. | Same as `_and_sign`. | Returns lowercase hex string. |
+| `build_mint_phantasma_non_fungible_single_tx(token_id, phantasma_series_id, sender, receiver, public_rom, ram=b"", limits=None)` | Builds the mint message for one instance. | `phantasma_series_id`: required int. `public_rom`: public ROM bytes. | Returns `TxMsg`; it wraps one `PhantasmaNFTMintInfo(IntX(phantasma_series_id), public_rom, ram)`. |
+| `build_mint_phantasma_non_fungible_single_tx_and_sign(...)` | Plans, signs and serializes the one-instance mint message. | `signer`: `PhantasmaKeys`. | Returns signed bytes. |
+| `build_mint_phantasma_non_fungible_single_tx_and_sign_hex(...)` | Hex form of the signed one-instance mint message. | Same as `_and_sign`. | Returns lowercase hex string. |
+
+The SDK carries no builder for a direct `MINT_NON_FUNGIBLE`. The chain refuses
+that operation where governance has not allowed caller-supplied ROM ids, and
+that is the state of the public chains today.
 
 ## NFT Address And Result Parsers
 
@@ -323,7 +329,7 @@ state, then parse `TransactionResult.result` with the matching parser.
 | `unpack_nft_instance_id(instance_id)` | Splits a packed NFT instance id. | `instance_id`: int. | Returns `(low32, high32)`. |
 | `parse_create_token_result(result_hex)` | Parses create-token result. | `result_hex`: hex string. | Returns Carbon token id as `int`. Fails for invalid hex, wrong byte length, or trailing bytes. |
 | `parse_create_token_series_result(result_hex)` | Parses create-series result. | `result_hex`: hex string. | Returns Carbon series id as `int`. Fails for invalid hex, wrong byte length, or trailing bytes. |
-| `parse_mint_non_fungible_result(carbon_token_id, result_hex)` | Parses direct NFT mint result instance ids and maps them to NFT addresses. | `carbon_token_id`: token id used for address construction. `result_hex`: Carbon result bytes as hex. | Returns `list[Bytes32]`. Fails for invalid array/result encoding. |
+| `parse_mint_non_fungible_result(carbon_token_id, result_hex)` | Parses a direct NFT mint result and maps the instance ids to NFT addresses, for chains where that operation is allowed. | `carbon_token_id`: token id used for address construction. `result_hex`: Carbon result bytes as hex. | Returns `list[Bytes32]`. Fails for invalid array/result encoding. |
 | `parse_mint_phantasma_non_fungible_result(result_hex)` | Parses Phantasma NFT mint results. | `result_hex`: Carbon result bytes as hex. | Returns `list[PhantasmaNFTMintResult]`, each containing `phantasma_nft_id` and `carbon_instance_id`. |
 
 Example:

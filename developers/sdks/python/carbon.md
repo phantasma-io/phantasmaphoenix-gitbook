@@ -124,14 +124,25 @@ from phantasma_py.carbon import build_create_token_tx_and_sign_hex
 from phantasma_py.crypto import PhantasmaKeys
 
 
-def sign_create_token(token_info, wif: str) -> str:
+def sign_create_token(token_info, wif: str, config) -> str:
     keys = PhantasmaKeys.from_wif(wif)
-    return build_create_token_tx_and_sign_hex(token_info, keys)
+    return build_create_token_tx_and_sign_hex(token_info, keys, config)
 ```
+
+`config` is the chain's `GasConfig`, from `rpc.fees.config()`. The builders
+carry no prices, so a message without a gas offer needs it. Passing no config
+raises `BuilderError`, unless the caller fixed `max_gas` in the limits.
 
 `build_create_token_tx(...)` returns an unsigned `TxMsg` if you need to inspect
 or sign separately. The `_and_sign` helpers return serialized signed bytes, and
 the `_and_sign_hex` helpers return hex.
+
+`rpc.send_transaction(msg, [keys])` does the whole flow: it plans the fee, runs
+the token-creation pre-flight, signs and broadcasts.
+
+{% content-ref url="/developers/sdks/python/fees-and-broadcasting.md" %}
+[Fees And Broadcasting](/developers/sdks/python/fees-and-broadcasting.md)
+{% endcontent-ref %}
 
 ## Series And NFT Minting
 
@@ -141,7 +152,6 @@ The SDK exposes builders for the current Carbon token lifecycle:
 | ------- | ------- |
 | `build_create_token_tx` | Create a Carbon token payload. |
 | `build_create_token_series_tx` | Create a token series payload. |
-| `build_mint_non_fungible_tx` | Mint Carbon NFTs with explicit ROM/RAM bytes. |
 | `build_mint_phantasma_non_fungible_tx` | Mint Phantasma NFT metadata through the Carbon token module. |
 | `build_mint_phantasma_non_fungible_single_tx` | Convenience builder for one Phantasma NFT mint. |
 

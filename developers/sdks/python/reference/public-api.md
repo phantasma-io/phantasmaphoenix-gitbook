@@ -12,6 +12,38 @@ Source: `src/phantasma_py/__init__.py`
 
 - `__all__`
 
+## phantasma_py._wire_shapes
+
+Source: `src/phantasma_py/_wire_shapes.py`
+
+### Declarations
+
+```python
+class ShapeMismatch(Exception)
+```
+
+### Fields
+
+- `T`
+
+### Methods
+
+```python
+def decode_shape(cls: type[T], raw: Any) -> T
+```
+
+```python
+def shape_to_wire(value: Any) -> Any
+```
+
+```python
+def snake_to_camel(value: str) -> str
+```
+
+```python
+def wire_name_of(field_name: str, metadata: Mapping[str, Any]) -> str
+```
+
 ## phantasma_py.binary
 
 Source: `src/phantasma_py/binary.py`
@@ -195,6 +227,10 @@ class TokenContractMethod(IntEnum)
 ```
 
 ```python
+class GovernanceContractMethod(IntEnum)
+```
+
+```python
 class TokenFlags(IntFlag)
 ```
 
@@ -339,6 +375,10 @@ class UpdateSeriesMetadataArgs
 ```
 
 ```python
+class RegisterNameArgs
+```
+
+```python
 class TokenListing
 ```
 
@@ -475,19 +515,11 @@ class SignedTxMsg
 ```
 
 ```python
-class FeeOptions
+class TxSigner(Protocol)
 ```
 
 ```python
-class CreateTokenFeeOptions(FeeOptions)
-```
-
-```python
-class CreateSeriesFeeOptions(FeeOptions)
-```
-
-```python
-class MintNFTFeeOptions(FeeOptions)
+class TxLimits
 ```
 
 ### Fields
@@ -516,20 +548,12 @@ class MintNFTFeeOptions(FeeOptions)
 - `CreateMintedTokenSeriesArgs.rams: list[bytes]`
 - `CreateMintedTokenSeriesArgs.roms: list[bytes]`
 - `CreateMintedTokenSeriesArgs.token_id: int`
-- `CreateSeriesFeeOptions.fee_multiplier: int`
-- `CreateSeriesFeeOptions.gas_fee_base: int`
-- `CreateSeriesFeeOptions.gas_fee_create_series_base: int`
-- `CreateTokenFeeOptions.fee_multiplier: int`
-- `CreateTokenFeeOptions.gas_fee_base: int`
-- `CreateTokenFeeOptions.gas_fee_create_token_base: int`
-- `CreateTokenFeeOptions.gas_fee_create_token_symbol: int`
 - `CreateTokenSeriesArgs.info: SeriesInfo`
 - `CreateTokenSeriesArgs.token_id: int`
+- `DEFAULT_TX_EXPIRY_MS`
 - `EMPTY_BYTES16`
 - `EMPTY_BYTES32`
 - `EMPTY_BYTES64`
-- `FeeOptions.fee_multiplier: int`
-- `FeeOptions.gas_fee_base: int`
 - `FixedBytes.SIZE: ClassVar[int]`
 - `GasConfig.data_escrow_per_row: int`
 - `GasConfig.data_token_id: int`
@@ -537,6 +561,8 @@ class MintNFTFeeOptions(FeeOptions)
 - `GasConfig.fee_shift: int`
 - `GasConfig.gas_burn_ratio_mul: int`
 - `GasConfig.gas_burn_ratio_shift: int`
+- `GasConfig.gas_dapp_ratio_mul: int`
+- `GasConfig.gas_dapp_ratio_shift: int`
 - `GasConfig.gas_fee_create_token_base: int`
 - `GasConfig.gas_fee_create_token_series: int`
 - `GasConfig.gas_fee_create_token_symbol: int`
@@ -544,12 +570,22 @@ class MintNFTFeeOptions(FeeOptions)
 - `GasConfig.gas_fee_query: int`
 - `GasConfig.gas_fee_register_name: int`
 - `GasConfig.gas_fee_transfer: int`
+- `GasConfig.gas_producer_ratio_mul: int`
+- `GasConfig.gas_producer_ratio_shift: int`
 - `GasConfig.gas_token_id: int`
+- `GasConfig.legacy_data_escrow_per_row: int`
 - `GasConfig.max_name_length: int`
 - `GasConfig.max_structure_size: int`
 - `GasConfig.max_token_symbol_length: int`
+- `GasConfig.minimum_gas_bill: int`
 - `GasConfig.minimum_gas_offer: int`
+- `GasConfig.policy_fee_create_token_base: int`
+- `GasConfig.policy_fee_create_token_series: int`
+- `GasConfig.policy_fee_create_token_symbol: int`
+- `GasConfig.policy_fee_register_name: int`
 - `GasConfig.version: int`
+- `GovernanceContractMethod.REGISTER_NAME`
+- `GovernanceContractMethod.SET_GAS_CONFIG`
 - `IntX.value: int`
 - `ListingType.FIXED_PRICE`
 - `MARKET_DELISTING_GRACE_MS`
@@ -627,7 +663,28 @@ class MintNFTFeeOptions(FeeOptions)
 - `PhantasmaNFTMintInfo.rom: bytes`
 - `PhantasmaNFTMintResult.carbon_instance_id: int`
 - `PhantasmaNFTMintResult.phantasma_nft_id: Bytes32`
+- `RegisterNameArgs.address: Bytes32`
+- `RegisterNameArgs.name: SmallString`
+- `STANDARD_META_CHAIN_ADDRESS`
+- `STANDARD_META_CHAIN_NAME`
+- `STANDARD_META_CHAIN_NEXUS`
+- `STANDARD_META_CHAIN_TOKENOMICS`
 - `STANDARD_META_ID`
+- `STANDARD_META_TOKEN_INFLATION_PERIOD`
+- `STANDARD_META_TOKEN_PHANTASMA_ABI`
+- `STANDARD_META_TOKEN_PHANTASMA_SCRIPT`
+- `STANDARD_META_TOKEN_PRE_BURN`
+- `STANDARD_META_TOKEN_STAKING_BOOSTER_DIV`
+- `STANDARD_META_TOKEN_STAKING_BOOSTER_LIMIT`
+- `STANDARD_META_TOKEN_STAKING_BOOSTER_MUL`
+- `STANDARD_META_TOKEN_STAKING_BOOSTER_TOKEN`
+- `STANDARD_META_TOKEN_STAKING_LOCK`
+- `STANDARD_META_TOKEN_STAKING_ORG_ID`
+- `STANDARD_META_TOKEN_STAKING_ORG_THRESHOLD`
+- `STANDARD_META_TOKEN_STAKING_REWARD_DIV`
+- `STANDARD_META_TOKEN_STAKING_REWARD_MUL`
+- `STANDARD_META_TOKEN_STAKING_REWARD_PERIOD`
+- `STANDARD_META_TOKEN_STAKING_REWARD_TOKEN`
 - `SYSTEM_ADDRESS_DATA_POOL`
 - `SYSTEM_ADDRESS_GAS_POOL`
 - `SYSTEM_ADDRESS_NULL`
@@ -708,6 +765,9 @@ class MintNFTFeeOptions(FeeOptions)
 - `TransferNonFungibleArgs.instance_ids: list[int]`
 - `TransferNonFungibleArgs.to: Bytes32`
 - `TransferNonFungibleArgs.token_id: int`
+- `TxLimits.expiry: int`
+- `TxLimits.max_data: int`
+- `TxLimits.max_gas: int`
 - `TxMsg.expiry: int`
 - `TxMsg.gas_from: Bytes32`
 - `TxMsg.max_data: int`
@@ -1053,23 +1113,11 @@ CreateMintedTokenSeriesArgs.write_carbon(self, writer: CarbonWriter) -> None
 ```
 
 ```python
-CreateSeriesFeeOptions.calculate_max_gas(self, count: int = 1) -> int
-```
-
-```python
-CreateTokenFeeOptions.calculate_max_gas_for_symbol(self, symbol: SmallString) -> int
-```
-
-```python
 CreateTokenSeriesArgs.read_carbon(cls, reader: CarbonReader) -> CreateTokenSeriesArgs
 ```
 
 ```python
 CreateTokenSeriesArgs.write_carbon(self, writer: CarbonWriter) -> None
-```
-
-```python
-FeeOptions.calculate_max_gas(self, count: int = 1) -> int
 ```
 
 ```python
@@ -1082,6 +1130,10 @@ FixedBytes.__str__(self) -> str
 
 ```python
 FixedBytes.from_hex(cls, value: str) -> Self
+```
+
+```python
+GasConfig.has_gas_model_v2(self) -> bool
 ```
 
 ```python
@@ -1197,10 +1249,6 @@ MintFungibleArgs.write_carbon(self, writer: CarbonWriter) -> None
 ```
 
 ```python
-MintNFTFeeOptions.calculate_max_gas(self, count_or_tokens: int | Sequence[Any] = 1) -> int
-```
-
-```python
 MintNonFungibleArgs.read_carbon(cls, reader: CarbonReader) -> MintNonFungibleArgs
 ```
 
@@ -1250,6 +1298,14 @@ PhantasmaNFTMintResult.read_carbon(cls, reader: CarbonReader) -> PhantasmaNFTMin
 
 ```python
 PhantasmaNFTMintResult.write_carbon(self, writer: CarbonWriter) -> None
+```
+
+```python
+RegisterNameArgs.read_carbon(cls, reader: CarbonReader) -> RegisterNameArgs
+```
+
+```python
+RegisterNameArgs.write_carbon(self, writer: CarbonWriter) -> None
 ```
 
 ```python
@@ -1485,6 +1541,14 @@ TxMsgTransferNonFungibleSingleGasPayer.write_carbon(self, writer: CarbonWriter) 
 ```
 
 ```python
+TxSigner.public_key(self) -> bytes
+```
+
+```python
+TxSigner.sign_message(self, message: bytes) -> bytes
+```
+
+```python
 UpdateSeriesMetadataArgs.read_carbon(cls, reader: CarbonReader) -> UpdateSeriesMetadataArgs
 ```
 
@@ -1589,63 +1653,63 @@ def build_and_serialize_token_schemas(schemas: TokenSchemas | None = None) -> by
 ```
 
 ```python
-def build_create_token_series_tx(token_id: int, series_info: SeriesInfo, creator: Bytes32, fees: CreateSeriesFeeOptions | None = None, max_data: int = 100000000, expiry: int = 0) -> TxMsg
+def build_burn_fungible_tx(*, from_address: Bytes32, token_id: int, amount: IntX, gas_payer: Bytes32 | None = None, limits: TxLimits | None = None) -> TxMsg
 ```
 
 ```python
-def build_create_token_series_tx_and_sign(token_id: int, series_info: SeriesInfo, signer: PhantasmaKeys, fees: CreateSeriesFeeOptions | None = None, max_data: int = 100000000, expiry: int = 0) -> bytes
+def build_burn_non_fungible_tx(*, from_address: Bytes32, token_id: int, instance_id: int, gas_payer: Bytes32 | None = None, limits: TxLimits | None = None) -> TxMsg
 ```
 
 ```python
-def build_create_token_series_tx_and_sign_hex(token_id: int, series_info: SeriesInfo, signer: PhantasmaKeys, fees: CreateSeriesFeeOptions | None = None, max_data: int = 100000000, expiry: int = 0) -> str
+def build_create_token_series_tx(token_id: int, series_info: SeriesInfo, creator: Bytes32, limits: TxLimits | None = None) -> TxMsg
 ```
 
 ```python
-def build_create_token_tx(token_info: TokenInfo, creator: Bytes32, fees: CreateTokenFeeOptions | None = None, max_data: int = 100000000, expiry: int = 0) -> TxMsg
+def build_create_token_series_tx_and_sign(token_id: int, series_info: SeriesInfo, signer: PhantasmaKeys, config: GasConfig | None = None, options: PlanAndSignOptions | None = None) -> bytes
 ```
 
 ```python
-def build_create_token_tx_and_sign(token_info: TokenInfo, signer: PhantasmaKeys, fees: CreateTokenFeeOptions | None = None, max_data: int = 100000000, expiry: int = 0) -> bytes
+def build_create_token_series_tx_and_sign_hex(token_id: int, series_info: SeriesInfo, signer: PhantasmaKeys, config: GasConfig | None = None, options: PlanAndSignOptions | None = None) -> str
 ```
 
 ```python
-def build_create_token_tx_and_sign_hex(token_info: TokenInfo, signer: PhantasmaKeys, fees: CreateTokenFeeOptions | None = None, max_data: int = 100000000, expiry: int = 0) -> str
+def build_create_token_tx(token_info: TokenInfo, creator: Bytes32, limits: TxLimits | None = None) -> TxMsg
 ```
 
 ```python
-def build_mint_non_fungible_tx(token_id: int, series_id: int, sender: Bytes32, receiver: Bytes32, rom: bytes, ram: bytes = b'', fees: MintNFTFeeOptions | None = None, max_data: int = 100000000, expiry: int = 0) -> TxMsg
+def build_create_token_tx_and_sign(token_info: TokenInfo, signer: PhantasmaKeys, config: GasConfig | None = None, options: PlanAndSignOptions | None = None) -> bytes
 ```
 
 ```python
-def build_mint_non_fungible_tx_and_sign(token_id: int, series_id: int, signer: PhantasmaKeys, receiver: Bytes32, rom: bytes, ram: bytes = b'', fees: MintNFTFeeOptions | None = None, max_data: int = 100000000, expiry: int = 0) -> bytes
+def build_create_token_tx_and_sign_hex(token_info: TokenInfo, signer: PhantasmaKeys, config: GasConfig | None = None, options: PlanAndSignOptions | None = None) -> str
 ```
 
 ```python
-def build_mint_non_fungible_tx_and_sign_hex(token_id: int, series_id: int, signer: PhantasmaKeys, receiver: Bytes32, rom: bytes, ram: bytes = b'', fees: MintNFTFeeOptions | None = None, max_data: int = 100000000, expiry: int = 0) -> str
+def build_mint_fungible_tx(*, owner: Bytes32, to: Bytes32, token_id: int, amount: IntX, limits: TxLimits | None = None) -> TxMsg
 ```
 
 ```python
-def build_mint_phantasma_non_fungible_single_tx(token_id: int, phantasma_series_id: int, sender: Bytes32, receiver: Bytes32, public_rom: bytes, ram: bytes = b'', fees: MintNFTFeeOptions | None = None, max_data: int = 100000000, expiry: int = 0) -> TxMsg
+def build_mint_phantasma_non_fungible_single_tx(token_id: int, phantasma_series_id: int, sender: Bytes32, receiver: Bytes32, public_rom: bytes, ram: bytes = b'', limits: TxLimits | None = None) -> TxMsg
 ```
 
 ```python
-def build_mint_phantasma_non_fungible_single_tx_and_sign(token_id: int, phantasma_series_id: int, signer: PhantasmaKeys, receiver: Bytes32, public_rom: bytes, ram: bytes = b'', fees: MintNFTFeeOptions | None = None, max_data: int = 100000000, expiry: int = 0) -> bytes
+def build_mint_phantasma_non_fungible_single_tx_and_sign(token_id: int, phantasma_series_id: int, signer: PhantasmaKeys, receiver: Bytes32, public_rom: bytes, ram: bytes = b'', config: GasConfig | None = None, options: PlanAndSignOptions | None = None) -> bytes
 ```
 
 ```python
-def build_mint_phantasma_non_fungible_single_tx_and_sign_hex(token_id: int, phantasma_series_id: int, signer: PhantasmaKeys, receiver: Bytes32, public_rom: bytes, ram: bytes = b'', fees: MintNFTFeeOptions | None = None, max_data: int = 100000000, expiry: int = 0) -> str
+def build_mint_phantasma_non_fungible_single_tx_and_sign_hex(token_id: int, phantasma_series_id: int, signer: PhantasmaKeys, receiver: Bytes32, public_rom: bytes, ram: bytes = b'', config: GasConfig | None = None, options: PlanAndSignOptions | None = None) -> str
 ```
 
 ```python
-def build_mint_phantasma_non_fungible_tx(token_id: int, sender: Bytes32, receiver: Bytes32, tokens: Sequence[PhantasmaNFTMintInfo], fees: MintNFTFeeOptions | None = None, max_data: int = 100000000, expiry: int = 0) -> TxMsg
+def build_mint_phantasma_non_fungible_tx(token_id: int, sender: Bytes32, receiver: Bytes32, tokens: Sequence[PhantasmaNFTMintInfo], limits: TxLimits | None = None) -> TxMsg
 ```
 
 ```python
-def build_mint_phantasma_non_fungible_tx_and_sign(token_id: int, signer: PhantasmaKeys, receiver: Bytes32, tokens: Sequence[PhantasmaNFTMintInfo], fees: MintNFTFeeOptions | None = None, max_data: int = 100000000, expiry: int = 0) -> bytes
+def build_mint_phantasma_non_fungible_tx_and_sign(token_id: int, signer: PhantasmaKeys, receiver: Bytes32, tokens: Sequence[PhantasmaNFTMintInfo], config: GasConfig | None = None, options: PlanAndSignOptions | None = None) -> bytes
 ```
 
 ```python
-def build_mint_phantasma_non_fungible_tx_and_sign_hex(token_id: int, signer: PhantasmaKeys, receiver: Bytes32, tokens: Sequence[PhantasmaNFTMintInfo], fees: MintNFTFeeOptions | None = None, max_data: int = 100000000, expiry: int = 0) -> str
+def build_mint_phantasma_non_fungible_tx_and_sign_hex(token_id: int, signer: PhantasmaKeys, receiver: Bytes32, tokens: Sequence[PhantasmaNFTMintInfo], config: GasConfig | None = None, options: PlanAndSignOptions | None = None) -> str
 ```
 
 ```python
@@ -1681,6 +1745,14 @@ def build_token_series_metadata(schema: VMStructSchema, phantasma_series_id: int
 ```
 
 ```python
+def build_transfer_fungible_tx(*, from_address: Bytes32, to: Bytes32, token_id: int, amount: int, gas_payer: Bytes32 | None = None, limits: TxLimits | None = None) -> TxMsg
+```
+
+```python
+def build_transfer_non_fungible_tx(*, from_address: Bytes32, to: Bytes32, token_id: int, instance_ids: Sequence[int], gas_payer: Bytes32 | None = None, limits: TxLimits | None = None) -> TxMsg
+```
+
+```python
 def bytes32_from_phantasma_address(address: Address) -> Bytes32
 ```
 
@@ -1697,6 +1769,10 @@ def check_token_symbol(symbol: str) -> None
 ```
 
 ```python
+def default_expiry() -> int
+```
+
+```python
 def default_market_config() -> MarketConfig
 ```
 
@@ -1705,7 +1781,19 @@ def deserialize(data: bytes, cls: type[CarbonSerializable]) -> CarbonSerializabl
 ```
 
 ```python
+def envelope_bytes(msg: TxMsg, witness_count: int | None = None) -> int
+```
+
+```python
+def expiry_within(expiry_window_ms: int, margin_ms: int = 0) -> int
+```
+
+```python
 def get_nft_address(carbon_token_id: int, instance_id: int) -> Bytes32
+```
+
+```python
+def is_nft_address(address: Bytes32) -> bool
 ```
 
 ```python
@@ -1737,6 +1825,10 @@ def prepare_standard_token_schemas(shared_metadata: bool = False) -> TokenSchema
 ```
 
 ```python
+def required_witnesses(msg: TxMsg) -> list[Bytes32] | None
+```
+
+```python
 def serialize(value: CarbonSerializable) -> bytes
 ```
 
@@ -1749,19 +1841,31 @@ def serialize_token_schemas_hex(schemas: TokenSchemas) -> str
 ```
 
 ```python
-def sign_and_serialize_tx_msg(msg: TxMsg, keys: PhantasmaKeys) -> bytes
+def sign_and_serialize_tx_msg(msg: TxMsg, *keys) -> bytes
 ```
 
 ```python
-def sign_and_serialize_tx_msg_hex(msg: TxMsg, keys: PhantasmaKeys) -> str
+def sign_and_serialize_tx_msg_hex(msg: TxMsg, *keys) -> str
 ```
 
 ```python
-def sign_tx_msg(msg: TxMsg, keys: PhantasmaKeys) -> SignedTxMsg
+def sign_and_serialize_tx_msg_with(msg: TxMsg, *signers) -> bytes
+```
+
+```python
+def sign_tx_msg(msg: TxMsg, *keys) -> SignedTxMsg
+```
+
+```python
+def sign_tx_msg_with(msg: TxMsg, *signers) -> SignedTxMsg
 ```
 
 ```python
 def token_schemas_from_json(data: str) -> TokenSchemas
+```
+
+```python
+def unpack_nft_address(address: Bytes32) -> tuple[int, int]
 ```
 
 ```python
@@ -1945,6 +2049,10 @@ PhantasmaKeys.sign(self, message: bytes) -> Ed25519Signature
 ```
 
 ```python
+PhantasmaKeys.sign_message(self, message: bytes) -> bytes
+```
+
+```python
 PhantasmaKeys.to_wif(self) -> str
 ```
 
@@ -2004,10 +2112,327 @@ class RPCError(PhantasmaError)
 class BuilderError(PhantasmaError, ValueError)
 ```
 
+```python
+class PreflightError(PhantasmaError)
+```
+
 ### Methods
 
 ```python
 RPCError.__init__(self, message: str, *, code: int | None = None, data: object | None = None) -> None
+```
+
+## phantasma_py.extended_events
+
+Source: `src/phantasma_py/extended_events.py`
+
+### Declarations
+
+```python
+class TokenCreateData
+```
+
+```python
+class TokenSeriesCreateData
+```
+
+```python
+class MarketOrderData
+```
+
+```python
+class SpecialResolutionCall
+```
+
+```python
+class SpecialResolutionData
+```
+
+```python
+class UnknownEventData
+```
+
+```python
+class EventExResult
+```
+
+### Fields
+
+- `EVENT_SHAPES: dict[str, type[TokenCreateData | TokenSeriesCreateData | MarketOrderData]]`
+- `EventData`
+- `EventExResult.address: str`
+- `EventExResult.contract: str`
+- `EventExResult.data: EventData | None`
+- `EventExResult.kind: str`
+- `MarketOrderData.base_symbol: str`
+- `MarketOrderData.buyer: str`
+- `MarketOrderData.carbon_base_token_id: int`
+- `MarketOrderData.carbon_instance_id: int`
+- `MarketOrderData.carbon_quote_token_id: int`
+- `MarketOrderData.end_date: int`
+- `MarketOrderData.end_price: str`
+- `MarketOrderData.price: str`
+- `MarketOrderData.quote_symbol: str`
+- `MarketOrderData.seller: str`
+- `MarketOrderData.start_date: int`
+- `MarketOrderData.token_id: str`
+- `MarketOrderData.type: str`
+- `SpecialResolutionCall.arguments: SpecialResolutionArguments | None`
+- `SpecialResolutionCall.calls: list[SpecialResolutionCall]`
+- `SpecialResolutionCall.method: str`
+- `SpecialResolutionCall.method_id: int`
+- `SpecialResolutionCall.module: str`
+- `SpecialResolutionCall.module_id: int`
+- `SpecialResolutionData.calls: list[SpecialResolutionCall]`
+- `SpecialResolutionData.description: str | None`
+- `SpecialResolutionData.resolution_id: int`
+- `TokenCreateData.carbon_token_id: int`
+- `TokenCreateData.decimals: int`
+- `TokenCreateData.is_non_fungible: bool`
+- `TokenCreateData.max_supply: str`
+- `TokenCreateData.metadata: dict[str, str]`
+- `TokenCreateData.symbol: str`
+- `TokenSeriesCreateData.carbon_series_id: int`
+- `TokenSeriesCreateData.carbon_token_id: int`
+- `TokenSeriesCreateData.max_mint: int`
+- `TokenSeriesCreateData.max_supply: int`
+- `TokenSeriesCreateData.metadata: dict[str, str]`
+- `TokenSeriesCreateData.owner: str`
+- `TokenSeriesCreateData.series_id: str`
+- `TokenSeriesCreateData.symbol: str`
+- `UnknownEventData.data: Any`
+
+### Methods
+
+```python
+EventExResult.from_wire(cls, raw: Any) -> EventExResult
+```
+
+```python
+EventExResult.to_wire(self) -> dict[str, Any]
+```
+
+```python
+SpecialResolutionCall.from_wire(cls, raw: Any) -> SpecialResolutionCall
+```
+
+```python
+SpecialResolutionCall.to_wire(self) -> dict[str, Any]
+```
+
+```python
+SpecialResolutionData.from_wire(cls, raw: Any) -> SpecialResolutionData
+```
+
+```python
+SpecialResolutionData.to_wire(self) -> dict[str, Any]
+```
+
+```python
+UnknownEventData.to_wire(self) -> Any
+```
+
+```python
+def decode_event_data(kind: str, raw: Any) -> EventData | None
+```
+
+## phantasma_py.fees
+
+Source: `src/phantasma_py/fees.py`
+
+### Declarations
+
+```python
+class NativeFeeKind(Enum)
+```
+
+```python
+class InfusedAsset
+```
+
+```python
+class NativeFeeParams
+```
+
+```python
+class FeeQuote
+```
+
+```python
+class NativeFeeEstimate
+```
+
+```python
+class NativeFeePart
+```
+
+```python
+class NativeFeeTransactionParams
+```
+
+```python
+class FeePlanOptions
+```
+
+```python
+class BurnedInstance
+```
+
+```python
+class FeePlan
+```
+
+```python
+class PlanAndSignOptions
+```
+
+```python
+class FeePlanSummary
+```
+
+### Fields
+
+- `BurnedInstance.instance_id: int`
+- `BurnedInstance.token_id: int`
+- `FeePlan.deleted_storage_quanta: int`
+- `FeePlan.envelope_bytes: int`
+- `FeePlan.exact: bool`
+- `FeePlan.expected_gas_bill: int`
+- `FeePlan.kinds: tuple[NativeFeeKind, ...]`
+- `FeePlan.max_data: int`
+- `FeePlan.max_gas: int`
+- `FeePlan.new_storage_quanta: int`
+- `FeePlanOptions.big_fungible: bool | None`
+- `FeePlanOptions.duplicated_series: bool | None`
+- `FeePlanOptions.infusions: list[InfusedAsset] | None`
+- `FeePlanOptions.recipient_holds_token: bool`
+- `FeePlanOptions.rom_has_meta_id: bool | None`
+- `FeePlanOptions.script_event_bytes: int | None`
+- `FeePlanOptions.script_storage_quanta: int | None`
+- `FeePlanOptions.script_units_allowance: int | None`
+- `FeePlanOptions.series_has_meta_id: bool | None`
+- `FeePlanOptions.supply_row_exists: bool`
+- `FeePlanOptions.token_burned_before: bool`
+- `FeePlanOptions.witness_count: int | None`
+- `FeePlanSummary.gas_bill: str`
+- `FeePlanSummary.gas_offer: str`
+- `FeePlanSummary.storage_ceiling: str`
+- `FeeQuote.expected_gas_bill: int`
+- `FeeQuote.max_data: int`
+- `FeeQuote.max_gas: int`
+- `GAS_MODEL_V2_UNITS_PER_BLOCK_DATA_BYTE`
+- `InfusedAsset.burner_holds_token: bool`
+- `InfusedAsset.instance_count: int | None`
+- `InfusedAsset.non_fungible: bool`
+- `InfusedAsset.token_id: int | None`
+- `KCAL_DECIMALS`
+- `NATIVE_SIGNATURE_BYTES`
+- `NativeFeeEstimate.deleted_storage_quanta: int`
+- `NativeFeeEstimate.expected_gas_bill: int`
+- `NativeFeeEstimate.max_data: int`
+- `NativeFeeEstimate.max_gas: int`
+- `NativeFeeEstimate.new_storage_quanta: int`
+- `NativeFeeKind.BURN_FUNGIBLE`
+- `NativeFeeKind.BURN_NON_FUNGIBLE`
+- `NativeFeeKind.CREATE_TOKEN`
+- `NativeFeeKind.CREATE_TOKEN_SERIES`
+- `NativeFeeKind.MINT_FUNGIBLE`
+- `NativeFeeKind.MINT_NON_FUNGIBLE`
+- `NativeFeeKind.MINT_PHANTASMA_NON_FUNGIBLE`
+- `NativeFeeKind.REGISTER_NAME`
+- `NativeFeeKind.SCRIPT`
+- `NativeFeeKind.TRANSFER_FUNGIBLE`
+- `NativeFeeKind.TRANSFER_NON_FUNGIBLE`
+- `NativeFeeParams.big_fungible: bool | None`
+- `NativeFeeParams.count: int | None`
+- `NativeFeeParams.distinct_series_count: int | None`
+- `NativeFeeParams.duplicated_series: bool | None`
+- `NativeFeeParams.envelope_bytes: int`
+- `NativeFeeParams.has_inflation_schedule: bool`
+- `NativeFeeParams.has_pre_burn: bool`
+- `NativeFeeParams.has_staking_organisation: bool`
+- `NativeFeeParams.has_staking_reward_token: bool`
+- `NativeFeeParams.infusions: list[InfusedAsset] | None`
+- `NativeFeeParams.name_length: int`
+- `NativeFeeParams.non_fungible: bool`
+- `NativeFeeParams.payload_bytes: int`
+- `NativeFeeParams.ram_bytes: list[int]`
+- `NativeFeeParams.recipient_holds_token: bool`
+- `NativeFeeParams.rom_bytes: list[int]`
+- `NativeFeeParams.rom_has_meta_id: bool | None`
+- `NativeFeeParams.script_event_bytes: int | None`
+- `NativeFeeParams.script_storage_quanta: int | None`
+- `NativeFeeParams.script_units_allowance: int | None`
+- `NativeFeeParams.series_has_meta_id: bool | None`
+- `NativeFeeParams.series_info_bytes: int`
+- `NativeFeeParams.supply_row_exists: bool`
+- `NativeFeeParams.symbol_length: int`
+- `NativeFeeParams.to_is_nft_address: bool`
+- `NativeFeeParams.token_burned_before: bool`
+- `NativeFeeParams.token_id: int | None`
+- `NativeFeeParams.token_info_bytes: int`
+- `NativeFeePart.kind: NativeFeeKind`
+- `NativeFeePart.params: NativeFeeParams`
+- `NativeFeeTransactionParams.envelope_bytes: int`
+- `NativeFeeTransactionParams.payload_bytes: int`
+- `PlanAndSignOptions.facts: FeePlanOptions`
+- `PlanAndSignOptions.limits: TxLimits`
+- `SOUL_DECIMALS`
+- `STORAGE_QUANTUM_BYTES`
+- `WITNESS_ARRAY_ENTRY_BYTES`
+
+### Methods
+
+```python
+FeePlan.apply(self, msg: TxMsg) -> TxMsg
+```
+
+```python
+FeePlan.quote(self) -> FeeQuote
+```
+
+```python
+NativeFeeEstimate.quote(self) -> FeeQuote
+```
+
+```python
+def burned_instances(msg: TxMsg) -> list[BurnedInstance]
+```
+
+```python
+def envelope_bytes_for(kind: NativeFeeKind, serialized_message_length: int, witness_count: int) -> int
+```
+
+```python
+def estimate_native_fee(kind: NativeFeeKind, config: GasConfig, params: NativeFeeParams | None = None) -> NativeFeeEstimate
+```
+
+```python
+def estimate_native_fee_batch(parts: list[NativeFeePart], config: GasConfig, transaction: NativeFeeTransactionParams | None = None) -> NativeFeeEstimate
+```
+
+```python
+def phantasma_canonical_rom_bytes(public_rom_bytes: int) -> int
+```
+
+```python
+def plan_and_sign_with_keys(msg: TxMsg, keys: Sequence[PhantasmaKeys], config: GasConfig | None = None, options: PlanAndSignOptions | None = None) -> bytes
+```
+
+```python
+def plan_fees(msg: TxMsg, config: GasConfig, options: FeePlanOptions | None = None) -> FeePlan
+```
+
+```python
+def storage_quanta_for(row_bytes: int) -> int
+```
+
+```python
+def summarize_fee_plan(plan: FeePlan) -> FeePlanSummary
+```
+
+```python
+def summarize_fee_plan_with_decimals(plan: FeePlan, gas_decimals: int, data_decimals: int) -> FeePlanSummary
 ```
 
 ## phantasma_py.rpc
@@ -2057,6 +2482,10 @@ class StorageResult
 ```
 
 ```python
+class AccountInfoResult
+```
+
+```python
 class AccountResult
 ```
 
@@ -2081,6 +2510,18 @@ class ChainResult
 ```
 
 ```python
+class GasConfigDataResult
+```
+
+```python
+class GasConfigResult
+```
+
+```python
+class EstimateTransactionResult
+```
+
+```python
 class NexusResult
 ```
 
@@ -2102,10 +2543,6 @@ class OracleResult
 
 ```python
 class SignatureResult
-```
-
-```python
-class EventExResult
 ```
 
 ```python
@@ -2213,6 +2650,30 @@ class PhantasmaVMConfigResult
 ```
 
 ```python
+class ChainFeeParams
+```
+
+```python
+class PlanRequestOptions
+```
+
+```python
+class SendTransactionOptions
+```
+
+```python
+class PreflightVerdict(Enum)
+```
+
+```python
+class PreflightResult
+```
+
+```python
+class FeePlanner
+```
+
+```python
 class JsonRpcClient
 ```
 
@@ -2231,6 +2692,10 @@ class PhantasmaRPC
 - `ABIMethodResult.return_type: str`
 - `ABIParameterResult.name: str`
 - `ABIParameterResult.type: str`
+- `ADDRESS_TYPE_CARBON`
+- `AccountInfoResult.address: str`
+- `AccountInfoResult.name: str`
+- `AccountInfoResult.stake: StakeResult`
 - `AccountResult.address: str`
 - `AccountResult.balances: list[BalanceResult]`
 - `AccountResult.name: str`
@@ -2277,6 +2742,7 @@ class PhantasmaRPC
 - `BlockResult.height: int`
 - `BlockResult.oracles: list[OracleResult] | None`
 - `BlockResult.previous_hash: str`
+- `BlockResult.producer_address: str | None`
 - `BlockResult.protocol: int`
 - `BlockResult.reward: str`
 - `BlockResult.timestamp: int`
@@ -2285,6 +2751,9 @@ class PhantasmaRPC
 - `BuildInfoResult.build_time_utc: str`
 - `BuildInfoResult.commit: str`
 - `BuildInfoResult.version: str`
+- `ChainFeeParams.block_rate_target_ms: int`
+- `ChainFeeParams.expiry_window_ms: int`
+- `ChainFeeParams.gas_model_version: int`
 - `ChainResult.address: str | None`
 - `ChainResult.contracts: list[str] | None`
 - `ChainResult.dapps: list[str] | None`
@@ -2323,19 +2792,58 @@ class PhantasmaRPC
 - `CrowdsaleResult.user_soft_cap: str`
 - `CursorPaginatedResult.cursor: str | None`
 - `CursorPaginatedResult.result: T | None`
+- `DEFAULT_FEE_CONFIG_TTL_SECONDS`
 - `DEFAULT_MAX_RPC_RESPONSE_BYTES`
 - `DappResult.address: str`
 - `DappResult.chain: str`
 - `DappResult.name: str`
-- `EventExResult.address: str`
-- `EventExResult.contract: str`
-- `EventExResult.data: Any | None`
-- `EventExResult.kind: str`
+- `EstimateTransactionResult.abort_reason: str`
+- `EstimateTransactionResult.data_escrow_atoms: str | None`
+- `EstimateTransactionResult.data_refund_atoms: str | None`
+- `EstimateTransactionResult.data_rows: str | None`
+- `EstimateTransactionResult.gas_bill_kcal_base: str | None`
+- `EstimateTransactionResult.recommended_max_data: str | None`
+- `EstimateTransactionResult.recommended_max_gas: str | None`
+- `EstimateTransactionResult.would_abort: bool`
 - `EventResult.address: str`
 - `EventResult.contract: str`
 - `EventResult.data: str`
 - `EventResult.kind: str`
 - `EventResult.name: str`
+- `GasConfigDataResult.data_escrow_per_row: str | None`
+- `GasConfigDataResult.data_token_id: str | None`
+- `GasConfigDataResult.fee_multiplier: str | None`
+- `GasConfigDataResult.fee_shift: int`
+- `GasConfigDataResult.gas_burn_ratio_mul: str | None`
+- `GasConfigDataResult.gas_burn_ratio_shift: int`
+- `GasConfigDataResult.gas_dapp_ratio_mul: str | None`
+- `GasConfigDataResult.gas_dapp_ratio_shift: int | None`
+- `GasConfigDataResult.gas_fee_create_token_base: str | None`
+- `GasConfigDataResult.gas_fee_create_token_series: str | None`
+- `GasConfigDataResult.gas_fee_create_token_symbol: str | None`
+- `GasConfigDataResult.gas_fee_per_byte: str | None`
+- `GasConfigDataResult.gas_fee_query: str | None`
+- `GasConfigDataResult.gas_fee_register_name: str | None`
+- `GasConfigDataResult.gas_fee_transfer: str | None`
+- `GasConfigDataResult.gas_producer_ratio_mul: str | None`
+- `GasConfigDataResult.gas_producer_ratio_shift: int | None`
+- `GasConfigDataResult.gas_token_id: str | None`
+- `GasConfigDataResult.legacy_data_escrow_per_row: str | None`
+- `GasConfigDataResult.max_name_length: int`
+- `GasConfigDataResult.max_structure_size: int`
+- `GasConfigDataResult.max_token_symbol_length: int`
+- `GasConfigDataResult.minimum_gas_bill: str | None`
+- `GasConfigDataResult.minimum_gas_offer: str | None`
+- `GasConfigDataResult.policy_fee_create_token_base: str | None`
+- `GasConfigDataResult.policy_fee_create_token_series: str | None`
+- `GasConfigDataResult.policy_fee_create_token_symbol: str | None`
+- `GasConfigDataResult.policy_fee_register_name: str | None`
+- `GasConfigDataResult.version: int`
+- `GasConfigResult.block_rate_target: int`
+- `GasConfigResult.expiry_window: int`
+- `GasConfigResult.gas_config: GasConfigDataResult | None`
+- `GasConfigResult.gas_model_version: int`
+- `GasConfigResult.units_per_block_data_byte: int | None`
 - `GovernanceResult.name: str`
 - `GovernanceResult.value: str`
 - `InteropResult.external: str`
@@ -2382,11 +2890,20 @@ class PhantasmaRPC
 - `PhantasmaVMConfigResult.gas_organization: str`
 - `PhantasmaVMConfigResult.gas_standard: str`
 - `PhantasmaVMConfigResult.is_stored: bool`
+- `PlanRequestOptions.facts: FeePlanOptions`
+- `PlanRequestOptions.refresh_config: bool`
 - `PlatformResult.chain: str`
 - `PlatformResult.fuel: str`
 - `PlatformResult.interop: list[InteropResult]`
 - `PlatformResult.platform: str`
 - `PlatformResult.tokens: list[str]`
+- `PreflightResult.reason: str`
+- `PreflightResult.subject: str`
+- `PreflightResult.verdict: PreflightVerdict`
+- `PreflightVerdict.FREE`
+- `PreflightVerdict.NOT_APPLICABLE`
+- `PreflightVerdict.TAKEN`
+- `PreflightVerdict.UNKNOWN`
 - `ReceiptResult.channel: str`
 - `ReceiptResult.index: str`
 - `ReceiptResult.nexus: str`
@@ -2401,6 +2918,8 @@ class PhantasmaRPC
 - `ScriptResult.result: str | None`
 - `ScriptResult.results: list[str]`
 - `ScriptResult.state: str | None`
+- `SendTransactionOptions.plan: PlanRequestOptions`
+- `SendTransactionOptions.skip_preflight: bool`
 - `SignatureResult.data: str`
 - `SignatureResult.kind: str`
 - `StakeResult.amount: str`
@@ -2443,7 +2962,7 @@ class PhantasmaRPC
 - `TokenPriceResult.open: str`
 - `TokenPriceResult.timestamp: int`
 - `TokenPropertyResult.key: str`
-- `TokenPropertyResult.value: str`
+- `TokenPropertyResult.value: VmValue`
 - `TokenResult.address: str`
 - `TokenResult.burned_supply: str`
 - `TokenResult.carbon_id: str`
@@ -2518,6 +3037,38 @@ BalanceResult.decimal_amount(self) -> str
 ```
 
 ```python
+EstimateTransactionResult.to_fee_quote(self) -> FeeQuote
+```
+
+```python
+FeePlanner.__init__(self, client: PhantasmaRPC, *, config_ttl: float = DEFAULT_FEE_CONFIG_TTL_SECONDS, clock: Callable[[], float] = time.monotonic) -> None
+```
+
+```python
+FeePlanner.chain_params(self, refresh: bool = False) -> ChainFeeParams
+```
+
+```python
+FeePlanner.config(self, refresh: bool = False) -> GasConfig
+```
+
+```python
+FeePlanner.invalidate(self) -> None
+```
+
+```python
+FeePlanner.plan(self, msg: TxMsg, options: PlanRequestOptions | None = None) -> FeePlan
+```
+
+```python
+FeePlanner.plan_with(self, config: GasConfig, msg: TxMsg, options: FeePlanOptions | None = None) -> FeePlan
+```
+
+```python
+GasConfigResult.to_gas_config(self) -> GasConfig
+```
+
+```python
 HTTPSession.post(self, url: str, *, json: Mapping[str, Any], timeout: float, stream: bool = False, headers: Mapping[str, str] | None = None) -> Any
 ```
 
@@ -2530,11 +3081,19 @@ JsonRpcClient.call(self, method: str, *params) -> Any
 ```
 
 ```python
-PhantasmaRPC.__init__(self, endpoint: str, *, session: HTTPSession | None = None, timeout: float = 30.0, max_response_bytes: int = DEFAULT_MAX_RPC_RESPONSE_BYTES, api_key: str | None = None) -> None
+PhantasmaRPC.__init__(self, endpoint: str, *, session: HTTPSession | None = None, timeout: float = 30.0, max_response_bytes: int = DEFAULT_MAX_RPC_RESPONSE_BYTES, api_key: str | None = None, fee_config_ttl: float = DEFAULT_FEE_CONFIG_TTL_SECONDS) -> None
 ```
 
 ```python
 PhantasmaRPC.call(self, method: str, *params) -> Any
+```
+
+```python
+PhantasmaRPC.control_token_id(self) -> int
+```
+
+```python
+PhantasmaRPC.estimate_transaction(self, tx_data: str) -> EstimateTransactionResult
 ```
 
 ```python
@@ -2547,6 +3106,14 @@ PhantasmaRPC.get_account_fungible_tokens(self, account: str, token_symbol: str =
 
 ```python
 PhantasmaRPC.get_account_fungible_tokens_with_address_type(self, account: str, token_symbol: str, carbon_token_id: int, page_size: int, cursor: str, check_address_reserved_byte: bool, address_type: str) -> CursorPaginatedResult[list[BalanceResult]]
+```
+
+```python
+PhantasmaRPC.get_account_info(self, address: str, *, check_address_reserved_byte: bool | None = None, address_type: str | None = None) -> AccountInfoResult
+```
+
+```python
+PhantasmaRPC.get_account_infos(self, addresses: Sequence[str], *, check_address_reserved_byte: bool | None = None, address_type: str | None = None) -> list[AccountInfoResult]
 ```
 
 ```python
@@ -2655,6 +3222,10 @@ PhantasmaRPC.get_contract_by_name(self, chain: str, contract_name: str) -> Contr
 
 ```python
 PhantasmaRPC.get_contracts(self, chain: str = 'main', *, extended: bool = True) -> list[ContractResult]
+```
+
+```python
+PhantasmaRPC.get_gas_config(self) -> GasConfigResult
 ```
 
 ```python
@@ -2778,6 +3349,10 @@ PhantasmaRPC.get_version(self) -> BuildInfoResult
 ```
 
 ```python
+PhantasmaRPC.infused_assets(self, token_id: int, instance_id: int) -> list[InfusedAsset]
+```
+
+```python
 PhantasmaRPC.invoke_raw_script(self, chain: str, script_hex: str) -> ScriptResult
 ```
 
@@ -2802,6 +3377,10 @@ PhantasmaRPC.parse_create_token_series_result(self, result_hex: str) -> int
 ```
 
 ```python
+PhantasmaRPC.preflight_transaction(self, msg: TxMsg) -> PreflightResult
+```
+
+```python
 PhantasmaRPC.read_archive(self, archive_hash: str, block_index: int) -> str
 ```
 
@@ -2814,19 +3393,15 @@ PhantasmaRPC.send_raw_transaction(self, tx: Transaction | bytes | str) -> str
 ```
 
 ```python
+PhantasmaRPC.send_transaction(self, msg: TxMsg, signers: Sequence[TxSigner], options: SendTransactionOptions | None = None) -> str
+```
+
+```python
 PhantasmaRPC.sign_and_send_built_transaction(self, tx: Transaction, keys: PhantasmaKeys) -> str
 ```
 
 ```python
-PhantasmaRPC.sign_and_send_carbon_transaction(self, msg: TxMsg, keys: PhantasmaKeys) -> str
-```
-
-```python
 PhantasmaRPC.sign_and_send_transaction(self, keys: PhantasmaKeys, nexus: str, script: bytes, chain: str = 'main', payload: bytes | str = b'', *, expiration: int | None = None) -> str
-```
-
-```python
-PhantasmaRPC.sign_carbon_transaction(self, msg: TxMsg, keys: PhantasmaKeys) -> SignedTxMsg
 ```
 
 ```python
@@ -2903,6 +3478,373 @@ TransactionResult.state_is_success(self) -> bool
 
 ```python
 def convert_decimals(raw: str | int, decimals: int, separator: str = '.') -> str
+```
+
+## phantasma_py.special_resolution_arguments
+
+Source: `src/phantasma_py/special_resolution_arguments.py`
+
+### Declarations
+
+```python
+class RawArguments
+```
+
+```python
+class UnrecognizedArguments
+```
+
+```python
+class GasConfigArguments
+```
+
+```python
+class ChainConfigArguments
+```
+
+```python
+class NestedResolutionArguments
+```
+
+```python
+class MetadataArguments
+```
+
+```python
+class ConsensusNode
+```
+
+```python
+class NodeConfigArguments
+```
+
+```python
+class RegisterNameArguments
+```
+
+```python
+class AddressArguments
+```
+
+```python
+class NameArguments
+```
+
+```python
+class ExecuteScriptArguments
+```
+
+```python
+class RegisterTokenContractArguments
+```
+
+```python
+class DeployContractArguments
+```
+
+```python
+class PhantasmaVmConfigArguments
+```
+
+```python
+class ContractStorageRow
+```
+
+```python
+class ContractStorageTable
+```
+
+```python
+class ImportedContract
+```
+
+```python
+class ImportContractsArguments
+```
+
+```python
+class SeriesSupplement
+```
+
+```python
+class SeriesMintCountRepair
+```
+
+```python
+class RepairSeriesArguments
+```
+
+```python
+class TokenRepair
+```
+
+```python
+class RepairTokenArguments
+```
+
+```python
+class TokenReferenceArguments
+```
+
+```python
+class TokenSeriesReferenceArguments(TokenReferenceArguments)
+```
+
+```python
+class SymbolArguments
+```
+
+```python
+class TransferFungibleArguments(TokenReferenceArguments)
+```
+
+```python
+class TransferNonFungibleArguments(TokenReferenceArguments)
+```
+
+```python
+class MintFungibleArguments(TokenReferenceArguments)
+```
+
+```python
+class BurnFungibleArguments(TokenReferenceArguments)
+```
+
+```python
+class BalanceArguments(TokenReferenceArguments)
+```
+
+```python
+class CreateTokenArguments
+```
+
+```python
+class TokenSeriesArguments(TokenReferenceArguments)
+```
+
+```python
+class CreateMintedTokenSeriesArguments(TokenSeriesArguments)
+```
+
+```python
+class NftMint
+```
+
+```python
+class PhantasmaNftMint
+```
+
+```python
+class MintNonFungibleArguments(TokenReferenceArguments)
+```
+
+```python
+class MintPhantasmaNonFungibleArguments(TokenReferenceArguments)
+```
+
+```python
+class BurnNonFungibleArguments(TokenReferenceArguments)
+```
+
+```python
+class NonFungibleInfoArguments(TokenReferenceArguments)
+```
+
+```python
+class NonFungibleInfoByRomIdArguments(TokenReferenceArguments)
+```
+
+```python
+class SeriesInfoByMetaIdArguments(TokenReferenceArguments)
+```
+
+```python
+class TokensConfigArguments
+```
+
+```python
+class UpdateTokenMetadataArguments(TokenReferenceArguments)
+```
+
+```python
+class UpdateSeriesMetadataArguments(TokenReferenceArguments)
+```
+
+### Fields
+
+- `ARGUMENT_SHAPES: dict[str, dict[str, type[SpecialResolutionArguments]]]`
+- `AddressArguments.address: str`
+- `BalanceArguments.address: str`
+- `BurnFungibleArguments.amount: str`
+- `BurnFungibleArguments.from_: str`
+- `BurnNonFungibleArguments.address: str`
+- `BurnNonFungibleArguments.instance_ids: list[str]`
+- `ChainConfigArguments.allowed_tx_types: str`
+- `ChainConfigArguments.block_rate_target: str`
+- `ChainConfigArguments.expiry_window: str`
+- `ChainConfigArguments.reserved1: str`
+- `ChainConfigArguments.reserved2: str`
+- `ChainConfigArguments.reserved3: str`
+- `ChainConfigArguments.version: str`
+- `ConsensusNode.id: str`
+- `ConsensusNode.type: str`
+- `ContractStorageRow.key: str`
+- `ContractStorageRow.value: str`
+- `ContractStorageTable.name: str`
+- `ContractStorageTable.rows: list[ContractStorageRow]`
+- `CreateMintedTokenSeriesArguments.rams: list[str]`
+- `CreateMintedTokenSeriesArguments.recipient: str`
+- `CreateMintedTokenSeriesArguments.roms: list[str]`
+- `CreateTokenArguments.decimals: str`
+- `CreateTokenArguments.flags: str`
+- `CreateTokenArguments.max_supply: str`
+- `CreateTokenArguments.metadata: dict[str, VmValue] | None`
+- `CreateTokenArguments.owner: str`
+- `CreateTokenArguments.symbol: str`
+- `CreateTokenArguments.token_schemas: str | None`
+- `DeployContractArguments.abi: str`
+- `DeployContractArguments.contract_name: str`
+- `DeployContractArguments.from_: str`
+- `DeployContractArguments.script: str`
+- `ExecuteScriptArguments.gas_from: str`
+- `ExecuteScriptArguments.max_gas: str`
+- `ExecuteScriptArguments.script: str`
+- `GasConfigArguments.data_escrow_per_row: str`
+- `GasConfigArguments.data_token_id: str`
+- `GasConfigArguments.fee_multiplier: str`
+- `GasConfigArguments.fee_shift: str`
+- `GasConfigArguments.gas_burn_ratio_mul: str`
+- `GasConfigArguments.gas_burn_ratio_shift: str`
+- `GasConfigArguments.gas_dapp_ratio_mul: str | None`
+- `GasConfigArguments.gas_dapp_ratio_shift: str | None`
+- `GasConfigArguments.gas_fee_create_token_base: str`
+- `GasConfigArguments.gas_fee_create_token_series: str`
+- `GasConfigArguments.gas_fee_create_token_symbol: str`
+- `GasConfigArguments.gas_fee_per_byte: str`
+- `GasConfigArguments.gas_fee_query: str`
+- `GasConfigArguments.gas_fee_register_name: str`
+- `GasConfigArguments.gas_fee_transfer: str`
+- `GasConfigArguments.gas_producer_ratio_mul: str | None`
+- `GasConfigArguments.gas_producer_ratio_shift: str | None`
+- `GasConfigArguments.gas_token_id: str`
+- `GasConfigArguments.legacy_data_escrow_per_row: str | None`
+- `GasConfigArguments.max_name_length: str`
+- `GasConfigArguments.max_structure_size: str`
+- `GasConfigArguments.max_token_symbol_length: str`
+- `GasConfigArguments.minimum_gas_bill: str | None`
+- `GasConfigArguments.minimum_gas_offer: str`
+- `GasConfigArguments.policy_fee_create_token_base: str | None`
+- `GasConfigArguments.policy_fee_create_token_series: str | None`
+- `GasConfigArguments.policy_fee_create_token_symbol: str | None`
+- `GasConfigArguments.policy_fee_register_name: str | None`
+- `GasConfigArguments.version: str`
+- `ImportContractsArguments.contracts: list[ImportedContract]`
+- `ImportContractsArguments.contracts_count: str`
+- `ImportedContract.abi: str`
+- `ImportedContract.address: str`
+- `ImportedContract.name: str`
+- `ImportedContract.owner: str`
+- `ImportedContract.root_variables: list[ContractStorageRow]`
+- `ImportedContract.script: str`
+- `ImportedContract.tables: list[ContractStorageTable]`
+- `MetadataArguments.metadata: dict[str, VmValue]`
+- `MintFungibleArguments.amount: str`
+- `MintFungibleArguments.to: str`
+- `MintNonFungibleArguments.owner: str`
+- `MintNonFungibleArguments.tokens: list[NftMint]`
+- `MintPhantasmaNonFungibleArguments.owner: str`
+- `MintPhantasmaNonFungibleArguments.tokens: list[PhantasmaNftMint]`
+- `NameArguments.name: str`
+- `NestedResolutionArguments.resolution_id: str`
+- `NftMint.ram: str`
+- `NftMint.rom: str`
+- `NftMint.series_id: str`
+- `NodeConfigArguments.nodes: list[ConsensusNode]`
+- `NonFungibleInfoArguments.get_schemas: str`
+- `NonFungibleInfoArguments.instance_id: str`
+- `NonFungibleInfoByRomIdArguments.get_schemas: str`
+- `NonFungibleInfoByRomIdArguments.rom_id: str`
+- `PhantasmaNftMint.phantasma_series_id: str`
+- `PhantasmaNftMint.ram: str`
+- `PhantasmaNftMint.rom: str`
+- `PhantasmaVmConfigArguments.feature_level: str`
+- `PhantasmaVmConfigArguments.fuel_per_contract_deploy: str`
+- `PhantasmaVmConfigArguments.gas_account: str`
+- `PhantasmaVmConfigArguments.gas_constructor: str`
+- `PhantasmaVmConfigArguments.gas_leaderboard: str`
+- `PhantasmaVmConfigArguments.gas_nexus: str`
+- `PhantasmaVmConfigArguments.gas_oracle: str`
+- `PhantasmaVmConfigArguments.gas_organization: str`
+- `PhantasmaVmConfigArguments.gas_standard: str`
+- `RawArguments.raw_args: str`
+- `RegisterNameArguments.address: str`
+- `RegisterNameArguments.name: str`
+- `RegisterTokenContractArguments.abi: str`
+- `RegisterTokenContractArguments.script: str`
+- `RegisterTokenContractArguments.symbol: str`
+- `RegisterTokenContractArguments.token: str | None`
+- `RegisterTokenContractArguments.token_id: str`
+- `RepairSeriesArguments.repairs: list[SeriesMintCountRepair]`
+- `RepairSeriesArguments.repairs_count: str`
+- `RepairSeriesArguments.supplements: list[SeriesSupplement]`
+- `RepairSeriesArguments.supplements_count: str`
+- `RepairTokenArguments.repairs: list[TokenRepair]`
+- `RepairTokenArguments.repairs_count: str`
+- `SeriesInfoByMetaIdArguments.rom_id: str`
+- `SeriesMintCountRepair.abi: str`
+- `SeriesMintCountRepair.imported_live_count: str`
+- `SeriesMintCountRepair.phantasma_series_id: str`
+- `SeriesMintCountRepair.script: str`
+- `SeriesMintCountRepair.token: str`
+- `SeriesMintCountRepair.token_id: str`
+- `SeriesSupplement.abi: str`
+- `SeriesSupplement.max_supply: str`
+- `SeriesSupplement.mint_count: str`
+- `SeriesSupplement.mode: str`
+- `SeriesSupplement.phantasma_series_id: str`
+- `SeriesSupplement.rom: str`
+- `SeriesSupplement.script: str`
+- `SeriesSupplement.token: str`
+- `SeriesSupplement.token_id: str`
+- `SpecialResolutionArguments`
+- `SymbolArguments.symbol: str`
+- `TokenReferenceArguments.token: str`
+- `TokenReferenceArguments.token_id: str`
+- `TokenRepair.abi: str`
+- `TokenRepair.repair_mask: str`
+- `TokenRepair.script: str`
+- `TokenRepair.symbol: str`
+- `TokenRepair.token: str`
+- `TokenRepair.token_flags: str`
+- `TokenRepair.token_id: str`
+- `TokenSeriesArguments.max_mint: str`
+- `TokenSeriesArguments.max_supply: str`
+- `TokenSeriesArguments.metadata: dict[str, VmValue] | None`
+- `TokenSeriesArguments.metadata_raw: str | None`
+- `TokenSeriesArguments.owner: str`
+- `TokenSeriesArguments.series_id: str | None`
+- `TokenSeriesReferenceArguments.series_id: str`
+- `TokensConfigArguments.flags: str`
+- `TokensConfigArguments.flags_names: list[str]`
+- `TransferFungibleArguments.amount: str`
+- `TransferFungibleArguments.from_: str`
+- `TransferFungibleArguments.to: str`
+- `TransferNonFungibleArguments.from_: str`
+- `TransferNonFungibleArguments.instance_ids: list[str]`
+- `TransferNonFungibleArguments.to: str`
+- `UnrecognizedArguments.data: Any`
+- `UpdateSeriesMetadataArguments.metadata: str`
+- `UpdateSeriesMetadataArguments.series_id: str`
+- `UpdateTokenMetadataArguments.metadata: dict[str, VmValue] | None`
+
+### Methods
+
+```python
+UnrecognizedArguments.to_wire(self) -> Any
+```
+
+```python
+def decode_special_resolution_arguments(module: str, method: str, raw: Any) -> SpecialResolutionArguments | None
 ```
 
 ## phantasma_py.transaction
@@ -3300,4 +4242,66 @@ VMObject.to_bytes(self) -> bytes
 
 ```python
 VMObject.write(self, writer: BinaryWriter) -> None
+```
+
+## phantasma_py.vm_value
+
+Source: `src/phantasma_py/vm_value.py`
+
+### Declarations
+
+```python
+class VmValue
+```
+
+### Fields
+
+- `VmValue.fields: Mapping[str, VmValue] | None`
+- `VmValue.items: tuple[VmValue, ...] | None`
+- `VmValue.text: str | None`
+
+### Methods
+
+```python
+VmValue.__str__(self) -> str
+```
+
+```python
+VmValue.as_fields(self) -> Mapping[str, VmValue] | None
+```
+
+```python
+VmValue.as_items(self) -> tuple[VmValue, ...] | None
+```
+
+```python
+VmValue.as_text(self) -> str | None
+```
+
+```python
+VmValue.from_wire(cls, value: Any) -> VmValue
+```
+
+```python
+VmValue.get(self, name: str) -> VmValue | None
+```
+
+```python
+VmValue.is_text(self) -> bool
+```
+
+```python
+VmValue.of_fields(cls, fields_: Mapping[str, VmValue]) -> VmValue
+```
+
+```python
+VmValue.of_items(cls, items: Iterable[VmValue]) -> VmValue
+```
+
+```python
+VmValue.of_text(cls, text: str) -> VmValue
+```
+
+```python
+VmValue.to_wire(self) -> Any
 ```

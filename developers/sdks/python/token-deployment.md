@@ -76,7 +76,7 @@ series metadata instead of each NFT ROM.
 ```python
 from phantasma_py.carbon import (
     IntX,
-    build_create_token_tx_and_sign_hex,
+    build_create_token_tx,
     build_token_info,
     build_token_metadata,
     bytes32_from_public_key,
@@ -106,9 +106,10 @@ token_info = build_token_info(
     token_schemas=serialize(schemas),
 )
 
-create_token_hex = build_create_token_tx_and_sign_hex(token_info, keys)
-print(create_token_hex)
+msg = build_create_token_tx(token_info, owner)
 ```
+
+The builder carries no prices, so the message leaves it with a zero gas offer.
 
 For NFT tokens:
 
@@ -124,13 +125,26 @@ from phantasma_py.carbon import parse_create_token_result
 from phantasma_py.rpc import PhantasmaRPC
 
 rpc = PhantasmaRPC("https://testnet.phantasma.info/rpc")
-tx_hash = rpc.send_carbon_transaction(create_token_hex)
+
+# Plans the fee, checks that the symbol is free, signs and broadcasts.
+tx_hash = rpc.send_transaction(msg, [keys])
 
 tx_result = rpc.get_transaction(tx_hash)
+if not tx_result.state_is_success:
+    raise RuntimeError(f"token deployment failed: {tx_result.state}")
+
 carbon_token_id = parse_create_token_result(tx_result.result)
 
 print(carbon_token_id)
 ```
+
+{% hint style="warning" %}
+A token creation pays its policy fee before the chain looks at the symbol, and
+that fee is the largest single price in the protocol. A symbol that is already
+taken costs the fee and returns nothing. `send_transaction` asks the chain first
+and refuses to send when the symbol is taken, or when the lookup established
+nothing. See [Fees And Broadcasting](/developers/sdks/python/fees-and-broadcasting.md).
+{% endhint %}
 
 This broadcast block is live network code. The SDK tests verify serialization,
 signing, and result parsing; funded live broadcasting must be done by the

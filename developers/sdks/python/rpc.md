@@ -41,7 +41,7 @@ except RPCError as exc:
 from phantasma_py.rpc import PhantasmaRPC
 
 rpc = PhantasmaRPC.mainnet()
-account = rpc.get_account("P...", extended=False)
+info = rpc.get_account_info("P...")
 balance = account.get_token_balance("SOUL", decimals=8)
 
 print(balance.decimal_amount())
@@ -158,7 +158,7 @@ tx_hash = rpc.send_raw_transaction(raw_transaction_hex)
 carbon_hash = rpc.send_carbon_transaction(raw_carbon_transaction_hex)
 ```
 
-Use `sign_and_send_transaction(...)` and `sign_and_send_carbon_transaction(...)`
+Use `sign_and_send_transaction(...)` for VM transactions and `send_transaction(...)` for Carbon messages
 only with keys, funds, and endpoints that are intentionally selected by the
 caller.
 
