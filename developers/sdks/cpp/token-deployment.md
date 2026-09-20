@@ -20,11 +20,30 @@ tokenInfo.metadata = ByteView{metadataBytes.data(), metadataBytes.size()};
 tokenInfo.tokenSchemas = ByteView{schemaBytes.data(), schemaBytes.size()};
 
 auto env = CreateTokenTxHelper::BuildTx(tokenInfo, tokenInfo.owner);
+
+// The builder carries no prices. Plan the message, then sign it.
+const Blockchain::GasConfig config = ToGasConfig(api.GetGasConfig().gasConfig);
+FeePlanOptions options;
+options.witnessCount = 1;
+options.infusionsRead = true;
+FeePlan plan;
+if( !PlanFees(env.msg, config, options, plan) )
+    return;
+
+env.msg = plan.Apply(env.msg);
 auto signedBytes = SignAndSerialize(env, keys);
 ```
 
-The helper computes `maxGas` with `CreateTokenFeeOptions` and uses default
-expiry when the caller passes `expiry = 0`.
+`SendTransaction` in `Carbon/Send.h` does the whole flow instead: it checks the
+symbol, plans the fee, signs and broadcasts.
+
+{% hint style="warning" %}
+`Token.CreateToken` pays its policy fee before the contract looks at the symbol,
+and that fee is the largest single price in the protocol. A symbol that is
+already taken costs the fee and returns nothing. `PreflightTransaction` asks the
+chain first. See
+[Fees And Broadcasting](/developers/sdks/cpp/fees-and-broadcasting.md).
+{% endhint %}
 
 ## After Broadcast
 

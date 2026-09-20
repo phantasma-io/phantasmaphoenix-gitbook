@@ -50,13 +50,23 @@ The generated API includes current chain and Carbon-era wrappers for:
 
 | Area | Methods |
 | ---- | ------- |
-| Accounts and balances | `GetAccount`, `GetAccounts`, `LookUpName`, `GetTokenBalance`, account inventory cursor methods |
+| Accounts and balances | `GetAccountInfo`, `GetAccountInfos`, `LookUpName`, `GetTokenBalance`, account inventory cursor methods |
 | Blocks and transactions | `GetBlockHeight`, `GetBlockByHash`, `GetBlockByHeight`, `GetLatestBlock`, transaction-by-block methods, `GetTransaction` |
 | Chain metadata | `GetChains`, `GetChain`, `GetNexus`, `GetPhantasmaVmConfig`, `GetVersion` |
 | Contracts and organizations | `GetContracts`, `GetContract`, `GetContractByAddress`, organization and leaderboard wrappers |
-| Tokens, series, NFTs | `GetTokens`, `GetToken`, `GetTokenSeries`, `GetTokenSeriesById`, `GetTokenNFTs`, `GetTokenData`, `GetNFT`, `GetNFTs` |
+| Tokens, series, NFTs | `GetTokens`, `GetToken`, `GetTokenSeries`, `GetTokenSeriesById`, `GetTokenNFTs`, `GetNFT`, `GetNFTs` |
+| Fees | `GetGasConfig`, `EstimateTransaction` |
 | Archives and auctions | `GetArchive`, `ReadArchive`, `WriteArchive`, auction wrappers |
 | Broadcast and invoke | `InvokeRawScript`, `SendRawTransaction`, `SendCarbonTransaction` |
+
+`GetAccountInfo` returns the account name and the staking info. Its cost does
+not depend on how much the address holds, which makes it the call for a refresh
+loop. `GetAccountInfos` answers up to 100 addresses in one call.
+
+`GetAccount` and `GetAccounts` are deprecated. Their response embeds every NFT
+id the address owns, and the node caps each `balances[].ids` list at 10000
+entries while `balances[].amount` keeps the true count. `GetTokenData` is
+deprecated too, because `GetNFT` covers it entirely.
 
 ## Stubbed Node Methods
 

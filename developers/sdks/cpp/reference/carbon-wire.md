@@ -37,14 +37,21 @@ exceed the remaining input.
 | `PhantasmaNftMintResult` | Deterministic mint result row. |
 | `TokenMetadataBuilder` | Token metadata bytes. |
 
-## Fee Options
+## Fee Planning
 
 | Type | Formula |
 | ---- | ------- |
-| `FeeOptions` | `CalculateMaxGas(count)` returns `gasFeeBase * feeMultiplier * count`; `count` must be positive. |
-| `CreateTokenFeeOptions` | Adds create-token base and symbol-length cost before multiplying. |
-| `CreateSeriesFeeOptions` | Adds create-series base before multiplying and rejects meaningful count values. |
-| `MintNftFeeOptions` | Scales one-mint gas by count for deterministic Phantasma NFT batches. |
+| `PlanFees(msg, config, options, out)` | Prices a message from the message itself. It touches no network. |
+| `ChainFeePlanner` | The same plan against a chain. It holds the gas config and reads a burn's infusions. |
+| `FeePlan` | `maxGas`, `maxData`, `expectedGasBill`, `kinds`, `exact`, `envelopeBytes`, `Apply(msg)`. |
+| `FeePlanOptions` | The chain-state facts a caller may state, plus `witnessCount`. |
+| `SummarizeFeePlan(plan)` | `gasBill`, `gasOffer` and `storageCeiling` as decimal strings. |
+| `FormatTokenAmount`, `ParseTokenAmount` | Conversion between atoms and decimal amounts. |
+| `BurnedInstances(msg)` | The NFT instances a message burns, in any shape. |
+| `ReadInfusedAssets(api, msg, out)` | What the burned instances hold, read from the chain. |
+| `TxLimits`, `DefaultExpiryMs`, `ExpiryWithin` | The limits a builder writes, and the chain's expiry window. |
+| `PreflightTransaction(api, msg, controlTokenId)` | The symbol check before a token creation is signed. |
+| `SendTransaction(api, msg, signers, config, options, outHash, outError)` | Build, plan, check, sign and send in one call. |
 
 Overflow is reported through the SDK exception macro path.
 

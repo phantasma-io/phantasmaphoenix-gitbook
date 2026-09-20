@@ -600,6 +600,16 @@ WriteView w(buffer)
 struct Throw
 ```
 
+## Carbon/ChainFeePlan.h
+
+Source: `include/Carbon/ChainFeePlan.h`
+
+### Declarations
+
+```cpp
+class ChainFeePlanner
+```
+
 ## Carbon/Contracts/Market.h
 
 Source: `include/Carbon/Contracts/Market.h`
@@ -1190,6 +1200,10 @@ Source: `include/Carbon/DataBlockchain.h`
 ### Declarations
 
 ```cpp
+ReadView r(bytes, alloc, ReadView::InPlace)
+```
+
+```cpp
 WriteView w(buffer)
 ```
 
@@ -1356,6 +1370,10 @@ GasConfig::uint64_t gasBurnRatioMul = 0
 ```
 
 ```cpp
+GasConfig::uint64_t gasDappRatioMul = 0
+```
+
+```cpp
 GasConfig::uint64_t gasFeeCreateTokenBase = 0
 ```
 
@@ -1384,11 +1402,39 @@ GasConfig::uint64_t gasFeeTransfer = 0
 ```
 
 ```cpp
+GasConfig::uint64_t gasProducerRatioMul = 0
+```
+
+```cpp
 GasConfig::uint64_t gasTokenId = 0
 ```
 
 ```cpp
+GasConfig::uint64_t legacyDataEscrowPerRow = 0
+```
+
+```cpp
+GasConfig::uint64_t minimumGasBill = 0
+```
+
+```cpp
 GasConfig::uint64_t minimumGasOffer = 0
+```
+
+```cpp
+GasConfig::uint64_t policyFeeCreateTokenBase = 0
+```
+
+```cpp
+GasConfig::uint64_t policyFeeCreateTokenSeries = 0
+```
+
+```cpp
+GasConfig::uint64_t policyFeeCreateTokenSymbol = 0
+```
+
+```cpp
+GasConfig::uint64_t policyFeeRegisterName = 0
 ```
 
 ```cpp
@@ -1397,6 +1443,14 @@ GasConfig::uint8_t feeShift = 0
 
 ```cpp
 GasConfig::uint8_t gasBurnRatioShift = 0
+```
+
+```cpp
+GasConfig::uint8_t gasDappRatioShift = 0
+```
+
+```cpp
+GasConfig::uint8_t gasProducerRatioShift = 0
 ```
 
 ```cpp
@@ -2327,6 +2381,416 @@ bn::if( denom.array[BN_ARRAY_SIZE - 1] >= half_max ) } _lshift_one_bit(&current)
 bn::if( iterations++ > maxIterations ) } bignum_mul(&tmp, a, c)
 ```
 
+## Carbon/FeeEstimator.h
+
+Source: `include/Carbon/FeeEstimator.h`
+
+### Declarations
+
+```cpp
+enum class NativeFeeKind
+```
+
+```cpp
+struct InfusedAsset
+```
+
+```cpp
+struct NativeFeeEstimate
+```
+
+```cpp
+struct NativeFeeParams
+```
+
+```cpp
+struct NativeFeePart
+```
+
+```cpp
+struct NativeFeeTransactionParams
+```
+
+```cpp
+struct OperationModel
+```
+
+```cpp
+using namespace FeeEstimatorDetail
+```
+
+### Methods
+
+```cpp
+InfusedAsset::bool burnerHoldsToken = false
+```
+
+```cpp
+InfusedAsset::bool nonFungible = false
+```
+
+```cpp
+InfusedAsset::uint32_t instanceCount = 1
+```
+
+```cpp
+InfusedAsset::uint64_t tokenId = UnknownTokenId
+```
+
+```cpp
+NativeFeeEstimate::uint64_t deletedStorageQuanta = 0
+```
+
+```cpp
+NativeFeeEstimate::uint64_t expectedGasBill = 0
+```
+
+```cpp
+NativeFeeEstimate::uint64_t maxData = 0
+```
+
+```cpp
+NativeFeeEstimate::uint64_t maxGas = 0
+```
+
+```cpp
+NativeFeeEstimate::uint64_t newStorageQuanta = 0
+```
+
+```cpp
+NativeFeeParams::bool bigFungible = true
+```
+
+```cpp
+NativeFeeParams::bool duplicatedSeries = true
+```
+
+```cpp
+NativeFeeParams::bool hasInflationSchedule = false
+```
+
+```cpp
+NativeFeeParams::bool hasPreBurn = false
+```
+
+```cpp
+NativeFeeParams::bool hasStakingOrganisation = false
+```
+
+```cpp
+NativeFeeParams::bool hasStakingRewardToken = false
+```
+
+```cpp
+NativeFeeParams::bool nonFungible = false
+```
+
+```cpp
+NativeFeeParams::bool recipientHoldsToken = false
+```
+
+```cpp
+NativeFeeParams::bool romHasMetaId = true
+```
+
+```cpp
+NativeFeeParams::bool seriesHasMetaId = true
+```
+
+```cpp
+NativeFeeParams::bool supplyRowExists = false
+```
+
+```cpp
+NativeFeeParams::bool toIsNftAddress = false
+```
+
+```cpp
+NativeFeeParams::bool tokenBurnedBefore = false
+```
+
+```cpp
+NativeFeeParams::const InfusedAsset* infusions = nullptr
+```
+
+```cpp
+NativeFeeParams::const uint32_t* ramBytesPerInstance = nullptr
+```
+
+```cpp
+NativeFeeParams::const uint32_t* romBytesPerInstance = nullptr
+```
+
+```cpp
+NativeFeeParams::uint32_t count = 1
+```
+
+```cpp
+NativeFeeParams::uint32_t distinctSeriesCount = 1
+```
+
+```cpp
+NativeFeeParams::uint32_t envelopeBytes = 0
+```
+
+```cpp
+NativeFeeParams::uint32_t nameLength = 0
+```
+
+```cpp
+NativeFeeParams::uint32_t numInfusions = 0
+```
+
+```cpp
+NativeFeeParams::uint32_t payloadBytes = 0
+```
+
+```cpp
+NativeFeeParams::uint32_t ramBytes = 0
+```
+
+```cpp
+NativeFeeParams::uint32_t romBytes = 0
+```
+
+```cpp
+NativeFeeParams::uint32_t scriptEventBytes = 512
+```
+
+```cpp
+NativeFeeParams::uint32_t scriptStorageQuanta = 4
+```
+
+```cpp
+NativeFeeParams::uint32_t seriesInfoBytes = 0
+```
+
+```cpp
+NativeFeeParams::uint32_t symbolLength = 0
+```
+
+```cpp
+NativeFeeParams::uint32_t tokenInfoBytes = 0
+```
+
+```cpp
+NativeFeeParams::uint64_t scriptUnitsAllowance = 5000
+```
+
+```cpp
+NativeFeeParams::uint64_t tokenId = UnknownTokenId
+```
+
+```cpp
+NativeFeePart::NativeFeeKind kind = NativeFeeKind::Script
+```
+
+```cpp
+NativeFeePart::NativeFeeParams params{}
+```
+
+```cpp
+NativeFeeTransactionParams::uint32_t envelopeBytes = 0
+```
+
+```cpp
+NativeFeeTransactionParams::uint32_t payloadBytes = 0
+```
+
+```cpp
+OperationModel::uint64_t deletedQuanta = 0
+```
+
+```cpp
+OperationModel::uint64_t newQuanta = 0
+```
+
+```cpp
+OperationModel::uint64_t policyFee = 0
+```
+
+```cpp
+OperationModel::uint64_t resultBytes = 0
+```
+
+```cpp
+OperationModel::uint64_t workUnits = 0
+```
+
+### Variants
+
+- `NativeFeeKind::BurnFungible`
+- `NativeFeeKind::BurnNonFungible`
+- `NativeFeeKind::CreateToken`
+- `NativeFeeKind::CreateTokenSeries`
+- `NativeFeeKind::MintFungible`
+- `NativeFeeKind::MintNonFungible`
+- `NativeFeeKind::MintPhantasmaNonFungible`
+- `NativeFeeKind::RegisterName`
+- `NativeFeeKind::Script`
+- `NativeFeeKind::TransferFungible`
+- `NativeFeeKind::TransferNonFungible`
+
+## Carbon/FeePlan.h
+
+Source: `include/Carbon/FeePlan.h`
+
+### Declarations
+
+```cpp
+ReadView mr(metadata, alloc, ReadView::InPlace)
+```
+
+```cpp
+ReadView r((void*)args.bytes, args.length, alloc, ReadView::InPlace)
+```
+
+```cpp
+ReadView r((void*)call.args.bytes, call.args.length)
+```
+
+```cpp
+inline bool DescribeCall(const Blockchain::TxMsgCall& call, const FeePlanOptions& options, bool takeInfusions, DescribedParts& described)
+```
+
+```cpp
+struct BurnedInstance
+```
+
+```cpp
+struct DescribedParts
+```
+
+```cpp
+struct FeePlan : NativeFeeEstimate
+```
+
+```cpp
+struct FeePlanOptions
+```
+
+```cpp
+struct TokenCallArgs
+```
+
+```cpp
+using namespace FeePlanDetail
+```
+
+### Methods
+
+```cpp
+BurnedInstance::uint64_t instanceId = 0
+```
+
+```cpp
+BurnedInstance::uint64_t tokenId = 0
+```
+
+```cpp
+DescribedParts::std::vector<NativeFeePart> parts
+```
+
+```cpp
+DescribedParts::std::vector<std::vector<uint32_t>> ramSizes
+```
+
+```cpp
+DescribedParts::std::vector<std::vector<uint32_t>> romSizes
+```
+
+```cpp
+FeePlan::PHANTASMA_VECTOR<NativeFeeKind> kinds
+```
+
+```cpp
+FeePlan::bool exact = false
+```
+
+```cpp
+FeePlan::uint32_t envelopeBytes = 0
+```
+
+```cpp
+FeePlanOptions::bool bigFungible = true
+```
+
+```cpp
+FeePlanOptions::bool duplicatedSeries = true
+```
+
+```cpp
+FeePlanOptions::bool infusionsRead = false
+```
+
+```cpp
+FeePlanOptions::bool recipientHoldsToken = false
+```
+
+```cpp
+FeePlanOptions::bool romHasMetaId = true
+```
+
+```cpp
+FeePlanOptions::bool seriesHasMetaId = true
+```
+
+```cpp
+FeePlanOptions::bool supplyRowExists = false
+```
+
+```cpp
+FeePlanOptions::bool tokenBurnedBefore = false
+```
+
+```cpp
+FeePlanOptions::const InfusedAsset* infusions = nullptr
+```
+
+```cpp
+FeePlanOptions::uint32_t numInfusions = 0
+```
+
+```cpp
+FeePlanOptions::uint32_t scriptEventBytes = 512
+```
+
+```cpp
+FeePlanOptions::uint32_t scriptStorageQuanta = 4
+```
+
+```cpp
+FeePlanOptions::uint32_t witnessCount = 0
+```
+
+```cpp
+FeePlanOptions::uint64_t scriptUnitsAllowance = 5000
+```
+
+## Carbon/FeePlanSummary.h
+
+Source: `include/Carbon/FeePlanSummary.h`
+
+### Declarations
+
+```cpp
+struct FeePlanSummary
+```
+
+### Methods
+
+```cpp
+FeePlanSummary::String gasBill
+```
+
+```cpp
+FeePlanSummary::String gasOffer
+```
+
+```cpp
+FeePlanSummary::String storageCeiling
+```
+
 ## Carbon/Int256.h
 
 Source: `include/Carbon/Int256.h`
@@ -2571,6 +3035,73 @@ intx_pod::uint64_t data[(sizeof(intx) + 7) / 8]
 intx_pod::union }
 ```
 
+## Carbon/Preflight.h
+
+Source: `include/Carbon/Preflight.h`
+
+### Declarations
+
+```cpp
+ReadView r(msg.call.args, alloc, ReadView::InPlace)
+```
+
+```cpp
+enum class PreflightVerdict
+```
+
+```cpp
+struct PreflightResult
+```
+
+### Methods
+
+```cpp
+PreflightResult::PreflightVerdict verdict = PreflightVerdict::NotApplicable
+```
+
+```cpp
+PreflightResult::String reason
+```
+
+```cpp
+PreflightResult::String subject
+```
+
+### Variants
+
+- `PreflightVerdict::Free`
+- `PreflightVerdict::NotApplicable`
+- `PreflightVerdict::Taken`
+- `PreflightVerdict::Unknown`
+
+## Carbon/Send.h
+
+Source: `include/Carbon/Send.h`
+
+### Declarations
+
+```cpp
+struct SendOptions
+```
+
+### Methods
+
+```cpp
+SendOptions::FeePlanOptions fees
+```
+
+```cpp
+SendOptions::bool preflight = true
+```
+
+```cpp
+SendOptions::bool readInfusions = true
+```
+
+```cpp
+SendOptions::uint64_t controlTokenId = 0
+```
+
 ## Carbon/Tx.h
 
 Source: `include/Carbon/Tx.h`
@@ -2578,19 +3109,15 @@ Source: `include/Carbon/Tx.h`
 ### Declarations
 
 ```cpp
+enum class GovernanceContract_Methods : uint32_t
+```
+
+```cpp
 enum class ModuleId : uint32_t
 ```
 
 ```cpp
 enum class TokenContract_Methods : uint32_t
-```
-
-```cpp
-struct CreateSeriesFeeOptions : public FeeOptions
-```
-
-```cpp
-struct CreateTokenFeeOptions : public FeeOptions
 ```
 
 ```cpp
@@ -2602,19 +3129,15 @@ struct CreateTokenTxHelper
 ```
 
 ```cpp
-struct FeeOptions
-```
-
-```cpp
-struct MintNftFeeOptions : public FeeOptions
-```
-
-```cpp
 struct MintNonFungibleTxHelper
 ```
 
 ```cpp
 struct MintPhantasmaNonFungibleTxHelper
+```
+
+```cpp
+struct NativeTxHelper
 ```
 
 ```cpp
@@ -2626,33 +3149,17 @@ struct TxEnvelope
 ```
 
 ```cpp
+struct TxLimits
+```
+
+```cpp
 using namespace std::chrono
 ```
 
 ### Methods
 
 ```cpp
-CreateSeriesFeeOptions::uint64_t gasFeeCreateSeriesBase
-```
-
-```cpp
-CreateTokenFeeOptions::uint64_t gasFeeCreateTokenBase
-```
-
-```cpp
-CreateTokenFeeOptions::uint64_t gasFeeCreateTokenSymbol
-```
-
-```cpp
-FeeOptions::explicit FeeOptions(uint64_t base = 10000, uint64_t multiplier = 1000) : gasFeeBase(base), feeMultiplier(multiplier) } virtual ~FeeOptions() = default
-```
-
-```cpp
-FeeOptions::uint64_t feeMultiplier
-```
-
-```cpp
-FeeOptions::uint64_t gasFeeBase
+NativeTxHelper::}
 ```
 
 ```cpp
@@ -2663,8 +3170,33 @@ TxEnvelope::phantasma::carbon::Blockchain::TxMsg msg{}
 TxEnvelope::std::vector<ByteArray> buffers
 ```
 
+```cpp
+TxLimits::int64_t expiry = 0
+```
+
+```cpp
+TxLimits::uint64_t maxData = 0
+```
+
+```cpp
+TxLimits::uint64_t maxGas = 0
+```
+
 ### Variants
 
+- `GovernanceContract_Methods::Genesis = 0`
+- `GovernanceContract_Methods::GetSpecialResolutionCount = 7`
+- `GovernanceContract_Methods::LookupAddress = 9`
+- `GovernanceContract_Methods::LookupName = 8`
+- `GovernanceContract_Methods::MigrateAddresses = 12`
+- `GovernanceContract_Methods::RegisterName = 1`
+- `GovernanceContract_Methods::RepairStakingOrganizationMembership = 11`
+- `GovernanceContract_Methods::SetChainConfig = 4`
+- `GovernanceContract_Methods::SetFeatureLevel = 10`
+- `GovernanceContract_Methods::SetGasConfig = 3`
+- `GovernanceContract_Methods::SetMetadata = 5`
+- `GovernanceContract_Methods::SetNodeConfig = 6`
+- `GovernanceContract_Methods::SpecialResolution = 2`
 - `ModuleId::Governance = 0u`
 - `ModuleId::Internal = 0xFFFFFFFFu`
 - `ModuleId::Organization = 3u`
@@ -3381,6 +3913,10 @@ Source: `include/PhantasmaAPI.h`
 ### Declarations
 
 ```cpp
+#define PHANTASMA_API_CONFIGURED
+```
+
+```cpp
 #define PHANTASMA_API_INCLUDED
 ```
 
@@ -3469,22 +4005,6 @@ Source: `include/PhantasmaAPI.h`
 ```
 
 ```cpp
-#define PHANTASMA_STRLEN(x) strlen(x)
-```
-
-```cpp
-#define PHANTASMA_STRLEN(x) wcslen(x)
-```
-
-```cpp
-#define PHANTASMA_STRTOINT(x) std::strtoll(x, 0, 10)
-```
-
-```cpp
-#define PHANTASMA_STRTOINT(x) std::wcstoll(x, 0, 10)
-```
-
-```cpp
 #define PHANTASMA_SWAP(a, b) std::swap(a, b)
 ```
 
@@ -3505,62 +4025,6 @@ Source: `include/PhantasmaAPI.h`
 ```
 
 ```cpp
-JSONArray AsArray(const JSONValue&, bool& out_error)
-```
-
-```cpp
-JSONArray LookupArray(const JSONValue&, const Char* field, bool& out_error)
-```
-
-```cpp
-JSONValue IndexArray(const JSONArray&, int index, bool& out_error)
-```
-
-```cpp
-JSONValue LookupValue(const JSONValue&, const Char* field, bool& out_error)
-```
-
-```cpp
-JSONValue Parse(const JSONDocument&)
-```
-
-```cpp
-String AsString(const JSONValue&, bool& out_error)
-```
-
-```cpp
-String LookupString(const JSONValue&, const Char* field, bool& out_error)
-```
-
-```cpp
-bool AsBool(const JSONValue&, bool& out_error)
-```
-
-```cpp
-bool HasArrayField(const JSONValue&, const Char* field, bool& out_error)
-```
-
-```cpp
-bool HasField(const JSONValue&, const Char* field, bool& out_error)
-```
-
-```cpp
-bool IsArray(const JSONValue&, bool& out_error)
-```
-
-```cpp
-bool IsObject(const JSONValue&, bool& out_error)
-```
-
-```cpp
-bool IsString(const JSONValue&, bool& out_error)
-```
-
-```cpp
-bool LookupBool(const JSONValue&, const Char* field, bool& out_error)
-```
-
-```cpp
 class PhantasmaAPI
 ```
 
@@ -3569,15 +4033,11 @@ class PhantasmaJsonAPI
 ```
 
 ```cpp
-enum class ExtendedEventType
+enum class AddressType
 ```
 
 ```cpp
 inline size_t SkipObject(const JSONValue& v, size_t i, bool& out_error)
-```
-
-```cpp
-int ArraySize(const JSONArray&, bool& out_error)
 ```
 
 ```cpp
@@ -3594,6 +4054,10 @@ struct ABIParameter
 
 ```cpp
 struct Account
+```
+
+```cpp
+struct AccountInfo
 ```
 
 ```cpp
@@ -3641,11 +4105,19 @@ struct Dapp
 ```
 
 ```cpp
+struct EstimateTransactionResult
+```
+
+```cpp
 struct Event
 ```
 
 ```cpp
-struct EventExtended
+struct GasConfigData
+```
+
+```cpp
+struct GasConfigResult
 ```
 
 ```cpp
@@ -3657,19 +4129,11 @@ struct Interop
 ```
 
 ```cpp
-struct JSONBuilder
-```
-
-```cpp
 struct Leaderboard
 ```
 
 ```cpp
 struct LeaderboardRow
-```
-
-```cpp
-struct MarketOrderData
 ```
 
 ```cpp
@@ -3729,14 +4193,6 @@ struct Signature
 ```
 
 ```cpp
-struct SpecialResolutionCall
-```
-
-```cpp
-struct SpecialResolutionData
-```
-
-```cpp
 struct Stake
 ```
 
@@ -3753,15 +4209,7 @@ struct Token
 ```
 
 ```cpp
-struct TokenCreateData
-```
-
-```cpp
 struct TokenData
-```
-
-```cpp
-struct TokenMintData
 ```
 
 ```cpp
@@ -3774,10 +4222,6 @@ struct TokenSchemas
 
 ```cpp
 struct TokenSeries
-```
-
-```cpp
-struct TokenSeriesCreateData
 ```
 
 ```cpp
@@ -3794,142 +4238,6 @@ struct VmNamedVariableSchemaResult
 
 ```cpp
 struct VmStructSchemaResult
-```
-
-```cpp
-typedef JSONValue JSONArray
-```
-
-```cpp
-typedef PHANTASMA_BYTE Byte
-```
-
-```cpp
-typedef PHANTASMA_CHAR Char
-```
-
-```cpp
-typedef PHANTASMA_HTTPCLIENT HttpClient
-```
-
-```cpp
-typedef PHANTASMA_INT32 Int32
-```
-
-```cpp
-typedef PHANTASMA_INT64 Int64
-```
-
-```cpp
-typedef PHANTASMA_JSONARRAY JSONArray
-```
-
-```cpp
-typedef PHANTASMA_JSONBUILDER JSONBuilder
-```
-
-```cpp
-typedef PHANTASMA_JSONDOCUMENT JSONDocument
-```
-
-```cpp
-typedef PHANTASMA_JSONVALUE JSONValue
-```
-
-```cpp
-typedef PHANTASMA_STRING String
-```
-
-```cpp
-typedef PHANTASMA_STRINGBUILDER StringBuilder
-```
-
-```cpp
-typedef PHANTASMA_UINT32 UInt32
-```
-
-```cpp
-typedef PHANTASMA_UINT64 UInt64
-```
-
-```cpp
-typedef PHANTASMA_VECTOR<Byte> ByteArray
-```
-
-```cpp
-typedef String JSONDocument
-```
-
-```cpp
-typedef String JSONValue
-```
-
-```cpp
-typedef char Char
-```
-
-```cpp
-typedef int32_t Int32
-```
-
-```cpp
-typedef int64_t Int64
-```
-
-```cpp
-typedef std::string String
-```
-
-```cpp
-typedef std::string_view JSONValue
-```
-
-```cpp
-typedef std::stringstream StringBuilder
-```
-
-```cpp
-typedef std::wstring String
-```
-
-```cpp
-typedef std::wstring_view JSONValue
-```
-
-```cpp
-typedef std::wstringstream StringBuilder
-```
-
-```cpp
-typedef uint32_t UInt32
-```
-
-```cpp
-typedef uint64_t UInt64
-```
-
-```cpp
-typedef uint8_t Byte
-```
-
-```cpp
-typedef wchar_t Char
-```
-
-```cpp
-void AddArray(JSONBuilder&, const Char* key, Args... args)
-```
-
-```cpp
-void AddString(JSONBuilder&, const Char* key, const Char* value)
-```
-
-```cpp
-void BeginObject(JSONBuilder&)
-```
-
-```cpp
-void EndObject(JSONBuilder&)
 ```
 
 ### Methods
@@ -4008,6 +4316,18 @@ Account::String unclaimed
 
 ```cpp
 Account::String validator
+```
+
+```cpp
+AccountInfo::Stake stake
+```
+
+```cpp
+AccountInfo::String address
+```
+
+```cpp
+AccountInfo::String name
 ```
 
 ```cpp
@@ -4132,6 +4452,10 @@ Block::String hash
 
 ```cpp
 Block::String previousHash
+```
+
+```cpp
+Block::String producerAddress
 ```
 
 ```cpp
@@ -4275,6 +4599,38 @@ Dapp::String name
 ```
 
 ```cpp
+EstimateTransactionResult::String abortReason
+```
+
+```cpp
+EstimateTransactionResult::UInt64 dataEscrowAtoms
+```
+
+```cpp
+EstimateTransactionResult::UInt64 dataRefundAtoms
+```
+
+```cpp
+EstimateTransactionResult::UInt64 dataRows
+```
+
+```cpp
+EstimateTransactionResult::UInt64 gasBillKcalBase
+```
+
+```cpp
+EstimateTransactionResult::UInt64 recommendedMaxData
+```
+
+```cpp
+EstimateTransactionResult::UInt64 recommendedMaxGas
+```
+
+```cpp
+EstimateTransactionResult::bool wouldAbort
+```
+
+```cpp
 Event::String address
 ```
 
@@ -4295,39 +4651,143 @@ Event::String name
 ```
 
 ```cpp
-EventExtended::ExtendedEventType type
+GasConfigData::UInt32 feeShift
 ```
 
 ```cpp
-EventExtended::MarketOrderData marketOrder
+GasConfigData::UInt32 gasBurnRatioShift
 ```
 
 ```cpp
-EventExtended::SpecialResolutionData specialResolution
+GasConfigData::UInt32 gasDappRatioShift
 ```
 
 ```cpp
-EventExtended::String address
+GasConfigData::UInt32 gasProducerRatioShift
 ```
 
 ```cpp
-EventExtended::String contract
+GasConfigData::UInt32 maxNameLength
 ```
 
 ```cpp
-EventExtended::String kind
+GasConfigData::UInt32 maxStructureSize
 ```
 
 ```cpp
-EventExtended::TokenCreateData tokenCreate
+GasConfigData::UInt32 maxTokenSymbolLength
 ```
 
 ```cpp
-EventExtended::TokenMintData tokenMint
+GasConfigData::UInt32 version
 ```
 
 ```cpp
-EventExtended::TokenSeriesCreateData tokenSeriesCreate
+GasConfigData::UInt64 dataEscrowPerRow
+```
+
+```cpp
+GasConfigData::UInt64 dataTokenId
+```
+
+```cpp
+GasConfigData::UInt64 feeMultiplier
+```
+
+```cpp
+GasConfigData::UInt64 gasBurnRatioMul
+```
+
+```cpp
+GasConfigData::UInt64 gasDappRatioMul
+```
+
+```cpp
+GasConfigData::UInt64 gasFeeCreateTokenBase
+```
+
+```cpp
+GasConfigData::UInt64 gasFeeCreateTokenSeries
+```
+
+```cpp
+GasConfigData::UInt64 gasFeeCreateTokenSymbol
+```
+
+```cpp
+GasConfigData::UInt64 gasFeePerByte
+```
+
+```cpp
+GasConfigData::UInt64 gasFeeQuery
+```
+
+```cpp
+GasConfigData::UInt64 gasFeeRegisterName
+```
+
+```cpp
+GasConfigData::UInt64 gasFeeTransfer
+```
+
+```cpp
+GasConfigData::UInt64 gasProducerRatioMul
+```
+
+```cpp
+GasConfigData::UInt64 gasTokenId
+```
+
+```cpp
+GasConfigData::UInt64 legacyDataEscrowPerRow
+```
+
+```cpp
+GasConfigData::UInt64 minimumGasBill
+```
+
+```cpp
+GasConfigData::UInt64 minimumGasOffer
+```
+
+```cpp
+GasConfigData::UInt64 policyFeeCreateTokenBase
+```
+
+```cpp
+GasConfigData::UInt64 policyFeeCreateTokenSeries
+```
+
+```cpp
+GasConfigData::UInt64 policyFeeCreateTokenSymbol
+```
+
+```cpp
+GasConfigData::UInt64 policyFeeRegisterName
+```
+
+```cpp
+GasConfigData::bool hasV2Fields
+```
+
+```cpp
+GasConfigResult::GasConfigData gasConfig
+```
+
+```cpp
+GasConfigResult::UInt32 blockRateTarget
+```
+
+```cpp
+GasConfigResult::UInt32 expiryWindow
+```
+
+```cpp
+GasConfigResult::UInt32 gasModelVersion
+```
+
+```cpp
+GasConfigResult::UInt32 unitsPerBlockDataByte
 ```
 
 ```cpp
@@ -4347,14 +4807,6 @@ Interop::String local
 ```
 
 ```cpp
-JSONBuilder::StringBuilder s
-```
-
-```cpp
-JSONBuilder::bool empty = true
-```
-
-```cpp
 Leaderboard::PHANTASMA_VECTOR<LeaderboardRow> rows
 ```
 
@@ -4368,58 +4820,6 @@ LeaderboardRow::String address
 
 ```cpp
 LeaderboardRow::String value
-```
-
-```cpp
-MarketOrderData::Int64 endDate
-```
-
-```cpp
-MarketOrderData::Int64 startDate
-```
-
-```cpp
-MarketOrderData::String baseSymbol
-```
-
-```cpp
-MarketOrderData::String buyer
-```
-
-```cpp
-MarketOrderData::String endPrice
-```
-
-```cpp
-MarketOrderData::String price
-```
-
-```cpp
-MarketOrderData::String quoteSymbol
-```
-
-```cpp
-MarketOrderData::String seller
-```
-
-```cpp
-MarketOrderData::String tokenId
-```
-
-```cpp
-MarketOrderData::String type
-```
-
-```cpp
-MarketOrderData::UInt64 carbonBaseTokenId
-```
-
-```cpp
-MarketOrderData::UInt64 carbonInstanceId
-```
-
-```cpp
-MarketOrderData::UInt64 carbonQuoteTokenId
 ```
 
 ```cpp
@@ -4547,6 +4947,10 @@ PhantasmaAPI::Balance GetTokenBalance(const Char* account, const Char* tokenSymb
 ```
 
 ```cpp
+PhantasmaAPI::Balance GetTokenBalance(const Char* account, const Char* tokenSymbol, const Char* chainInput, bool checkAddressReservedByte, AddressType addressType, PhantasmaError* out_error = nullptr)
+```
+
+```cpp
 PhantasmaAPI::Block GetBlockByHash(const Char* blockHash, PhantasmaError* out_error = nullptr)
 ```
 
@@ -4575,6 +4979,10 @@ PhantasmaAPI::Contract GetContractByAddress(const Char* chainAddressOrName, cons
 ```
 
 ```cpp
+PhantasmaAPI::CursorPaginatedResult<Balance> GetAccountFungibleTokens(const Char* account, const Char* tokenSymbol, UInt64 carbonTokenId, UInt32 pageSize, const Char* cursor, bool checkAddressReservedByte, AddressType addressType, PhantasmaError* out_error = nullptr)
+```
+
+```cpp
 PhantasmaAPI::CursorPaginatedResult<Balance> GetAccountFungibleTokens(const Char* account, const Char* tokenSymbol, UInt64 carbonTokenId, UInt32 pageSize, const Char* cursor, bool checkAddressReservedByte, PhantasmaError* out_error = nullptr)
 ```
 
@@ -4587,7 +4995,15 @@ PhantasmaAPI::CursorPaginatedResult<OrganizationMember> GetOrganizationMembers(c
 ```
 
 ```cpp
+PhantasmaAPI::CursorPaginatedResult<Token> GetAccountOwnedTokens(const Char* account, const Char* tokenSymbol, UInt64 carbonTokenId, UInt32 pageSize, const Char* cursor, bool checkAddressReservedByte, AddressType addressType, PhantasmaError* out_error = nullptr)
+```
+
+```cpp
 PhantasmaAPI::CursorPaginatedResult<Token> GetAccountOwnedTokens(const Char* account, const Char* tokenSymbol, UInt64 carbonTokenId, UInt32 pageSize, const Char* cursor, bool checkAddressReservedByte, PhantasmaError* out_error = nullptr)
+```
+
+```cpp
+PhantasmaAPI::CursorPaginatedResult<TokenData> GetAccountNFTs(const Char* account, const Char* tokenSymbol, UInt64 carbonTokenId, UInt32 carbonSeriesId, UInt32 pageSize, const Char* cursor, bool extended, bool checkAddressReservedByte, AddressType addressType, PhantasmaError* out_error = nullptr)
 ```
 
 ```cpp
@@ -4599,11 +5015,23 @@ PhantasmaAPI::CursorPaginatedResult<TokenData> GetTokenNFTs(UInt64 carbonTokenId
 ```
 
 ```cpp
+PhantasmaAPI::CursorPaginatedResult<TokenSeries> GetAccountOwnedTokenSeries(const Char* account, const Char* tokenSymbol, UInt64 carbonTokenId, UInt32 pageSize, const Char* cursor, bool checkAddressReservedByte, AddressType addressType, PhantasmaError* out_error = nullptr)
+```
+
+```cpp
 PhantasmaAPI::CursorPaginatedResult<TokenSeries> GetAccountOwnedTokenSeries(const Char* account, const Char* tokenSymbol, UInt64 carbonTokenId, UInt32 pageSize, const Char* cursor, bool checkAddressReservedByte, PhantasmaError* out_error = nullptr)
 ```
 
 ```cpp
 PhantasmaAPI::CursorPaginatedResult<TokenSeries> GetTokenSeries(const Char* symbol, UInt64 carbonTokenId, UInt32 pageSize, const Char* cursor, PhantasmaError* out_error = nullptr)
+```
+
+```cpp
+PhantasmaAPI::EstimateTransactionResult EstimateTransaction(const Char* txData, PhantasmaError* out_error = nullptr)
+```
+
+```cpp
+PhantasmaAPI::GasConfigResult GetGasConfig(PhantasmaError* out_error = nullptr)
 ```
 
 ```cpp
@@ -4639,11 +5067,15 @@ PhantasmaAPI::Organization GetOrganization(const Char* name, bool includeMemberC
 ```
 
 ```cpp
+PhantasmaAPI::OrganizationMember GetOrganizationMember(const Char* name, const Char* address, bool checkAddressReservedByte, AddressType addressType, PhantasmaError* out_error = nullptr)
+```
+
+```cpp
 PhantasmaAPI::OrganizationMember GetOrganizationMember(const Char* name, const Char* address, bool checkAddressReservedByte, const Char* addressType, PhantasmaError* out_error = nullptr)
 ```
 
 ```cpp
-PhantasmaAPI::PHANTASMA_VECTOR<Account> GetAccounts(const Char* accountText, bool extended, bool checkAddressReservedByte, PhantasmaError* out_error = nullptr)
+PhantasmaAPI::PHANTASMA_VECTOR<AccountInfo> GetAccountInfos(const String* addresses, int addressCount, PhantasmaError* out_error = nullptr)
 ```
 
 ```cpp
@@ -4671,7 +5103,7 @@ PhantasmaAPI::PHANTASMA_VECTOR<TokenData> GetNFTs(const Char* symbol, const Char
 ```
 
 ```cpp
-PhantasmaAPI::PhantasmaAPI(HttpClient& client) : m_httpClient(client) {} Account GetAccount(const Char* account, PhantasmaError* out_error = nullptr)
+PhantasmaAPI::PhantasmaAPI(HttpClient& client) : m_httpClient(client) {} AccountInfo GetAccountInfo(const Char* account, PhantasmaError* out_error = nullptr)
 ```
 
 ```cpp
@@ -4711,10 +5143,6 @@ PhantasmaAPI::TokenData GetNFT(const Char* symbol, const Char* IDtext, bool exte
 ```
 
 ```cpp
-PhantasmaAPI::TokenData GetTokenData(const Char* symbol, const Char* IDtext, PhantasmaError* out_error = nullptr)
-```
-
-```cpp
 PhantasmaAPI::TokenSeries GetTokenSeriesById(const Char* symbol, UInt64 carbonTokenId, const Char* seriesId, UInt32 carbonSeriesId, PhantasmaError* out_error = nullptr)
 ```
 
@@ -4724,6 +5152,18 @@ PhantasmaAPI::Transaction GetTransaction(const Char* hashText, PhantasmaError* o
 
 ```cpp
 PhantasmaAPI::Transaction GetTransactionByBlockHashAndIndex(const Char* chainAddressOrName, const Char* blockHash, Int32 index, PhantasmaError* out_error = nullptr)
+```
+
+```cpp
+PhantasmaAPI::[[deprecated("getAccount embeds every owned NFT id (capped at 10000 per token while amount keeps the true count); use GetAccountInfo with GetAccountFungibleTokens/GetAccountNFTs")]] Account GetAccount(const Char* account, PhantasmaError* out_error = nullptr)
+```
+
+```cpp
+PhantasmaAPI::[[deprecated("getAccounts embeds every owned NFT id (capped at 10000 per token while amount keeps the true count); use GetAccountInfo with GetAccountFungibleTokens/GetAccountNFTs")]] PHANTASMA_VECTOR<Account> GetAccounts(const Char* accountText, bool extended, bool checkAddressReservedByte, PhantasmaError* out_error = nullptr)
+```
+
+```cpp
+PhantasmaAPI::[[deprecated("getTokenData is a strict subset of getNFT; use GetNFT")]] TokenData GetTokenData(const Char* symbol, const Char* IDtext, PhantasmaError* out_error = nullptr)
 ```
 
 ```cpp
@@ -4771,6 +5211,10 @@ PhantasmaJsonAPI::static Account DeserializeAccount(const JSONValue& json, bool&
 ```
 
 ```cpp
+PhantasmaJsonAPI::static AccountInfo DeserializeAccountInfo(const JSONValue& json, bool& jsonError)
+```
+
+```cpp
 PhantasmaJsonAPI::static AccountTransactions DeserializeAccountTransactions(const JSONValue& json, bool& jsonError)
 ```
 
@@ -4811,11 +5255,19 @@ PhantasmaJsonAPI::static Dapp DeserializeDapp(const JSONValue& json, bool& jsonE
 ```
 
 ```cpp
+PhantasmaJsonAPI::static EstimateTransactionResult DeserializeEstimateTransactionResult(const JSONValue& json, bool& jsonError)
+```
+
+```cpp
 PhantasmaJsonAPI::static Event DeserializeEvent(const JSONValue& json, bool& jsonError)
 ```
 
 ```cpp
-PhantasmaJsonAPI::static EventExtended DeserializeEventExtended(const JSONValue& json, bool& jsonError)
+PhantasmaJsonAPI::static GasConfigData DeserializeGasConfigData(const JSONValue& json, bool& jsonError)
+```
+
+```cpp
+PhantasmaJsonAPI::static GasConfigResult DeserializeGasConfigResult(const JSONValue& json, bool& jsonError)
 ```
 
 ```cpp
@@ -4843,10 +5295,6 @@ PhantasmaJsonAPI::static LeaderboardRow DeserializeLeaderboardRow(const JSONValu
 ```
 
 ```cpp
-PhantasmaJsonAPI::static MarketOrderData DeserializeMarketOrderData(const JSONValue& json, bool& jsonError)
-```
-
-```cpp
 PhantasmaJsonAPI::static Nexus DeserializeNexus(const JSONValue& json, bool& jsonError)
 ```
 
@@ -4860,10 +5308,6 @@ PhantasmaJsonAPI::static Organization DeserializeOrganization(const JSONValue& j
 
 ```cpp
 PhantasmaJsonAPI::static OrganizationMember DeserializeOrganizationMember(const JSONValue& json, bool& jsonError)
-```
-
-```cpp
-PhantasmaJsonAPI::static PHANTASMA_MAP<String, String> DeserializeStringMap(const JSONValue& json, bool& jsonError)
 ```
 
 ```cpp
@@ -4903,14 +5347,6 @@ PhantasmaJsonAPI::static Signature DeserializeSignature(const JSONValue& json, b
 ```
 
 ```cpp
-PhantasmaJsonAPI::static SpecialResolutionCall DeserializeSpecialResolutionCall(const JSONValue& json, bool& jsonError)
-```
-
-```cpp
-PhantasmaJsonAPI::static SpecialResolutionData DeserializeSpecialResolutionData(const JSONValue& json, bool& jsonError)
-```
-
-```cpp
 PhantasmaJsonAPI::static Stake DeserializeStake(const JSONValue& json, bool& jsonError)
 ```
 
@@ -4927,15 +5363,7 @@ PhantasmaJsonAPI::static Token DeserializeToken(const JSONValue& json, bool& jso
 ```
 
 ```cpp
-PhantasmaJsonAPI::static TokenCreateData DeserializeTokenCreateData(const JSONValue& json, bool& jsonError)
-```
-
-```cpp
 PhantasmaJsonAPI::static TokenData DeserializeTokenData(const JSONValue& json, bool& jsonError)
-```
-
-```cpp
-PhantasmaJsonAPI::static TokenMintData DeserializeTokenMintData(const JSONValue& json, bool& jsonError)
 ```
 
 ```cpp
@@ -4948,10 +5376,6 @@ PhantasmaJsonAPI::static TokenSchemas DeserializeTokenSchemas(const JSONValue& j
 
 ```cpp
 PhantasmaJsonAPI::static TokenSeries DeserializeTokenSeries(const JSONValue& json, bool& jsonError)
-```
-
-```cpp
-PhantasmaJsonAPI::static TokenSeriesCreateData DeserializeTokenSeriesCreateData(const JSONValue& json, bool& jsonError)
 ```
 
 ```cpp
@@ -4983,7 +5407,19 @@ PhantasmaJsonAPI::static bool Deserializebool(const JSONValue& json, bool& jsonE
 ```
 
 ```cpp
+PhantasmaJsonAPI::static bool ParseEstimateTransactionResponse(const JSONValue&, EstimateTransactionResult& out, PhantasmaError* err = 0)
+```
+
+```cpp
 PhantasmaJsonAPI::static bool ParseGetAccountFungibleTokensResponse(const JSONValue&, CursorPaginatedResult<Balance>& out, PhantasmaError* err = 0)
+```
+
+```cpp
+PhantasmaJsonAPI::static bool ParseGetAccountInfoResponse(const JSONValue&, AccountInfo& out, PhantasmaError* err = 0)
+```
+
+```cpp
+PhantasmaJsonAPI::static bool ParseGetAccountInfosResponse(const JSONValue&, PHANTASMA_VECTOR<AccountInfo>& out, PhantasmaError* err = 0)
 ```
 
 ```cpp
@@ -5064,6 +5500,10 @@ PhantasmaJsonAPI::static bool ParseGetContractResponse(const JSONValue&, Contrac
 
 ```cpp
 PhantasmaJsonAPI::static bool ParseGetContractsResponse(const JSONValue&, PHANTASMA_VECTOR<Contract>& out, PhantasmaError* err = 0)
+```
+
+```cpp
+PhantasmaJsonAPI::static bool ParseGetGasConfigResponse(const JSONValue&, GasConfigResult& out, PhantasmaError* err = 0)
 ```
 
 ```cpp
@@ -5175,7 +5615,31 @@ PhantasmaJsonAPI::static const Char* Uri() { return PHANTASMA_LITERAL("/rpc"); }
 ```
 
 ```cpp
+PhantasmaJsonAPI::static void MakeEstimateTransactionRequest(JSONBuilder&, const Char* txData)
+```
+
+```cpp
 PhantasmaJsonAPI::static void MakeGetAccountFungibleTokensRequest(JSONBuilder&, const Char* account, const Char* tokenSymbol, UInt64 carbonTokenId, UInt32 pageSize, const Char* cursor, bool checkAddressReservedByte)
+```
+
+```cpp
+PhantasmaJsonAPI::static void MakeGetAccountFungibleTokensRequest(JSONBuilder&, const Char* account, const Char* tokenSymbol, UInt64 carbonTokenId, UInt32 pageSize, const Char* cursor, bool checkAddressReservedByte, AddressType addressType)
+```
+
+```cpp
+PhantasmaJsonAPI::static void MakeGetAccountInfoRequest(JSONBuilder&, const Char* account)
+```
+
+```cpp
+PhantasmaJsonAPI::static void MakeGetAccountInfosRequest(JSONBuilder&, const String* addresses, int addressCount)
+```
+
+```cpp
+PhantasmaJsonAPI::static void MakeGetAccountInfosRequest(JSONBuilder&, const String* addresses, int addressCount, bool checkAddressReservedByte, AddressType addressType)
+```
+
+```cpp
+PhantasmaJsonAPI::static void MakeGetAccountInfosRequest(JSONBuilder&, const String* addresses, int addressCount, bool checkAddressReservedByte, const Char* addressType)
 ```
 
 ```cpp
@@ -5183,11 +5647,23 @@ PhantasmaJsonAPI::static void MakeGetAccountNFTsRequest(JSONBuilder&, const Char
 ```
 
 ```cpp
+PhantasmaJsonAPI::static void MakeGetAccountNFTsRequest(JSONBuilder&, const Char* account, const Char* tokenSymbol, UInt64 carbonTokenId, UInt32 carbonSeriesId, UInt32 pageSize, const Char* cursor, bool extended, bool checkAddressReservedByte, AddressType addressType)
+```
+
+```cpp
 PhantasmaJsonAPI::static void MakeGetAccountOwnedTokenSeriesRequest(JSONBuilder&, const Char* account, const Char* tokenSymbol, UInt64 carbonTokenId, UInt32 pageSize, const Char* cursor, bool checkAddressReservedByte)
 ```
 
 ```cpp
+PhantasmaJsonAPI::static void MakeGetAccountOwnedTokenSeriesRequest(JSONBuilder&, const Char* account, const Char* tokenSymbol, UInt64 carbonTokenId, UInt32 pageSize, const Char* cursor, bool checkAddressReservedByte, AddressType addressType)
+```
+
+```cpp
 PhantasmaJsonAPI::static void MakeGetAccountOwnedTokensRequest(JSONBuilder&, const Char* account, const Char* tokenSymbol, UInt64 carbonTokenId, UInt32 pageSize, const Char* cursor, bool checkAddressReservedByte)
+```
+
+```cpp
+PhantasmaJsonAPI::static void MakeGetAccountOwnedTokensRequest(JSONBuilder&, const Char* account, const Char* tokenSymbol, UInt64 carbonTokenId, UInt32 pageSize, const Char* cursor, bool checkAddressReservedByte, AddressType addressType)
 ```
 
 ```cpp
@@ -5259,6 +5735,10 @@ PhantasmaJsonAPI::static void MakeGetContractsRequest(JSONBuilder&, const Char* 
 ```
 
 ```cpp
+PhantasmaJsonAPI::static void MakeGetGasConfigRequest(JSONBuilder&)
+```
+
+```cpp
 PhantasmaJsonAPI::static void MakeGetLatestBlockRequest(JSONBuilder&, const Char* chainInput)
 ```
 
@@ -5276,6 +5756,10 @@ PhantasmaJsonAPI::static void MakeGetNFTsRequest(JSONBuilder&, const Char* symbo
 
 ```cpp
 PhantasmaJsonAPI::static void MakeGetNexusRequest(JSONBuilder&, bool extended)
+```
+
+```cpp
+PhantasmaJsonAPI::static void MakeGetOrganizationMemberRequest(JSONBuilder&, const Char* name, const Char* address, bool checkAddressReservedByte, AddressType addressType)
 ```
 
 ```cpp
@@ -5300,6 +5784,10 @@ PhantasmaJsonAPI::static void MakeGetPhantasmaVmConfigRequest(JSONBuilder&, cons
 
 ```cpp
 PhantasmaJsonAPI::static void MakeGetTokenBalanceRequest(JSONBuilder&, const Char* account, const Char* tokenSymbol, const Char* chainInput)
+```
+
+```cpp
+PhantasmaJsonAPI::static void MakeGetTokenBalanceRequest(JSONBuilder&, const Char* account, const Char* tokenSymbol, const Char* chainInput, bool checkAddressReservedByte, AddressType addressType)
 ```
 
 ```cpp
@@ -5499,42 +5987,6 @@ Signature::String kind
 ```
 
 ```cpp
-SpecialResolutionCall::PHANTASMA_MAP<String, String> arguments
-```
-
-```cpp
-SpecialResolutionCall::PHANTASMA_VECTOR<SpecialResolutionCall> calls
-```
-
-```cpp
-SpecialResolutionCall::String method
-```
-
-```cpp
-SpecialResolutionCall::String module
-```
-
-```cpp
-SpecialResolutionCall::UInt32 methodId
-```
-
-```cpp
-SpecialResolutionCall::UInt32 moduleId
-```
-
-```cpp
-SpecialResolutionData::PHANTASMA_VECTOR<SpecialResolutionCall> calls
-```
-
-```cpp
-SpecialResolutionData::String description
-```
-
-```cpp
-SpecialResolutionData::UInt64 resolutionId
-```
-
-```cpp
 Stake::String amount
 ```
 
@@ -5659,30 +6111,6 @@ Token::TokenSchemas tokenSchemas
 ```
 
 ```cpp
-TokenCreateData::PHANTASMA_MAP<String, String> metadata
-```
-
-```cpp
-TokenCreateData::String maxSupply
-```
-
-```cpp
-TokenCreateData::String symbol
-```
-
-```cpp
-TokenCreateData::UInt32 decimals
-```
-
-```cpp
-TokenCreateData::UInt64 carbonTokenId
-```
-
-```cpp
-TokenCreateData::bool isNonFungible
-```
-
-```cpp
 TokenData::PHANTASMA_VECTOR<TokenProperty> infusion
 ```
 
@@ -5739,47 +6167,11 @@ TokenData::String status
 ```
 
 ```cpp
-TokenMintData::PHANTASMA_MAP<String, String> metadata
-```
-
-```cpp
-TokenMintData::String owner
-```
-
-```cpp
-TokenMintData::String seriesId
-```
-
-```cpp
-TokenMintData::String symbol
-```
-
-```cpp
-TokenMintData::String tokenId
-```
-
-```cpp
-TokenMintData::UInt32 carbonSeriesId
-```
-
-```cpp
-TokenMintData::UInt32 mintNumber
-```
-
-```cpp
-TokenMintData::UInt64 carbonInstanceId
-```
-
-```cpp
-TokenMintData::UInt64 carbonTokenId
-```
-
-```cpp
 TokenProperty::String key
 ```
 
 ```cpp
-TokenProperty::String value
+TokenProperty::VmValue value
 ```
 
 ```cpp
@@ -5844,38 +6236,6 @@ TokenSeries::String seriesId
 
 ```cpp
 TokenSeries::TokenSeriesMode mode
-```
-
-```cpp
-TokenSeriesCreateData::PHANTASMA_MAP<String, String> metadata
-```
-
-```cpp
-TokenSeriesCreateData::String owner
-```
-
-```cpp
-TokenSeriesCreateData::String seriesId
-```
-
-```cpp
-TokenSeriesCreateData::String symbol
-```
-
-```cpp
-TokenSeriesCreateData::UInt32 carbonSeriesId
-```
-
-```cpp
-TokenSeriesCreateData::UInt32 maxMint
-```
-
-```cpp
-TokenSeriesCreateData::UInt32 maxSupply
-```
-
-```cpp
-TokenSeriesCreateData::UInt64 carbonTokenId
 ```
 
 ```cpp
@@ -6000,12 +6360,1523 @@ VmStructSchemaResult::std::shared_ptr<VmStructSchemaResult> schema
 
 ### Variants
 
+- `AddressType::Carbon`
+- `AddressType::Phantasma`
+
+## Rpc/ExtendedEvents.h
+
+Source: `include/Rpc/ExtendedEvents.h`
+
+### Declarations
+
+```cpp
+enum class ExtendedEventType
+```
+
+```cpp
+inline SpecialResolutionCall ParseSpecialResolutionCall(const JSONValue& value, bool& jsonErr)
+```
+
+```cpp
+struct EventExtended
+```
+
+```cpp
+struct EventMetadataCollector
+```
+
+```cpp
+struct MarketOrderData
+```
+
+```cpp
+struct SpecialResolutionCall
+```
+
+```cpp
+struct SpecialResolutionData
+```
+
+```cpp
+struct TokenCreateData
+```
+
+```cpp
+struct TokenSeriesCreateData
+```
+
+### Methods
+
+```cpp
+EventExtended::ExtendedEventType type = ExtendedEventType::Unknown
+```
+
+```cpp
+EventExtended::MarketOrderData marketOrder
+```
+
+```cpp
+EventExtended::SpecialResolutionData specialResolution
+```
+
+```cpp
+EventExtended::String address
+```
+
+```cpp
+EventExtended::String contract
+```
+
+```cpp
+EventExtended::String kind
+```
+
+```cpp
+EventExtended::String unknownData
+```
+
+```cpp
+EventExtended::TokenCreateData tokenCreate
+```
+
+```cpp
+EventExtended::TokenSeriesCreateData tokenSeriesCreate
+```
+
+```cpp
+EventMetadataCollector::PHANTASMA_MAP<String, String>* metadata
+```
+
+```cpp
+EventMetadataCollector::bool* error
+```
+
+```cpp
+MarketOrderData::Int64 endDate = 0
+```
+
+```cpp
+MarketOrderData::Int64 startDate = 0
+```
+
+```cpp
+MarketOrderData::String baseSymbol
+```
+
+```cpp
+MarketOrderData::String buyer
+```
+
+```cpp
+MarketOrderData::String endPrice
+```
+
+```cpp
+MarketOrderData::String price
+```
+
+```cpp
+MarketOrderData::String quoteSymbol
+```
+
+```cpp
+MarketOrderData::String seller
+```
+
+```cpp
+MarketOrderData::String tokenId
+```
+
+```cpp
+MarketOrderData::String type
+```
+
+```cpp
+MarketOrderData::UInt64 carbonBaseTokenId = 0
+```
+
+```cpp
+MarketOrderData::UInt64 carbonInstanceId = 0
+```
+
+```cpp
+MarketOrderData::UInt64 carbonQuoteTokenId = 0
+```
+
+```cpp
+SpecialResolutionCall::PHANTASMA_VECTOR<SpecialResolutionCall> calls
+```
+
+```cpp
+SpecialResolutionCall::SpecialResolutionArgumentsPtr arguments
+```
+
+```cpp
+SpecialResolutionCall::String method
+```
+
+```cpp
+SpecialResolutionCall::String module
+```
+
+```cpp
+SpecialResolutionCall::UInt32 methodId = 0
+```
+
+```cpp
+SpecialResolutionCall::UInt32 moduleId = 0
+```
+
+```cpp
+SpecialResolutionData::PHANTASMA_VECTOR<SpecialResolutionCall> calls
+```
+
+```cpp
+SpecialResolutionData::String description
+```
+
+```cpp
+SpecialResolutionData::UInt64 resolutionId = 0
+```
+
+```cpp
+TokenCreateData::PHANTASMA_MAP<String, String> metadata
+```
+
+```cpp
+TokenCreateData::String maxSupply
+```
+
+```cpp
+TokenCreateData::String symbol
+```
+
+```cpp
+TokenCreateData::UInt32 decimals = 0
+```
+
+```cpp
+TokenCreateData::UInt64 carbonTokenId = 0
+```
+
+```cpp
+TokenCreateData::bool isNonFungible = false
+```
+
+```cpp
+TokenSeriesCreateData::PHANTASMA_MAP<String, String> metadata
+```
+
+```cpp
+TokenSeriesCreateData::String owner
+```
+
+```cpp
+TokenSeriesCreateData::String seriesId
+```
+
+```cpp
+TokenSeriesCreateData::String symbol
+```
+
+```cpp
+TokenSeriesCreateData::UInt32 carbonSeriesId = 0
+```
+
+```cpp
+TokenSeriesCreateData::UInt32 maxMint = 0
+```
+
+```cpp
+TokenSeriesCreateData::UInt32 maxSupply = 0
+```
+
+```cpp
+TokenSeriesCreateData::UInt64 carbonTokenId = 0
+```
+
+### Variants
+
 - `ExtendedEventType::MarketOrder`
 - `ExtendedEventType::SpecialResolution`
 - `ExtendedEventType::TokenCreate`
-- `ExtendedEventType::TokenMint`
 - `ExtendedEventType::TokenSeriesCreate`
 - `ExtendedEventType::Unknown`
+
+## Rpc/Prelude.h
+
+Source: `include/Rpc/Prelude.h`
+
+### Declarations
+
+```cpp
+#define PHANTASMA_STRLEN(x) strlen(x)
+```
+
+```cpp
+#define PHANTASMA_STRLEN(x) wcslen(x)
+```
+
+```cpp
+#define PHANTASMA_STRTOINT(x) std::strtoll(x, 0, 10)
+```
+
+```cpp
+#define PHANTASMA_STRTOINT(x) std::wcstoll(x, 0, 10)
+```
+
+```cpp
+JSONArray AsArray(const JSONValue&, bool& out_error)
+```
+
+```cpp
+JSONArray LookupArray(const JSONValue&, const Char* field, bool& out_error)
+```
+
+```cpp
+JSONValue IndexArray(const JSONArray&, int index, bool& out_error)
+```
+
+```cpp
+JSONValue LookupValue(const JSONValue&, const Char* field, bool& out_error)
+```
+
+```cpp
+JSONValue Parse(const JSONDocument&)
+```
+
+```cpp
+String AsString(const JSONValue&, bool& out_error)
+```
+
+```cpp
+String LookupString(const JSONValue&, const Char* field, bool& out_error)
+```
+
+```cpp
+String ScalarText(const JSONValue&, bool& out_error)
+```
+
+```cpp
+String ToText(const JSONValue&, bool& out_error)
+```
+
+```cpp
+bool AsBool(const JSONValue&, bool& out_error)
+```
+
+```cpp
+bool HasArrayField(const JSONValue&, const Char* field, bool& out_error)
+```
+
+```cpp
+bool HasField(const JSONValue&, const Char* field, bool& out_error)
+```
+
+```cpp
+bool IsArray(const JSONValue&, bool& out_error)
+```
+
+```cpp
+bool IsObject(const JSONValue&, bool& out_error)
+```
+
+```cpp
+bool IsString(const JSONValue&, bool& out_error)
+```
+
+```cpp
+bool LookupBool(const JSONValue&, const Char* field, bool& out_error)
+```
+
+```cpp
+int ArraySize(const JSONArray&, bool& out_error)
+```
+
+```cpp
+struct JSONBuilder
+```
+
+```cpp
+typedef JSONValue JSONArray
+```
+
+```cpp
+typedef PHANTASMA_BYTE Byte
+```
+
+```cpp
+typedef PHANTASMA_CHAR Char
+```
+
+```cpp
+typedef PHANTASMA_HTTPCLIENT HttpClient
+```
+
+```cpp
+typedef PHANTASMA_INT32 Int32
+```
+
+```cpp
+typedef PHANTASMA_INT64 Int64
+```
+
+```cpp
+typedef PHANTASMA_JSONARRAY JSONArray
+```
+
+```cpp
+typedef PHANTASMA_JSONBUILDER JSONBuilder
+```
+
+```cpp
+typedef PHANTASMA_JSONDOCUMENT JSONDocument
+```
+
+```cpp
+typedef PHANTASMA_JSONVALUE JSONValue
+```
+
+```cpp
+typedef PHANTASMA_STRING String
+```
+
+```cpp
+typedef PHANTASMA_STRINGBUILDER StringBuilder
+```
+
+```cpp
+typedef PHANTASMA_UINT32 UInt32
+```
+
+```cpp
+typedef PHANTASMA_UINT64 UInt64
+```
+
+```cpp
+typedef PHANTASMA_VECTOR<Byte> ByteArray
+```
+
+```cpp
+typedef String JSONDocument
+```
+
+```cpp
+typedef String JSONValue
+```
+
+```cpp
+typedef char Char
+```
+
+```cpp
+typedef int32_t Int32
+```
+
+```cpp
+typedef int64_t Int64
+```
+
+```cpp
+typedef std::string String
+```
+
+```cpp
+typedef std::string_view JSONValue
+```
+
+```cpp
+typedef std::stringstream StringBuilder
+```
+
+```cpp
+typedef std::wstring String
+```
+
+```cpp
+typedef std::wstring_view JSONValue
+```
+
+```cpp
+typedef std::wstringstream StringBuilder
+```
+
+```cpp
+typedef uint32_t UInt32
+```
+
+```cpp
+typedef uint64_t UInt64
+```
+
+```cpp
+typedef uint8_t Byte
+```
+
+```cpp
+typedef wchar_t Char
+```
+
+```cpp
+void AddArray(JSONBuilder&, const Char* key, Args... args)
+```
+
+```cpp
+void AddArrayWithNestedStringArray(JSONBuilder&, const Char* key, const String* values, int count, Args... args)
+```
+
+```cpp
+void AddString(JSONBuilder&, const Char* key, const Char* value)
+```
+
+```cpp
+void BeginObject(JSONBuilder&)
+```
+
+```cpp
+void EndObject(JSONBuilder&)
+```
+
+```cpp
+void VisitObjectFields(const JSONValue&, Visitor&& visit, bool& out_error)
+```
+
+### Methods
+
+```cpp
+JSONBuilder::StringBuilder s
+```
+
+```cpp
+JSONBuilder::bool empty = true
+```
+
+## Rpc/SpecialResolutionArguments.h
+
+Source: `include/Rpc/SpecialResolutionArguments.h`
+
+### Declarations
+
+```cpp
+struct SpecialResolutionArgumentsEntry
+```
+
+```cpp
+typedef SpecialResolutionArgumentsPtr (*SpecialResolutionArgumentsParser)(const JSONValue&, bool&)
+```
+
+```cpp
+typedef std::shared_ptr<SpecialResolutionArgumentsBase> SpecialResolutionArgumentsPtr
+```
+
+### Methods
+
+```cpp
+SpecialResolutionArgumentsEntry::SpecialResolutionArgumentsParser parse
+```
+
+```cpp
+SpecialResolutionArgumentsEntry::const Char* method
+```
+
+```cpp
+SpecialResolutionArgumentsEntry::const Char* module
+```
+
+## Rpc/SpecialResolutionArgumentsBase.h
+
+Source: `include/Rpc/SpecialResolutionArgumentsBase.h`
+
+### Declarations
+
+```cpp
+enum class SpecialResolutionArgumentType
+```
+
+```cpp
+struct RawArguments : SpecialResolutionArgumentsOf<SpecialResolutionArgumentType::Raw>
+```
+
+```cpp
+struct SpecialResolutionArgumentsBase
+```
+
+```cpp
+struct SpecialResolutionArgumentsOf : Base
+```
+
+```cpp
+struct UnrecognizedArguments : SpecialResolutionArgumentsOf<SpecialResolutionArgumentType::Unrecognized>
+```
+
+### Methods
+
+```cpp
+RawArguments::String rawArgs
+```
+
+```cpp
+SpecialResolutionArgumentsBase::SpecialResolutionArgumentType type = SpecialResolutionArgumentType::None
+```
+
+```cpp
+SpecialResolutionArgumentsBase::virtual ~SpecialResolutionArgumentsBase() = default
+```
+
+```cpp
+SpecialResolutionArgumentsOf::static constexpr SpecialResolutionArgumentType ArgumentType = Kind
+```
+
+```cpp
+UnrecognizedArguments::String json
+```
+
+### Variants
+
+- `SpecialResolutionArgumentType::Address`
+- `SpecialResolutionArgumentType::Balance`
+- `SpecialResolutionArgumentType::BurnFungible`
+- `SpecialResolutionArgumentType::BurnNonFungible`
+- `SpecialResolutionArgumentType::ChainConfig`
+- `SpecialResolutionArgumentType::CreateMintedTokenSeries`
+- `SpecialResolutionArgumentType::CreateToken`
+- `SpecialResolutionArgumentType::DeployContract`
+- `SpecialResolutionArgumentType::ExecuteScript`
+- `SpecialResolutionArgumentType::GasConfig`
+- `SpecialResolutionArgumentType::ImportContracts`
+- `SpecialResolutionArgumentType::Metadata`
+- `SpecialResolutionArgumentType::MintFungible`
+- `SpecialResolutionArgumentType::MintNonFungible`
+- `SpecialResolutionArgumentType::MintPhantasmaNonFungible`
+- `SpecialResolutionArgumentType::Name`
+- `SpecialResolutionArgumentType::NestedResolution`
+- `SpecialResolutionArgumentType::NodeConfig`
+- `SpecialResolutionArgumentType::NonFungibleInfo`
+- `SpecialResolutionArgumentType::NonFungibleInfoByRomId`
+- `SpecialResolutionArgumentType::None`
+- `SpecialResolutionArgumentType::PhantasmaVmConfig`
+- `SpecialResolutionArgumentType::Raw`
+- `SpecialResolutionArgumentType::RegisterName`
+- `SpecialResolutionArgumentType::RegisterTokenContract`
+- `SpecialResolutionArgumentType::RepairSeries`
+- `SpecialResolutionArgumentType::RepairToken`
+- `SpecialResolutionArgumentType::SeriesInfoByMetaId`
+- `SpecialResolutionArgumentType::Symbol`
+- `SpecialResolutionArgumentType::TokenReference`
+- `SpecialResolutionArgumentType::TokenSeries`
+- `SpecialResolutionArgumentType::TokenSeriesReference`
+- `SpecialResolutionArgumentType::TokensConfig`
+- `SpecialResolutionArgumentType::TransferFungible`
+- `SpecialResolutionArgumentType::TransferNonFungible`
+- `SpecialResolutionArgumentType::Unrecognized`
+- `SpecialResolutionArgumentType::UpdateSeriesMetadata`
+- `SpecialResolutionArgumentType::UpdateTokenMetadata`
+
+## Rpc/SpecialResolutionArgumentsGovernance.h
+
+Source: `include/Rpc/SpecialResolutionArgumentsGovernance.h`
+
+### Declarations
+
+```cpp
+struct AddressArguments : SpecialResolutionArgumentsOf<SpecialResolutionArgumentType::Address>
+```
+
+```cpp
+struct ChainConfigArguments : SpecialResolutionArgumentsOf<SpecialResolutionArgumentType::ChainConfig>
+```
+
+```cpp
+struct ConsensusNode
+```
+
+```cpp
+struct GasConfigArguments : SpecialResolutionArgumentsOf<SpecialResolutionArgumentType::GasConfig>
+```
+
+```cpp
+struct MetadataArguments : SpecialResolutionArgumentsOf<SpecialResolutionArgumentType::Metadata>
+```
+
+```cpp
+struct NameArguments : SpecialResolutionArgumentsOf<SpecialResolutionArgumentType::Name>
+```
+
+```cpp
+struct NestedResolutionArguments : SpecialResolutionArgumentsOf<SpecialResolutionArgumentType::NestedResolution>
+```
+
+```cpp
+struct NodeConfigArguments : SpecialResolutionArgumentsOf<SpecialResolutionArgumentType::NodeConfig>
+```
+
+```cpp
+struct RegisterNameArguments : SpecialResolutionArgumentsOf<SpecialResolutionArgumentType::RegisterName>
+```
+
+### Methods
+
+```cpp
+AddressArguments::String address
+```
+
+```cpp
+ChainConfigArguments::String allowedTxTypes
+```
+
+```cpp
+ChainConfigArguments::String blockRateTarget
+```
+
+```cpp
+ChainConfigArguments::String expiryWindow
+```
+
+```cpp
+ChainConfigArguments::String reserved1
+```
+
+```cpp
+ChainConfigArguments::String reserved2
+```
+
+```cpp
+ChainConfigArguments::String reserved3
+```
+
+```cpp
+ChainConfigArguments::String version
+```
+
+```cpp
+ConsensusNode::String id
+```
+
+```cpp
+ConsensusNode::String type
+```
+
+```cpp
+GasConfigArguments::String dataEscrowPerRow
+```
+
+```cpp
+GasConfigArguments::String dataTokenId
+```
+
+```cpp
+GasConfigArguments::String feeMultiplier
+```
+
+```cpp
+GasConfigArguments::String feeShift
+```
+
+```cpp
+GasConfigArguments::String gasBurnRatioMul
+```
+
+```cpp
+GasConfigArguments::String gasBurnRatioShift
+```
+
+```cpp
+GasConfigArguments::String gasDappRatioMul
+```
+
+```cpp
+GasConfigArguments::String gasDappRatioShift
+```
+
+```cpp
+GasConfigArguments::String gasFeeCreateTokenBase
+```
+
+```cpp
+GasConfigArguments::String gasFeeCreateTokenSeries
+```
+
+```cpp
+GasConfigArguments::String gasFeeCreateTokenSymbol
+```
+
+```cpp
+GasConfigArguments::String gasFeePerByte
+```
+
+```cpp
+GasConfigArguments::String gasFeeQuery
+```
+
+```cpp
+GasConfigArguments::String gasFeeRegisterName
+```
+
+```cpp
+GasConfigArguments::String gasFeeTransfer
+```
+
+```cpp
+GasConfigArguments::String gasProducerRatioMul
+```
+
+```cpp
+GasConfigArguments::String gasProducerRatioShift
+```
+
+```cpp
+GasConfigArguments::String gasTokenId
+```
+
+```cpp
+GasConfigArguments::String legacyDataEscrowPerRow
+```
+
+```cpp
+GasConfigArguments::String maxNameLength
+```
+
+```cpp
+GasConfigArguments::String maxStructureSize
+```
+
+```cpp
+GasConfigArguments::String maxTokenSymbolLength
+```
+
+```cpp
+GasConfigArguments::String minimumGasBill
+```
+
+```cpp
+GasConfigArguments::String minimumGasOffer
+```
+
+```cpp
+GasConfigArguments::String policyFeeCreateTokenBase
+```
+
+```cpp
+GasConfigArguments::String policyFeeCreateTokenSeries
+```
+
+```cpp
+GasConfigArguments::String policyFeeCreateTokenSymbol
+```
+
+```cpp
+GasConfigArguments::String policyFeeRegisterName
+```
+
+```cpp
+GasConfigArguments::String version
+```
+
+```cpp
+MetadataArguments::PHANTASMA_VECTOR<VmField> metadata
+```
+
+```cpp
+NameArguments::String name
+```
+
+```cpp
+NestedResolutionArguments::String resolutionId
+```
+
+```cpp
+NodeConfigArguments::PHANTASMA_VECTOR<ConsensusNode> nodes
+```
+
+```cpp
+RegisterNameArguments::String address
+```
+
+```cpp
+RegisterNameArguments::String name
+```
+
+## Rpc/SpecialResolutionArgumentsToken.h
+
+Source: `include/Rpc/SpecialResolutionArgumentsToken.h`
+
+### Declarations
+
+```cpp
+struct BalanceArguments
+```
+
+```cpp
+struct BurnFungibleArguments
+```
+
+```cpp
+struct BurnNonFungibleArguments
+```
+
+```cpp
+struct CreateMintedTokenSeriesArguments
+```
+
+```cpp
+struct CreateTokenArguments : SpecialResolutionArgumentsOf<SpecialResolutionArgumentType::CreateToken>
+```
+
+```cpp
+struct MintFungibleArguments
+```
+
+```cpp
+struct MintNonFungibleArguments
+```
+
+```cpp
+struct MintPhantasmaNonFungibleArguments
+```
+
+```cpp
+struct NftMint
+```
+
+```cpp
+struct NonFungibleInfoArguments
+```
+
+```cpp
+struct NonFungibleInfoByRomIdArguments
+```
+
+```cpp
+struct PhantasmaNftMint
+```
+
+```cpp
+struct SeriesInfoByMetaIdArguments
+```
+
+```cpp
+struct SymbolArguments : SpecialResolutionArgumentsOf<SpecialResolutionArgumentType::Symbol>
+```
+
+```cpp
+struct TokenReferenceArguments : SpecialResolutionArgumentsOf<SpecialResolutionArgumentType::TokenReference>
+```
+
+```cpp
+struct TokenSeriesArguments
+```
+
+```cpp
+struct TokenSeriesReferenceArguments
+```
+
+```cpp
+struct TokensConfigArguments : SpecialResolutionArgumentsOf<SpecialResolutionArgumentType::TokensConfig>
+```
+
+```cpp
+struct TransferFungibleArguments
+```
+
+```cpp
+struct TransferNonFungibleArguments
+```
+
+```cpp
+struct UpdateSeriesMetadataArguments
+```
+
+```cpp
+struct UpdateTokenMetadataArguments
+```
+
+### Methods
+
+```cpp
+BalanceArguments::String address
+```
+
+```cpp
+BurnFungibleArguments::String amount
+```
+
+```cpp
+BurnFungibleArguments::String from
+```
+
+```cpp
+BurnNonFungibleArguments::PHANTASMA_VECTOR<String> instanceIds
+```
+
+```cpp
+BurnNonFungibleArguments::String address
+```
+
+```cpp
+CreateMintedTokenSeriesArguments::PHANTASMA_VECTOR<String> rams
+```
+
+```cpp
+CreateMintedTokenSeriesArguments::PHANTASMA_VECTOR<String> roms
+```
+
+```cpp
+CreateMintedTokenSeriesArguments::String recipient
+```
+
+```cpp
+CreateTokenArguments::PHANTASMA_VECTOR<VmField> metadata
+```
+
+```cpp
+CreateTokenArguments::String decimals
+```
+
+```cpp
+CreateTokenArguments::String flags
+```
+
+```cpp
+CreateTokenArguments::String maxSupply
+```
+
+```cpp
+CreateTokenArguments::String owner
+```
+
+```cpp
+CreateTokenArguments::String symbol
+```
+
+```cpp
+CreateTokenArguments::String tokenSchemas
+```
+
+```cpp
+MintFungibleArguments::String amount
+```
+
+```cpp
+MintFungibleArguments::String to
+```
+
+```cpp
+MintNonFungibleArguments::PHANTASMA_VECTOR<NftMint> tokens
+```
+
+```cpp
+MintNonFungibleArguments::String owner
+```
+
+```cpp
+MintPhantasmaNonFungibleArguments::PHANTASMA_VECTOR<PhantasmaNftMint> tokens
+```
+
+```cpp
+MintPhantasmaNonFungibleArguments::String owner
+```
+
+```cpp
+NftMint::String ram
+```
+
+```cpp
+NftMint::String rom
+```
+
+```cpp
+NftMint::String seriesId
+```
+
+```cpp
+NonFungibleInfoArguments::String getSchemas
+```
+
+```cpp
+NonFungibleInfoArguments::String instanceId
+```
+
+```cpp
+NonFungibleInfoByRomIdArguments::String getSchemas
+```
+
+```cpp
+NonFungibleInfoByRomIdArguments::String romId
+```
+
+```cpp
+PhantasmaNftMint::String phantasmaSeriesId
+```
+
+```cpp
+PhantasmaNftMint::String ram
+```
+
+```cpp
+PhantasmaNftMint::String rom
+```
+
+```cpp
+SeriesInfoByMetaIdArguments::String romId
+```
+
+```cpp
+SymbolArguments::String symbol
+```
+
+```cpp
+TokenReferenceArguments::String token
+```
+
+```cpp
+TokenReferenceArguments::String tokenId
+```
+
+```cpp
+TokenSeriesArguments::PHANTASMA_VECTOR<VmField> metadata
+```
+
+```cpp
+TokenSeriesArguments::String maxMint
+```
+
+```cpp
+TokenSeriesArguments::String maxSupply
+```
+
+```cpp
+TokenSeriesArguments::String metadataRaw
+```
+
+```cpp
+TokenSeriesArguments::String owner
+```
+
+```cpp
+TokenSeriesArguments::String seriesId
+```
+
+```cpp
+TokenSeriesReferenceArguments::String seriesId
+```
+
+```cpp
+TokensConfigArguments::PHANTASMA_VECTOR<String> flagsNames
+```
+
+```cpp
+TokensConfigArguments::String flags
+```
+
+```cpp
+TransferFungibleArguments::String amount
+```
+
+```cpp
+TransferFungibleArguments::String from
+```
+
+```cpp
+TransferFungibleArguments::String to
+```
+
+```cpp
+TransferNonFungibleArguments::PHANTASMA_VECTOR<String> instanceIds
+```
+
+```cpp
+TransferNonFungibleArguments::String from
+```
+
+```cpp
+TransferNonFungibleArguments::String to
+```
+
+```cpp
+UpdateSeriesMetadataArguments::String metadata
+```
+
+```cpp
+UpdateSeriesMetadataArguments::String seriesId
+```
+
+```cpp
+UpdateTokenMetadataArguments::PHANTASMA_VECTOR<VmField> metadata
+```
+
+## Rpc/SpecialResolutionArgumentsVm.h
+
+Source: `include/Rpc/SpecialResolutionArgumentsVm.h`
+
+### Declarations
+
+```cpp
+struct ContractStorageRow
+```
+
+```cpp
+struct ContractStorageTable
+```
+
+```cpp
+struct DeployContractArguments : SpecialResolutionArgumentsOf<SpecialResolutionArgumentType::DeployContract>
+```
+
+```cpp
+struct ExecuteScriptArguments : SpecialResolutionArgumentsOf<SpecialResolutionArgumentType::ExecuteScript>
+```
+
+```cpp
+struct ImportContractsArguments : SpecialResolutionArgumentsOf<SpecialResolutionArgumentType::ImportContracts>
+```
+
+```cpp
+struct ImportedContract
+```
+
+```cpp
+struct PhantasmaVmConfigArguments : SpecialResolutionArgumentsOf<SpecialResolutionArgumentType::PhantasmaVmConfig>
+```
+
+```cpp
+struct RegisterTokenContractArguments
+```
+
+```cpp
+struct RepairSeriesArguments : SpecialResolutionArgumentsOf<SpecialResolutionArgumentType::RepairSeries>
+```
+
+```cpp
+struct RepairTokenArguments : SpecialResolutionArgumentsOf<SpecialResolutionArgumentType::RepairToken>
+```
+
+```cpp
+struct SeriesMintCountRepair
+```
+
+```cpp
+struct SeriesSupplement
+```
+
+```cpp
+struct TokenRepair
+```
+
+### Methods
+
+```cpp
+ContractStorageRow::String key
+```
+
+```cpp
+ContractStorageRow::String value
+```
+
+```cpp
+ContractStorageTable::PHANTASMA_VECTOR<ContractStorageRow> rows
+```
+
+```cpp
+ContractStorageTable::String name
+```
+
+```cpp
+DeployContractArguments::String abi
+```
+
+```cpp
+DeployContractArguments::String contractName
+```
+
+```cpp
+DeployContractArguments::String from
+```
+
+```cpp
+DeployContractArguments::String script
+```
+
+```cpp
+ExecuteScriptArguments::String gasFrom
+```
+
+```cpp
+ExecuteScriptArguments::String maxGas
+```
+
+```cpp
+ExecuteScriptArguments::String script
+```
+
+```cpp
+ImportContractsArguments::PHANTASMA_VECTOR<ImportedContract> contracts
+```
+
+```cpp
+ImportContractsArguments::String contractsCount
+```
+
+```cpp
+ImportedContract::PHANTASMA_VECTOR<ContractStorageRow> rootVariables
+```
+
+```cpp
+ImportedContract::PHANTASMA_VECTOR<ContractStorageTable> tables
+```
+
+```cpp
+ImportedContract::String abi
+```
+
+```cpp
+ImportedContract::String address
+```
+
+```cpp
+ImportedContract::String name
+```
+
+```cpp
+ImportedContract::String owner
+```
+
+```cpp
+ImportedContract::String script
+```
+
+```cpp
+PhantasmaVmConfigArguments::String featureLevel
+```
+
+```cpp
+PhantasmaVmConfigArguments::String fuelPerContractDeploy
+```
+
+```cpp
+PhantasmaVmConfigArguments::String gasAccount
+```
+
+```cpp
+PhantasmaVmConfigArguments::String gasConstructor
+```
+
+```cpp
+PhantasmaVmConfigArguments::String gasLeaderboard
+```
+
+```cpp
+PhantasmaVmConfigArguments::String gasNexus
+```
+
+```cpp
+PhantasmaVmConfigArguments::String gasOracle
+```
+
+```cpp
+PhantasmaVmConfigArguments::String gasOrganization
+```
+
+```cpp
+PhantasmaVmConfigArguments::String gasStandard
+```
+
+```cpp
+RegisterTokenContractArguments::String abi
+```
+
+```cpp
+RegisterTokenContractArguments::String script
+```
+
+```cpp
+RegisterTokenContractArguments::String symbol
+```
+
+```cpp
+RegisterTokenContractArguments::String token
+```
+
+```cpp
+RegisterTokenContractArguments::String tokenId
+```
+
+```cpp
+RepairSeriesArguments::PHANTASMA_VECTOR<SeriesMintCountRepair> repairs
+```
+
+```cpp
+RepairSeriesArguments::PHANTASMA_VECTOR<SeriesSupplement> supplements
+```
+
+```cpp
+RepairSeriesArguments::String repairsCount
+```
+
+```cpp
+RepairSeriesArguments::String supplementsCount
+```
+
+```cpp
+RepairTokenArguments::PHANTASMA_VECTOR<TokenRepair> repairs
+```
+
+```cpp
+RepairTokenArguments::String repairsCount
+```
+
+```cpp
+SeriesMintCountRepair::String abi
+```
+
+```cpp
+SeriesMintCountRepair::String importedLiveCount
+```
+
+```cpp
+SeriesMintCountRepair::String phantasmaSeriesId
+```
+
+```cpp
+SeriesMintCountRepair::String script
+```
+
+```cpp
+SeriesMintCountRepair::String token
+```
+
+```cpp
+SeriesMintCountRepair::String tokenId
+```
+
+```cpp
+SeriesSupplement::String abi
+```
+
+```cpp
+SeriesSupplement::String maxSupply
+```
+
+```cpp
+SeriesSupplement::String mintCount
+```
+
+```cpp
+SeriesSupplement::String mode
+```
+
+```cpp
+SeriesSupplement::String phantasmaSeriesId
+```
+
+```cpp
+SeriesSupplement::String rom
+```
+
+```cpp
+SeriesSupplement::String script
+```
+
+```cpp
+SeriesSupplement::String token
+```
+
+```cpp
+SeriesSupplement::String tokenId
+```
+
+```cpp
+TokenRepair::String abi
+```
+
+```cpp
+TokenRepair::String repairMask
+```
+
+```cpp
+TokenRepair::String script
+```
+
+```cpp
+TokenRepair::String symbol
+```
+
+```cpp
+TokenRepair::String token
+```
+
+```cpp
+TokenRepair::String tokenFlags
+```
+
+```cpp
+TokenRepair::String tokenId
+```
+
+## Rpc/VmValue.h
+
+Source: `include/Rpc/VmValue.h`
+
+### Declarations
+
+```cpp
+PHANTASMA_FUNCTION VmValue ParseVmValue(const JSONValue& value, bool& out_error)
+```
+
+```cpp
+enum class VmValueKind
+```
+
+```cpp
+struct VmFieldCollector
+```
+
+```cpp
+struct VmValue
+```
+
+### Methods
+
+```cpp
+VmFieldCollector::PHANTASMA_VECTOR<VmField>* fields
+```
+
+```cpp
+VmFieldCollector::bool* error
+```
+
+```cpp
+VmFieldCollector::void operator()(const String& name, const JSONValue& member) const
+```
+
+```cpp
+VmValue::PHANTASMA_VECTOR<VmField> fields
+```
+
+```cpp
+VmValue::PHANTASMA_VECTOR<std::shared_ptr<VmValue>> items
+```
+
+```cpp
+VmValue::String name
+```
+
+```cpp
+VmValue::String text
+```
+
+```cpp
+VmValue::VmValueKind kind = VmValueKind::Text
+```
+
+```cpp
+VmValue::std::shared_ptr<VmValue> value
+```
+
+### Variants
+
+- `VmValueKind::Fields`
+- `VmValueKind::Items`
+- `VmValueKind::Text`
 
 ## Security/SecureByteArray.h
 

@@ -27,16 +27,26 @@ is configured otherwise.
 
 | Group | High-level methods |
 | ----- | ------------------ |
-| Accounts | `GetAccount`, `GetAccounts`, `LookUpName`, `GetAddressTransactions`, `GetAddressTransactionCount` |
+| Accounts | `GetAccountInfo`, `GetAccountInfos`, `LookUpName`, `GetAddressTransactions`, `GetAddressTransactionCount`. `GetAccount` and `GetAccounts` are deprecated |
 | Blocks | `GetBlockHeight`, `GetBlockByHash`, `GetBlockByHeight`, `GetLatestBlock`, `GetBlockTransactionCountByHash` |
 | Transactions | `GetTransaction`, `GetTransactionByBlockHashAndIndex`, `SendRawTransaction`, `SendCarbonTransaction`, `InvokeRawScript` |
 | Chain metadata | `GetChains`, `GetChain`, `GetNexus`, `GetVersion`, `GetPhantasmaVmConfig` |
 | Contracts | `GetContracts`, `GetContract`, `GetContractByAddress` |
 | Organizations and leaderboards | `GetOrganization`, `GetOrganizations`, `GetOrganizationMembers`, `GetOrganizationMember`, `GetLeaderboard` |
-| Tokens | `GetTokens`, `GetToken`, `GetTokenSeries`, `GetTokenSeriesById`, `GetTokenNFTs`, `GetTokenData`, `GetTokenBalance` |
+| Tokens | `GetTokens`, `GetToken`, `GetTokenSeries`, `GetTokenSeriesById`, `GetTokenNFTs`, `GetTokenBalance`. `GetTokenData` is deprecated, and `GetNFT` covers it |
+| Fees | `GetGasConfig`, `EstimateTransaction` |
 | Account token inventory | `GetAccountFungibleTokens`, `GetAccountNFTs`, `GetAccountOwnedTokens`, `GetAccountOwnedTokenSeries` |
 | NFT and marketplace | `GetNFT`, `GetNFTs`, `GetAuctionsCount`, `GetAuctions`, `GetAuction` |
 | Archive | `GetArchive`, `WriteArchive`, `ReadArchive` |
+
+`GetGasConfig` returns the on-chain gas configuration and the chain parameters
+fee estimation needs. `EstimateTransaction` dry-runs a serialized envelope
+against current chain state, and it returns a standard RPC error until the
+estimate service is launched.
+
+{% content-ref url="/developers/sdks/cpp/fees-and-broadcasting.md" %}
+[Fees And Broadcasting](/developers/sdks/cpp/fees-and-broadcasting.md)
+{% endcontent-ref %}
 
 ## Chain-Aware Overloads
 
