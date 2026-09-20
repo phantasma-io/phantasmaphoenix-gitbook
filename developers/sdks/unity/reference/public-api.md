@@ -85,6 +85,10 @@ public class PhantasmaAPI
 ### Methods
 
 ```csharp
+public IEnumerator EstimateTransaction(string txData, Action<EstimateTransactionResult> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
+```
+
+```csharp
 public IEnumerator GetAccount(string addressText, Action<AccountResult> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
 ```
 
@@ -102,6 +106,22 @@ public IEnumerator GetAccountFungibleTokens(string account, string tokenSymbol, 
 
 ```csharp
 public IEnumerator GetAccountFungibleTokens(string account, string tokenSymbol, ulong carbonTokenId, uint pageSize, string cursor, bool checkAddressReservedByte, RpcAddressType addressType, Action<CursorPaginatedResult<BalanceResult[]>> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
+```
+
+```csharp
+public IEnumerator GetAccountInfo(string addressText, Action<AccountInfoResult> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
+```
+
+```csharp
+public IEnumerator GetAccountInfo(string addressText, bool checkAddressReservedByte, RpcAddressType addressType, Action<AccountInfoResult> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
+```
+
+```csharp
+public IEnumerator GetAccountInfos(string[] addresses, Action<AccountInfoResult[]> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
+```
+
+```csharp
+public IEnumerator GetAccountInfos(string[] addresses, bool checkAddressReservedByte, RpcAddressType addressType, Action<AccountInfoResult[]> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
 ```
 
 ```csharp
@@ -214,6 +234,10 @@ public IEnumerator GetContractByAddress(string chainAddressOrName, string contra
 
 ```csharp
 public IEnumerator GetContracts(Action<ContractResult[]> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
+```
+
+```csharp
+public IEnumerator GetGasConfig(Action<GasConfigResult> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
 ```
 
 ```csharp
@@ -341,6 +365,10 @@ public IEnumerator LookUpName(string name, Action<string> callback, Action<EPHAN
 ```
 
 ```csharp
+public IEnumerator PlanCarbonTransaction(IKeyPair[] keys, TxMsg txMsg, PlanAndSignOptions options, Action<FeePlan> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
+```
+
+```csharp
 public IEnumerator ReadArchive(string hashText, int blockIndex, Action<string> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
 ```
 
@@ -354,6 +382,10 @@ public IEnumerator SendRawTransaction(string txData, Hash txHash, Action<string,
 
 ```csharp
 public IEnumerator SignAndSendCarbonTransaction(IKeyPair keys, TxMsg txMsg, Action<string /*tx hash*/, string /*encoded tx*/> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
+```
+
+```csharp
+public IEnumerator SignAndSendCarbonTransaction(IKeyPair[] keys, TxMsg txMsg, PlanAndSignOptions options, Action<string /*tx hash*/, string /*encoded tx*/> callback, Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback = null, bool preflight = true, int timeout = WebClient.DefaultTimeout, int retries = WebClient.DefaultRetries)
 ```
 
 ```csharp

@@ -9,6 +9,7 @@
 - [Get Address Balances](/developers/sdks/unity/examples/get-address-balances.md)
 - [Get Address Token Balance](/developers/sdks/unity/examples/get-address-token-balance.md)
 - [Send Token](/developers/sdks/unity/examples/send-token.md)
+- [Send a Carbon Token](/developers/sdks/unity/examples/send-carbon-token.md)
 - [Check Transaction State](/developers/sdks/unity/examples/check-transaction-state.md)
 - [Stake SOUL](/developers/sdks/unity/examples/stake-soul.md)
 - [Unstake SOUL](/developers/sdks/unity/examples/unstake-soul.md)

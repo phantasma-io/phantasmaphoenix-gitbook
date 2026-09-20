@@ -9,8 +9,10 @@ symbol.
 `PhantasmaAPI` is constructed with an RPC host URL:
 
 ```csharp
-public PhantasmaAPI(string host);
+public PhantasmaAPI(string host, string apiKey = null);
 ```
+
+`apiKey` is sent as the `X-Api-Key` header on every RPC request.
 
 RPC methods return `IEnumerator` and should be executed with
 `StartCoroutine(...)`. Data is delivered through callbacks. Most methods accept
@@ -32,13 +34,23 @@ callback.
 
 | Method family | Use it when | Callback |
 | ---- | ---- | ---- |
-| `GetAccount` | Reading one account by address text. Overloads allow `extended`, reserved-byte checks, and `RpcAddressType`. | `Action<AccountResult>` |
-| `GetAccounts` | Reading several accounts. The SDK sends a comma-separated address list. | `Action<AccountResult[]>` |
+| `GetAccountInfo` | Reading the account name and staking info of one address. Overloads allow reserved-byte checks and `RpcAddressType`. | `Action<AccountInfoResult>` |
+| `GetAccountInfos` | Reading the same record for up to 100 addresses in one call. | `Action<AccountInfoResult[]>` |
+| `GetAccount` | Obsolete. Reading one account by address text. Overloads allow `extended`, reserved-byte checks, and `RpcAddressType`. | `Action<AccountResult>` |
+| `GetAccounts` | Obsolete. Reading several accounts. The SDK sends a comma-separated address list. | `Action<AccountResult[]>` |
 | `LookUpName` | Resolving a registered name to address text. | `Action<string>` |
 | `GetAccountFungibleTokens` | Listing fungible balances owned by an account. Overloads accept symbol, Carbon token id, page size, cursor, address checks, and address type. | `Action<CursorPaginatedResult<BalanceResult[]>>` |
 | `GetAccountNFTs` | Listing NFT instances owned by an account. Overloads accept symbol, Carbon token id, Carbon series id, page size, cursor, `extended`, address checks, and address type. | `Action<CursorPaginatedResult<TokenDataResult[]>>` |
 | `GetAccountOwnedTokens` | Listing NFT token definitions for which the account owns at least one instance. | `Action<CursorPaginatedResult<TokenResult[]>>` |
 | `GetAccountOwnedTokenSeries` | Listing NFT series for which the account owns at least one instance. | `Action<CursorPaginatedResult<TokenSeriesResult[]>>` |
+
+`GetAccountInfo` costs the same whatever the address holds. `GetAccount` and
+`GetAccounts` are obsolete, because their response embeds every NFT id the
+address owns and the node caps each `Balances[].Ids` list at 10000 entries
+while `Balances[].Amount` keeps the true count.
+
+The cursor methods accept a `pageSize` of 1 to 100. The NFT methods accept 1 to
+50 when `extended` is true.
 
 ## Auctions And Blocks
 
@@ -79,7 +91,7 @@ callback.
 | `GetTokenSeries` | Listing token series with cursor pagination. | `Action<CursorPaginatedResult<TokenSeriesResult[]>>` |
 | `GetTokenSeriesById` | Reading one series by Phantasma series id or Carbon series id. | `Action<TokenSeriesResult>` |
 | `GetTokenNFTs` | Listing NFTs for a Carbon token and optional series filters. | `Action<CursorPaginatedResult<TokenDataResult[]>>` |
-| `GetTokenData` | Reading token data by symbol and id. | `Action<TokenDataResult>` |
+| `GetTokenData` | Deprecated. Reading token data by symbol and id. `GetNFT` covers it entirely. | `Action<TokenDataResult>` |
 | `GetNFT` | Reading one NFT and optionally loading properties. | `Action<TokenDataResult>` |
 | `GetNFTs` | Reading several NFT ids. | `Action<TokenDataResult[]>` |
 | `GetTokenBalance` | Reading one token balance. Overloads allow address checks and `RpcAddressType`. | `Action<BalanceResult>` |
@@ -95,10 +107,27 @@ callback.
 | `InvokeRawScript(chainInput, scriptData, ...)` | Running a hex-encoded VM script without committing state. | `Action<ScriptResult>` |
 | `GetTransaction(hashText, ...)` | Reading a transaction by hash. | `Action<TransactionResult>` |
 | `SignAndSendTransaction(keys, nexus, script, chain, payload, ...)` | Building, signing, serializing, and broadcasting a Phantasma VM transaction. | `Action<string, string>` |
-| `SignAndSendCarbonTransaction(keys, txMsg, ...)` | Signing, serializing, and broadcasting a Carbon `TxMsg`. | `Action<string, string>` |
+| `SignAndSendCarbonTransaction(keys, txMsg, ...)` | Planning the fee, signing and broadcasting a Carbon `TxMsg`. | `Action<string, string>` |
+| `SignAndSendCarbonTransaction(keys[], txMsg, options, ..., preflight)` | The same with several witnesses, fee-plan options and an optional pre-flight. | `Action<string, string>` |
+| `PlanCarbonTransaction(keys[], txMsg, options, ...)` | Pricing a Carbon message without signing it. | `Action<FeePlan>` |
 
 The `SignAndSendTransaction` overloads accept string or byte-array payloads.
 The byte-array overload also accepts `customSignFunction`.
+
+## Fees And Gas Configuration
+
+| Method | Use it when | Callback |
+| ---- | ---- | ---- |
+| `GetGasConfig(...)` | Reading the on-chain gas configuration and the chain parameters. | `Action<GasConfigResult>` |
+| `EstimateTransaction(txData, ...)` | Dry-running a serialized envelope against current chain state. | `Action<EstimateTransactionResult>` |
+
+`GetGasConfig` changes only through a governance resolution, so the result is
+safe to cache. `EstimateTransaction` returns a standard RPC error until the
+estimate service is launched.
+
+{% content-ref url="/developers/sdks/unity/carbon-transactions.md" %}
+[Carbon Transactions And Fees](/developers/sdks/unity/carbon-transactions.md)
+{% endcontent-ref %}
 
 ## Storage And Validation
 

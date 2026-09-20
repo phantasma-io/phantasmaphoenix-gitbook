@@ -5,6 +5,9 @@ The Phantasma Unity SDK is distributed as Unity Package Manager packages. Use
 `PhantasmaPhoenix.Unity.LinkClient` when the project needs wallet connection
 through Phantasma Link.
 
+Both packages require Unity 2022.3 or later. The sample project in the SDK
+repository is built with Unity 6000.0 LTS.
+
 ## Importing the Phantasma Unity SDK to your project
 
 * Open your Unity project.
