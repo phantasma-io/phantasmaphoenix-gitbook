@@ -28,7 +28,7 @@ Disposes this API instance and the internal `RpcClient` if owned
 Gets the account name and staking info of an address
 
 **Parameters**
-- `account` — account address text
+- `account`: account address text
 
 **Returns**
 - `AccountInfoResult` or `null` if not found
@@ -44,7 +44,7 @@ Gets the account name and staking info of an address
 Gets the same record for a batch of up to 100 addresses in one call
 
 **Parameters**
-- `accounts` — array of account address texts
+- `accounts`: array of account address texts
 
 **Returns**
 - array of `AccountInfoResult` or `null`
@@ -673,11 +673,11 @@ Invokes a VM script without state changes and returns its result
 Plans, pre-flights, signs and broadcasts a Carbon message
 
 **Parameters**
-- `msg` — the Carbon message a builder produced
-- `signer` — one `ITxSigner`. Overloads take `IReadOnlyList<ITxSigner>`, one
+- `msg`: the Carbon message a builder produced
+- `signer`: one `ITxSigner`. Overloads take `IReadOnlyList<ITxSigner>`, one
   `IKeyPair` or an `IKeyPair[]`
-- `options` — fee-plan options plus `Preflight`, which defaults to `true`
-- `cancellationToken` — cancels the call
+- `options`: fee-plan options plus `Preflight`, which defaults to `true`
+- `cancellationToken`: cancels the call
 
 **Returns**
 - transaction hash text
@@ -762,7 +762,7 @@ Gets the on-chain gas configuration and the chain parameters fee estimation need
 Dry-runs a serialized transaction envelope against current chain state
 
 **Parameters**
-- `txData` — the serialized envelope as hex
+- `txData`: the serialized envelope as hex
 
 **Returns**
 - `EstimateTransactionResult` or `null`
@@ -788,8 +788,8 @@ Gets the gas token's id, which the pre-flight uses as its control lookup
 Gets what an NFT holds at its own address, in the form the fee planner prices
 
 **Parameters**
-- `tokenId` — the Carbon token id
-- `instanceId` — the Carbon instance id
+- `tokenId`: the Carbon token id
+- `instanceId`: the Carbon instance id
 
 **Returns**
 - the list of infused assets, which is empty when the NFT holds nothing

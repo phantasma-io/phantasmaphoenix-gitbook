@@ -22,6 +22,30 @@ or chain operations exposed outside a contract API.
 External Calls
 {% endcontent-ref %}
 
+## Fees Under Gas Model v2
+
+The chain bills every byte a transaction puts in the block, and it escrows every
+storage row the transaction creates. A Carbon message therefore carries a gas
+offer and a storage ceiling, and both have to be set before it is signed. A
+message signed with a zero offer is never admitted.
+
+Every SDK computes both from the message itself and from the chain's own gas
+configuration. Builders carry no prices. The flow is the same in each language:
+build the message, plan it, sign it, send it. Each SDK also has one call that
+does all four.
+
+Each SDK documents this on its own fees page:
+
+| SDK | Page |
+| --- | ---- |
+| TypeScript | [Fees And Broadcasting](/developers/sdks/ts/fees-and-broadcasting.md) |
+| C# | [Fees And Broadcasting](/developers/sdks/csharp/fees-and-broadcasting.md) |
+| Unity | [Carbon Transactions And Fees](/developers/sdks/unity/carbon-transactions.md) |
+| Go | [Fees And Broadcasting](/developers/sdks/go/fees-and-broadcasting.md) |
+| Python | [Fees And Broadcasting](/developers/sdks/python/fees-and-broadcasting.md) |
+| Rust | [Fees And Broadcasting](/developers/sdks/rust/fees-and-broadcasting.md) |
+| C++ | [Fees And Broadcasting](/developers/sdks/cpp/fees-and-broadcasting.md) |
+
 ## Supported Languages
 
 * C#
