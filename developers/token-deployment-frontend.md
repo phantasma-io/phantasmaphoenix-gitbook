@@ -16,48 +16,59 @@ If the wallet nexus does not match the site, the UI can show data from one netwo
 
 - Use a Phantasma Link [wallet](https://phantasma.info/blockchain/#wallets) (Poltergeist Lite or compatible).
 - For contract lifecycle flows, use local socket transport. Current injected wallet transport is not suitable for these PoW-backed VM transactions.
-- Make sure you have enough KCAL for gas and enough SOUL for data escrow (maxData) when working with Carbon token flows. The UI shows both in the Fees & limits panels (see the Fees section below).
+- Make sure you have enough KCAL for gas, and enough SOUL for the storage deposit when a Carbon token flow creates storage rows. The Network fee panel shows both before you sign. See the Fees section below.
 - Prepare a small token icon as a base64 data URI (PNG, JPEG, or WebP). Size limits are listed below.
 - For contract lifecycle flows, prepare matching compiled `.pvm` and `.abi` artifacts from `pha-tomb`.
 
 <a id="fees-kcal"></a>
-## Fees: KCAL + SOUL (default estimates)
+## Fees
 
-These are user-facing estimates based on current UI defaults; on-chain governance can change them. Always confirm the final fee shown by the wallet before signing.
+There is nothing to configure. The chain prices each transaction, and the page
+plans the fee from the message itself.
 
-Each tab has a **Fees & limits** panel. It shows **Estimated totals (max)**:
-- **KCAL**: max gas (`maxGas`) calculated from the fee values you enter.
-- **SOUL**: max data (`maxData`) cap for storage escrow.
+Each form has a **Network fee** panel. It shows what the transaction will cost:
 
-These are maximums. The final amounts are computed on-chain and shown by the wallet. Unused gas or data escrow is refunded.
+- **Gas**, in KCAL. This pays for the work the chain does and for the bytes the
+  block carries.
+- **Storage deposit**, in SOUL. It is shown only when the transaction creates
+  storage rows. It is held for as long as those rows exist, and it comes back
+  when they are deleted.
 
-### KCAL gas (computation + bandwidth)
+The panel asks the node for its gas config and prices the exact message the
+form describes. While that happens it says "Asking the chain for its prices".
 
-Estimated base fee (KCAL only, without SOUL data escrow):
-- Create token: about 10,000 to 20,000 KCAL, depending on symbol length.
-  - length 1 -> 20,000.01 KCAL
-  - length 4 -> 11,250.01 KCAL
-  - length 10 -> 10,019.54125 KCAL
-  - Each extra symbol character halves the symbol fee, so longer symbols are slightly cheaper (within the range above).
-- Create series: about 2,500.01 KCAL
-- Mint NFT: about 0.001 KCAL (per NFT, plus SOUL data escrow)
+### An amount or an upper bound
 
-KCAL covers execution cost and bandwidth (payload/result/events sizes). The wallet shows the final KCAL fee before signing.
+Some of the price depends on chain state that the message does not carry. Two
+examples are whether the recipient already holds the token, and which mode a
+series mints in. Each such fact is taken at the reading that costs more.
 
-### SOUL data escrow (maxData)
+The panel says which of the two it is showing:
 
-SOUL data escrow pays for permanent storage growth. It is not based on payload size.
+- Without "up to", the chain prices the transaction with its own formula, and
+  that is what it will cost.
+- With "up to" in front of the amount, the number is the most the transaction
+  can cost. It can settle below that, and the difference is refunded.
 
-How it works (chain behavior):
-- Storage growth is measured in rows of 1024 bytes (1 KiB) of key/value data.
-- For each state change, the key size and value size are added and rounded up to the next 1024-byte block (1 KiB).
-- Only increases in row count are charged; deletions can refund SOUL.
-- `dataFee = rowsAdded * dataEscrowPerRow` where `dataEscrowPerRow` is a governance parameter.
-- The transaction sets `TxMsg.maxData` as the maximum SOUL escrow. If `dataFee > maxData`, the transaction is aborted.
+### Before a token creation
 
-UI specifics:
-- **Max data (SOUL)** expects an integer in SOUL base units (1 SOUL = 100,000,000 base units).
-- **Estimated totals (max)** shows both the human SOUL value and the base units for clarity.
+`Token.CreateToken` is charged its policy fee before the contract looks at the
+symbol, and that fee is the largest single price in the protocol. A symbol that
+is already taken would cost the fee and create nothing.
+
+The page therefore asks the chain whether the symbol is free before the wallet
+is asked to sign. It refuses to continue when the chain says the symbol is
+taken, and also when the lookup could not establish an answer.
+
+### Contract lifecycle
+
+A contract lifecycle transaction is a VM script instead of a Carbon message, and
+no formula prices a script. The page asks the chain's estimate service, which
+dry-runs the transaction and reports the bill it would settle. The offer is
+capped at the payer's gas token balance, because an envelope that offers more
+than the payer holds is refused instead of priced.
+
+The wallet then shows one number, and that number came from the chain.
 
 ## Token flows
 
@@ -172,6 +183,15 @@ Royalties input:
 4. Fill ROM metadata fields (all required).
 5. If RAM schema exists, fill RAM fields too.
 6. Sign the transaction. The UI will display minted NFT addresses and the Phantasma ID.
+
+## Infuse NFTs
+
+Infusion transfers assets to the target NFT's own Carbon address. The **Infuse**
+tab takes the target NFT and the instances to move into it.
+
+Several token ids in one infusion are sent as a batched call. The chain bills a
+batch as the sum of its calls, with the envelope counted once, and the Network
+fee panel prices it that way.
 
 ## Contract lifecycle
 

@@ -25,7 +25,9 @@ The Token Deployment UI is a web interface for creating Carbon tokens and NFTs, 
    - **Contract** for VM contract lifecycle
    - **Series**, **Mint**, or **Infuse** for NFT flows
 4. Fill in the required fields.
-5. Review and sign the transaction in your wallet.
+5. Read the Network fee panel. It shows what the chain will charge, and there is
+   nothing to configure.
+6. Review and sign the transaction in your wallet.
 
 For contract lifecycle actions, upload compiled `.pvm` and `.abi` artifacts from `pha-tomb`.
 
