@@ -151,7 +151,6 @@ Current lifecycle builders include:
 | ------- | ------- |
 | `build_create_token_tx` | Create a Carbon token payload. |
 | `build_create_token_series_tx` | Create a token series payload. |
-| `build_mint_non_fungible_tx` | Mint Carbon NFTs with explicit ROM/RAM bytes. |
 | `build_mint_phantasma_non_fungible_tx` | Mint Phantasma NFT metadata through the Carbon token module. |
 | `build_mint_phantasma_non_fungible_single_tx` | Convenience builder for one Phantasma NFT mint. |
 

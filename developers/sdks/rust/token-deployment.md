@@ -78,11 +78,11 @@ series metadata instead of each NFT ROM.
 ```rust
 use phantasma_sdk::{
     build_create_token_tx_and_sign_hex, build_token_info, build_token_metadata,
-    bytes32_from_public_key, prepare_standard_token_schemas, serialize, IntX,
-    PhantasmaKeys, Result,
+    bytes32_from_public_key, prepare_standard_token_schemas, serialize, GasConfig, IntX,
+    PhantasmaKeys, PlanAndSignOptions, Result,
 };
 
-fn build_create_token_hex(wif: &str) -> Result<String> {
+fn build_create_token_hex(wif: &str, config: &GasConfig) -> Result<String> {
     let keys = PhantasmaKeys::from_wif(wif)?;
     let owner = bytes32_from_public_key(&keys.public_key())?;
     let schemas = prepare_standard_token_schemas(false);
@@ -102,9 +102,20 @@ fn build_create_token_hex(wif: &str) -> Result<String> {
         serialize(&schemas)?,
     )?;
 
-    build_create_token_tx_and_sign_hex(token_info, &keys)
+    build_create_token_tx_and_sign_hex(token_info, &keys, Some(config), &PlanAndSignOptions::default())
 }
 ```
+
+The builders carry no prices, so the signing helper plans the message against
+the chain's `GasConfig` first. Read it with `rpc.fees().config(false).await?`.
+
+`rpc.send_tx_msg(&msg, &signers, &SendTransactionOptions::default())` does the
+whole flow instead: it plans the fee, runs the token-creation pre-flight, signs
+and broadcasts.
+
+{% content-ref url="/developers/sdks/rust/fees-and-broadcasting.md" %}
+[Fees And Broadcasting](/developers/sdks/rust/fees-and-broadcasting.md)
+{% endcontent-ref %}
 
 For NFT tokens:
 
@@ -152,7 +163,13 @@ fn build_create_series_hex(wif: &str, carbon_token_id: u64) -> Result<String> {
         owner,
     )?;
 
-    build_create_token_series_tx_and_sign_hex(carbon_token_id, series_info, &keys)
+    build_create_token_series_tx_and_sign_hex(
+        carbon_token_id,
+        series_info,
+        &keys,
+        Some(config),
+        &PlanAndSignOptions::default(),
+    )
 }
 ```
 

@@ -37,7 +37,7 @@ use phantasma_sdk::{PhantasmaRpc, Result};
 #[tokio::main]
 async fn main() -> Result<()> {
     let rpc = PhantasmaRpc::new("http://localhost:5172/rpc");
-    let account = rpc.get_account("P...").await?;
+    let info = rpc.get_account_info("P...").await?;
 
     if let Some(balance) = account.token_balance("SOUL") {
         println!("{}", balance.decimal_amount());
@@ -166,7 +166,7 @@ let carbon_hash = rpc.send_carbon_transaction(&raw_carbon_tx_bytes).await?;
 ```
 
 `sign_and_send_transaction(...)`, `send_transaction(...)`,
-`sign_and_send_carbon_transaction(...)`, and `send_signed_tx_msg(...)` combine
+`send_tx_msg(...)`, and `send_signed_tx_msg(...)` combine
 local signing or serialization with RPC broadcast helpers.
 
 For the full broadcast, confirmation, and result parser flow, see
@@ -200,4 +200,6 @@ parameter order expected by current RPC methods.
 | Tokens and NFTs | `get_token`, `get_tokens`, `get_token_balance`, `get_token_series`, `get_token_nfts`, `get_nft`, `get_nfts` |
 | Account token cursors | `get_account_fungible_tokens`, `get_account_nfts`, `get_account_owned_tokens`, `get_account_owned_token_series` |
 | Auctions and archives | `get_auctions`, `get_auction`, `get_archive`, `read_archive`, `write_archive` |
-| Scripts and Carbon | `invoke_raw_script`, `send_carbon_transaction`, `sign_carbon_transaction` |
+| Scripts and Carbon | `invoke_raw_script`, `send_tx_msg`, `send_carbon_transaction`, `send_signed_tx_msg` |
+| Accounts | `get_account_info`, `get_account_infos`. `get_account` and `get_accounts` are deprecated |
+| Fees | `fees()`, `get_gas_config`, `estimate_transaction`, `preflight_transaction`, `control_token_id`, `infused_assets` |

@@ -14,7 +14,7 @@ or custom messages not covered by a builder.
 
 | Layer | Main APIs | Use it for |
 | ----- | --------- | ---------- |
-| Lifecycle builders | `build_create_token_tx`, `build_create_token_series_tx`, `build_mint_non_fungible_tx`, `build_mint_phantasma_non_fungible_tx`, signed, hex, and `_with_options` builder variants | Build token, series, and NFT transaction messages with SDK fee defaults, expiry defaults, schema validation, explicit option overloads, and signer-derived addresses where the signed variants provide them. |
+| Lifecycle builders | `build_create_token_tx`, `build_create_token_series_tx`, `build_mint_phantasma_non_fungible_tx`, signed and hex builder variants | Build token, series and NFT transaction messages. The builders carry no prices, so the signed variants plan the message against a `GasConfig` first. |
 | Typed messages | `TxMsg`, `TxPayload`, `TxMsg*`, `SignedTxMsg`, `Witness`, module argument structures | Inspect, assemble, sign, serialize, or deserialize Carbon transaction messages directly when a lifecycle builder is not the right shape. |
 | Wire primitives | `CarbonReader`, `CarbonWriter`, `serialize`, `deserialize`, `VMType`, `VMValue`, `VMDynamicVariable`, `VMDynamicStruct` | Implement protocol tooling, tests, diagnostics, schema-aware metadata handling, or custom message support that does not have a lifecycle builder. |
 
@@ -301,43 +301,56 @@ Call and transaction payload structures:
 
 ## Fees
 
-| Type or method | Purpose | Defaults and formula |
-| -------------- | ------- | -------------------- |
-| `FeeOptions` | Base fee policy for mint operations. | `Default`: `gas_fee_base = 10_000`, `fee_multiplier = 1_000`. `calculate_max_gas()` returns `gas_fee_base * fee_multiplier`; `calculate_max_gas_for_count(count)` multiplies that by a positive count and reports overflow as an SDK error. |
-| `CreateTokenFeeOptions` | Fee policy for create-token messages. | `Default`: `gas_fee_base = 10_000`, `fee_multiplier = 10_000`, `gas_fee_create_token_base = 10_000_000_000`, `gas_fee_create_token_symbol = 10_000_000_000`. |
-| `CreateTokenFeeOptions::calculate_max_gas_for_symbol(symbol)` | Calculates create-token gas from symbol length. | `shift = symbol.0.len().saturating_sub(1)`. Symbol fee is `gas_fee_create_token_symbol >> shift` when `shift < 64`, otherwise zero. Final value is `(gas_fee_base + gas_fee_create_token_base + symbol_part) * fee_multiplier`. |
-| `CreateSeriesFeeOptions` | Fee policy for create-series messages. | `Default`: `gas_fee_base = 10_000`, `fee_multiplier = 10_000`, `gas_fee_create_series_base = 2_500_000_000`. `calculate_max_gas()` returns `(gas_fee_base + gas_fee_create_series_base) * fee_multiplier`. |
-| `MintNftFeeOptions` / `MintNFTFeeOptions` | Mint fee policy. | Type aliases of `FeeOptions`. Direct NFT mint builders use one-item gas; Phantasma NFT batch builders call `calculate_max_gas_for_count(tokens.len())`. |
+Builders carry no prices. A message is priced after it is built, from the
+message itself and the chain's own gas configuration.
+
+| Type or method | Purpose |
+| -------------- | ------- |
+| `PhantasmaRpc::fees()` | The `FeePlanner` of this chain. It caches the gas config and prices messages. |
+| `plan_fees(&msg, &config, &options)` | The same calculation against a `GasConfig` the caller holds. |
+| `FeePlan` | `max_gas`, `max_data`, `expected_gas_bill`, `kinds`, `exact`, `envelope_bytes`, `apply(&msg)`. |
+| `FeePlanOptions` | The chain-state facts a caller may state, plus `witness_count`. |
+| `summarize_fee_plan(&plan)` | `gas_bill`, `gas_offer` and `storage_ceiling` as decimal strings. |
+| `NativeFeeKind` | The operation kinds the planner prices. |
+| `burned_instances(&msg)` | The NFT instances a message burns, in any shape. |
+| `TxLimits` | `max_gas`, `max_data` and `expiry`, plus `DEFAULT_TX_EXPIRY` and `expiry_within`. |
+| `TxSigner`, `sign_tx_msg_with_keys`, `sign_tx_msg_with` | Any witness that can sign, and the signing helpers. |
+| `PlanAndSignOptions` | `facts` and `limits`, taken by the `build_*_tx_and_sign` helpers. |
+
+{% content-ref url="/developers/sdks/rust/fees-and-broadcasting.md" %}
+[Fees And Broadcasting](/developers/sdks/rust/fees-and-broadcasting.md)
+{% endcontent-ref %}
 
 ## Lifecycle Builders
 
-All lifecycle builders use `expiry == 0` as "set expiry to
-`now_unix_millis() + 60_000`". Pass a non-zero `expiry` when the application must
-control the expiration timestamp. Default signing overloads use `max_data =
-100_000_000`.
+A builder takes a `TxLimits`. An `expiry` of `0` becomes `DEFAULT_TX_EXPIRY`
+from now, which is 45 seconds. A nonzero `max_gas` fixes the offer and skips
+planning.
+
+The `_and_sign` variants take `config: Option<&GasConfig>` and a
+`&PlanAndSignOptions`. They plan the message against the config before signing
+it, unless the limits already fix `max_gas`. Passing `None` for the config on an
+unplanned message is an error.
 
 | Builder | Purpose | Inputs | Returns and failures |
 | ------- | ------- | ------ | -------------------- |
 | `now_unix_millis()` | Current Unix time in milliseconds. | None. | Returns `i64`. |
-| `build_create_token_tx(token_info, creator, fees, max_data, expiry)` | Builds unsigned create-token `Call` message. | `token_info`: `TokenInfo`. `creator`: `Bytes32` used as `gas_from`. `fees`: `Option<CreateTokenFeeOptions>`. | Returns `Result<TxMsg>` with `ModuleId::Token`, `TokenContractMethod::CreateToken`, serialized `TokenInfo`, empty `SmallString` payload, default expiry if `expiry` is zero, and create-token gas formula. |
-| `build_create_token_tx_and_sign(token_info, signer)` | Builds, signs, and serializes create-token message with defaults. | `signer`: `PhantasmaKeys`. | Returns `Result<Vec<u8>>`. Derives creator from `signer.public_key()`, uses default fees, `max_data = 100_000_000`, and default expiry. |
-| `build_create_token_tx_and_sign_with_options(token_info, signer, fees, max_data, expiry)` | Builds, signs, and serializes create-token message with explicit options. | Same as unsigned builder plus signer. | Returns `Result<Vec<u8>>`. |
-| `build_create_token_tx_and_sign_hex(...)` | Hex form of signed create-token message with defaults. | Same as default `_and_sign`. | Returns lowercase `Result<String>`. |
-| `build_create_token_tx_and_sign_hex_with_options(...)` | Hex form of signed create-token message with explicit options. | Same as `_with_options`. | Returns lowercase `Result<String>`. |
-| `build_create_token_series_tx(token_id, series_info, creator, fees, max_data, expiry)` | Builds unsigned create-series `Call` message. | `token_id`: Carbon token id. `series_info`: `SeriesInfo`. `creator`: `Bytes32`. | Returns `Result<TxMsg>` with `TokenContractMethod::CreateTokenSeries`; args are serialized `CreateTokenSeriesArgs`. |
-| `build_create_token_series_tx_and_sign(token_id, series_info, signer)` | Builds, signs, and serializes create-series message with defaults. | `signer`: `PhantasmaKeys`. | Returns `Result<Vec<u8>>`; derives creator from `signer.public_key()`. |
-| `build_create_token_series_tx_and_sign_with_options(...)` | Builds, signs, and serializes create-series message with explicit options. | Token id, series info, signer, fees, max data, expiry. | Returns `Result<Vec<u8>>`. |
-| `build_create_token_series_tx_and_sign_hex(...)` | Hex form of signed create-series message with defaults. | Same as default `_and_sign`. | Returns lowercase `Result<String>`. |
-| `build_create_token_series_tx_and_sign_hex_with_options(...)` | Hex form of signed create-series message with explicit options. | Same as `_with_options`. | Returns lowercase `Result<String>`. |
-| `build_mint_non_fungible_tx(token_id, series_id, sender, receiver, rom, ram, fees, max_data, expiry)` | Builds direct `MintNonFungible` message. | Carbon token id, Carbon series id, sender and receiver `Bytes32`, ROM bytes, RAM bytes, optional fees. | Returns `TxMsg`; `sender` is `gas_from`. |
-| `build_mint_non_fungible_tx_and_sign(...)` | Builds, signs, and serializes direct NFT mint message. | `signer`: `PhantasmaKeys`; receiver and metadata args match unsigned builder. | Returns `Result<Vec<u8>>`; derives sender from `signer.public_key()`. |
-| `build_mint_non_fungible_tx_and_sign_hex(...)` | Hex form of signed direct NFT mint message. | Same as `_and_sign`. | Returns lowercase `Result<String>`. |
-| `build_mint_phantasma_non_fungible_tx(token_id, sender, receiver, tokens, fees, max_data, expiry)` | Builds `Call` message for `MintPhantasmaNonFungible`. | `tokens`: vector of `PhantasmaNFTMintInfo`. | Returns `Result<TxMsg>` with serialized `MintPhantasmaNonFungibleArgs`. |
-| `build_mint_phantasma_non_fungible_tx_and_sign(...)` | Builds, signs, and serializes batch Phantasma NFT mint message. | `signer`: `PhantasmaKeys`. | Returns `Result<Vec<u8>>`; derives sender from `signer.public_key()`. |
-| `build_mint_phantasma_non_fungible_tx_and_sign_hex(...)` | Hex form of signed batch Phantasma NFT mint message. | Same as `_and_sign`. | Returns lowercase `Result<String>`. |
-| `build_mint_phantasma_non_fungible_single_tx(token_id, phantasma_series_id, sender, receiver, public_rom, ram, fees, max_data, expiry)` | Builds batch Phantasma NFT mint message for one token. | `phantasma_series_id`: `BigInt` input. `public_rom`: public ROM bytes. | Returns `Result<TxMsg>`; internally wraps one `PhantasmaNFTMintInfo { phantasma_series_id: IntX(...), rom: public_rom, ram }`. |
-| `build_mint_phantasma_non_fungible_single_tx_and_sign(...)` | Builds, signs, and serializes one-token Phantasma NFT mint message. | `signer`: `PhantasmaKeys`. | Returns `Result<Vec<u8>>`. |
-| `build_mint_phantasma_non_fungible_single_tx_and_sign_hex(...)` | Hex form of signed one-token Phantasma NFT mint message. | Same as `_and_sign`. | Returns lowercase `Result<String>`. |
+| `build_create_token_tx(token_info, creator, limits)` | Builds the unsigned create-token `Call` message. | `token_info`: `TokenInfo`. `creator`: `Bytes32` used as `gas_from`. | Returns `Result<TxMsg>` with `ModuleId::Token`, `TokenContractMethod::CreateToken` and the serialized `TokenInfo`. |
+| `build_create_token_tx_and_sign(token_info, signer, config, options)` | Plans, signs and serializes the create-token message. | `signer`: `PhantasmaKeys`. `config`: `Option<&GasConfig>`. | Returns `Result<Vec<u8>>`. Derives the creator from `signer.public_key()`. |
+| `build_create_token_tx_and_sign_hex(...)` | Hex form of the signed create-token message. | Same as `_and_sign`. | Returns lowercase `Result<String>`. |
+| `build_create_token_series_tx(token_id, series_info, creator, limits)` | Builds the unsigned create-series `Call` message. | `token_id`: Carbon token id. `series_info`: `SeriesInfo`. `creator`: `Bytes32`. | Returns `Result<TxMsg>` with `TokenContractMethod::CreateTokenSeries` and the serialized `CreateTokenSeriesArgs`. |
+| `build_create_token_series_tx_and_sign(token_id, series_info, signer, config, options)` | Plans, signs and serializes the create-series message. | `signer`: `PhantasmaKeys`. | Returns `Result<Vec<u8>>`; derives the creator from `signer.public_key()`. |
+| `build_create_token_series_tx_and_sign_hex(...)` | Hex form of the signed create-series message. | Same as `_and_sign`. | Returns lowercase `Result<String>`. |
+| `build_mint_phantasma_non_fungible_tx(token_id, sender, receiver, tokens, limits)` | Builds the `Call` message for `MintPhantasmaNonFungible`. | `tokens`: vector of `PhantasmaNFTMintInfo`. | Returns `Result<TxMsg>` with the serialized `MintPhantasmaNonFungibleArgs`. |
+| `build_mint_phantasma_non_fungible_tx_and_sign(...)` | Plans, signs and serializes the batch mint message. | `signer`: `PhantasmaKeys`. | Returns `Result<Vec<u8>>`; derives the sender from `signer.public_key()`. |
+| `build_mint_phantasma_non_fungible_tx_and_sign_hex(...)` | Hex form of the signed batch mint message. | Same as `_and_sign`. | Returns lowercase `Result<String>`. |
+| `build_mint_phantasma_non_fungible_single_tx(token_id, phantasma_series_id, sender, receiver, public_rom, ram, limits)` | Builds the mint message for one instance. | `phantasma_series_id`: `BigInt` input. `public_rom`: public ROM bytes. | Returns `Result<TxMsg>`; it wraps one `PhantasmaNFTMintInfo`. |
+| `build_mint_phantasma_non_fungible_single_tx_and_sign(...)` | Plans, signs and serializes the one-instance mint message. | `signer`: `PhantasmaKeys`. | Returns `Result<Vec<u8>>`. |
+| `build_mint_phantasma_non_fungible_single_tx_and_sign_hex(...)` | Hex form of the signed one-instance mint message. | Same as `_and_sign`. | Returns lowercase `Result<String>`. |
+
+The SDK carries no builder for a direct `MintNonFungible`. The chain refuses
+that operation where governance has not allowed caller-supplied ROM ids, and
+that is the state of the public chains today.
 
 ## NFT Address And Result Parsers
 

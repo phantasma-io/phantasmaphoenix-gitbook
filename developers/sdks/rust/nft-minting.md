@@ -9,7 +9,7 @@ You need:
 
 - a funded signing key;
 - the Carbon token id returned by `CreateToken`;
-- the Carbon series id returned by `CreateTokenSeries`;
+- the Phantasma series id used when the series was created;
 - the token schemas used by the token;
 - a receiver as `Bytes32`;
 - ROM metadata that matches the token ROM schema.
@@ -24,19 +24,26 @@ The standard NFT ROM fields are:
 
 `royalties` is the integer on-chain royalty value. `10_000_000` represents 1%.
 
-## Build Standard NFT ROM
+## Build The Public ROM
+
+`build_phantasma_nft_rom(...)` serializes the public part of the ROM. It rejects
+the reserved fields `_i` and `rom`, because the chain owns them for a
+deterministic mint.
+
+Use the ROM schema the token was created with. The example continues from a
+token created with `prepare_standard_token_schemas(false)`, which puts the
+standard fields in the per-NFT ROM.
 
 ```rust
 use phantasma_sdk::{
-    build_nft_rom, prepare_standard_token_schemas, Result, VMValue,
+    build_phantasma_nft_rom, prepare_standard_token_schemas, Result, VMValue,
 };
 
 fn build_rom() -> Result<Vec<u8>> {
     let schemas = prepare_standard_token_schemas(false);
 
-    build_nft_rom(
+    build_phantasma_nft_rom(
         &schemas.rom,
-        1i64,
         &[
             ("name", VMValue::String("Example NFT #1".to_string())),
             ("description", VMValue::String("Example NFT metadata".to_string())),
@@ -48,34 +55,43 @@ fn build_rom() -> Result<Vec<u8>> {
 }
 ```
 
-`build_nft_rom(...)` adds the chain-owned `_i` field from the Phantasma NFT id
-and serializes every schema field with type checks.
+`build_nft_rom(schema, phantasma_nft_id, metadata)` is the other ROM builder. It
+writes the chain-owned `_i` field itself, and it serves the flows where the
+caller supplies the id.
 
-## Build And Sign MintNonFungible
+## Build, Plan, Sign And Send
 
 ```rust
 use phantasma_sdk::{
-    build_mint_non_fungible_tx_and_sign_hex, bytes32_from_public_key,
-    PhantasmaKeys, Result,
+    build_mint_phantasma_non_fungible_single_tx, bytes32_from_public_key, PhantasmaKeys,
+    PhantasmaRpc, Result, SendTransactionOptions, TxLimits, TxSigner,
 };
 
-fn build_mint_hex(wif: &str, rom: Vec<u8>) -> Result<String> {
+async fn mint(client: &PhantasmaRpc, wif: &str, public_rom: Vec<u8>) -> Result<String> {
     let keys = PhantasmaKeys::from_wif(wif)?;
-    let receiver = bytes32_from_public_key(&keys.public_key())?;
+    let sender = bytes32_from_public_key(&keys.public_key())?;
 
-    build_mint_non_fungible_tx_and_sign_hex(
-        123,
-        1,
-        &keys,
-        receiver,
-        rom,
-        vec![],
-        None,
-        100_000_000,
-        0,
-    )
+    let msg = build_mint_phantasma_non_fungible_single_tx(
+        123,   // Carbon token id
+        777i64, // Phantasma series id
+        sender,
+        sender, // receiver
+        public_rom,
+        vec![], // RAM
+        TxLimits::default(),
+    )?;
+
+    let signers: [&dyn TxSigner; 1] = [&keys];
+    client.send_tx_msg(&msg, &signers, &SendTransactionOptions::default()).await
 }
 ```
+
+The builder carries no prices. `send_tx_msg` plans the fee from the message,
+signs it and broadcasts it.
+
+The SDK carries no builder for a direct `MintNonFungible`. The chain refuses
+that operation where governance has not allowed caller-supplied ROM ids, and
+that is the state of the public chains today.
 
 The empty `vec![]` is RAM bytes. Pass serialized RAM bytes only when the token
 has a RAM schema or when the token uses dynamic RAM extras.
@@ -114,11 +130,11 @@ chain-owned for this flow.
 ```rust
 use phantasma_sdk::{
     build_mint_phantasma_non_fungible_single_tx_and_sign_hex,
-    build_phantasma_nft_rom, bytes32_from_public_key,
-    prepare_standard_token_schemas, PhantasmaKeys, Result, VMValue,
+    build_phantasma_nft_rom, bytes32_from_public_key, prepare_standard_token_schemas,
+    GasConfig, PhantasmaKeys, PlanAndSignOptions, Result, VMValue,
 };
 
-fn build_phantasma_mint_hex(wif: &str) -> Result<String> {
+fn build_phantasma_mint_hex(wif: &str, config: &GasConfig) -> Result<String> {
     let keys = PhantasmaKeys::from_wif(wif)?;
     let receiver = bytes32_from_public_key(&keys.public_key())?;
     let schemas = prepare_standard_token_schemas(false);
@@ -135,15 +151,14 @@ fn build_phantasma_mint_hex(wif: &str) -> Result<String> {
     )?;
 
     build_mint_phantasma_non_fungible_single_tx_and_sign_hex(
-        123,
-        1i64,
+        123,    // Carbon token id
+        777i64, // Phantasma series id
         &keys,
         receiver,
         public_rom,
-        vec![],
-        None,
-        100_000_000,
-        0,
+        vec![], // RAM
+        Some(config),
+        &PlanAndSignOptions::default(),
     )
 }
 ```
@@ -189,6 +204,5 @@ Use the cursor returned by these calls to continue pagination.
 
 | Helper | Use it when |
 | ------ | ----------- |
-| `build_mint_non_fungible_tx_and_sign_hex` | You already have explicit ROM/RAM bytes for the NFT. |
 | `build_mint_phantasma_non_fungible_single_tx_and_sign_hex` | You want the SDK to build the token-module Phantasma NFT mint call for one NFT. |
 | `build_mint_phantasma_non_fungible_tx_and_sign_hex` | You want to mint multiple Phantasma NFT entries in one token-module call. |

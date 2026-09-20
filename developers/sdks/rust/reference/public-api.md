@@ -155,6 +155,10 @@ Source: `src/carbon.rs`
 ### Declarations
 
 ```rust
+pub const DEFAULT_TX_EXPIRY: Duration = Duration::from_secs(45)
+```
+
+```rust
 pub const EMPTY_BYTES16: Bytes16 = Bytes16([0; 16])
 ```
 
@@ -203,6 +207,10 @@ pub const SYSTEM_ADDRESS_NULL: Bytes32 = EMPTY_BYTES32
 ```
 
 ```rust
+pub enum GovernanceContractMethod
+```
+
+```rust
 pub enum ListingType
 ```
 
@@ -235,11 +243,23 @@ pub enum VMValue
 ```
 
 ```rust
+pub mod standard_meta
+```
+
+```rust
 pub struct BurnFungibleArgs
 ```
 
 ```rust
+pub struct BurnFungibleParams
+```
+
+```rust
 pub struct BurnNonFungibleArgs
+```
+
+```rust
+pub struct BurnNonFungibleParams
 ```
 
 ```rust
@@ -263,19 +283,7 @@ pub struct CreateMintedTokenSeriesArgs
 ```
 
 ```rust
-pub struct CreateSeriesFeeOptions
-```
-
-```rust
-pub struct CreateTokenFeeOptions
-```
-
-```rust
 pub struct CreateTokenSeriesArgs
-```
-
-```rust
-pub struct FeeOptions
 ```
 
 ```rust
@@ -335,6 +343,10 @@ pub struct MintFungibleArgs
 ```
 
 ```rust
+pub struct MintFungibleParams
+```
+
+```rust
 pub struct MintNonFungibleArgs
 ```
 
@@ -356,6 +368,10 @@ pub struct PhantasmaNFTMintInfo
 
 ```rust
 pub struct PhantasmaNFTMintResult
+```
+
+```rust
+pub struct RegisterNameArgs
 ```
 
 ```rust
@@ -407,7 +423,19 @@ pub struct TransferFungibleArgs
 ```
 
 ```rust
+pub struct TransferFungibleParams
+```
+
+```rust
 pub struct TransferNonFungibleArgs
+```
+
+```rust
+pub struct TransferNonFungibleParams
+```
+
+```rust
+pub struct TxLimits
 ```
 
 ```rust
@@ -535,11 +563,7 @@ pub trait CarbonSerializable: Sized
 ```
 
 ```rust
-pub type MintNFTFeeOptions = FeeOptions
-```
-
-```rust
-pub type MintNftFeeOptions = FeeOptions
+pub trait TxSigner: Send + Sync
 ```
 
 ```rust
@@ -551,9 +575,19 @@ pub type TokenSchemasJSON = TokenSchemasJson
 - `BurnFungibleArgs.pub amount: IntX`
 - `BurnFungibleArgs.pub from_address: Bytes32`
 - `BurnFungibleArgs.pub token_id: u64`
+- `BurnFungibleParams.pub amount: IntX`
+- `BurnFungibleParams.pub from: Bytes32`
+- `BurnFungibleParams.pub gas_payer: Option<Bytes32>`
+- `BurnFungibleParams.pub limits: TxLimits`
+- `BurnFungibleParams.pub token_id: u64`
 - `BurnNonFungibleArgs.pub from_address: Bytes32`
 - `BurnNonFungibleArgs.pub instance_ids: Vec<u64>`
 - `BurnNonFungibleArgs.pub token_id: u64`
+- `BurnNonFungibleParams.pub from: Bytes32`
+- `BurnNonFungibleParams.pub gas_payer: Option<Bytes32>`
+- `BurnNonFungibleParams.pub instance_id: u64`
+- `BurnNonFungibleParams.pub limits: TxLimits`
+- `BurnNonFungibleParams.pub token_id: u64`
 - `CallArgSection.pub args: Vec<u8>`
 - `CallArgSection.pub register_offset: i32`
 - `ChainConfig.pub allowed_tx_types: u32`
@@ -568,23 +602,16 @@ pub type TokenSchemasJSON = TokenSchemasJson
 - `CreateMintedTokenSeriesArgs.pub rams: Vec<Vec<u8>>`
 - `CreateMintedTokenSeriesArgs.pub roms: Vec<Vec<u8>>`
 - `CreateMintedTokenSeriesArgs.pub token_id: u64`
-- `CreateSeriesFeeOptions.pub fee_multiplier: u64`
-- `CreateSeriesFeeOptions.pub gas_fee_base: u64`
-- `CreateSeriesFeeOptions.pub gas_fee_create_series_base: u64`
-- `CreateTokenFeeOptions.pub fee_multiplier: u64`
-- `CreateTokenFeeOptions.pub gas_fee_base: u64`
-- `CreateTokenFeeOptions.pub gas_fee_create_token_base: u64`
-- `CreateTokenFeeOptions.pub gas_fee_create_token_symbol: u64`
 - `CreateTokenSeriesArgs.pub info: SeriesInfo`
 - `CreateTokenSeriesArgs.pub token_id: u64`
-- `FeeOptions.pub fee_multiplier: u64`
-- `FeeOptions.pub gas_fee_base: u64`
 - `GasConfig.pub data_escrow_per_row: u64`
 - `GasConfig.pub data_token_id: u64`
 - `GasConfig.pub fee_multiplier: u64`
 - `GasConfig.pub fee_shift: u8`
 - `GasConfig.pub gas_burn_ratio_mul: u64`
 - `GasConfig.pub gas_burn_ratio_shift: u8`
+- `GasConfig.pub gas_dapp_ratio_mul: u64`
+- `GasConfig.pub gas_dapp_ratio_shift: u8`
 - `GasConfig.pub gas_fee_create_token_base: u64`
 - `GasConfig.pub gas_fee_create_token_series: u64`
 - `GasConfig.pub gas_fee_create_token_symbol: u64`
@@ -592,11 +619,19 @@ pub type TokenSchemasJSON = TokenSchemasJson
 - `GasConfig.pub gas_fee_query: u64`
 - `GasConfig.pub gas_fee_register_name: u64`
 - `GasConfig.pub gas_fee_transfer: u64`
+- `GasConfig.pub gas_producer_ratio_mul: u64`
+- `GasConfig.pub gas_producer_ratio_shift: u8`
 - `GasConfig.pub gas_token_id: u64`
+- `GasConfig.pub legacy_data_escrow_per_row: u64`
 - `GasConfig.pub max_name_length: u8`
 - `GasConfig.pub max_structure_size: u32`
 - `GasConfig.pub max_token_symbol_length: u8`
+- `GasConfig.pub minimum_gas_bill: u64`
 - `GasConfig.pub minimum_gas_offer: u64`
+- `GasConfig.pub policy_fee_create_token_base: u64`
+- `GasConfig.pub policy_fee_create_token_series: u64`
+- `GasConfig.pub policy_fee_create_token_symbol: u64`
+- `GasConfig.pub policy_fee_register_name: u64`
 - `GasConfig.pub version: u8`
 - `IntX.pub fn as_bigint(&self) -> &BigInt`
 - `IntX.pub fn is_8_byte_safe(&self) -> bool`
@@ -635,6 +670,11 @@ pub type TokenSchemasJSON = TokenSchemasJson
 - `MintFungibleArgs.pub amount: IntX`
 - `MintFungibleArgs.pub to: Bytes32`
 - `MintFungibleArgs.pub token_id: u64`
+- `MintFungibleParams.pub amount: IntX`
+- `MintFungibleParams.pub limits: TxLimits`
+- `MintFungibleParams.pub owner: Bytes32`
+- `MintFungibleParams.pub to: Bytes32`
+- `MintFungibleParams.pub token_id: u64`
 - `MintNonFungibleArgs.pub address: Bytes32`
 - `MintNonFungibleArgs.pub token_id: u64`
 - `MintNonFungibleArgs.pub tokens: Vec<NFTMintInfo>`
@@ -650,6 +690,8 @@ pub type TokenSchemasJSON = TokenSchemasJson
 - `PhantasmaNFTMintInfo.pub rom: Vec<u8>`
 - `PhantasmaNFTMintResult.pub carbon_instance_id: u64`
 - `PhantasmaNFTMintResult.pub phantasma_nft_id: Bytes32`
+- `RegisterNameArgs.pub address: Bytes32`
+- `RegisterNameArgs.pub name: SmallString`
 - `SeriesInfo.pub max_mint: u32`
 - `SeriesInfo.pub max_supply: u32`
 - `SeriesInfo.pub metadata: Vec<u8>`
@@ -686,10 +728,25 @@ pub type TokenSchemasJSON = TokenSchemasJson
 - `TransferFungibleArgs.pub from_address: Bytes32`
 - `TransferFungibleArgs.pub to: Bytes32`
 - `TransferFungibleArgs.pub token_id: u64`
+- `TransferFungibleParams.pub amount: u64`
+- `TransferFungibleParams.pub from: Bytes32`
+- `TransferFungibleParams.pub gas_payer: Option<Bytes32>`
+- `TransferFungibleParams.pub limits: TxLimits`
+- `TransferFungibleParams.pub to: Bytes32`
+- `TransferFungibleParams.pub token_id: u64`
 - `TransferNonFungibleArgs.pub from_address: Bytes32`
 - `TransferNonFungibleArgs.pub instance_ids: Vec<u64>`
 - `TransferNonFungibleArgs.pub to: Bytes32`
 - `TransferNonFungibleArgs.pub token_id: u64`
+- `TransferNonFungibleParams.pub from: Bytes32`
+- `TransferNonFungibleParams.pub gas_payer: Option<Bytes32>`
+- `TransferNonFungibleParams.pub instance_ids: Vec<u64>`
+- `TransferNonFungibleParams.pub limits: TxLimits`
+- `TransferNonFungibleParams.pub to: Bytes32`
+- `TransferNonFungibleParams.pub token_id: u64`
+- `TxLimits.pub expiry: i64`
+- `TxLimits.pub max_data: u64`
+- `TxLimits.pub max_gas: u64`
 - `TxMsg.pub expiry: i64`
 - `TxMsg.pub gas_from: Bytes32`
 - `TxMsg.pub max_data: u64`
@@ -1009,19 +1066,7 @@ impl CarbonWriter: pub fn write_u64_array(&mut self, values: &[u64]) -> Result<(
 ```
 
 ```rust
-impl CreateSeriesFeeOptions: pub fn calculate_max_gas(&self) -> u64
-```
-
-```rust
-impl CreateTokenFeeOptions: pub fn calculate_max_gas_for_symbol(&self, symbol: &SmallString) -> u64
-```
-
-```rust
-impl FeeOptions: pub fn calculate_max_gas(&self) -> u64
-```
-
-```rust
-impl FeeOptions: pub fn calculate_max_gas_for_count(&self, count: u64) -> Result<u64>
+impl GasConfig: pub fn has_gas_model_v2(&self) -> bool
 ```
 
 ```rust
@@ -1145,83 +1190,75 @@ impl VMVariableSchema: pub fn with_struct(vm_type: VMType, struct_def: VMStructS
 ```
 
 ```rust
+pub async fn sign_and_serialize_tx_msg_with( msg: &TxMsg, signers: &[&dyn TxSigner], ) -> Result<Vec<u8>>
+```
+
+```rust
+pub async fn sign_tx_msg_with(msg: &TxMsg, signers: &[&dyn TxSigner]) -> Result<SignedTxMsg>
+```
+
+```rust
 pub fn build_and_serialize_token_schemas(schemas: Option<&TokenSchemas>) -> Result<Vec<u8>>
 ```
 
 ```rust
-pub fn build_create_token_series_tx( token_id: u64, series_info: SeriesInfo, creator: Bytes32, fees: Option<CreateSeriesFeeOptions>, max_data: u64, expiry: i64, ) -> Result<TxMsg>
+pub fn build_burn_fungible_tx(p: BurnFungibleParams) -> TxMsg
 ```
 
 ```rust
-pub fn build_create_token_series_tx_and_sign( token_id: u64, series_info: SeriesInfo, signer: &PhantasmaKeys, ) -> Result<Vec<u8>>
+pub fn build_burn_non_fungible_tx(p: BurnNonFungibleParams) -> TxMsg
 ```
 
 ```rust
-pub fn build_create_token_series_tx_and_sign_hex( token_id: u64, series_info: SeriesInfo, signer: &PhantasmaKeys, ) -> Result<String>
+pub fn build_create_token_series_tx( token_id: u64, series_info: SeriesInfo, creator: Bytes32, limits: TxLimits, ) -> Result<TxMsg>
 ```
 
 ```rust
-pub fn build_create_token_series_tx_and_sign_hex_with_options( token_id: u64, series_info: SeriesInfo, signer: &PhantasmaKeys, fees: Option<CreateSeriesFeeOptions>, max_data: u64, expiry: i64, ) -> Result<String>
+pub fn build_create_token_series_tx_and_sign( token_id: u64, series_info: SeriesInfo, signer: &PhantasmaKeys, config: Option<&GasConfig>, options: &PlanAndSignOptions, ) -> Result<Vec<u8>>
 ```
 
 ```rust
-pub fn build_create_token_series_tx_and_sign_with_options( token_id: u64, series_info: SeriesInfo, signer: &PhantasmaKeys, fees: Option<CreateSeriesFeeOptions>, max_data: u64, expiry: i64, ) -> Result<Vec<u8>>
+pub fn build_create_token_series_tx_and_sign_hex( token_id: u64, series_info: SeriesInfo, signer: &PhantasmaKeys, config: Option<&GasConfig>, options: &PlanAndSignOptions, ) -> Result<String>
 ```
 
 ```rust
-pub fn build_create_token_tx( token_info: TokenInfo, creator: Bytes32, fees: Option<CreateTokenFeeOptions>, max_data: u64, expiry: i64, ) -> Result<TxMsg>
+pub fn build_create_token_tx( token_info: TokenInfo, creator: Bytes32, limits: TxLimits, ) -> Result<TxMsg>
 ```
 
 ```rust
-pub fn build_create_token_tx_and_sign( token_info: TokenInfo, signer: &PhantasmaKeys, ) -> Result<Vec<u8>>
+pub fn build_create_token_tx_and_sign( token_info: TokenInfo, signer: &PhantasmaKeys, config: Option<&GasConfig>, options: &PlanAndSignOptions, ) -> Result<Vec<u8>>
 ```
 
 ```rust
-pub fn build_create_token_tx_and_sign_hex( token_info: TokenInfo, signer: &PhantasmaKeys, ) -> Result<String>
+pub fn build_create_token_tx_and_sign_hex( token_info: TokenInfo, signer: &PhantasmaKeys, config: Option<&GasConfig>, options: &PlanAndSignOptions, ) -> Result<String>
 ```
 
 ```rust
-pub fn build_create_token_tx_and_sign_hex_with_options( token_info: TokenInfo, signer: &PhantasmaKeys, fees: Option<CreateTokenFeeOptions>, max_data: u64, expiry: i64, ) -> Result<String>
+pub fn build_mint_fungible_tx(p: MintFungibleParams) -> TxMsg
 ```
 
 ```rust
-pub fn build_create_token_tx_and_sign_with_options( token_info: TokenInfo, signer: &PhantasmaKeys, fees: Option<CreateTokenFeeOptions>, max_data: u64, expiry: i64, ) -> Result<Vec<u8>>
+pub fn build_mint_phantasma_non_fungible_single_tx( token_id: u64, phantasma_series_id: impl Into<BigInt>, sender: Bytes32, receiver: Bytes32, public_rom: Vec<u8>, ram: Vec<u8>, limits: TxLimits, ) -> Result<TxMsg>
 ```
 
 ```rust
-pub fn build_mint_non_fungible_tx( token_id: u64, series_id: u32, sender: Bytes32, receiver: Bytes32, rom: Vec<u8>, ram: Vec<u8>, fees: Option<FeeOptions>, max_data: u64, expiry: i64, ) -> TxMsg
+pub fn build_mint_phantasma_non_fungible_single_tx_and_sign( token_id: u64, phantasma_series_id: impl Into<BigInt>, signer: &PhantasmaKeys, receiver: Bytes32, public_rom: Vec<u8>, ram: Vec<u8>, config: Option<&GasConfig>, options: &PlanAndSignOptions, ) -> Result<Vec<u8>>
 ```
 
 ```rust
-pub fn build_mint_non_fungible_tx_and_sign( token_id: u64, series_id: u32, signer: &PhantasmaKeys, receiver: Bytes32, rom: Vec<u8>, ram: Vec<u8>, fees: Option<FeeOptions>, max_data: u64, expiry: i64, ) -> Result<Vec<u8>>
+pub fn build_mint_phantasma_non_fungible_single_tx_and_sign_hex( token_id: u64, phantasma_series_id: impl Into<BigInt>, signer: &PhantasmaKeys, receiver: Bytes32, public_rom: Vec<u8>, ram: Vec<u8>, config: Option<&GasConfig>, options: &PlanAndSignOptions, ) -> Result<String>
 ```
 
 ```rust
-pub fn build_mint_non_fungible_tx_and_sign_hex( token_id: u64, series_id: u32, signer: &PhantasmaKeys, receiver: Bytes32, rom: Vec<u8>, ram: Vec<u8>, fees: Option<FeeOptions>, max_data: u64, expiry: i64, ) -> Result<String>
+pub fn build_mint_phantasma_non_fungible_tx( token_id: u64, sender: Bytes32, receiver: Bytes32, tokens: Vec<PhantasmaNFTMintInfo>, limits: TxLimits, ) -> Result<TxMsg>
 ```
 
 ```rust
-pub fn build_mint_phantasma_non_fungible_single_tx( token_id: u64, phantasma_series_id: impl Into<BigInt>, sender: Bytes32, receiver: Bytes32, public_rom: Vec<u8>, ram: Vec<u8>, fees: Option<FeeOptions>, max_data: u64, expiry: i64, ) -> Result<TxMsg>
+pub fn build_mint_phantasma_non_fungible_tx_and_sign( token_id: u64, signer: &PhantasmaKeys, receiver: Bytes32, tokens: Vec<PhantasmaNFTMintInfo>, config: Option<&GasConfig>, options: &PlanAndSignOptions, ) -> Result<Vec<u8>>
 ```
 
 ```rust
-pub fn build_mint_phantasma_non_fungible_single_tx_and_sign( token_id: u64, phantasma_series_id: impl Into<BigInt>, signer: &PhantasmaKeys, receiver: Bytes32, public_rom: Vec<u8>, ram: Vec<u8>, fees: Option<FeeOptions>, max_data: u64, expiry: i64, ) -> Result<Vec<u8>>
-```
-
-```rust
-pub fn build_mint_phantasma_non_fungible_single_tx_and_sign_hex( token_id: u64, phantasma_series_id: impl Into<BigInt>, signer: &PhantasmaKeys, receiver: Bytes32, public_rom: Vec<u8>, ram: Vec<u8>, fees: Option<FeeOptions>, max_data: u64, expiry: i64, ) -> Result<String>
-```
-
-```rust
-pub fn build_mint_phantasma_non_fungible_tx( token_id: u64, sender: Bytes32, receiver: Bytes32, tokens: Vec<PhantasmaNFTMintInfo>, fees: Option<FeeOptions>, max_data: u64, expiry: i64, ) -> Result<TxMsg>
-```
-
-```rust
-pub fn build_mint_phantasma_non_fungible_tx_and_sign( token_id: u64, signer: &PhantasmaKeys, receiver: Bytes32, tokens: Vec<PhantasmaNFTMintInfo>, fees: Option<FeeOptions>, max_data: u64, expiry: i64, ) -> Result<Vec<u8>>
-```
-
-```rust
-pub fn build_mint_phantasma_non_fungible_tx_and_sign_hex( token_id: u64, signer: &PhantasmaKeys, receiver: Bytes32, tokens: Vec<PhantasmaNFTMintInfo>, fees: Option<FeeOptions>, max_data: u64, expiry: i64, ) -> Result<String>
+pub fn build_mint_phantasma_non_fungible_tx_and_sign_hex( token_id: u64, signer: &PhantasmaKeys, receiver: Bytes32, tokens: Vec<PhantasmaNFTMintInfo>, config: Option<&GasConfig>, options: &PlanAndSignOptions, ) -> Result<String>
 ```
 
 ```rust
@@ -1257,6 +1294,14 @@ pub fn build_token_series_metadata( schema: &VMStructSchema, phantasma_series_id
 ```
 
 ```rust
+pub fn build_transfer_fungible_tx(p: TransferFungibleParams) -> TxMsg
+```
+
+```rust
+pub fn build_transfer_non_fungible_tx(p: TransferNonFungibleParams) -> Result<TxMsg>
+```
+
+```rust
 pub fn bytes32_from_phantasma_address(address: &Address) -> Result<Bytes32>
 ```
 
@@ -1273,6 +1318,10 @@ pub fn check_token_symbol(symbol: &str) -> Result<()>
 ```
 
 ```rust
+pub fn default_expiry() -> i64
+```
+
+```rust
 pub fn default_market_config() -> MarketConfig
 ```
 
@@ -1281,7 +1330,19 @@ pub fn deserialize<T: CarbonSerializable>(data: impl AsRef<[u8]>) -> Result<T>
 ```
 
 ```rust
+pub fn envelope_bytes(msg: &TxMsg, witness_count: Option<u32>) -> Result<u32>
+```
+
+```rust
+pub fn expiry_within(expiry_window: Duration, margin: Duration) -> Result<i64>
+```
+
+```rust
 pub fn get_nft_address(carbon_token_id: u64, instance_id: u64) -> Bytes32
+```
+
+```rust
+pub fn is_nft_address(address: &Bytes32) -> bool
 ```
 
 ```rust
@@ -1313,6 +1374,10 @@ pub fn prepare_standard_token_schemas(shared_metadata: bool) -> TokenSchemas
 ```
 
 ```rust
+pub fn required_witnesses(msg: &TxMsg) -> Option<Vec<Bytes32>>
+```
+
+```rust
 pub fn serialize<T: CarbonSerializable>(value: &T) -> Result<Vec<u8>>
 ```
 
@@ -1333,11 +1398,23 @@ pub fn sign_and_serialize_tx_msg_hex(msg: &TxMsg, keys: &PhantasmaKeys) -> Resul
 ```
 
 ```rust
+pub fn sign_and_serialize_tx_msg_with_keys( msg: &TxMsg, keys: &[&PhantasmaKeys], ) -> Result<Vec<u8>>
+```
+
+```rust
 pub fn sign_tx_msg(msg: &TxMsg, keys: &PhantasmaKeys) -> Result<SignedTxMsg>
 ```
 
 ```rust
+pub fn sign_tx_msg_with_keys(msg: &TxMsg, keys: &[&PhantasmaKeys]) -> Result<SignedTxMsg>
+```
+
+```rust
 pub fn token_schemas_from_json(data: &str) -> Result<TokenSchemas>
+```
+
+```rust
+pub fn unpack_nft_address(address: &Bytes32) -> (u64, u64)
 ```
 
 ```rust
@@ -1358,6 +1435,8 @@ pub fn vm_type_name(vm_type: VMType) -> Result<&'static str>
 
 ### Variants
 
+- `GovernanceContractMethod::RegisterName = 1`
+- `GovernanceContractMethod::SetGasConfig = 3`
 - `ListingType::FixedPrice = 0`
 - `MarketContractMethod::BuyToken = 4`
 - `MarketContractMethod::BuyTokenById = 5`
@@ -1718,8 +1797,756 @@ pub type Result<T> = std::result::Result<T, PhantasmaError>
 - `PhantasmaError::Encoding(String)`
 - `PhantasmaError::Http(String)`
 - `PhantasmaError::Json(String)`
+- `PhantasmaError::Preflight(String)`
 - `PhantasmaError::Rpc { code: Option<i64>, message: String }`
 - `PhantasmaError::Serialization(String)`
+
+## phantasma_sdk::extended_events
+
+Source: `src/extended_events.rs`
+
+### Declarations
+
+```rust
+pub enum EventData
+```
+
+```rust
+pub enum SpecialResolutionArguments
+```
+
+```rust
+pub struct AddressArguments
+```
+
+```rust
+pub struct BalanceArguments
+```
+
+```rust
+pub struct BurnFungibleArguments
+```
+
+```rust
+pub struct BurnNonFungibleArguments
+```
+
+```rust
+pub struct ChainConfigArguments
+```
+
+```rust
+pub struct ConsensusNode
+```
+
+```rust
+pub struct ContractStorageRow
+```
+
+```rust
+pub struct ContractStorageTable
+```
+
+```rust
+pub struct CreateMintedTokenSeriesArguments
+```
+
+```rust
+pub struct CreateTokenArguments
+```
+
+```rust
+pub struct DeployContractArguments
+```
+
+```rust
+pub struct ExecuteScriptArguments
+```
+
+```rust
+pub struct GasConfigArguments
+```
+
+```rust
+pub struct ImportContractsArguments
+```
+
+```rust
+pub struct ImportedContract
+```
+
+```rust
+pub struct MarketOrderData
+```
+
+```rust
+pub struct MetadataArguments
+```
+
+```rust
+pub struct MintFungibleArguments
+```
+
+```rust
+pub struct MintNonFungibleArguments
+```
+
+```rust
+pub struct MintPhantasmaNonFungibleArguments
+```
+
+```rust
+pub struct NameArguments
+```
+
+```rust
+pub struct NestedResolutionArguments
+```
+
+```rust
+pub struct NftMint
+```
+
+```rust
+pub struct NodeConfigArguments
+```
+
+```rust
+pub struct NonFungibleInfoArguments
+```
+
+```rust
+pub struct NonFungibleInfoByRomIdArguments
+```
+
+```rust
+pub struct PhantasmaNftMint
+```
+
+```rust
+pub struct PhantasmaVmConfigArguments
+```
+
+```rust
+pub struct RawArguments
+```
+
+```rust
+pub struct RegisterNameArguments
+```
+
+```rust
+pub struct RegisterTokenContractArguments
+```
+
+```rust
+pub struct RepairSeriesArguments
+```
+
+```rust
+pub struct RepairTokenArguments
+```
+
+```rust
+pub struct SeriesInfoByMetaIdArguments
+```
+
+```rust
+pub struct SeriesMintCountRepair
+```
+
+```rust
+pub struct SeriesSupplement
+```
+
+```rust
+pub struct SpecialResolutionCall
+```
+
+```rust
+pub struct SpecialResolutionData
+```
+
+```rust
+pub struct SymbolArguments
+```
+
+```rust
+pub struct TokenCreateData
+```
+
+```rust
+pub struct TokenReferenceArguments
+```
+
+```rust
+pub struct TokenRepair
+```
+
+```rust
+pub struct TokenSeriesArguments
+```
+
+```rust
+pub struct TokenSeriesCreateData
+```
+
+```rust
+pub struct TokenSeriesReferenceArguments
+```
+
+```rust
+pub struct TokensConfigArguments
+```
+
+```rust
+pub struct TransferFungibleArguments
+```
+
+```rust
+pub struct TransferNonFungibleArguments
+```
+
+```rust
+pub struct UpdateSeriesMetadataArguments
+```
+
+```rust
+pub struct UpdateTokenMetadataArguments
+```
+
+### Fields
+
+- `AddressArguments.pub address: String`
+- `BalanceArguments.pub address: String`
+- `BalanceArguments.pub token: String`
+- `BalanceArguments.pub token_id: String`
+- `BurnFungibleArguments.pub amount: String`
+- `BurnFungibleArguments.pub from: String`
+- `BurnFungibleArguments.pub token: String`
+- `BurnFungibleArguments.pub token_id: String`
+- `BurnNonFungibleArguments.pub address: String`
+- `BurnNonFungibleArguments.pub instance_ids: Vec<String>`
+- `BurnNonFungibleArguments.pub token: String`
+- `BurnNonFungibleArguments.pub token_id: String`
+- `ChainConfigArguments.pub allowed_tx_types: String`
+- `ChainConfigArguments.pub block_rate_target: String`
+- `ChainConfigArguments.pub expiry_window: String`
+- `ChainConfigArguments.pub reserved1: String`
+- `ChainConfigArguments.pub reserved2: String`
+- `ChainConfigArguments.pub reserved3: String`
+- `ChainConfigArguments.pub version: String`
+- `ConsensusNode.pub id: String`
+- `ConsensusNode.pub type_name: String`
+- `ContractStorageRow.pub key: String`
+- `ContractStorageRow.pub value: String`
+- `ContractStorageTable.pub name: String`
+- `ContractStorageTable.pub rows: Vec<ContractStorageRow>`
+- `CreateMintedTokenSeriesArguments.pub max_mint: String`
+- `CreateMintedTokenSeriesArguments.pub max_supply: String`
+- `CreateMintedTokenSeriesArguments.pub metadata: Option<BTreeMap<String, VmValue>>`
+- `CreateMintedTokenSeriesArguments.pub metadata_raw: Option<String>`
+- `CreateMintedTokenSeriesArguments.pub owner: String`
+- `CreateMintedTokenSeriesArguments.pub rams: Vec<String>`
+- `CreateMintedTokenSeriesArguments.pub recipient: String`
+- `CreateMintedTokenSeriesArguments.pub roms: Vec<String>`
+- `CreateMintedTokenSeriesArguments.pub series_id: Option<String>`
+- `CreateMintedTokenSeriesArguments.pub token: String`
+- `CreateMintedTokenSeriesArguments.pub token_id: String`
+- `CreateTokenArguments.pub decimals: String`
+- `CreateTokenArguments.pub flags: String`
+- `CreateTokenArguments.pub max_supply: String`
+- `CreateTokenArguments.pub metadata: Option<BTreeMap<String, VmValue>>`
+- `CreateTokenArguments.pub owner: String`
+- `CreateTokenArguments.pub symbol: String`
+- `CreateTokenArguments.pub token_schemas: Option<String>`
+- `DeployContractArguments.pub abi: String`
+- `DeployContractArguments.pub contract_name: String`
+- `DeployContractArguments.pub from: String`
+- `DeployContractArguments.pub script: String`
+- `ExecuteScriptArguments.pub gas_from: String`
+- `ExecuteScriptArguments.pub max_gas: String`
+- `ExecuteScriptArguments.pub script: String`
+- `GasConfigArguments.pub data_escrow_per_row: String`
+- `GasConfigArguments.pub data_token_id: String`
+- `GasConfigArguments.pub fee_multiplier: String`
+- `GasConfigArguments.pub fee_shift: String`
+- `GasConfigArguments.pub gas_burn_ratio_mul: String`
+- `GasConfigArguments.pub gas_burn_ratio_shift: String`
+- `GasConfigArguments.pub gas_dapp_ratio_mul: Option<String>`
+- `GasConfigArguments.pub gas_dapp_ratio_shift: Option<String>`
+- `GasConfigArguments.pub gas_fee_create_token_base: String`
+- `GasConfigArguments.pub gas_fee_create_token_series: String`
+- `GasConfigArguments.pub gas_fee_create_token_symbol: String`
+- `GasConfigArguments.pub gas_fee_per_byte: String`
+- `GasConfigArguments.pub gas_fee_query: String`
+- `GasConfigArguments.pub gas_fee_register_name: String`
+- `GasConfigArguments.pub gas_fee_transfer: String`
+- `GasConfigArguments.pub gas_producer_ratio_mul: Option<String>`
+- `GasConfigArguments.pub gas_producer_ratio_shift: Option<String>`
+- `GasConfigArguments.pub gas_token_id: String`
+- `GasConfigArguments.pub legacy_data_escrow_per_row: Option<String>`
+- `GasConfigArguments.pub max_name_length: String`
+- `GasConfigArguments.pub max_structure_size: String`
+- `GasConfigArguments.pub max_token_symbol_length: String`
+- `GasConfigArguments.pub minimum_gas_bill: Option<String>`
+- `GasConfigArguments.pub minimum_gas_offer: String`
+- `GasConfigArguments.pub policy_fee_create_token_base: Option<String>`
+- `GasConfigArguments.pub policy_fee_create_token_series: Option<String>`
+- `GasConfigArguments.pub policy_fee_create_token_symbol: Option<String>`
+- `GasConfigArguments.pub policy_fee_register_name: Option<String>`
+- `GasConfigArguments.pub version: String`
+- `ImportContractsArguments.pub contracts: Vec<ImportedContract>`
+- `ImportContractsArguments.pub contracts_count: String`
+- `ImportedContract.pub abi: String`
+- `ImportedContract.pub address: String`
+- `ImportedContract.pub name: String`
+- `ImportedContract.pub owner: String`
+- `ImportedContract.pub root_variables: Vec<ContractStorageRow>`
+- `ImportedContract.pub script: String`
+- `ImportedContract.pub tables: Vec<ContractStorageTable>`
+- `MarketOrderData.pub base_symbol: String`
+- `MarketOrderData.pub buyer: String`
+- `MarketOrderData.pub carbon_base_token_id: u64`
+- `MarketOrderData.pub carbon_instance_id: u64`
+- `MarketOrderData.pub carbon_quote_token_id: u64`
+- `MarketOrderData.pub end_date: i64`
+- `MarketOrderData.pub end_price: String`
+- `MarketOrderData.pub price: String`
+- `MarketOrderData.pub quote_symbol: String`
+- `MarketOrderData.pub seller: String`
+- `MarketOrderData.pub start_date: i64`
+- `MarketOrderData.pub token_id: String`
+- `MarketOrderData.pub type_name: String`
+- `MetadataArguments.pub metadata: BTreeMap<String, VmValue>`
+- `MintFungibleArguments.pub amount: String`
+- `MintFungibleArguments.pub to: String`
+- `MintFungibleArguments.pub token: String`
+- `MintFungibleArguments.pub token_id: String`
+- `MintNonFungibleArguments.pub owner: String`
+- `MintNonFungibleArguments.pub token: String`
+- `MintNonFungibleArguments.pub token_id: String`
+- `MintNonFungibleArguments.pub tokens: Vec<NftMint>`
+- `MintPhantasmaNonFungibleArguments.pub owner: String`
+- `MintPhantasmaNonFungibleArguments.pub token: String`
+- `MintPhantasmaNonFungibleArguments.pub token_id: String`
+- `MintPhantasmaNonFungibleArguments.pub tokens: Vec<PhantasmaNftMint>`
+- `NameArguments.pub name: String`
+- `NestedResolutionArguments.pub resolution_id: String`
+- `NftMint.pub ram: String`
+- `NftMint.pub rom: String`
+- `NftMint.pub series_id: String`
+- `NodeConfigArguments.pub nodes: Vec<ConsensusNode>`
+- `NonFungibleInfoArguments.pub get_schemas: String`
+- `NonFungibleInfoArguments.pub instance_id: String`
+- `NonFungibleInfoArguments.pub token: String`
+- `NonFungibleInfoArguments.pub token_id: String`
+- `NonFungibleInfoByRomIdArguments.pub get_schemas: String`
+- `NonFungibleInfoByRomIdArguments.pub rom_id: String`
+- `NonFungibleInfoByRomIdArguments.pub token: String`
+- `NonFungibleInfoByRomIdArguments.pub token_id: String`
+- `PhantasmaNftMint.pub phantasma_series_id: String`
+- `PhantasmaNftMint.pub ram: String`
+- `PhantasmaNftMint.pub rom: String`
+- `PhantasmaVmConfigArguments.pub feature_level: String`
+- `PhantasmaVmConfigArguments.pub fuel_per_contract_deploy: String`
+- `PhantasmaVmConfigArguments.pub gas_account: String`
+- `PhantasmaVmConfigArguments.pub gas_constructor: String`
+- `PhantasmaVmConfigArguments.pub gas_leaderboard: String`
+- `PhantasmaVmConfigArguments.pub gas_nexus: String`
+- `PhantasmaVmConfigArguments.pub gas_oracle: String`
+- `PhantasmaVmConfigArguments.pub gas_organization: String`
+- `PhantasmaVmConfigArguments.pub gas_standard: String`
+- `RawArguments.pub raw_args: String`
+- `RegisterNameArguments.pub address: String`
+- `RegisterNameArguments.pub name: String`
+- `RegisterTokenContractArguments.pub abi: String`
+- `RegisterTokenContractArguments.pub script: String`
+- `RegisterTokenContractArguments.pub symbol: String`
+- `RegisterTokenContractArguments.pub token: Option<String>`
+- `RegisterTokenContractArguments.pub token_id: String`
+- `RepairSeriesArguments.pub repairs: Vec<SeriesMintCountRepair>`
+- `RepairSeriesArguments.pub repairs_count: String`
+- `RepairSeriesArguments.pub supplements: Vec<SeriesSupplement>`
+- `RepairSeriesArguments.pub supplements_count: String`
+- `RepairTokenArguments.pub repairs: Vec<TokenRepair>`
+- `RepairTokenArguments.pub repairs_count: String`
+- `SeriesInfoByMetaIdArguments.pub rom_id: String`
+- `SeriesInfoByMetaIdArguments.pub token: String`
+- `SeriesInfoByMetaIdArguments.pub token_id: String`
+- `SeriesMintCountRepair.pub abi: String`
+- `SeriesMintCountRepair.pub imported_live_count: String`
+- `SeriesMintCountRepair.pub phantasma_series_id: String`
+- `SeriesMintCountRepair.pub script: String`
+- `SeriesMintCountRepair.pub token: String`
+- `SeriesMintCountRepair.pub token_id: String`
+- `SeriesSupplement.pub abi: String`
+- `SeriesSupplement.pub max_supply: String`
+- `SeriesSupplement.pub mint_count: String`
+- `SeriesSupplement.pub mode: String`
+- `SeriesSupplement.pub phantasma_series_id: String`
+- `SeriesSupplement.pub rom: String`
+- `SeriesSupplement.pub script: String`
+- `SeriesSupplement.pub token: String`
+- `SeriesSupplement.pub token_id: String`
+- `SpecialResolutionCall.pub arguments: Option<SpecialResolutionArguments>`
+- `SpecialResolutionCall.pub calls: Option<Vec<SpecialResolutionCall>>`
+- `SpecialResolutionCall.pub method: String`
+- `SpecialResolutionCall.pub method_id: u32`
+- `SpecialResolutionCall.pub module: String`
+- `SpecialResolutionCall.pub module_id: u32`
+- `SpecialResolutionData.pub calls: Vec<SpecialResolutionCall>`
+- `SpecialResolutionData.pub description: Option<String>`
+- `SpecialResolutionData.pub resolution_id: u64`
+- `SymbolArguments.pub symbol: String`
+- `TokenCreateData.pub carbon_token_id: u64`
+- `TokenCreateData.pub decimals: u32`
+- `TokenCreateData.pub is_non_fungible: bool`
+- `TokenCreateData.pub max_supply: String`
+- `TokenCreateData.pub metadata: BTreeMap<String, String>`
+- `TokenCreateData.pub symbol: String`
+- `TokenReferenceArguments.pub token: String`
+- `TokenReferenceArguments.pub token_id: String`
+- `TokenRepair.pub abi: String`
+- `TokenRepair.pub repair_mask: String`
+- `TokenRepair.pub script: String`
+- `TokenRepair.pub symbol: String`
+- `TokenRepair.pub token: String`
+- `TokenRepair.pub token_flags: String`
+- `TokenRepair.pub token_id: String`
+- `TokenSeriesArguments.pub max_mint: String`
+- `TokenSeriesArguments.pub max_supply: String`
+- `TokenSeriesArguments.pub metadata: Option<BTreeMap<String, VmValue>>`
+- `TokenSeriesArguments.pub metadata_raw: Option<String>`
+- `TokenSeriesArguments.pub owner: String`
+- `TokenSeriesArguments.pub series_id: Option<String>`
+- `TokenSeriesArguments.pub token: String`
+- `TokenSeriesArguments.pub token_id: String`
+- `TokenSeriesCreateData.pub carbon_series_id: u32`
+- `TokenSeriesCreateData.pub carbon_token_id: u64`
+- `TokenSeriesCreateData.pub max_mint: u32`
+- `TokenSeriesCreateData.pub max_supply: u32`
+- `TokenSeriesCreateData.pub metadata: BTreeMap<String, String>`
+- `TokenSeriesCreateData.pub owner: String`
+- `TokenSeriesCreateData.pub series_id: String`
+- `TokenSeriesCreateData.pub symbol: String`
+- `TokenSeriesReferenceArguments.pub series_id: String`
+- `TokenSeriesReferenceArguments.pub token: String`
+- `TokenSeriesReferenceArguments.pub token_id: String`
+- `TokensConfigArguments.pub flags: String`
+- `TokensConfigArguments.pub flags_names: Vec<String>`
+- `TransferFungibleArguments.pub amount: String`
+- `TransferFungibleArguments.pub from: String`
+- `TransferFungibleArguments.pub to: String`
+- `TransferFungibleArguments.pub token: String`
+- `TransferFungibleArguments.pub token_id: String`
+- `TransferNonFungibleArguments.pub from: String`
+- `TransferNonFungibleArguments.pub instance_ids: Vec<String>`
+- `TransferNonFungibleArguments.pub to: String`
+- `TransferNonFungibleArguments.pub token: String`
+- `TransferNonFungibleArguments.pub token_id: String`
+- `UpdateSeriesMetadataArguments.pub metadata: String`
+- `UpdateSeriesMetadataArguments.pub series_id: String`
+- `UpdateSeriesMetadataArguments.pub token: String`
+- `UpdateSeriesMetadataArguments.pub token_id: String`
+- `UpdateTokenMetadataArguments.pub metadata: Option<BTreeMap<String, VmValue>>`
+- `UpdateTokenMetadataArguments.pub token: String`
+- `UpdateTokenMetadataArguments.pub token_id: String`
+
+### Methods
+
+```rust
+impl EventData: pub fn as_market_order(&self) -> Option<&MarketOrderData>
+```
+
+```rust
+impl EventData: pub fn as_special_resolution(&self) -> Option<&SpecialResolutionData>
+```
+
+```rust
+impl EventData: pub fn as_token_create(&self) -> Option<&TokenCreateData>
+```
+
+```rust
+impl EventData: pub fn as_token_series_create(&self) -> Option<&TokenSeriesCreateData>
+```
+
+```rust
+impl EventData: pub fn as_unknown(&self) -> Option<&Value>
+```
+
+```rust
+impl SpecialResolutionArguments: pub fn as_raw(&self) -> Option<&RawArguments>
+```
+
+```rust
+impl SpecialResolutionArguments: pub fn as_unrecognized(&self) -> Option<&Value>
+```
+
+### Variants
+
+- `EventData::MarketOrder(MarketOrderData)`
+- `EventData::SpecialResolution(SpecialResolutionData)`
+- `EventData::TokenCreate(TokenCreateData)`
+- `EventData::TokenSeriesCreate(TokenSeriesCreateData)`
+- `EventData::Unknown(Value)`
+- `SpecialResolutionArguments::Address(AddressArguments)`
+- `SpecialResolutionArguments::Balance(BalanceArguments)`
+- `SpecialResolutionArguments::BurnFungible(BurnFungibleArguments)`
+- `SpecialResolutionArguments::BurnNonFungible(BurnNonFungibleArguments)`
+- `SpecialResolutionArguments::ChainConfig(ChainConfigArguments)`
+- `SpecialResolutionArguments::CreateMintedTokenSeries(CreateMintedTokenSeriesArguments)`
+- `SpecialResolutionArguments::CreateToken(CreateTokenArguments)`
+- `SpecialResolutionArguments::DeployContract(DeployContractArguments)`
+- `SpecialResolutionArguments::ExecuteScript(ExecuteScriptArguments)`
+- `SpecialResolutionArguments::GasConfig(Box<GasConfigArguments>)`
+- `SpecialResolutionArguments::ImportContracts(ImportContractsArguments)`
+- `SpecialResolutionArguments::Metadata(MetadataArguments)`
+- `SpecialResolutionArguments::MintFungible(MintFungibleArguments)`
+- `SpecialResolutionArguments::MintNonFungible(MintNonFungibleArguments)`
+- `SpecialResolutionArguments::MintPhantasmaNonFungible(MintPhantasmaNonFungibleArguments)`
+- `SpecialResolutionArguments::Name(NameArguments)`
+- `SpecialResolutionArguments::NestedResolution(NestedResolutionArguments)`
+- `SpecialResolutionArguments::NodeConfig(NodeConfigArguments)`
+- `SpecialResolutionArguments::NonFungibleInfo(NonFungibleInfoArguments)`
+- `SpecialResolutionArguments::NonFungibleInfoByRomId(NonFungibleInfoByRomIdArguments)`
+- `SpecialResolutionArguments::PhantasmaVmConfig(PhantasmaVmConfigArguments)`
+- `SpecialResolutionArguments::Raw(RawArguments)`
+- `SpecialResolutionArguments::RegisterName(RegisterNameArguments)`
+- `SpecialResolutionArguments::RegisterTokenContract(RegisterTokenContractArguments)`
+- `SpecialResolutionArguments::RepairSeries(RepairSeriesArguments)`
+- `SpecialResolutionArguments::RepairToken(RepairTokenArguments)`
+- `SpecialResolutionArguments::SeriesInfoByMetaId(SeriesInfoByMetaIdArguments)`
+- `SpecialResolutionArguments::Symbol(SymbolArguments)`
+- `SpecialResolutionArguments::TokenReference(TokenReferenceArguments)`
+- `SpecialResolutionArguments::TokenSeries(TokenSeriesArguments)`
+- `SpecialResolutionArguments::TokenSeriesReference(TokenSeriesReferenceArguments)`
+- `SpecialResolutionArguments::TokensConfig(TokensConfigArguments)`
+- `SpecialResolutionArguments::TransferFungible(TransferFungibleArguments)`
+- `SpecialResolutionArguments::TransferNonFungible(TransferNonFungibleArguments)`
+- `SpecialResolutionArguments::Unrecognized(Value)`
+- `SpecialResolutionArguments::UpdateSeriesMetadata(UpdateSeriesMetadataArguments)`
+- `SpecialResolutionArguments::UpdateTokenMetadata(UpdateTokenMetadataArguments)`
+
+## phantasma_sdk::fees
+
+Source: `src/fees.rs`
+
+### Declarations
+
+```rust
+pub const GAS_MODEL_V2_UNITS_PER_BLOCK_DATA_BYTE: u64 = 25
+```
+
+```rust
+pub const KCAL_DECIMALS: u32 = 10
+```
+
+```rust
+pub const NATIVE_SIGNATURE_BYTES: u32 = 64
+```
+
+```rust
+pub const SOUL_DECIMALS: u32 = 8
+```
+
+```rust
+pub const STORAGE_QUANTUM_BYTES: u32 = 1024
+```
+
+```rust
+pub const WITNESS_ARRAY_ENTRY_BYTES: u32 = 96
+```
+
+```rust
+pub enum NativeFeeKind
+```
+
+```rust
+pub struct BurnedInstance
+```
+
+```rust
+pub struct FeePlan
+```
+
+```rust
+pub struct FeePlanOptions
+```
+
+```rust
+pub struct FeePlanSummary
+```
+
+```rust
+pub struct FeeQuote
+```
+
+```rust
+pub struct InfusedAsset
+```
+
+```rust
+pub struct NativeFeeEstimate
+```
+
+```rust
+pub struct NativeFeeParams
+```
+
+```rust
+pub struct NativeFeePart
+```
+
+```rust
+pub struct NativeFeeTransactionParams
+```
+
+```rust
+pub struct PlanAndSignOptions
+```
+
+### Fields
+
+- `BurnedInstance.pub instance_id: u64`
+- `BurnedInstance.pub token_id: u64`
+- `FeePlan.pub deleted_storage_quanta: u32`
+- `FeePlan.pub envelope_bytes: u32`
+- `FeePlan.pub exact: bool`
+- `FeePlan.pub expected_gas_bill: u64`
+- `FeePlan.pub kinds: Vec<NativeFeeKind>`
+- `FeePlan.pub max_data: u64`
+- `FeePlan.pub max_gas: u64`
+- `FeePlan.pub new_storage_quanta: u32`
+- `FeePlanOptions.pub big_fungible: Option<bool>`
+- `FeePlanOptions.pub duplicated_series: Option<bool>`
+- `FeePlanOptions.pub infusions: Option<Vec<InfusedAsset>>`
+- `FeePlanOptions.pub recipient_holds_token: bool`
+- `FeePlanOptions.pub rom_has_meta_id: Option<bool>`
+- `FeePlanOptions.pub script_event_bytes: Option<u32>`
+- `FeePlanOptions.pub script_storage_quanta: Option<u32>`
+- `FeePlanOptions.pub script_units_allowance: Option<u64>`
+- `FeePlanOptions.pub series_has_meta_id: Option<bool>`
+- `FeePlanOptions.pub supply_row_exists: bool`
+- `FeePlanOptions.pub token_burned_before: bool`
+- `FeePlanOptions.pub witness_count: Option<u32>`
+- `FeePlanSummary.pub gas_bill: String`
+- `FeePlanSummary.pub gas_offer: String`
+- `FeePlanSummary.pub storage_ceiling: String`
+- `FeeQuote.pub expected_gas_bill: u64`
+- `FeeQuote.pub max_data: u64`
+- `FeeQuote.pub max_gas: u64`
+- `InfusedAsset.pub burner_holds_token: bool`
+- `InfusedAsset.pub instance_count: Option<u32>`
+- `InfusedAsset.pub non_fungible: bool`
+- `InfusedAsset.pub token_id: Option<u64>`
+- `NativeFeeEstimate.pub deleted_storage_quanta: u32`
+- `NativeFeeEstimate.pub expected_gas_bill: u64`
+- `NativeFeeEstimate.pub max_data: u64`
+- `NativeFeeEstimate.pub max_gas: u64`
+- `NativeFeeEstimate.pub new_storage_quanta: u32`
+- `NativeFeeParams.pub big_fungible: Option<bool>`
+- `NativeFeeParams.pub count: Option<u32>`
+- `NativeFeeParams.pub distinct_series_count: Option<u32>`
+- `NativeFeeParams.pub duplicated_series: Option<bool>`
+- `NativeFeeParams.pub envelope_bytes: u32`
+- `NativeFeeParams.pub has_inflation_schedule: bool`
+- `NativeFeeParams.pub has_pre_burn: bool`
+- `NativeFeeParams.pub has_staking_organisation: bool`
+- `NativeFeeParams.pub has_staking_reward_token: bool`
+- `NativeFeeParams.pub infusions: Option<Vec<InfusedAsset>>`
+- `NativeFeeParams.pub name_length: u32`
+- `NativeFeeParams.pub non_fungible: bool`
+- `NativeFeeParams.pub payload_bytes: u32`
+- `NativeFeeParams.pub ram_bytes: Vec<u32>`
+- `NativeFeeParams.pub recipient_holds_token: bool`
+- `NativeFeeParams.pub rom_bytes: Vec<u32>`
+- `NativeFeeParams.pub rom_has_meta_id: Option<bool>`
+- `NativeFeeParams.pub script_event_bytes: Option<u32>`
+- `NativeFeeParams.pub script_storage_quanta: Option<u32>`
+- `NativeFeeParams.pub script_units_allowance: Option<u64>`
+- `NativeFeeParams.pub series_has_meta_id: Option<bool>`
+- `NativeFeeParams.pub series_info_bytes: u32`
+- `NativeFeeParams.pub supply_row_exists: bool`
+- `NativeFeeParams.pub symbol_length: u32`
+- `NativeFeeParams.pub to_is_nft_address: bool`
+- `NativeFeeParams.pub token_burned_before: bool`
+- `NativeFeeParams.pub token_id: Option<u64>`
+- `NativeFeeParams.pub token_info_bytes: u32`
+- `NativeFeePart.pub kind: NativeFeeKind`
+- `NativeFeePart.pub params: NativeFeeParams`
+- `NativeFeeTransactionParams.pub envelope_bytes: u32`
+- `NativeFeeTransactionParams.pub payload_bytes: u32`
+- `PlanAndSignOptions.pub facts: FeePlanOptions`
+- `PlanAndSignOptions.pub limits: TxLimits`
+
+### Methods
+
+```rust
+impl FeePlan: pub fn apply(&self, msg: &TxMsg) -> TxMsg
+```
+
+```rust
+impl FeePlan: pub fn quote(&self) -> FeeQuote
+```
+
+```rust
+impl NativeFeeEstimate: pub fn quote(&self) -> FeeQuote
+```
+
+```rust
+pub fn burned_instances(msg: &TxMsg) -> Vec<BurnedInstance>
+```
+
+```rust
+pub fn envelope_bytes_for( kind: NativeFeeKind, serialized_message_length: u32, witness_count: u32, ) -> u32
+```
+
+```rust
+pub fn estimate_native_fee( kind: NativeFeeKind, config: &GasConfig, params: &NativeFeeParams, ) -> Result<NativeFeeEstimate>
+```
+
+```rust
+pub fn estimate_native_fee_batch( parts: &[NativeFeePart], config: &GasConfig, transaction: NativeFeeTransactionParams, ) -> Result<NativeFeeEstimate>
+```
+
+```rust
+pub fn phantasma_canonical_rom_bytes(public_rom_bytes: u32) -> u32
+```
+
+```rust
+pub fn plan_and_sign_with_keys( msg: &TxMsg, keys: &[&PhantasmaKeys], config: Option<&GasConfig>, options: &PlanAndSignOptions, ) -> Result<Vec<u8>>
+```
+
+```rust
+pub fn plan_fees(msg: &TxMsg, config: &GasConfig, options: &FeePlanOptions) -> Result<FeePlan>
+```
+
+```rust
+pub fn storage_quanta_for(row_bytes: u32) -> u32
+```
+
+```rust
+pub fn summarize_fee_plan(plan: &FeePlan) -> FeePlanSummary
+```
+
+```rust
+pub fn summarize_fee_plan_with_decimals( plan: &FeePlan, gas_decimals: u32, data_decimals: u32, ) -> FeePlanSummary
+```
+
+### Variants
+
+- `NativeFeeKind::BurnFungible`
+- `NativeFeeKind::BurnNonFungible`
+- `NativeFeeKind::CreateToken`
+- `NativeFeeKind::CreateTokenSeries`
+- `NativeFeeKind::MintFungible`
+- `NativeFeeKind::MintNonFungible`
+- `NativeFeeKind::MintPhantasmaNonFungible`
+- `NativeFeeKind::RegisterName`
+- `NativeFeeKind::Script`
+- `NativeFeeKind::TransferFungible`
+- `NativeFeeKind::TransferNonFungible`
 
 ## phantasma_sdk
 
@@ -1749,6 +2576,14 @@ pub mod encoding
 
 ```rust
 pub mod error
+```
+
+```rust
+pub mod extended_events
+```
+
+```rust
+pub mod fees
 ```
 
 ```rust
@@ -1784,6 +2619,14 @@ pub use error::
 ```
 
 ```rust
+pub use extended_events::*
+```
+
+```rust
+pub use fees::*
+```
+
+```rust
 pub use rpc::*
 ```
 
@@ -1802,11 +2645,27 @@ Source: `src/rpc.rs`
 ### Declarations
 
 ```rust
+pub const ADDRESS_TYPE_CARBON: &str = "Carbon"
+```
+
+```rust
 pub const API_KEY_HEADER: &str = "X-Api-Key"
 ```
 
 ```rust
+pub const DEFAULT_FEE_CONFIG_TTL: Duration = Duration::from_secs(60)
+```
+
+```rust
 pub const DEFAULT_MAX_RPC_RESPONSE_BYTES: usize = 16 * 1024 * 1024
+```
+
+```rust
+pub enum PreflightVerdict
+```
+
+```rust
+pub enum VmValue
 ```
 
 ```rust
@@ -1819,6 +2678,10 @@ pub struct AbiMethodResult
 
 ```rust
 pub struct AbiParameterResult
+```
+
+```rust
+pub struct AccountInfoResult
 ```
 
 ```rust
@@ -1850,6 +2713,10 @@ pub struct BuildInfoResult
 ```
 
 ```rust
+pub struct ChainFeeParams
+```
+
+```rust
 pub struct ChainResult
 ```
 
@@ -1874,11 +2741,27 @@ pub struct DappResult
 ```
 
 ```rust
+pub struct EstimateTransactionResult
+```
+
+```rust
 pub struct EventExResult
 ```
 
 ```rust
 pub struct EventResult
+```
+
+```rust
+pub struct FeePlanner<'a, T>
+```
+
+```rust
+pub struct GasConfigDataResult
+```
+
+```rust
+pub struct GasConfigResult
 ```
 
 ```rust
@@ -1934,7 +2817,15 @@ pub struct PhantasmaVmConfigResult
 ```
 
 ```rust
+pub struct PlanRequestOptions
+```
+
+```rust
 pub struct PlatformResult
+```
+
+```rust
+pub struct PreflightResult
 ```
 
 ```rust
@@ -1951,6 +2842,10 @@ pub struct RpcCallResult<T>
 
 ```rust
 pub struct ScriptResult
+```
+
+```rust
+pub struct SendTransactionOptions
 ```
 
 ```rust
@@ -2036,6 +2931,9 @@ pub type VersionResult = BuildInfoResult
 - `AbiMethodResult.pub return_type: String`
 - `AbiParameterResult.pub name: String`
 - `AbiParameterResult.pub type_name: String`
+- `AccountInfoResult.pub address: String`
+- `AccountInfoResult.pub name: String`
+- `AccountInfoResult.pub stake: StakeResult`
 - `AccountResult.pub address: String`
 - `AccountResult.pub balances: Vec<BalanceResult>`
 - `AccountResult.pub name: String`
@@ -2082,6 +2980,7 @@ pub type VersionResult = BuildInfoResult
 - `BlockResult.pub height: u64`
 - `BlockResult.pub oracles: Option<Vec<OracleResult>>`
 - `BlockResult.pub previous_hash: String`
+- `BlockResult.pub producer_address: Option<String>`
 - `BlockResult.pub protocol: u32`
 - `BlockResult.pub reward: String`
 - `BlockResult.pub timestamp: u64`
@@ -2090,6 +2989,9 @@ pub type VersionResult = BuildInfoResult
 - `BuildInfoResult.pub build_time_utc: String`
 - `BuildInfoResult.pub commit: String`
 - `BuildInfoResult.pub version: String`
+- `ChainFeeParams.pub block_rate_target: Duration`
+- `ChainFeeParams.pub expiry_window: Duration`
+- `ChainFeeParams.pub gas_model_version: u32`
 - `ChainResult.pub address: Option<String>`
 - `ChainResult.pub contracts: Option<Vec<String>>`
 - `ChainResult.pub dapps: Option<Vec<String>>`
@@ -2131,15 +3033,57 @@ pub type VersionResult = BuildInfoResult
 - `DappResult.pub address: String`
 - `DappResult.pub chain: String`
 - `DappResult.pub name: String`
+- `EstimateTransactionResult.pub abort_reason: String`
+- `EstimateTransactionResult.pub data_escrow_atoms: Option<String>`
+- `EstimateTransactionResult.pub data_refund_atoms: Option<String>`
+- `EstimateTransactionResult.pub data_rows: Option<String>`
+- `EstimateTransactionResult.pub gas_bill_kcal_base: Option<String>`
+- `EstimateTransactionResult.pub recommended_max_data: Option<String>`
+- `EstimateTransactionResult.pub recommended_max_gas: Option<String>`
+- `EstimateTransactionResult.pub would_abort: bool`
 - `EventExResult.pub address: String`
 - `EventExResult.pub contract: String`
-- `EventExResult.pub data: Value`
+- `EventExResult.pub data: EventData`
 - `EventExResult.pub kind: String`
 - `EventResult.pub address: String`
 - `EventResult.pub contract: String`
 - `EventResult.pub data: String`
 - `EventResult.pub kind: String`
 - `EventResult.pub name: String`
+- `GasConfigDataResult.pub data_escrow_per_row: Option<String>`
+- `GasConfigDataResult.pub data_token_id: Option<String>`
+- `GasConfigDataResult.pub fee_multiplier: Option<String>`
+- `GasConfigDataResult.pub fee_shift: u8`
+- `GasConfigDataResult.pub gas_burn_ratio_mul: Option<String>`
+- `GasConfigDataResult.pub gas_burn_ratio_shift: u8`
+- `GasConfigDataResult.pub gas_dapp_ratio_mul: Option<String>`
+- `GasConfigDataResult.pub gas_dapp_ratio_shift: Option<u8>`
+- `GasConfigDataResult.pub gas_fee_create_token_base: Option<String>`
+- `GasConfigDataResult.pub gas_fee_create_token_series: Option<String>`
+- `GasConfigDataResult.pub gas_fee_create_token_symbol: Option<String>`
+- `GasConfigDataResult.pub gas_fee_per_byte: Option<String>`
+- `GasConfigDataResult.pub gas_fee_query: Option<String>`
+- `GasConfigDataResult.pub gas_fee_register_name: Option<String>`
+- `GasConfigDataResult.pub gas_fee_transfer: Option<String>`
+- `GasConfigDataResult.pub gas_producer_ratio_mul: Option<String>`
+- `GasConfigDataResult.pub gas_producer_ratio_shift: Option<u8>`
+- `GasConfigDataResult.pub gas_token_id: Option<String>`
+- `GasConfigDataResult.pub legacy_data_escrow_per_row: Option<String>`
+- `GasConfigDataResult.pub max_name_length: u8`
+- `GasConfigDataResult.pub max_structure_size: u32`
+- `GasConfigDataResult.pub max_token_symbol_length: u8`
+- `GasConfigDataResult.pub minimum_gas_bill: Option<String>`
+- `GasConfigDataResult.pub minimum_gas_offer: Option<String>`
+- `GasConfigDataResult.pub policy_fee_create_token_base: Option<String>`
+- `GasConfigDataResult.pub policy_fee_create_token_series: Option<String>`
+- `GasConfigDataResult.pub policy_fee_create_token_symbol: Option<String>`
+- `GasConfigDataResult.pub policy_fee_register_name: Option<String>`
+- `GasConfigDataResult.pub version: u8`
+- `GasConfigResult.pub block_rate_target: u32`
+- `GasConfigResult.pub expiry_window: u32`
+- `GasConfigResult.pub gas_config: Option<GasConfigDataResult>`
+- `GasConfigResult.pub gas_model_version: u32`
+- `GasConfigResult.pub units_per_block_data_byte: Option<u32>`
 - `GovernanceResult.pub name: String`
 - `GovernanceResult.pub value: String`
 - `InteropResult.pub external: String`
@@ -2200,11 +3144,16 @@ pub type VersionResult = BuildInfoResult
 - `PhantasmaVmConfigResult.pub gas_organization: String`
 - `PhantasmaVmConfigResult.pub gas_standard: String`
 - `PhantasmaVmConfigResult.pub is_stored: bool`
+- `PlanRequestOptions.pub facts: FeePlanOptions`
+- `PlanRequestOptions.pub refresh_config: bool`
 - `PlatformResult.pub chain: String`
 - `PlatformResult.pub fuel: String`
 - `PlatformResult.pub interop: Vec<InteropResult>`
 - `PlatformResult.pub platform: String`
 - `PlatformResult.pub tokens: Vec<String>`
+- `PreflightResult.pub reason: String`
+- `PreflightResult.pub subject: String`
+- `PreflightResult.pub verdict: PreflightVerdict`
 - `ReceiptResult.pub channel: String`
 - `ReceiptResult.pub index: String`
 - `ReceiptResult.pub nexus: String`
@@ -2227,6 +3176,8 @@ pub type VersionResult = BuildInfoResult
 - `ScriptResult.pub result: String`
 - `ScriptResult.pub results: Vec<String>`
 - `ScriptResult.pub state: Option<String>`
+- `SendTransactionOptions.pub plan: PlanRequestOptions`
+- `SendTransactionOptions.pub skip_preflight: bool`
 - `SignatureResult.pub data: String`
 - `SignatureResult.pub kind: String`
 - `StakeResult.pub amount: String`
@@ -2268,7 +3219,7 @@ pub type VersionResult = BuildInfoResult
 - `TokenPriceResult.pub open: String`
 - `TokenPriceResult.pub timestamp: u64`
 - `TokenPropertyResult.pub key: String`
-- `TokenPropertyResult.pub value: String`
+- `TokenPropertyResult.pub value: VmValue`
 - `TokenResult.pub address: String`
 - `TokenResult.pub burned_supply: String`
 - `TokenResult.pub carbon_id: String`
@@ -2347,6 +3298,34 @@ impl BalanceResult: pub fn decimal_amount(&self) -> String
 ```
 
 ```rust
+impl EstimateTransactionResult: pub fn to_fee_quote(&self) -> Result<FeeQuote>
+```
+
+```rust
+impl FeePlanner<'_, T>: pub async fn chain_params(&self, refresh: bool) -> Result<ChainFeeParams>
+```
+
+```rust
+impl FeePlanner<'_, T>: pub async fn config(&self, refresh: bool) -> Result<GasConfig>
+```
+
+```rust
+impl FeePlanner<'_, T>: pub async fn plan(&self, msg: &TxMsg, options: &PlanRequestOptions) -> Result<FeePlan>
+```
+
+```rust
+impl FeePlanner<'_, T>: pub fn invalidate(&self)
+```
+
+```rust
+impl FeePlanner<'_, T>: pub fn plan_with(
+```
+
+```rust
+impl GasConfigResult: pub fn to_gas_config(&self) -> Result<GasConfig>
+```
+
+```rust
 impl PhantasmaRpc<ReqwestTransport>: pub fn mainnet() -> Self
 ```
 
@@ -2367,10 +3346,6 @@ impl PhantasmaRpc<ReqwestTransport>: pub fn with_max_response_bytes(mut self, ma
 ```
 
 ```rust
-impl PhantasmaRpc<T>: pub async fn build_sign_send_tx_msg(
-```
-
-```rust
 impl PhantasmaRpc<T>: pub async fn call<R: DeserializeOwned>(&self, method: &str, params: Vec<Value>) -> Result<R>
 ```
 
@@ -2387,6 +3362,14 @@ impl PhantasmaRpc<T>: pub async fn call_with_raw<R: DeserializeOwned>(
 ```
 
 ```rust
+impl PhantasmaRpc<T>: pub async fn control_token_id(&self) -> Result<u64>
+```
+
+```rust
+impl PhantasmaRpc<T>: pub async fn estimate_transaction(&self, tx_data: &str) -> Result<EstimateTransactionResult>
+```
+
+```rust
 impl PhantasmaRpc<T>: pub async fn get_account(&self, address: &str) -> Result<AccountResult>
 ```
 
@@ -2396,6 +3379,22 @@ impl PhantasmaRpc<T>: pub async fn get_account_fungible_tokens(
 
 ```rust
 impl PhantasmaRpc<T>: pub async fn get_account_fungible_tokens_with_address_type(
+```
+
+```rust
+impl PhantasmaRpc<T>: pub async fn get_account_info(&self, address: &str) -> Result<AccountInfoResult>
+```
+
+```rust
+impl PhantasmaRpc<T>: pub async fn get_account_info_with_address_type(
+```
+
+```rust
+impl PhantasmaRpc<T>: pub async fn get_account_infos<S: AsRef<str> + Sync>(
+```
+
+```rust
+impl PhantasmaRpc<T>: pub async fn get_account_infos_with_address_type<S: AsRef<str> + Sync>(
 ```
 
 ```rust
@@ -2516,6 +3515,10 @@ impl PhantasmaRpc<T>: pub async fn get_contract_by_name(&self, chain: &str, name
 
 ```rust
 impl PhantasmaRpc<T>: pub async fn get_contracts(&self, chain: &str, extended: bool) -> Result<Vec<ContractResult>>
+```
+
+```rust
+impl PhantasmaRpc<T>: pub async fn get_gas_config(&self) -> Result<GasConfigResult>
 ```
 
 ```rust
@@ -2655,6 +3658,10 @@ impl PhantasmaRpc<T>: pub async fn get_version(&self) -> Result<VersionResult>
 ```
 
 ```rust
+impl PhantasmaRpc<T>: pub async fn infused_assets(
+```
+
+```rust
 impl PhantasmaRpc<T>: pub async fn invoke_raw_script(&self, chain: &str, script_hex: &str) -> Result<ScriptResult>
 ```
 
@@ -2667,15 +3674,15 @@ impl PhantasmaRpc<T>: pub async fn lookup_name(&self, name: &str) -> Result<Stri
 ```
 
 ```rust
+impl PhantasmaRpc<T>: pub async fn preflight_transaction(&self, msg: &TxMsg) -> Result<PreflightResult>
+```
+
+```rust
 impl PhantasmaRpc<T>: pub async fn read_archive(&self, hash: &str, block_index: u32) -> Result<String>
 ```
 
 ```rust
 impl PhantasmaRpc<T>: pub async fn send_carbon_transaction(&self, tx: &[u8]) -> Result<String>
-```
-
-```rust
-impl PhantasmaRpc<T>: pub async fn send_create_token_tx(
 ```
 
 ```rust
@@ -2691,11 +3698,11 @@ impl PhantasmaRpc<T>: pub async fn send_transaction(&self, tx: &Transaction) -> 
 ```
 
 ```rust
-impl PhantasmaRpc<T>: pub async fn sign_and_send_built_transaction(
+impl PhantasmaRpc<T>: pub async fn send_tx_msg(
 ```
 
 ```rust
-impl PhantasmaRpc<T>: pub async fn sign_and_send_carbon_transaction(
+impl PhantasmaRpc<T>: pub async fn sign_and_send_built_transaction(
 ```
 
 ```rust
@@ -2711,6 +3718,10 @@ impl PhantasmaRpc<T>: pub async fn write_archive_base64(
 ```
 
 ```rust
+impl PhantasmaRpc<T>: pub fn fees(&self) -> FeePlanner<'_, T>
+```
+
+```rust
 impl PhantasmaRpc<T>: pub fn parse_create_token_result(&self, result_hex: &str) -> Result<u64>
 ```
 
@@ -2719,7 +3730,7 @@ impl PhantasmaRpc<T>: pub fn parse_create_token_series_result(&self, result_hex:
 ```
 
 ```rust
-impl PhantasmaRpc<T>: pub fn sign_carbon_transaction(
+impl PhantasmaRpc<T>: pub fn with_fee_config_ttl(mut self, ttl: Duration) -> Self
 ```
 
 ```rust
@@ -2803,6 +3814,30 @@ impl TransactionResult: pub fn state_is_success(&self) -> bool
 ```
 
 ```rust
+impl VmValue: pub fn as_fields(&self) -> Option<&BTreeMap<String, VmValue>>
+```
+
+```rust
+impl VmValue: pub fn as_items(&self) -> Option<&[VmValue]>
+```
+
+```rust
+impl VmValue: pub fn as_text(&self) -> Option<&str>
+```
+
+```rust
+impl VmValue: pub fn field(&self, name: &str) -> Option<&VmValue>
+```
+
+```rust
+impl VmValue: pub fn is_text(&self) -> bool
+```
+
+```rust
+impl VmValue: pub fn text(value: impl Into<String>) -> Self
+```
+
+```rust
 pub fn convert_decimals(amount: &str, decimals: u32) -> String
 ```
 
@@ -2813,6 +3848,16 @@ pub fn parse_json_rpc_response(status: u16, body: Value) -> Result<Value>
 ```rust
 pub fn parse_json_rpc_response_for_request( status: u16, body: Value, expected_request_id: u64, ) -> Result<Value>
 ```
+
+### Variants
+
+- `PreflightVerdict::Free`
+- `PreflightVerdict::NotApplicable`
+- `PreflightVerdict::Taken`
+- `PreflightVerdict::Unknown`
+- `VmValue::Fields(BTreeMap<String, VmValue>)`
+- `VmValue::Items(Vec<VmValue>)`
+- `VmValue::Text(String)`
 
 ## phantasma_sdk::transaction
 

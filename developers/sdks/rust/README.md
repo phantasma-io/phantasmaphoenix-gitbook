@@ -8,7 +8,7 @@ Crate name:
 
 ```toml
 [dependencies]
-phantasma-sdk = "1.2.0"
+phantasma-sdk = "3.0.0"
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 ```
 
