@@ -140,6 +140,8 @@ Notes:
 - `rpc` defaults to `https://testnet.phantasma.info/rpc` if omitted.
 - `nexus` must match the target network.
 - `wif` is required even for `--dry-run`, because the CLI still builds and signs transactions.
+- Fees are not configured here. The chain prices each transaction, and the CLI
+  plans the offer from the message itself. See [Fees](#fees).
 
 ### Token validation rules
 
@@ -263,12 +265,7 @@ pha-deploy --create-token \
   --symbol <symbol> \
   --token-type nft \
   --token-metadata '<tokenMetadataJson>' \
-  --token-schemas '<tokenSchemasJson>' \
-  --create-token-max-data <maxData> \
-  --gas-fee-base <gasFeeBase> \
-  --gas-fee-create-token-base <gasFeeCreateTokenBase> \
-  --gas-fee-create-token-symbol <gasFeeCreateTokenSymbol> \
-  --gas-fee-multiplier <gasFeeMultiplier>
+  --token-schemas '<tokenSchemasJson>'
 ```
 
 Create a series:
@@ -280,11 +277,7 @@ pha-deploy --create-series \
   --wif <wif> \
   --carbon-token-id <tokenId> \
   --token-schemas '<tokenSchemasJson>' \
-  --series-metadata '<seriesMetadataJson>' \
-  --create-token-series-max-data <maxData> \
-  --gas-fee-base <gasFeeBase> \
-  --gas-fee-create-token-series <gasFeeCreateTokenSeries> \
-  --gas-fee-multiplier <gasFeeMultiplier>
+  --series-metadata '<seriesMetadataJson>'
 ```
 
 Mint an NFT:
@@ -297,11 +290,50 @@ pha-deploy --mint-nft \
   --carbon-token-id <tokenId> \
   --phantasma-series-id <seriesId> \
   --token-schemas '<tokenSchemasJson>' \
-  --nft-metadata '<nftMetadataJson>' \
-  --mint-token-max-data <maxData> \
-  --gas-fee-base <gasFeeBase> \
-  --gas-fee-multiplier <gasFeeMultiplier>
+  --nft-metadata '<nftMetadataJson>'
 ```
+
+### Fees
+
+There is nothing to configure. Every transaction is priced by the chain.
+
+A token transaction is a Carbon message. The CLI builds it, asks the node for
+its gas config, and plans the gas offer and the storage deposit from that exact
+message. Both are printed before the transaction is sent, and the gas the chain
+billed is printed after it settles:
+
+```text
+Fee plan: CreateToken, envelope <bytes> bytes
+  gas bill        <amount> KCAL (<atoms> atoms)
+  gas offer       <amount> KCAL (<atoms> atoms)
+  storage deposit <amount> SOUL (<atoms> atoms, <quanta> quanta, refunded when the rows are deleted)
+...
+Gas billed: <amount> KCAL (<atoms> atoms) - exactly as planned
+```
+
+The amounts depend on the network and on the message. Every one of them comes
+from the gas config of the node the CLI is pointed at.
+
+The plan is exact where the chain prices an operation from the message alone. It
+is an upper bound where the price also depends on chain state the message does
+not carry, which is whether the recipient already holds the token, whether the
+supply row exists, and which mode a series mints in. Those are taken at the
+reading that costs more, so a mint usually settles below its plan. The `gas bill`
+line then reads `up to <amount>`, and the difference is refunded. The storage
+deposit is refunded once the rows it paid for are deleted.
+
+`--create-token` runs one lookup before it signs. `Token.CreateToken` is charged
+its policy fee before the contract checks the symbol, so a symbol that is
+already taken would cost that fee for nothing. The CLI refuses to send when the
+chain says the symbol is taken, and also when the lookup could not establish an
+answer.
+
+The contract lifecycle is a VM script instead of a Carbon message, and no
+formula prices a script. The CLI asks the chain's estimate service, which
+dry-runs a submitted envelope and reports the bill it would settle with a
+margin for state drift. The probe is built at the payer's whole gas token
+balance, because an envelope that offers more than the payer holds is refused
+instead of priced. Pass `--max-gas` to set the ceiling by hand in KCAL.
 
 ## Contract workflow
 
@@ -424,8 +456,7 @@ Notes:
 - `--script <path>` compiled `.pvm`
 - `--abi <path>` compiled `.abi`
 - `--debug <path>` optional `.debug`
-- `--gas-price <int>`
-- `--gas-limit <int>`
+- `--max-gas <kcal>` optional, the gas ceiling in KCAL. Left out, it is read from the chain's estimate
 - `--pow <int>`
 - `--payload-hex <hex>`
 - `--dry-run`
@@ -458,7 +489,7 @@ Attach output also prints the resolved token symbol used in the interop call.
 Example:
 
 ```text
-pha-deploy 0.5.1
+pha-deploy 0.6.0
 pha-tomb version 2.1.0
 pha-tomb path /usr/local/bin/pha-tomb
 ```
