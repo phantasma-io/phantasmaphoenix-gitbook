@@ -50,17 +50,28 @@ Standard display metadata fields are `name`, `description`, `imageURL`,
 `infoURL`, and `royalties`. Token-level metadata requires `name`, `icon`,
 `url`, and `description`.
 
-## Fee Options
+## Fee Planning
 
-| Type | Formula |
-| ---- | ------- |
-| `FeeOptions` | `calculateMaxGas(count = 1)` returns `gasFeeBase * feeMultiplier * count` and rejects non-positive counts. |
-| `CreateTokenFeeOptions` | `calculateMaxGas(symbol?)` adds create-token base and symbol-length fee before multiplying. |
-| `CreateSeriesFeeOptions` | `calculateMaxGas()` adds create-series base; passing a count other than `1` is rejected. |
-| `MintNftFeeOptions` | `calculateMaxGas(countOrTokens = 1)` accepts a positive count or an array and scales one-mint gas by item count. |
+Builders carry no prices. A message is priced after it is built, from the
+message itself and the chain's own gas configuration.
 
-Direct NFT mint helpers call `calculateMaxGas(1)`. Phantasma NFT batch helpers
-call `calculateMaxGas(tokens)`.
+| API | Purpose |
+| --- | ------- |
+| `PhantasmaAPI.fees` | The `FeePlanner` of the chain this client talks to. |
+| `FeePlanner.plan(msg, options?)` | Prices one message and returns a `FeePlan`. |
+| `planFees(msg, config, options?)` | The same calculation against a `GasConfig` the caller holds. It touches no network. |
+| `FeePlan.apply(msg)` | Returns a copy of the message with `maxGas` and `maxData` set. |
+| `summarizeFeePlan(plan, decimals?)` | Renders `gasBill`, `gasOffer` and `storageCeiling` as decimal strings. |
+| `NativeFeeKind` | The operation kinds the planner prices. |
+| `GasConfig`, `gasConfigFromRpc(result)` | The chain's prices, and the conversion from the RPC response. |
+| `TxLimits` | `maxGas`, `maxData` and `expiry`, which a builder writes into the message. |
+| `DEFAULT_TX_EXPIRY_MS`, `expiryWithin(windowMs, marginMs?)` | The default expiry, and the longest one a chain window allows. |
+| `parseUnits(value, decimals)`, `formatUnits(atoms, decimals)` | Conversion between decimal amounts and atoms. |
+| `burnedInstances(msg)` | The instances a burn message destroys. |
+
+{% content-ref url="/developers/sdks/ts/fees-and-broadcasting.md" %}
+[Fees And Broadcasting](/developers/sdks/ts/fees-and-broadcasting.md)
+{% endcontent-ref %}
 
 ## Lifecycle Builders
 
@@ -70,18 +81,25 @@ call `calculateMaxGas(tokens)`.
 | `CreateTokenTxHelper.buildTxAndSign` / `buildTxAndSignHex` | Signed create-token bytes or hex. |
 | `CreateTokenSeriesTxHelper.buildTx` | Builds unsigned create-series `TxMsg`. |
 | `CreateTokenSeriesTxHelper.buildTxAndSign` / `buildTxAndSignHex` | Signed create-series bytes or hex. |
-| `MintNonFungibleTxHelper.buildTx` | Builds direct one-NFT mint. |
-| `MintNonFungibleTxHelper.buildTxAndSign` / `buildTxAndSignHex` | Signed direct NFT mint bytes or hex. |
 | `MintPhantasmaNonFungibleTxHelper.buildTx` | Builds deterministic Phantasma NFT mint for one item or a token array. |
 | `MintPhantasmaNonFungibleTxHelper.buildTxAndSign` / `buildTxAndSignHex` | Signed deterministic mint bytes or hex. |
+| `NativeTxHelper.transferFungible` / `transferNonFungible` | Builds a native transfer, in the plain or the gas-payer form. |
+| `NativeTxHelper.mintFungible` / `burnFungible` / `burnNonFungible` | Builds a native fungible mint, or a burn. |
+
+`buildTxAndSign` and `buildTxAndSignHex` take a `GasConfig` and plan the message
+before signing it. `buildTx` leaves the message unplanned, which is what
+`PhantasmaAPI.sendTransaction` and a wallet-signing flow both expect.
+
+The SDK carries no builder for a direct `MintNonFungible`. The chain refuses
+that operation where governance has not allowed caller-supplied ROM ids, and
+that is the state of the public chains today.
 
 ## Result Parsers And Address Helpers
 
 | API | Purpose |
 | --- | ------- |
-| `CreateTokenTxHelper.parseResult(resultHex)` | Parses Carbon token id. |
+| `CreateTokenTxHelper.parseResult(resultHex)` | Parses the Carbon token id as a `bigint`. |
 | `CreateTokenSeriesTxHelper.parseResult(resultHex)` | Parses Carbon series id. |
-| `MintNonFungibleTxHelper.parseResult(carbonTokenId, resultHex)` | Parses direct mint instance ids and returns Carbon NFT addresses. |
 | `MintPhantasmaNonFungibleTxHelper.parseResult(resultHex)` | Parses deterministic mint rows containing Phantasma NFT id and Carbon instance id. |
 | `TokenHelper.getNftAddress(carbonTokenId, instanceId)` | Derives Carbon NFT address bytes. |
 

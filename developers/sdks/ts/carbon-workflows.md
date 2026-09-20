@@ -69,20 +69,18 @@ If you fetch schemas from RPC (`getToken`), convert them using `vmStructSchemaFr
 
 ```ts
 import {
-  PhantasmaAPI,
-} from "phantasma-sdk-ts/public";
-import {
   Bytes32,
-  CreateTokenFeeOptions,
   CreateTokenTxHelper,
   IntX,
+  PhantasmaAPI,
   PhantasmaKeys,
   TokenInfoBuilder,
   TokenMetadataBuilder,
   TokenSchemasBuilder,
-} from "phantasma-sdk-ts/types";
+} from "phantasma-sdk-ts/public";
 
 async function main() {
+  const api = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, "testnet");
   const keys = PhantasmaKeys.fromWIF("YOUR_WIF");
   const creatorPk = new Bytes32(keys.publicKey);
 
@@ -105,49 +103,48 @@ async function main() {
     tokenSchemas,
   );
 
-  const feeOptions = new CreateTokenFeeOptions();
-  const maxData = 1_000_000_000n;
+  // The builder produces the message only. The fee is planned from it afterwards.
+  const msg = CreateTokenTxHelper.buildTx(tokenInfo, creatorPk);
 
-  const txHex = CreateTokenTxHelper.buildTxAndSignHex(
-    tokenInfo,
-    keys,
-    feeOptions,
-    maxData,
-  );
+  // Plans the fee, checks the symbol, signs and broadcasts.
+  const txHash = await api.sendTransaction(msg, keys);
 
-  const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, "testnet");
-  const txHash = await rpc.sendCarbonTransaction(txHex);
-
-  const txInfo = await rpc.getTransaction(txHash);
-  const carbonTokenId = BigInt(CreateTokenTxHelper.parseResult(txInfo.result));
+  const txInfo = await api.getTransaction(txHash);
+  const carbonTokenId = CreateTokenTxHelper.parseResult(txInfo.result);
   console.log("Carbon token id:", carbonTokenId.toString());
 }
 
 main().catch(console.error);
 ```
 
+{% hint style="warning" %}
+`Token.CreateToken` pays its policy fee before the contract looks at the symbol.
+A symbol that is already taken costs that fee and returns nothing.
+`sendTransaction` runs one lookup first and refuses when the chain says the
+symbol is taken, or when it could establish nothing. See
+[Fees And Broadcasting](fees-and-broadcasting.md).
+{% endhint %}
+
 ## 2) Create a Token Series
 
 ```ts
 import {
-  PhantasmaAPI,
-} from "phantasma-sdk-ts/public";
-import {
   Bytes32,
-  CreateSeriesFeeOptions,
   CreateTokenSeriesTxHelper,
   MetadataField,
+  PhantasmaAPI,
   PhantasmaKeys,
   SeriesInfoBuilder,
   TokenSchemasBuilder,
-  getRandomPhantasmaId,
-} from "phantasma-sdk-ts/types";
+} from "phantasma-sdk-ts/public";
+import { getRandomPhantasmaId } from "phantasma-sdk-ts/types";
 
 async function main() {
+  const api = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, "testnet");
   const keys = PhantasmaKeys.fromWIF("YOUR_WIF");
   const creatorPk = new Bytes32(keys.publicKey);
 
-  const carbonTokenId = 123n; // BigInt(CreateTokenTxHelper.parseResult(...))
+  const carbonTokenId = 123n; // CreateTokenTxHelper.parseResult(...)
 
   const tokenSchemas = TokenSchemasBuilder.prepareStandard(true);
   const seriesSchema = tokenSchemas.seriesMetadata;
@@ -160,6 +157,7 @@ async function main() {
     { name: "royalties", value: 10000000 },
   ];
 
+  // Keep this id. A deterministic mint names the series by it.
   const phantasmaSeriesId = await getRandomPhantasmaId();
   const seriesInfo = SeriesInfoBuilder.build(
     seriesSchema,
@@ -170,21 +168,10 @@ async function main() {
     metadata,
   );
 
-  const feeOptions = new CreateSeriesFeeOptions();
-  const maxData = 100_000_000n;
+  const msg = CreateTokenSeriesTxHelper.buildTx(carbonTokenId, seriesInfo, creatorPk);
+  const txHash = await api.sendTransaction(msg, keys);
 
-  const txHex = CreateTokenSeriesTxHelper.buildTxAndSignHex(
-    carbonTokenId,
-    seriesInfo,
-    keys,
-    feeOptions,
-    maxData,
-  );
-
-  const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, "testnet");
-  const txHash = await rpc.sendCarbonTransaction(txHex);
-
-  const txInfo = await rpc.getTransaction(txHash);
+  const txInfo = await api.getTransaction(txHash);
   const carbonSeriesId = CreateTokenSeriesTxHelper.parseResult(txInfo.result);
   console.log("Carbon series id:", carbonSeriesId);
 }
@@ -194,32 +181,42 @@ main().catch(console.error);
 
 ## 3) Mint a Carbon NFT
 
+The chain derives the NFT id and stores a canonical ROM. One call mints one or
+more instances, and every instance is one entry in `tokens`. Instances of
+several series may share one call.
+
+The ROM schema has to be the one the token was created with. The example below
+continues from a token created with `prepareStandard(false)`, which puts the
+standard fields in the per-NFT ROM. With `prepareStandard(true)` those fields
+live in the series metadata, and the ROM carries only the custom fields the
+schema declares.
+
 ```ts
 import {
-  PhantasmaAPI,
-} from "phantasma-sdk-ts/public";
-import {
   Bytes32,
-  MintNftFeeOptions,
-  MintNonFungibleTxHelper,
+  IntX,
   MetadataField,
-  NftRomBuilder,
+  MintPhantasmaNonFungibleTxHelper,
+  PhantasmaAPI,
   PhantasmaKeys,
+  PhantasmaNftMintInfo,
+  PhantasmaNftRomBuilder,
   TokenSchemasBuilder,
-  getRandomPhantasmaId,
-} from "phantasma-sdk-ts/types";
+} from "phantasma-sdk-ts/public";
 
 async function main() {
+  const api = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, "testnet");
   const keys = PhantasmaKeys.fromWIF("YOUR_WIF");
-  const creatorPk = new Bytes32(keys.publicKey);
+  const senderPk = new Bytes32(keys.publicKey);
 
-  const carbonTokenId = 123n; // BigInt(CreateTokenTxHelper.parseResult(...))
-  const carbonSeriesId = 1; // CreateTokenSeriesTxHelper.parseResult(...)
+  const carbonTokenId = 123n; // CreateTokenTxHelper.parseResult(...)
+  const phantasmaSeriesId = 456n; // the id used when the series was created
 
-  const tokenSchemas = TokenSchemasBuilder.prepareStandard(true);
+  const tokenSchemas = TokenSchemasBuilder.prepareStandard(false);
   const romSchema = tokenSchemas.rom; // use the schema from your token
 
-  // Include only fields defined in romSchema (plus optional "rom" bytes).
+  // Include only fields defined in romSchema. `_i` and `rom` are chain-owned
+  // here and are refused.
   const metadata: MetadataField[] = [
     { name: "name", value: "NFT #1" },
     { name: "description", value: "Example mint" },
@@ -228,39 +225,51 @@ async function main() {
     { name: "royalties", value: 10000000 },
   ];
 
-  const phantasmaNftId = await getRandomPhantasmaId();
-  const rom = NftRomBuilder.buildAndSerialize(romSchema, phantasmaNftId, metadata);
+  const rom = PhantasmaNftRomBuilder.buildAndSerialize(romSchema, metadata);
 
-  const feeOptions = new MintNftFeeOptions();
-  const maxData = 100_000_000n;
+  const msg = MintPhantasmaNonFungibleTxHelper.buildTx({
+    tokenId: carbonTokenId,
+    sender: senderPk,
+    to: senderPk,
+    tokens: [
+      new PhantasmaNftMintInfo({
+        phantasmaSeriesId: IntX.fromBigInt(phantasmaSeriesId),
+        rom,
+        ram: new Uint8Array(),
+      }),
+    ],
+  });
 
-  const txHex = MintNonFungibleTxHelper.buildTxAndSignHex(
-    carbonTokenId,
-    carbonSeriesId,
-    keys,
-    creatorPk,
-    rom,
-    new Uint8Array(),
-    feeOptions,
-    maxData,
-  );
+  const txHash = await api.sendTransaction(msg, keys);
 
-  const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, "testnet");
-  const txHash = await rpc.sendCarbonTransaction(txHex);
-
-  const txInfo = await rpc.getTransaction(txHash);
-  const carbonNftAddresses = MintNonFungibleTxHelper.parseResult(carbonTokenId, txInfo.result);
-  console.log(carbonNftAddresses[0].toHex());
+  const txInfo = await api.getTransaction(txHash);
+  const minted = MintPhantasmaNonFungibleTxHelper.parseResult(txInfo.result);
+  console.log(minted[0].phantasmaNftId.toHex(), minted[0].carbonInstanceId.toString());
 }
 
 main().catch(console.error);
 ```
 
+Each result entry carries the Phantasma NFT id the chain derived and the Carbon
+instance id it minted.
+
 ## Wallet Signing (Frontend)
 
-For frontend flows, build a `TxMsg` using the same helpers and sign with:
+A wallet signs the message, so the application plans the fee before it hands the
+message over:
 
-- `PhantasmaLink.signCarbonTxAndBroadcast(txMsg, ...)`
-- `EasyConnect.signCarbonTransaction(txMsg, ...)`
+```ts
+const plan = await api.fees.plan(msg);
+const planned = plan.apply(msg);
+```
 
-These require a wallet that supports Phantasma Link v4.
+Then sign with:
+
+- `PhantasmaLink.signCarbonTxAndBroadcast(plannedMsg, ...)`
+- `EasyConnect.signCarbonTransaction(plannedMsg, ...)`
+
+These require a wallet that supports Phantasma Link v4 or later.
+
+A person confirming in a wallet takes longer than a local signature, so take the
+chain's whole expiry window when building the message. See
+[Fees And Broadcasting](fees-and-broadcasting.md).

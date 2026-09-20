@@ -125,6 +125,7 @@
       - [Quickstart](developers/sdks/ts/quickstart.md)
       - [API Overview](developers/sdks/ts/api-overview.md)
       - [Carbon Workflows](developers/sdks/ts/carbon-workflows.md)
+      - [Fees And Broadcasting](developers/sdks/ts/fees-and-broadcasting.md)
       - [Schema JSON Reference](developers/sdks/ts/schema-json-reference.md)
       - [Complete API Reference](developers/sdks/ts/reference/README.md)
         - [RPC Client](developers/sdks/ts/reference/rpc-methods.md)

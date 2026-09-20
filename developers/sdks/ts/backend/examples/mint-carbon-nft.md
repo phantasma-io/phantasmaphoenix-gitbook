@@ -1,7 +1,11 @@
 # Minting a New Carbon NFT
 
-To mint a new Carbon NFT, you first need to obtain both the Carbon token ID and the Carbon token series ID.
-These identifiers are returned from the token creation transaction and series creation transaction, respectively.
+To mint a new Carbon NFT you need the Carbon token ID and the Phantasma series
+ID. The token ID is returned by the token creation transaction. The series ID is
+the one you generated when the series was created.
+
+The chain derives the NFT id and stores a canonical ROM. One call mints one or
+more instances.
 
 ## Minting a New Carbon NFT
 
@@ -13,23 +17,21 @@ These are the imports typically required for minting a Carbon NFT:
 
 ```ts
 import {
-  PhantasmaAPI,
-} from "phantasma-sdk-ts/public";
-import {
   Bytes32,
-  MintNftFeeOptions,
-  MintNonFungibleTxHelper,
+  IntX,
   MetadataField,
-  NftRomBuilder,
+  MintPhantasmaNonFungibleTxHelper,
+  PhantasmaAPI,
   PhantasmaKeys,
+  PhantasmaNftMintInfo,
+  PhantasmaNftRomBuilder,
   TokenSchemasBuilder,
-  getRandomPhantasmaId,
-} from "phantasma-sdk-ts/types";
+} from "phantasma-sdk-ts/public";
 ```
 
 ### Initialize Deployer Keys
 
-In the following examples, we will use the deployer’s `PhantasmaKeys` keypair and its `Bytes32` public key.
+In the following examples, we will use the deployer's `PhantasmaKeys` keypair and its `Bytes32` public key.
 
 ```ts
   // Initialize PhantasmaKeys using WIF-encoded private key
@@ -40,13 +42,19 @@ In the following examples, we will use the deployer’s `PhantasmaKeys` keypair 
 
 ### Build NFT ROM
 
-`NftRomBuilder` helps construct and serialize the NFT ROM.
+`PhantasmaNftRomBuilder` serializes the public part of the ROM. The chain owns
+the `_i` id and the `rom` bytes for a deterministic mint, so those two field
+names are refused here.
+
+Use the ROM schema the token was created with. The example continues from a
+token created with `prepareStandard(false)`, which puts the standard fields in
+the per-NFT ROM.
 
 ```ts
-  const tokenSchemas = TokenSchemasBuilder.prepareStandard(true);
+  const tokenSchemas = TokenSchemasBuilder.prepareStandard(false);
   const romSchema = tokenSchemas.rom; // use the schema from your token
 
-  // Include only fields defined in romSchema (plus optional "rom" bytes).
+  // Include only fields defined in romSchema.
   const metadata: MetadataField[] = [
     { name: "name", value: "NFT #1" }, // NFT name
     { name: "description", value: "Example mint" }, // NFT description
@@ -54,82 +62,62 @@ In the following examples, we will use the deployer’s `PhantasmaKeys` keypair 
     { name: "infoURL", value: "https://example.com/nft" }, // NFT information URL
     { name: "royalties", value: 10000000 }, // NFT royalties. 10000000 = 1%
   ];
-  // All ROM fields defined in the schema are required; missing or wrong-case names will throw.
 
-  // First we need to generate a new random Phantasma ID for the new NFT
-  const newPhantasmaNftId = await getRandomPhantasmaId();
-
-  const rom = NftRomBuilder.buildAndSerialize(
-    romSchema,
-    newPhantasmaNftId,
-    metadata,
-  );
-  // Optional Smart NFT ROM compatible with Phantasma VM and NFT's smart contract (leave empty if unsure)
+  const rom = PhantasmaNftRomBuilder.buildAndSerialize(romSchema, metadata);
 ```
 
-### Set NFT Minting Fees
+### Build the Message
 
-`MintNftFeeOptions` is used to specify the fees for NFT minting.
-You can call the constructor without arguments to use default values.
+Every instance is one entry in `tokens`. Instances of several series may share
+one call.
 
 ```ts
-  const feeOptions = new MintNftFeeOptions(
-    10000n, // Base fee
-    10000n // Fee multiplier
-  );
+  const carbonTokenId = 123n; // CreateTokenTxHelper.parseResult(...)
+  const phantasmaSeriesId = 456n; // the id used when the series was created
+
+  const msg = MintPhantasmaNonFungibleTxHelper.buildTx({
+    tokenId: carbonTokenId,
+    sender: senderPubKey, // pays the gas and signs
+    to: senderPubKey, // receives every instance this call mints
+    tokens: [
+      new PhantasmaNftMintInfo({
+        phantasmaSeriesId: IntX.fromBigInt(phantasmaSeriesId),
+        rom, // ROM produced by PhantasmaNftRomBuilder
+        ram: new Uint8Array(), // NFT RAM, optional
+      }),
+    ],
+  });
 ```
 
-### Build and Sign the Transaction
-
-`MintNonFungibleTxHelper` simplifies the process of building and signing the NFT minting transaction.
-
-```ts
-  const carbonTokenId = 123n; // BigInt(CreateTokenTxHelper.parseResult(...))
-  const carbonSeriesId = 1; // CreateTokenSeriesTxHelper.parseResult(...)
-  const maxData = 100_000_000n;
-
-  const tx = MintNonFungibleTxHelper.buildTxAndSignHex(
-    carbonTokenId, // Carbon token ID to which the new NFT will be attached
-    carbonSeriesId, // Carbon token series ID to which the new NFT will be attached
-    txSender, // Keypair used to sign the transaction
-    senderPubKey, // Public key of new NFT owner
-    rom, // ROM generated by NftRomBuilder. It's mandatory
-    new Uint8Array(), // NFT's RAM, optional
-    feeOptions, // Fee options defined above
-    maxData, // Mint NFT max data (use this default value if unsure)
-  );
-```
-
-### Broadcast the Transaction
-
-Broadcast the transaction to the network.
+### Plan, Sign and Send
 
 ```ts
   const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, "testnet");
 
-  // Use sendCarbonTransaction() to call Carbon methods
-  const txHash = await rpc.sendCarbonTransaction(tx);
+  const txHash = await rpc.sendTransaction(msg, txSender);
 ```
+
+A mint prices three facts the message does not carry: whether the recipient
+already holds the token, whether the supply row still exists, and whether the
+series mints duplicates. Each is taken at the reading that costs more, so
+`plan.exact` is `false` unless you state them. See
+[Fees And Broadcasting](/developers/sdks/ts/fees-and-broadcasting.md).
 
 ### Parse the Result
 
-After the transaction is mined and its result becomes available, parse it to obtain the new Carbon NFT address.
-This address can later be used for infusion.
-
-The method `MintNonFungibleTxHelper.parseResult()` returns an array of minted NFT addresses -
-in this case, it will contain a single element.
+After the transaction is mined and its result becomes available, parse it to
+obtain the minted instances. Each entry carries the Phantasma NFT id the chain
+derived and the Carbon instance id it minted.
 
 ```ts
   // Wait for transaction confirmation...
   const txInfo = await rpc.getTransaction(txHash);
 
   if (txInfo.state === "Halt") {
-    const carbonNftAddresses = MintNonFungibleTxHelper.parseResult(
-      carbonTokenId,
-      txInfo.result,
-    );
+    const minted = MintPhantasmaNonFungibleTxHelper.parseResult(txInfo.result);
     console.log(
-      `Deployed NFT with phantasma ID ${newPhantasmaNftId} and carbon NFT address ${carbonNftAddresses[0]}`
+      `Minted NFT with phantasma ID ${minted[0].phantasmaNftId.toHex()} ` +
+        `and carbon instance ID ${minted[0].carbonInstanceId}`
     );
   } else {
     console.log("Could not mint NFT");

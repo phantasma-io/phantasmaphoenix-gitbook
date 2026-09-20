@@ -16,18 +16,16 @@ These are the imports typically required for creating a Carbon token:
 
 ```ts
 import {
-  PhantasmaAPI,
-} from "phantasma-sdk-ts/public";
-import {
   Bytes32,
-  CreateTokenFeeOptions,
   CreateTokenTxHelper,
   IntX,
+  PhantasmaAPI,
   PhantasmaKeys,
+  summarizeFeePlan,
   TokenInfoBuilder,
   TokenMetadataBuilder,
   TokenSchemasBuilder,
-} from "phantasma-sdk-ts/types";
+} from "phantasma-sdk-ts/public";
 ```
 
 ### Initialize Deployer Keys
@@ -66,44 +64,45 @@ In the following examples, we will use the deployer’s `PhantasmaKeys` keypair 
   );
 ```
 
-### Set Token Creation Fees
+### Build the Message
 
-`CreateTokenFeeOptions` is used to specify the fees for token creation.
-You can call the constructor without arguments to use default values.
-
-```ts
-  const feeOptions = new CreateTokenFeeOptions(
-    10000n, // Base fee
-    10000000000n, // Create token base fee
-    10000000000n, // Create token symbol fee
-    10000n // Fee multiplier
-  );
-```
-
-### Build and Sign the Transaction
-
-`CreateTokenTxHelper` simplifies the process of building and signing the token creation transaction.
+`CreateTokenTxHelper.buildTx` assembles the `Token.CreateToken` call. The
+builder carries no prices, so the message leaves it with a zero gas offer.
 
 ```ts
-  const maxData = 1_000_000_000n;
-  const tx = CreateTokenTxHelper.buildTxAndSignHex(
+  const msg = CreateTokenTxHelper.buildTx(
     info, // TokenInfo instance built with TokenInfoBuilder
-    txSender, // Keypair used to sign the transaction
-    feeOptions, // Fee options defined above
-    maxData // Create token max data (use this default value if unsure)
+    senderPubKey, // Public key of the token creator, which pays the gas
   );
 ```
 
-### Broadcast the Transaction
+### Plan, Sign and Send
 
-Broadcast the transaction to the network.
+`sendTransaction` runs the four steps in one call: the symbol pre-flight, the
+fee plan, the signatures and the broadcast.
 
 ```ts
   const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, "testnet");
 
-  // Use sendCarbonTransaction() to call Carbon methods
-  const txHash = await rpc.sendCarbonTransaction(tx);
+  const txHash = await rpc.sendTransaction(msg, txSender);
 ```
+
+To see the fee before sending, plan it first:
+
+```ts
+  const plan = await rpc.fees.plan(msg);
+  console.log(summarizeFeePlan(plan)); // gasBill, gasOffer, storageCeiling
+
+  const txHash = await rpc.sendTransaction(plan.apply(msg), txSender);
+```
+
+{% hint style="warning" %}
+`Token.CreateToken` pays its policy fee before the contract looks at the symbol,
+and that fee is the largest single price in the protocol. A symbol that is
+already taken costs the fee and returns nothing. `sendTransaction` asks the
+chain first and refuses to send when the symbol is taken, or when the lookup
+established nothing. Pass `{ preflight: false }` to decide for yourself.
+{% endhint %}
 
 ### Parse the Result
 
@@ -122,5 +121,7 @@ This ID can later be used to create token series and mint new NFTs.
 ```
 
 {% hint style="info" %}
-For frontend signing, build a `TxMsg` via `CreateTokenTxHelper.buildTx(...)` and use `PhantasmaLink.signCarbonTxAndBroadcast` or `EasyConnect.signCarbonTransaction`.
+For frontend signing, build the `TxMsg` the same way, plan it with
+`rpc.fees.plan(msg)`, apply the plan, and pass the result to
+`PhantasmaLink.signCarbonTxAndBroadcast` or `EasyConnect.signCarbonTransaction`.
 {% endhint %}

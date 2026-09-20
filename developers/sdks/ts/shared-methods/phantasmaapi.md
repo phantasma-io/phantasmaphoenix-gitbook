@@ -6,11 +6,15 @@ Use `PhantasmaAPI` to call RPC endpoints directly from Node or the browser.
 
 ## Constructor
 
-`new PhantasmaAPI(rpcUrl, peersUrlJson, nexus)`
+`new PhantasmaAPI(rpcUrl, peersUrlJson, nexus, options?)`
 
 - `rpcUrl`: full RPC endpoint (for example `https://testnet.phantasma.info/rpc`).
-- `peersUrlJson`: optional peers JSON for auto-selecting the fastest RPC.
+- `peersUrlJson`: optional peers JSON for auto-selecting the fastest RPC. Pass
+  `null` when you do not want it.
 - `nexus`: `"testnet"` or `"mainnet"`.
+- `options.apiKey`: sent as the `X-Api-Key` header on every request.
+- `options.maxRpcResponseBytes`: the largest accepted response body. It defaults
+  to 16 MiB.
 
 ## Testnet Example
 
@@ -33,23 +37,25 @@ const api = new PhantasmaAPI(rpcUrl, peersUrl, "mainnet");
 ```
 
 {% hint style="info" %}
-If you do not want automatic RPC selection, pass `undefined` for `peersUrlJson`.
+If you do not want automatic RPC selection, pass `null` for `peersUrlJson`.
 {% endhint %}
 
 ## Current RPC Shape Notes
 
-For new code, use the chain-aware block helpers:
+The block helpers take the chain as their first argument:
 
 ```ts
 await api.getBlockTransactionCountByHash("main", blockHash);
 await api.getTransactionByBlockHashAndIndex("main", blockHash, index);
 ```
 
-The legacy overloads without `chainAddressOrName` still work and default to `"main"`:
+Read an account through `getAccountInfo`, and its holdings through the
+cursor-paginated account methods. `getAccount` and `getAccounts` are deprecated,
+because their response grows with the size of the account.
 
 ```ts
-await api.getBlockTransactionCountByHash(blockHash);
-await api.getTransactionByBlockHashAndIndex(blockHash, index);
+const info = await api.getAccountInfo(address);
+const balances = await api.getAccountFungibleTokens(address);
 ```
 
 Carbon token and node metadata helpers are exposed through:
@@ -57,3 +63,12 @@ Carbon token and node metadata helpers are exposed through:
 - `getTokenSeriesById(symbol, carbonTokenId, seriesId, carbonSeriesId)`
 - `getVersion()`
 - `getPhantasmaVmConfig(chainAddressOrName)`
+
+The client also carries the fee planner and the one-step send:
+
+- `api.fees.plan(msg)`
+- `api.sendTransaction(msg, signers)`
+
+{% content-ref url="/developers/sdks/ts/fees-and-broadcasting.md" %}
+[Fees And Broadcasting](/developers/sdks/ts/fees-and-broadcasting.md)
+{% endcontent-ref %}

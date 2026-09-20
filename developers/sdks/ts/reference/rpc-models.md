@@ -29,8 +29,14 @@ Keep passing the returned cursor with the same filters until it is empty.
 | `Balance` | `chain`, `amount`, `symbol`, `decimals`, optional `ids`. |
 | `Stake` | `amount`, `time`, `unclaimed`. |
 | `Storage` | `available`, `used`, `avatar`, `archives`. |
+| `AccountInfo` | `address`, `name`, `stake`. |
 | `Account` | `address`, `name`, `stakes`, `stake`, `unclaimed`, optional `relay`, `validator`, `storage`, `balances`, optional `txs`. |
 | `AccountTransactions` | `address`, `txs`. |
+
+`AccountInfo` is the result of `getAccountInfo` and `getAccountInfos`. `name` is
+the registered name, or `anonymous` when the address has none. Its `stake` field
+carries the staking object. `Account` carries the same object under `stakes` and
+uses `stake` for a deprecated flat scalar.
 
 ## Chain, Contract, And Organization Models
 
@@ -51,11 +57,29 @@ Keep passing the returned cursor with the same filters until it is empty.
 | `Oracle` | URL and content fields. |
 | `SignatureResult` | signature kind and data. |
 | `TransactionData` | `hash`, `chainAddress`, `timestamp`, `blockHeight`, `blockHash`, `script`, `payload`, `carbonTxType`, `carbonTxData`, `events`, optional `extendedEvents`, `result`, optional `debugComment`, `fee`, `state`, `signatures`, `sender`, `gasPayer`, `gasTarget`, `gasPrice`, `gasLimit`, `expiration`. |
-| `Block` | `hash`, `previousHash`, `timestamp`, `height`, `chainAddress`, `protocol`, `txs`, `validatorAddress`, `reward`, optional `events`, optional `oracles`. |
+| `Block` | `hash`, `previousHash`, `timestamp`, `height`, `chainAddress`, `protocol`, `txs`, `validatorAddress`, optional `producerAddress`, `reward`, optional `events`, optional `oracles`. |
 | `Script` | `events`, `result`, `results`, `oracles`, optional `error`. |
+| `VmValue` | A value decoded from VM storage: a scalar, an array or a struct. |
 
 Use `decodeVMObject` or `Decoder` helpers where a script result contains VM
 object bytes.
+
+`producerAddress` is the fee payout address the block producer stamped inside
+the hashed block input. It is present on gas model v2 blocks and absent on
+earlier ones. It is a different field from `validatorAddress`, which names the
+consensus-log leader. The two are usually equal today, and a configurable payout
+address is a planned extension, so do not assume they are equal.
+
+`VmValue` is `string | VmValue[] | { [field: string]: VmValue }`. The wire
+carries the plain JSON value, so the shape itself says which of the three it is.
+Narrow it with `typeof value === 'string'` for a scalar and `Array.isArray` for
+an array. Scalars are always strings, because chain numbers are big integers and
+JSON numbers lose precision above 2^53. Byte values arrive as hex.
+
+`EventExtendedTyped` is `EventExtended<ExtendedEventData>`, and
+`ExtendedEventData` is the union of the typed payloads: `TokenCreateData`,
+`TokenSeriesCreateData`, `MarketOrderData` and `SpecialResolutionData`. A
+special resolution call carries its arguments typed per method.
 
 ## Token, NFT, Schema, And Price Models
 
@@ -69,6 +93,29 @@ object bytes.
 
 Convert RPC schema payloads with `vmStructSchemaFromRpcResult` and
 `vmVariableSchemaFromRpcResult` before passing them into Carbon schema builders.
+
+## Fee And Gas Configuration Models
+
+| Type | Fields |
+| ---- | ------ |
+| `GasConfigResult` | `gasModelVersion`, optional `gasConfig`, `blockRateTarget`, `expiryWindow`, optional `unitsPerBlockDataByte`. |
+| `GasConfigData` | The JSON shape of the on-chain gas configuration. |
+| `EstimateTransactionResult` | `wouldAbort`, optional `abortReason`, `gasBillKcalBase`, `dataRows`, `dataEscrowAtoms`, `dataRefundAtoms`, `recommendedMaxGas`, `recommendedMaxData`. |
+
+`gasModelVersion` is `1` for the original fee model and `2` for gas model v2.
+The fields of `GasConfigData` after `gasBurnRatioShift` exist only when
+`GasConfigData.version` is 1 or higher. A gas model v1 response omits them.
+
+64-bit values in both models arrive as decimal strings, because they can exceed
+the 2^53 precision of a JSON number.
+
+`gasConfigFromRpc(result)` converts a `GasConfigResult` into the `GasConfig` the
+fee planner uses. It throws on a malformed numeric string, on a v2 response that
+is missing its tail fields, and on a byte price this SDK does not implement.
+
+`feeEstimateFromRpc(result)` converts a completed estimate into the same
+`FeeQuote` a local plan produces. It throws when `wouldAbort` is set, because an
+aborted simulation carries no recommendation.
 
 ## Auction, Archive, And Network Models
 

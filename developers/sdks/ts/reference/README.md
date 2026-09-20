@@ -31,10 +31,11 @@ import { Transaction } from "phantasma-sdk-ts/tx";
 import { ScriptBuilder } from "phantasma-sdk-ts/vm";
 ```
 
-Use `/types` for Carbon helpers that are not runtime exports of `/public`:
+Use `/types` for the few Carbon helpers that are not runtime exports of
+`/public`:
 
 ```ts
-import { CreateTokenFeeOptions, getRandomPhantasmaId } from "phantasma-sdk-ts/types";
+import { getRandomPhantasmaId } from "phantasma-sdk-ts/types";
 ```
 
 The package root and `core/**` deep imports remain compatibility paths. New

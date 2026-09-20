@@ -14,7 +14,7 @@ TypeScript SDK Complete API Reference
 | Item | Value |
 | ---- | ----- |
 | Package | `phantasma-sdk-ts` |
-| Current source version | `0.11.0` |
+| Current source version | `0.18.1` |
 | Runtime | Node `>=22`; browser bundles depend on the wallet/link feature being used |
 | Recommended import | `phantasma-sdk-ts/public` |
 
@@ -22,14 +22,20 @@ TypeScript SDK Complete API Reference
 
 ### `PhantasmaAPI`
 
-RPC client for chain reads and transaction broadcast.
+RPC client for chain reads, fee planning, and transaction broadcast.
 
 Use it for:
 
-- `getAccount`, `getBlockByHeight`, `getTransaction`
+- `getAccountInfo`, `getBlockByHeight`, `getTransaction`
+- `fees` for the chain's fee planner
+- `sendTransaction` to plan, sign and broadcast a Carbon message in one call
 - `sendRawTransaction` for signed VM transactions
-- `sendCarbonTransaction` for Carbon transactions
+- `sendCarbonTransaction` for a Carbon envelope that is already signed
 - `invokeRawScript` for read-only VM execution
+
+`getAccount` and `getAccounts` are deprecated. Their response embeds every NFT
+id the address owns, so it grows with the size of the account. Use
+`getAccountInfo` with `getAccountFungibleTokens` and `getAccountNFTs`.
 
 ### `ScriptBuilder`
 
@@ -136,37 +142,54 @@ Use:
 
 This is the correct pattern when your application needs exact control over the final transaction bytes.
 
-### Carbon-native transaction
+### Carbon-native transaction, local key
 
 Use:
 
 - Carbon helper builders to create a `TxMsg`
+- `PhantasmaAPI.sendTransaction(msg, signers)`
+
+This plans the fee, runs the token-creation pre-flight, signs with every witness
+and broadcasts.
+
+### Carbon-native transaction, wallet key
+
+Use:
+
+- Carbon helper builders to create a `TxMsg`
+- `PhantasmaAPI.fees.plan(msg)` and `plan.apply(msg)` to set the fee ceilings
 - `PhantasmaLink.signCarbonTxAndBroadcast(...)`
 - or `EasyConnect.signCarbonTransaction(...)`
 
 ## Carbon Helpers
 
-For Carbon tokens and NFTs, use `phantasma-sdk-ts/public` for the RPC client
-and application-level SDK types. Import the complete Carbon helper surface from
-`phantasma-sdk-ts/types`; this includes fee option classes and helper functions
-that are not runtime exports of `/public`.
+`phantasma-sdk-ts/public` exports the RPC client, the Carbon builders and the
+fee planner. Use `phantasma-sdk-ts/types` only for the few helpers that are not
+in `/public`, such as `getRandomPhantasmaId`.
+
+Schema and payload builders:
 
 - `TokenInfoBuilder`
 - `TokenMetadataBuilder`
 - `TokenSchemasBuilder`
 - `SeriesInfoBuilder`
 - `NftRomBuilder`
+- `PhantasmaNftRomBuilder`
+
+Message builders:
+
+- `NativeTxHelper` for transfers, fungible mints and burns
 - `CreateTokenTxHelper`
 - `CreateTokenSeriesTxHelper`
-- `MintNonFungibleTxHelper`
 - `MintPhantasmaNonFungibleTxHelper`
 
-These helpers build `TxMsg` objects or other schema-aware payloads for Carbon flows.
+These helpers build `TxMsg` objects or other schema-aware payloads for Carbon
+flows. They carry no prices. A message is planned after it is built, and the
+plan sets `maxGas` and `maxData`.
 
-`FeeOptions.calculateMaxGas(count?)` and
-`MintNftFeeOptions.calculateMaxGas(countOrTokens?)` are count-sensitive in the
-current SDK. Direct one-NFT mint helpers pass `1`; Phantasma NFT batch helpers
-pass the token list.
+{% content-ref url="fees-and-broadcasting.md" %}
+[Fees And Broadcasting](fees-and-broadcasting.md)
+{% endcontent-ref %}
 
 ## Decoder And Event Helpers
 

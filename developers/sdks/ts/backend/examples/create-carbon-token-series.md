@@ -13,18 +13,15 @@ These are the imports typically required for creating a Carbon token series:
 
 ```ts
 import {
-  PhantasmaAPI,
-} from "phantasma-sdk-ts/public";
-import {
   Bytes32,
-  CreateSeriesFeeOptions,
   CreateTokenSeriesTxHelper,
   MetadataField,
-  SeriesInfoBuilder,
+  PhantasmaAPI,
   PhantasmaKeys,
+  SeriesInfoBuilder,
   TokenSchemasBuilder,
-  getRandomPhantasmaId,
-} from "phantasma-sdk-ts/types";
+} from "phantasma-sdk-ts/public";
+import { getRandomPhantasmaId } from "phantasma-sdk-ts/types";
 ```
 
 ### Initialize Deployer Keys
@@ -65,7 +62,8 @@ For example:
     { name: "royalties", value: 10000000 },
   ];
 
-  // First we need to generate a new random Phantasma ID for the new series
+  // First we need to generate a new random Phantasma ID for the new series.
+  // Keep it: a deterministic mint names the series by this id.
   const newPhantasmaSeriesId = await getRandomPhantasmaId();
 
   const info = SeriesInfoBuilder.build(
@@ -78,46 +76,34 @@ For example:
   );
 ```
 
-### Set Series Creation Fees
+### Build the Message
 
-`CreateSeriesFeeOptions` is used to specify the fees for series creation.
-You can call the constructor without arguments to use default values.
-
-```ts
-  const feeOptions = new CreateSeriesFeeOptions(
-    10000n, // Base fee
-    2500000000n, // Create series fee
-    10000n // Fee multiplier
-  );
-```
-
-### Build and Sign the Transaction
-
-`CreateTokenSeriesTxHelper` simplifies the process of building and signing the series creation transaction.
+`CreateTokenSeriesTxHelper.buildTx` assembles the `Token.CreateTokenSeries`
+call. The builder carries no prices, so the message leaves it with a zero gas
+offer.
 
 ```ts
-  const carbonTokenId = 123n; // BigInt(CreateTokenTxHelper.parseResult(...))
-  const maxData = 100_000_000n;
+  const carbonTokenId = 123n; // CreateTokenTxHelper.parseResult(...)
 
-  const tx = CreateTokenSeriesTxHelper.buildTxAndSignHex(
+  const msg = CreateTokenSeriesTxHelper.buildTx(
     carbonTokenId, // Carbon token ID to which the new series will be attached
     info, // SeriesInfo instance built with SeriesInfoBuilder
-    txSender, // Keypair used to sign the transaction
-    feeOptions, // Fee options defined above
-    maxData, // Create series max data (use this default value if unsure)
+    senderPubKey, // Public key of the series creator, which pays the gas
   );
 ```
 
-### Broadcast the Transaction
-
-Broadcast the transaction to the network.
+### Plan, Sign and Send
 
 ```ts
   const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, "testnet");
 
-  // Use sendCarbonTransaction() to call Carbon methods
-  const txHash = await rpc.sendCarbonTransaction(tx);
+  const txHash = await rpc.sendTransaction(msg, txSender);
 ```
+
+`sendTransaction` plans the fee from the message, signs it and broadcasts it. A
+series creation carries one assumed fact, which is whether the series metadata
+holds an `_i` id, so `plan.exact` reports whether the bill is a prediction or a
+ceiling. See [Fees And Broadcasting](/developers/sdks/ts/fees-and-broadcasting.md).
 
 ### Parse the Result
 

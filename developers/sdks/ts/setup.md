@@ -20,10 +20,15 @@ import { PhantasmaAPI, PhantasmaKeys, ScriptBuilder } from "phantasma-sdk-ts/pub
 
 Lowercase deep imports are available for stable source areas such as
 `phantasma-sdk-ts/rpc`, `phantasma-sdk-ts/tx`, `phantasma-sdk-ts/vm`,
-and `phantasma-sdk-ts/types`. Use `/types` when you need the complete Carbon
-helper surface, including fee option classes and Carbon id helpers. The root
+and `phantasma-sdk-ts/types`. `/public` carries the RPC client, the Carbon
+builders and the fee planner. Use `/types` for the few Carbon helpers that are
+not runtime exports of `/public`, such as `getRandomPhantasmaId`. The root
 export and `core/**` paths remain for compatibility with older consumers, but
 new code should use `/public` or the documented lowercase entrypoints.
+
+The Ledger flow lives in the SDK, and the application passes in the transport of
+its own runtime. The SDK opens no device and depends on no USB package, so a
+consumer that never touches a Ledger installs no native USB stack.
 
 ### React wrapper (optional)
 

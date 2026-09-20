@@ -47,12 +47,31 @@ response-size validation.
 
 | API | Purpose |
 | --- | ------- |
-| `getAccount(account, extended?)` | Reads one account. |
-| `getAccounts(accounts, extended?)` | Reads multiple accounts from a string array. |
+| `getAccountInfo(account)` | Reads the account name and staking info of one address. |
+| `getAccountInfos(accounts)` | Reads the same record for a batch of up to 100 addresses. |
+| `getAccount(account, extended?)` | Deprecated. Reads one account. |
+| `getAccounts(accounts, extended?)` | Deprecated. Reads multiple accounts from a string array. |
 | `lookUpName(name)` | Resolves a registered name to address text. |
 | `getAddressTransactions(account, page, pageSize)` | Reads address transaction history with page pagination. |
 | `getAddressTransactionCount(account, chainInput)` | Reads address transaction count. |
-| `getTokenBalance(account, tokenSymbol, chainInput, checkAddressResevedByte?)` | Reads one token balance. |
+| `getTokenBalance(account, tokenSymbol, chainInput, checkAddressResevedByte?, addressType?)` | Reads one token balance. |
+
+`getAccountInfo` costs the same whatever the address holds, which makes it the
+call for a wallet refresh loop. Balances and NFTs are read separately through
+the cursor-paginated account methods.
+
+`getAccountInfos` answers every address from one state snapshot and returns the
+records in request order. A malformed address rejects the whole batch.
+
+`getAccount` and `getAccounts` are deprecated. Their response embeds every NFT
+id the address owns, so it grows with the size of the account. The node caps
+each `balances[].ids` list at 10000 entries while `balances[].amount` keeps the
+true count, so the list is silently partial for a large holder. Use
+`getAccountInfo` with `getAccountFungibleTokens` and `getAccountNFTs`.
+
+`addressType` accepts `Phantasma` or `Carbon`. It defaults to `Phantasma`, and
+the client omits it from the request in that case, so a caller on the historical
+wire shape sends what it always sent.
 
 ## Blocks And Transactions
 
@@ -65,6 +84,7 @@ response-size validation.
 | `getLatestBlock(chainInput)` | Reads the latest block object. |
 | `getTransactionByBlockHashAndIndex(chainAddressOrName, blockHash, index)` | Reads a transaction at a block position. |
 | `getTransaction(hashText)` | Reads a transaction by hash. |
+| `sendTransaction(msg, signers, options?)` | Plans, pre-flights, signs and broadcasts a Carbon message. |
 | `sendRawTransaction(txData)` | Broadcasts signed VM transaction hex. |
 | `sendCarbonTransaction(txData)` | Broadcasts signed Carbon transaction hex. |
 | `invokeRawScript(chainInput, scriptData)` | Executes a read-only VM script. |
@@ -72,6 +92,31 @@ response-size validation.
 Broadcast methods return the transaction hash reported by the node. They do not
 wait for execution; call `getTransaction(hash)` and check `state` before parsing
 operation results.
+
+`sendTransaction` plans a message whose `maxGas` is still zero, and sends a
+message the caller already planned as it is. `signers` is one `TxSigner` or an
+array of them. `options` carries the fee-plan options plus `preflight`, which
+defaults to `true`.
+
+## Fees And Gas Configuration
+
+| API | Purpose |
+| --- | ------- |
+| `fees` | The fee planner of the chain this client talks to. |
+| `getGasConfig()` | Reads the on-chain gas configuration and the chain parameters fee estimation needs. |
+| `estimateTransaction(txData)` | Dry-runs a serialized envelope against current chain state. |
+| `controlTokenId()` | The gas token's id, which the pre-flight uses as its control lookup. |
+| `infusedAssets(tokenId, instanceId)` | Reads what an NFT holds at its own address, in the form the fee planner prices. |
+
+`getGasConfig` changes only through a governance resolution, so the result is
+safe to cache. The planner reads it once and keeps it for a minute.
+
+`estimateTransaction` returns a standard RPC error until the estimate service is
+launched. The local planner is the fallback.
+
+{% content-ref url="/developers/sdks/ts/fees-and-broadcasting.md" %}
+[Fees And Broadcasting](/developers/sdks/ts/fees-and-broadcasting.md)
+{% endcontent-ref %}
 
 ## Chain, Contract, Organization, And Leaderboard Metadata
 
@@ -97,7 +142,7 @@ operation results.
 | --- | ------- |
 | `getTokens(ownerAddress, extended?)` | Reads token definitions, optionally filtered by owner. |
 | `getToken(symbol, extended?, carbonTokenId?)` | Reads one token by symbol and optional Carbon token id. |
-| `getTokenData(symbol, IDtext)` | Reads token data by symbol and Phantasma NFT id. |
+| `getTokenData(symbol, IDtext)` | Deprecated. Reads token data by symbol and Phantasma NFT id. |
 | `getTokenSeries(symbol, carbonTokenId, pageSize?, cursor?)` | Reads cursor-paginated token series. |
 | `getTokenSeriesById(symbol, carbonTokenId, seriesId, carbonSeriesId)` | Reads one series by Phantasma or Carbon id. |
 | `getTokenNFTs(carbonTokenId, carbonSeriesId?, pageSize?, cursor?, extended?)` | Reads NFTs for a Carbon token with cursor pagination. |
@@ -110,6 +155,13 @@ operation results.
 
 Carbon token ids are `bigint`; Carbon series ids are `number`. Use `0n` or `0`
 when a node method should run without that Carbon id filter.
+
+`getTokenData` is deprecated. The node serves it as a strict subset of `getNFT`,
+with property loading forced off, so `getNFT` covers it entirely.
+
+The cursor-paginated methods accept a `pageSize` of 1 to 100. `getTokenNFTs` and
+`getAccountNFTs` accept 1 to 50 when `extended` is true. The node rejects
+anything outside the range.
 
 ## Auctions And Archives
 

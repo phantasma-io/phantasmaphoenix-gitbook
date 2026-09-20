@@ -1360,26 +1360,6 @@ Source: `dist/types/core/types/Carbon/Blockchain/TxHelpers/CreateTokenTxHelper.d
 export * from '../../../../../types/carbon/blockchain/tx-helpers/create-token-tx-helper.js';
 ```
 
-## phantasma-sdk-ts/core/types/Carbon/Blockchain/TxHelpers/FeeOptions
-
-Source: `dist/types/core/types/Carbon/Blockchain/TxHelpers/FeeOptions.d.ts`
-
-### Declarations
-
-```ts
-export * from '../../../../../types/carbon/blockchain/tx-helpers/fee-options.js';
-```
-
-## phantasma-sdk-ts/core/types/Carbon/Blockchain/TxHelpers/MintNonFungibleTxHelper
-
-Source: `dist/types/core/types/Carbon/Blockchain/TxHelpers/MintNonFungibleTxHelper.d.ts`
-
-### Declarations
-
-```ts
-export * from '../../../../../types/carbon/blockchain/tx-helpers/mint-non-fungible-tx-helper.js';
-```
-
 ## phantasma-sdk-ts/core/types/Carbon/Blockchain/TxHelpers/MintPhantasmaNonFungibleTxHelper
 
 Source: `dist/types/core/types/Carbon/Blockchain/TxHelpers/MintPhantasmaNonFungibleTxHelper.d.ts`
@@ -4647,7 +4627,7 @@ export type { JsonRpcErrorObject, JsonRpcErrorResponse, JsonRpcParam, JsonRpcRes
 ```
 
 ```ts
-export type { ABIContract, ABIEvent, ABIMethod, ABIParameter, Account, AccountTransactions, Archive, Auction, Balance, Block, BuildInfoResult, Chain, Channel, CursorPaginatedResult, Dapp, Event as RpcEvent, EventExtended, EventExtendedTyped, ExtendedEventData, Governance, Interop, KeyValue, Leaderboard, LeaderboardRow, Nexus as RpcNexus, NFT, Oracle, Organization, OrganizationMember, Paginated, Peer, PhantasmaVmConfig, Platform, Receipt, RpcAddressType, Script, SendRawTx, SignatureResult, Stake, Storage, Swap, Token, TokenData, TokenExternal, TokenPrice, TokenSchemasResult, TokenSeries, TokenSeriesResult, TransactionData, Validator, VmNamedVariableSchemaResult, VmStructSchemaResult, VmVariableSchemaResult, } from './rpc/interfaces/index.js';
+export type { ABIContract, ABIEvent, ABIMethod, ABIParameter, Account, AccountTransactions, Archive, Auction, Balance, Block, BuildInfoResult, Chain, Channel, CursorPaginatedResult, Dapp, Event as RpcEvent, EventExtended, EventExtendedTyped, ExtendedEventData, Governance, Interop, KeyValue, Leaderboard, LeaderboardRow, Nexus as RpcNexus, NFT, Oracle, Organization, OrganizationMember, Paginated, Peer, PhantasmaVmConfig, Platform, Receipt, RpcAddressType, Script, SendRawTx, SignatureResult, SpecialResolutionArguments, SpecialResolutionArgumentsByMethod, SpecialResolutionCall, SpecialResolutionData, Stake, Storage, Swap, Token, TokenData, TokenExternal, TokenPrice, TokenSchemasResult, TokenSeries, TokenSeriesResult, TransactionData, Validator, VmNamedVariableSchemaResult, VmStructSchemaResult, VmValue, VmVariableSchemaResult, } from './rpc/interfaces/index.js';
 ```
 
 ```ts
@@ -4679,7 +4659,7 @@ export type { CustomReader, CustomWriter } from './types/index.js';
 ```
 
 ```ts
-export { Bytes16, Bytes32, Bytes64, CarbonBlob, CarbonTokenFlags, CreateTokenSeriesTxHelper, CreateTokenTxHelper, FieldType, IntX, MetadataField, MintNonFungibleTxHelper, MintPhantasmaNonFungibleTxHelper, ModuleId, NftRomBuilder, PhantasmaNftRomBuilder, PhantasmaNftMintInfo, PhantasmaNftMintResult, SeriesInfo, SeriesInfoBuilder, SignedTxMsg, SmallString, StandardMeta, TokenContractMethods, TokenHelper, TokenInfo, TokenInfoBuilder, TokenMetadataBuilder, TokenSchemas, TokenSchemasBuilder, TokenSchemasJson, TokenSeriesMetadataBuilder, TxMsg, TxMsgBurnFungible, TxMsgBurnFungibleGasPayer, TxMsgBurnNonFungible, TxMsgBurnNonFungibleGasPayer, TxMsgCall, TxMsgCallMulti, TxMsgMintFungible, TxMsgMintNonFungible, TxMsgPhantasma, TxMsgPhantasmaRaw, TxMsgSigner, TxMsgSpecialResolution, TxMsgTrade, TxMsgTransferFungible, TxMsgTransferFungibleGasPayer, TxMsgTransferNonFungibleMulti, TxMsgTransferNonFungibleMultiGasPayer, TxMsgTransferNonFungibleSingle, TxMsgTransferNonFungibleSingleGasPayer, TxTypes, TokenListing, VmDynamicStruct, VmDynamicVariable, VmNamedDynamicVariable, VmNamedVariableSchema, VmStructArray, VmStructFlags, VmStructSchema, VmType, VmVariableSchema, Witness, findMetadataField, nftDefaultMetadataFields, parseTokenSchemasJson, pushMetadataField, seriesDefaultMetadataFields, standardMetadataFields, } from './types/carbon/index.js';
+export { Bytes16, Bytes32, Bytes64, CarbonBlob, CarbonTokenFlags, CreateTokenSeriesTxHelper, CreateTokenTxHelper, FieldType, IntX, MetadataField, MintPhantasmaNonFungibleTxHelper, ModuleId, NativeTxHelper, NftRomBuilder, PhantasmaNftRomBuilder, PhantasmaNftMintInfo, PhantasmaNftMintResult, SeriesInfo, SeriesInfoBuilder, SignedTxMsg, SmallString, StandardMeta, TokenContractMethods, TokenHelper, TokenInfo, TokenInfoBuilder, TokenMetadataBuilder, TokenSchemas, TokenSchemasBuilder, TokenSchemasJson, TokenSeriesMetadataBuilder, TxMsg, TxMsgBurnFungible, TxMsgBurnFungibleGasPayer, TxMsgBurnNonFungible, TxMsgBurnNonFungibleGasPayer, TxMsgCall, TxMsgCallMulti, TxMsgMintFungible, TxMsgMintNonFungible, TxMsgPhantasma, TxMsgPhantasmaRaw, TxMsgSigner, TxMsgSpecialResolution, TxMsgTrade, TxMsgTransferFungible, TxMsgTransferFungibleGasPayer, TxMsgTransferNonFungibleMulti, TxMsgTransferNonFungibleMultiGasPayer, TxMsgTransferNonFungibleSingle, TxMsgTransferNonFungibleSingleGasPayer, TxTypes, TokenListing, VmDynamicStruct, VmDynamicVariable, VmNamedDynamicVariable, VmNamedVariableSchema, VmStructArray, VmStructFlags, VmStructSchema, VmType, VmVariableSchema, Witness, findMetadataField, nftDefaultMetadataFields, parseTokenSchemasJson, pushMetadataField, seriesDefaultMetadataFields, standardMetadataFields, } from './types/carbon/index.js';
 ```
 
 ```ts
@@ -4687,7 +4667,7 @@ export type { MetadataValueInput } from './types/carbon/index.js';
 ```
 
 ```ts
-export { ANONYMOUS_NAME, ENTRY_CONTEXT_NAME, GENESIS_NAME, NULL_NAME, arrayNumberToUint8Array, bigIntToByteArray, bytesToHex, decodeBase16, encodeBase16, getDifficulty, hexStringToUint8Array, hexToBytes, isReservedIdentifier, isValidIdentifier, isValidTicker, numberToByteArray, reverseHex, setLogger, stringToUint8Array, uint8ArrayToBytes, uint8ArrayToNumberArray, uint8ArrayToString, uint8ArrayToStringDefault, } from './utils/index.js';
+export { ANONYMOUS_NAME, ENTRY_CONTEXT_NAME, GENESIS_NAME, NULL_NAME, arrayNumberToUint8Array, bigIntToByteArray, bytesToHex, decodeBase16, encodeBase16, formatUnits, getDifficulty, hexStringToUint8Array, hexToBytes, isReservedIdentifier, isValidIdentifier, isValidTicker, numberToByteArray, parseUnits, reverseHex, setLogger, stringToUint8Array, uint8ArrayToBytes, uint8ArrayToNumberArray, uint8ArrayToString, uint8ArrayToStringDefault, } from './utils/index.js';
 ```
 
 ```ts
@@ -4751,10 +4731,6 @@ export type { ContractDescriptor } from './interfaces/contract.js';
 ```
 
 ```ts
-export type { FeeOptionsLike } from './types/carbon/blockchain/tx-helpers/fee-options.js';
-```
-
-```ts
 export type { KeyPair } from './interfaces/key-pair.js';
 ```
 
@@ -4772,6 +4748,127 @@ export type { StackLike } from './interfaces/stack.js';
 
 ```ts
 export type { TokenDescriptor } from './interfaces/token.js';
+```
+
+```ts
+export type { TxSigner } from './types/carbon/blockchain/extensions/tx-signer.js';
+```
+
+```ts
+export { GasConfig } from './types/carbon/blockchain/gas-config.js';
+```
+
+```ts
+export { gasConfigFromRpc } from './rpc/interfaces/gas-config.js';
+```
+
+```ts
+export type { GasConfigData, GasConfigResult } from './rpc/interfaces/gas-config.js';
+```
+
+```ts
+export { FeePlanner } from './rpc/fee-planner.js';
+```
+
+```ts
+export type { ChainFeeParams, FeePlannerOptions, GasConfigSource, PlanRequestOptions, } from './rpc/fee-planner.js';
+```
+
+```ts
+export { burnedInstances, DEFAULT_TX_EXPIRY_MS, expiryWithin, NativeFeeKind, planFees, summarizeFeePlan, } from './types/carbon/blockchain/tx-helpers/index.js';
+```
+
+```ts
+export type { BurnFungibleParams, BurnNonFungibleParams, FeePlan, FeePlanOptions, FeePlanSummary, FeePlanSummaryDecimals, FeeQuote, InfusedAsset, MintFungibleParams, NativeFeeEstimate, NativeTxParties, PhantasmaNftMintParams, PlanAndSignOptions, TransferFungibleParams, TransferNonFungibleParams, TxLimits, } from './types/carbon/blockchain/tx-helpers/index.js';
+```
+
+```ts
+export { TransactionPreflightError, preflightTransaction } from './rpc/transaction-preflight.js';
+```
+
+```ts
+export type { PreflightResult, PreflightSource, PreflightVerdict, } from './rpc/transaction-preflight.js';
+```
+
+```ts
+export type { SendTransactionOptions } from './rpc/phantasma.js';
+```
+
+```ts
+export { GovernanceContractMethods } from './types/carbon/blockchain/modules/governance-contract-methods.js';
+```
+
+## phantasma-sdk-ts/rpc/fee-planner
+
+Source: `dist/types/rpc/fee-planner.d.ts`
+
+### Declarations
+
+```ts
+export interface GasConfigSource {
+    getGasConfig(): Promise<GasConfigResult>;
+    /**
+     * What an NFT holds at its own address, needed to plan its burn. The method is optional. A source
+     * without it can plan every message except a burn, and for a burn the caller must then state
+     * `infusions`.
+     */
+    infusedAssets?(tokenId: bigint, instanceId: bigint): Promise<InfusedAsset[]>;
+}
+```
+
+```ts
+export interface FeePlannerOptions {
+    /**
+     * How long a fetched gas config is reused before it is read again. Prices change only by
+     * governance resolution. A stale price under-offers every transaction until someone notices, so
+     * the default is short, 60 seconds.
+     */
+    configTtlMs?: number;
+}
+```
+
+```ts
+export interface PlanRequestOptions extends FeePlanOptions {
+    /** Read the gas config again before planning, ignoring the cache. */
+    refreshConfig?: boolean;
+}
+```
+
+```ts
+export interface ChainFeeParams {
+    /**
+     * The longest lifetime the chain admits for a transaction, in milliseconds. The chain refuses an
+     * expiry at or beyond `now + expiryWindow`. Pass this value to `expiryWithin` when a person sits
+     * between building a transaction and signing it.
+     */
+    expiryWindow: number;
+    /** Target time between blocks, in milliseconds. */
+    blockRateTarget: number;
+    /** Gas model the node runs: 1 = the original fee model, 2 = gas model v2. */
+    gasModelVersion: number;
+}
+```
+
+```ts
+export declare class FeePlanner {
+    constructor(source: GasConfigSource, options?: FeePlannerOptions);
+    /** The chain's gas config, read from the source when the cached one is missing or expired. */
+    config(options?: {
+        refresh?: boolean;
+    }): Promise<GasConfig>;
+    /**
+     * The chain's admission parameters, from the same answer and the same cache as {@link config}.
+     */
+    chainParams(options?: {
+        refresh?: boolean;
+    }): Promise<ChainFeeParams>;
+    /** Forgets the cached config; the next plan reads it again. */
+    invalidate(): void;
+    /** Plans a message against the chain's current prices. See {@link planFees}. */
+    plan(msg: TxMsg, options?: PlanRequestOptions): Promise<FeePlan>;
+    /** Plans a message against a config the caller already holds. It touches no network and no cache. */
+    planWith(config: GasConfig, msg: TxMsg, options?: FeePlanOptions): FeePlan;
+}
 ```
 
 ## phantasma-sdk-ts/rpc/helpers
@@ -4805,6 +4902,10 @@ Source: `dist/types/rpc/index.d.ts`
 ### Declarations
 
 ```ts
+export * from './fee-planner.js';
+```
+
+```ts
 export * from './helpers/index.js';
 ```
 
@@ -4818,6 +4919,10 @@ export * from './phantasma.js';
 
 ```ts
 export * from './rpc-result.js';
+```
+
+```ts
+export * from './transaction-preflight.js';
 ```
 
 ## phantasma-sdk-ts/rpc/interfaces/abi-contract
@@ -4872,6 +4977,25 @@ Source: `dist/types/rpc/interfaces/abi-parameter.d.ts`
 export interface ABIParameter {
     name: string;
     type: string;
+}
+```
+
+## phantasma-sdk-ts/rpc/interfaces/account-info
+
+Source: `dist/types/rpc/interfaces/account-info.d.ts`
+
+### Declarations
+
+```ts
+export interface AccountInfo {
+    address: string;
+    /** On-chain registered name, or `anonymous` when the address has none. */
+    name: string;
+    /**
+     * Staking info. Note the wire name differs from {@link Account}, which carries the same object
+     * under `stakes` and uses `stake` for a deprecated flat scalar.
+     */
+    stake: Stake;
 }
 ```
 
@@ -4986,6 +5110,7 @@ export interface Block {
     protocol: number;
     txs: Array<TransactionData>;
     validatorAddress: string;
+    producerAddress?: string;
     reward: string;
     events?: Array<Event>;
     oracles?: Array<Oracle>;
@@ -5089,6 +5214,37 @@ export interface Dapp {
 }
 ```
 
+## phantasma-sdk-ts/rpc/interfaces/estimate-transaction
+
+Source: `dist/types/rpc/interfaces/estimate-transaction.d.ts`
+
+### Declarations
+
+```ts
+export interface EstimateTransactionResult {
+    /** True when the transaction would not complete on-chain as submitted; see abortReason. */
+    wouldAbort: boolean;
+    /** Rejection or abort reason when wouldAbort is true; empty otherwise. */
+    abortReason?: string;
+    /** Settled gas bill in kcal-base, including the minimum-bill floor and the maxGas clamp (aborted transactions still pay). */
+    gasBillKcalBase: string;
+    /** Newly paid storage quanta the transaction creates (dataRows * dataEscrowPerRow == dataEscrowAtoms). */
+    dataRows: string;
+    /** Gross storage escrow paid for grown rows, in data-token atoms. */
+    dataEscrowAtoms: string;
+    /** Gross storage refunds for shrunk rows, in data-token atoms. */
+    dataRefundAtoms: string;
+    /** Recommended TxMsg.maxGas: the bill plus a 15% state-drift margin, floored at the chain minimums; "0" when wouldAbort. */
+    recommendedMaxGas: string;
+    /** Recommended TxMsg.maxData: the net escrow plus a 15% margin, aligned up to whole rows; "0" when wouldAbort or nothing is escrowed. */
+    recommendedMaxData: string;
+}
+```
+
+```ts
+export declare function feeEstimateFromRpc(result: EstimateTransactionResult): FeeQuote;
+```
+
 ## phantasma-sdk-ts/rpc/interfaces/event-extended
 
 Source: `dist/types/rpc/interfaces/event-extended.d.ts`
@@ -5101,7 +5257,7 @@ export interface TokenCreateData {
     maxSupply: string;
     decimals: number;
     isNonFungible: boolean;
-    carbonTokenId: string;
+    carbonTokenId: number;
     metadata: Record<string, string>;
 }
 ```
@@ -5113,22 +5269,8 @@ export interface TokenSeriesCreateData {
     maxMint: number;
     maxSupply: number;
     owner: string;
-    carbonTokenId: string;
+    carbonTokenId: number;
     carbonSeriesId: number;
-    metadata: Record<string, string>;
-}
-```
-
-```ts
-export interface TokenMintData {
-    symbol: string;
-    tokenId: string;
-    seriesId: string;
-    mintNumber: number;
-    carbonTokenId: string;
-    carbonSeriesId: number;
-    carbonInstanceId: string;
-    owner: string;
     metadata: Record<string, string>;
 }
 ```
@@ -5138,9 +5280,9 @@ export interface MarketOrderData {
     baseSymbol: string;
     quoteSymbol: string;
     tokenId: string;
-    carbonBaseTokenId: string;
-    carbonQuoteTokenId: string;
-    carbonInstanceId: string;
+    carbonBaseTokenId: number;
+    carbonQuoteTokenId: number;
+    carbonInstanceId: number;
     seller: string;
     buyer: string;
     price: string;
@@ -5152,26 +5294,27 @@ export interface MarketOrderData {
 ```
 
 ```ts
-export interface SpecialResolutionCall {
+export interface SpecialResolutionCall<TArguments extends SpecialResolutionArguments = SpecialResolutionArguments> {
     moduleId: number;
     module: string;
     methodId: number;
     method: string;
-    arguments?: Record<string, string>;
+    arguments?: TArguments;
     calls?: SpecialResolutionCall[];
 }
 ```
 
 ```ts
 export interface SpecialResolutionData {
-    resolutionId: string;
+    /** Numeric on the wire, unlike the string `resolutionId` of `NestedResolutionArguments`. */
+    resolutionId: number;
     description?: string;
     calls: SpecialResolutionCall[];
 }
 ```
 
 ```ts
-export type ExtendedEventData = TokenCreateData | TokenSeriesCreateData | TokenMintData | MarketOrderData | SpecialResolutionData;
+export type ExtendedEventData = TokenCreateData | TokenSeriesCreateData | MarketOrderData | SpecialResolutionData;
 ```
 
 ```ts
@@ -5201,6 +5344,65 @@ export interface Event {
     name: string;
     data: string;
 }
+```
+
+## phantasma-sdk-ts/rpc/interfaces/gas-config
+
+Source: `dist/types/rpc/interfaces/gas-config.d.ts`
+
+### Declarations
+
+```ts
+export interface GasConfigResult {
+    /** Gas model version: 1 = original fee model, 2 = gas-model-v2 (config version >= 1). */
+    gasModelVersion: number;
+    /** Current on-chain GasConfig. */
+    gasConfig?: GasConfigData;
+    /** Chain block rate target in milliseconds. */
+    blockRateTarget: number;
+    /** Transaction expiry window in milliseconds. */
+    expiryWindow: number;
+    /** Gas-model-v2 price of block-carried bytes in gas units per byte; absent under gas model v1. */
+    unitsPerBlockDataByte?: number;
+}
+```
+
+```ts
+export interface GasConfigData {
+    version: number;
+    maxNameLength: number;
+    maxTokenSymbolLength: number;
+    feeShift: number;
+    maxStructureSize: number;
+    feeMultiplier: string;
+    gasTokenId: string;
+    dataTokenId: string;
+    minimumGasOffer: string;
+    dataEscrowPerRow: string;
+    gasFeeTransfer: string;
+    gasFeeQuery: string;
+    gasFeeCreateTokenBase: string;
+    gasFeeCreateTokenSymbol: string;
+    gasFeeCreateTokenSeries: string;
+    gasFeePerByte: string;
+    gasFeeRegisterName: string;
+    gasBurnRatioMul: string;
+    gasBurnRatioShift: number;
+    minimumGasBill?: string;
+    gasProducerRatioMul?: string;
+    gasProducerRatioShift?: number;
+    gasDappRatioMul?: string;
+    gasDappRatioShift?: number;
+    policyFeeCreateTokenBase?: string;
+    policyFeeCreateTokenSymbol?: string;
+    policyFeeCreateTokenSeries?: string;
+    policyFeeRegisterName?: string;
+    legacyDataEscrowPerRow?: string;
+}
+```
+
+```ts
+export declare function gasConfigFromRpc(result: GasConfigResult): GasConfig;
 ```
 
 ## phantasma-sdk-ts/rpc/interfaces/governance
@@ -5243,6 +5445,10 @@ export * from './account.js';
 ```
 
 ```ts
+export * from './account-info.js';
+```
+
+```ts
 export * from './account-transactions.js';
 ```
 
@@ -5279,11 +5485,19 @@ export * from './dapp.js';
 ```
 
 ```ts
+export * from './estimate-transaction.js';
+```
+
+```ts
 export * from './event.js';
 ```
 
 ```ts
 export * from './event-extended.js';
+```
+
+```ts
+export * from './gas-config.js';
 ```
 
 ```ts
@@ -5348,6 +5562,10 @@ export * from './send-raw-tx.js';
 
 ```ts
 export * from './signature-result.js';
+```
+
+```ts
+export * from './special-resolution-arguments.js';
 ```
 
 ```ts
@@ -5419,6 +5637,10 @@ export * from './vm-struct-schema-result.js';
 ```
 
 ```ts
+export * from './vm-value.js';
+```
+
+```ts
 export * from './vm-variable-schema-result.js';
 ```
 
@@ -5444,7 +5666,8 @@ Source: `dist/types/rpc/interfaces/key-value.d.ts`
 ```ts
 export interface KeyValue {
     key: string;
-    value: string;
+    /** Decoded VM value: a scalar string, or the array/struct shape the value really has. */
+    value: VmValue;
 }
 ```
 
@@ -5685,6 +5908,464 @@ Source: `dist/types/rpc/interfaces/signature-result.d.ts`
 export interface SignatureResult {
     kind: string;
     data: string;
+}
+```
+
+## phantasma-sdk-ts/rpc/interfaces/special-resolution-arguments
+
+Source: `dist/types/rpc/interfaces/special-resolution-arguments.d.ts`
+
+### Declarations
+
+```ts
+export type SpecialResolutionArguments = RawArguments | GasConfigArguments | ChainConfigArguments | NestedResolutionArguments | MetadataArguments | NodeConfigArguments | RegisterNameArguments | AddressArguments | NameArguments | ExecuteScriptArguments | RegisterTokenContractArguments | DeployContractArguments | PhantasmaVmConfigArguments | ImportContractsArguments | RepairSeriesArguments | RepairTokenArguments | TokenReferenceArguments | TokenSeriesReferenceArguments | SymbolArguments | TransferFungibleArguments | TransferNonFungibleArguments | MintFungibleArguments | BurnFungibleArguments | BalanceArguments | CreateTokenArguments | TokenSeriesArguments | CreateMintedTokenSeriesArguments | MintNonFungibleArguments | MintPhantasmaNonFungibleArguments | BurnNonFungibleArguments | NonFungibleInfoArguments | NonFungibleInfoByRomIdArguments | SeriesInfoByMetaIdArguments | TokensConfigArguments | UpdateTokenMetadataArguments | UpdateSeriesMetadataArguments;
+```
+
+```ts
+export interface RawArguments {
+    rawArgs: string;
+}
+```
+
+```ts
+export interface GasConfigArguments {
+    version: string;
+    maxNameLength: string;
+    maxTokenSymbolLength: string;
+    feeShift: string;
+    maxStructureSize: string;
+    feeMultiplier: string;
+    gasTokenId: string;
+    dataTokenId: string;
+    minimumGasOffer: string;
+    dataEscrowPerRow: string;
+    gasFeeTransfer: string;
+    gasFeeQuery: string;
+    gasFeeCreateTokenBase: string;
+    gasFeeCreateTokenSymbol: string;
+    gasFeeCreateTokenSeries: string;
+    gasFeePerByte: string;
+    gasFeeRegisterName: string;
+    gasBurnRatioMul: string;
+    gasBurnRatioShift: string;
+    minimumGasBill?: string;
+    gasProducerRatioMul?: string;
+    gasProducerRatioShift?: string;
+    gasDappRatioMul?: string;
+    gasDappRatioShift?: string;
+    policyFeeCreateTokenBase?: string;
+    policyFeeCreateTokenSymbol?: string;
+    policyFeeCreateTokenSeries?: string;
+    policyFeeRegisterName?: string;
+    legacyDataEscrowPerRow?: string;
+}
+```
+
+```ts
+export interface ChainConfigArguments {
+    version: string;
+    reserved1: string;
+    reserved2: string;
+    reserved3: string;
+    allowedTxTypes: string;
+    expiryWindow: string;
+    blockRateTarget: string;
+}
+```
+
+```ts
+export interface NestedResolutionArguments {
+    resolutionId: string;
+}
+```
+
+```ts
+export interface MetadataArguments {
+    metadata: Record<string, VmValue>;
+}
+```
+
+```ts
+export interface ConsensusNode {
+    id: string;
+    type: string;
+}
+```
+
+```ts
+export interface NodeConfigArguments {
+    nodes: ConsensusNode[];
+}
+```
+
+```ts
+export interface RegisterNameArguments {
+    address: string;
+    name: string;
+}
+```
+
+```ts
+export interface AddressArguments {
+    address: string;
+}
+```
+
+```ts
+export interface NameArguments {
+    name: string;
+}
+```
+
+```ts
+export interface ExecuteScriptArguments {
+    maxGas: string;
+    gasFrom: string;
+    script: string;
+}
+```
+
+```ts
+export interface RegisterTokenContractArguments {
+    tokenId: string;
+    symbol: string;
+    script: string;
+    abi: string;
+    /** Resolved token symbol; absent when the token could not be resolved at answer time. */
+    token?: string;
+}
+```
+
+```ts
+export interface DeployContractArguments {
+    from: string;
+    contractName: string;
+    script: string;
+    abi: string;
+}
+```
+
+```ts
+export interface PhantasmaVmConfigArguments {
+    featureLevel: string;
+    gasConstructor: string;
+    gasNexus: string;
+    gasOrganization: string;
+    gasAccount: string;
+    gasLeaderboard: string;
+    gasStandard: string;
+    gasOracle: string;
+    fuelPerContractDeploy: string;
+}
+```
+
+```ts
+export interface ContractStorageRow {
+    key: string;
+    value: string;
+}
+```
+
+```ts
+export interface ContractStorageTable {
+    name: string;
+    rows: ContractStorageRow[];
+}
+```
+
+```ts
+export interface ImportedContract {
+    name: string;
+    address: string;
+    owner: string;
+    script: string;
+    abi: string;
+    /** Root-level contract variables. */
+    rootVariables: ContractStorageRow[];
+    /** Map and list tables, including their backing rows. */
+    tables: ContractStorageTable[];
+}
+```
+
+```ts
+export interface ImportContractsArguments {
+    contractsCount: string;
+    contracts: ImportedContract[];
+}
+```
+
+```ts
+export interface SeriesSupplement {
+    token: string;
+    tokenId: string;
+    phantasmaSeriesId: string;
+    maxSupply: string;
+    mintCount: string;
+    mode: string;
+    script: string;
+    abi: string;
+    rom: string;
+}
+```
+
+```ts
+export interface SeriesMintCountRepair {
+    token: string;
+    tokenId: string;
+    phantasmaSeriesId: string;
+    importedLiveCount: string;
+    script: string;
+    abi: string;
+}
+```
+
+```ts
+export interface RepairSeriesArguments {
+    supplementsCount: string;
+    supplements: SeriesSupplement[];
+    repairsCount: string;
+    repairs: SeriesMintCountRepair[];
+}
+```
+
+```ts
+export interface TokenRepair {
+    token: string;
+    tokenId: string;
+    symbol: string;
+    script: string;
+    abi: string;
+    tokenFlags: string;
+    /**
+     * Bitmask of the repair operations the chain was asked to perform. Kept numeric on purpose: a new
+     * chain-side operation must not silently render as an unrelated name here.
+     */
+    repairMask: string;
+}
+```
+
+```ts
+export interface RepairTokenArguments {
+    repairsCount: string;
+    repairs: TokenRepair[];
+}
+```
+
+```ts
+export interface TokenReferenceArguments {
+    token: string;
+    tokenId: string;
+}
+```
+
+```ts
+export interface TokenSeriesReferenceArguments extends TokenReferenceArguments {
+    seriesId: string;
+}
+```
+
+```ts
+export interface SymbolArguments {
+    symbol: string;
+}
+```
+
+```ts
+export interface TransferFungibleArguments extends TokenReferenceArguments {
+    from: string;
+    to: string;
+    amount: string;
+}
+```
+
+```ts
+export interface TransferNonFungibleArguments extends TokenReferenceArguments {
+    from: string;
+    to: string;
+    instanceIds: string[];
+}
+```
+
+```ts
+export interface MintFungibleArguments extends TokenReferenceArguments {
+    to: string;
+    amount: string;
+}
+```
+
+```ts
+export interface BurnFungibleArguments extends TokenReferenceArguments {
+    from: string;
+    amount: string;
+}
+```
+
+```ts
+export interface BalanceArguments extends TokenReferenceArguments {
+    address: string;
+}
+```
+
+```ts
+export interface CreateTokenArguments {
+    symbol: string;
+    owner: string;
+    maxSupply: string;
+    decimals: string;
+    flags: string;
+    /** Decoded metadata fields; absent when the token carries none. */
+    metadata?: Record<string, VmValue>;
+    /** NFT schema blob as hex; absent for fungible tokens. */
+    tokenSchemas?: string;
+}
+```
+
+```ts
+export interface TokenSeriesArguments extends TokenReferenceArguments {
+    owner: string;
+    maxMint: string;
+    maxSupply: string;
+    /** Decoded series metadata; absent when the token declares no schema for it. */
+    metadata?: Record<string, VmValue>;
+    /** Phantasma series id taken from the decoded metadata, when the schema carries one. */
+    seriesId?: string;
+    /** Metadata blob as hex, reported instead of `metadata` when it cannot be decoded. */
+    metadataRaw?: string;
+}
+```
+
+```ts
+export interface CreateMintedTokenSeriesArguments extends TokenSeriesArguments {
+    recipient: string;
+    roms: string[];
+    rams: string[];
+}
+```
+
+```ts
+export interface NftMint {
+    seriesId: string;
+    rom: string;
+    ram: string;
+}
+```
+
+```ts
+export interface PhantasmaNftMint {
+    phantasmaSeriesId: string;
+    rom: string;
+    ram: string;
+}
+```
+
+```ts
+export interface MintNonFungibleArguments extends TokenReferenceArguments {
+    owner: string;
+    tokens: NftMint[];
+}
+```
+
+```ts
+export interface MintPhantasmaNonFungibleArguments extends TokenReferenceArguments {
+    owner: string;
+    tokens: PhantasmaNftMint[];
+}
+```
+
+```ts
+export interface BurnNonFungibleArguments extends TokenReferenceArguments {
+    address: string;
+    instanceIds: string[];
+}
+```
+
+```ts
+export interface NonFungibleInfoArguments extends TokenReferenceArguments {
+    instanceId: string;
+    getSchemas: string;
+}
+```
+
+```ts
+export interface NonFungibleInfoByRomIdArguments extends TokenReferenceArguments {
+    romId: string;
+    getSchemas: string;
+}
+```
+
+```ts
+export interface SeriesInfoByMetaIdArguments extends TokenReferenceArguments {
+    romId: string;
+}
+```
+
+```ts
+export interface TokensConfigArguments {
+    flags: string;
+    /** Names of the flags that are set, including a Reserved0xNN entry for unknown bits. */
+    flagsNames: string[];
+}
+```
+
+```ts
+export interface UpdateTokenMetadataArguments extends TokenReferenceArguments {
+    metadata?: Record<string, VmValue>;
+}
+```
+
+```ts
+export interface UpdateSeriesMetadataArguments extends TokenReferenceArguments {
+    seriesId: string;
+    /** Metadata blob as hex: this call carries it unschematized. */
+    metadata: string;
+}
+```
+
+```ts
+export interface SpecialResolutionArgumentsByMethod {
+    'governance.SetGasConfig': GasConfigArguments;
+    'governance.SetChainConfig': ChainConfigArguments;
+    'governance.SpecialResolution': NestedResolutionArguments;
+    'governance.SetMetadata': MetadataArguments;
+    'governance.SetNodeConfig': NodeConfigArguments;
+    'governance.RegisterName': RegisterNameArguments;
+    'governance.LookupName': AddressArguments;
+    'governance.LookupAddress': NameArguments;
+    'phantasma_vm.ExecuteScript': ExecuteScriptArguments;
+    'phantasma_vm.RegisterTokenContract': RegisterTokenContractArguments;
+    'phantasma_vm.DeployContract': DeployContractArguments;
+    'phantasma_vm.IsContractDeployed': NameArguments;
+    'phantasma_vm.SetConfig': PhantasmaVmConfigArguments;
+    'phantasma_vm.ImportContracts': ImportContractsArguments;
+    'phantasma_vm.RepairSeries': RepairSeriesArguments;
+    'phantasma_vm.RepairToken': RepairTokenArguments;
+    'token.TransferFungible': TransferFungibleArguments;
+    'token.TransferNonFungible': TransferNonFungibleArguments;
+    'token.CreateToken': CreateTokenArguments;
+    'token.MintFungible': MintFungibleArguments;
+    'token.BurnFungible': BurnFungibleArguments;
+    'token.GetBalance': BalanceArguments;
+    'token.CreateTokenSeries': TokenSeriesArguments;
+    'token.DeleteTokenSeries': TokenSeriesReferenceArguments;
+    'token.MintNonFungible': MintNonFungibleArguments;
+    'token.BurnNonFungible': BurnNonFungibleArguments;
+    'token.GetNonFungibleInfo': NonFungibleInfoArguments;
+    'token.GetNonFungibleInfoByRomId': NonFungibleInfoByRomIdArguments;
+    'token.GetSeriesInfo': TokenSeriesReferenceArguments;
+    'token.GetSeriesInfoByMetaId': SeriesInfoByMetaIdArguments;
+    'token.GetTokenInfo': TokenReferenceArguments;
+    'token.GetTokenInfoBySymbol': SymbolArguments;
+    'token.GetTokenSupply': TokenReferenceArguments;
+    'token.GetSeriesSupply': TokenSeriesReferenceArguments;
+    'token.GetTokenIdBySymbol': SymbolArguments;
+    'token.GetBalances': AddressArguments;
+    'token.CreateMintedTokenSeries': CreateMintedTokenSeriesArguments;
+    'token.ApplyInflation': TokenReferenceArguments;
+    'token.UpdateTokenMetadata': UpdateTokenMetadataArguments;
+    'token.GetNextTokenInflation': TokenReferenceArguments;
+    'token.SetTokensConfig': TokensConfigArguments;
+    'token.UpdateSeriesMetadata': UpdateSeriesMetadataArguments;
+    'token.MintPhantasmaNonFungible': MintPhantasmaNonFungibleArguments;
 }
 ```
 
@@ -5939,6 +6620,18 @@ export interface VmStructSchemaResult {
 }
 ```
 
+## phantasma-sdk-ts/rpc/interfaces/vm-value
+
+Source: `dist/types/rpc/interfaces/vm-value.d.ts`
+
+### Declarations
+
+```ts
+export type VmValue = string | VmValue[] | {
+    [field: string]: VmValue;
+};
+```
+
 ## phantasma-sdk-ts/rpc/interfaces/vm-variable-schema-result
 
 Source: `dist/types/rpc/interfaces/vm-variable-schema-result.d.ts`
@@ -5957,6 +6650,21 @@ export interface VmVariableSchemaResult {
 Source: `dist/types/rpc/phantasma.d.ts`
 
 ### Declarations
+
+```ts
+export interface SendTransactionOptions extends PlanRequestOptions {
+    /**
+     * For a token creation, ask the chain whether the symbol is already taken. The send goes ahead
+     * only when the chain answered that the symbol is free, see `preflightTransaction`. Every other
+     * message is unaffected. Default true. `false` skips the lookup.
+     *
+     * The send is also refused when the lookup answered nothing at all. The policy fee is spent before
+     * the contract looks at the symbol, so sending on an unestablished state is the outcome worth
+     * paying a round trip to avoid.
+     */
+    preflight?: boolean;
+}
+```
 
 ```ts
 export interface PhantasmaAPIOptions {
@@ -5987,8 +6695,48 @@ export declare class PhantasmaAPI {
     setRpcByName(rpcName: string): void;
     setNexus(nexus: string): void;
     updateRpc(): void;
+    /**
+     * @deprecated Use `formatUnits` instead. This method will be removed in v1.0.
+     *
+     * It divides in binary floating point, so it cannot express an amount exactly. KCAL has ten
+     * decimals, and above roughly 900,720 KCAL a `number` can no longer hold an integer count of
+     * atoms. `formatUnits` takes the atoms as a `bigint` and returns a decimal string. That is exact
+     * for every amount and every token.
+     */
     convertDecimals(amount: number, decimals: number): number;
+    /**
+     * Returns the account name and staking info of a given address.
+     *
+     * Cost is independent of how much the address holds, which makes this the endpoint to use in
+     * wallet refresh loops; balances and NFTs are fetched separately through the cursor-paginated
+     * account endpoints.
+     */
+    getAccountInfo(account: string): Promise<AccountInfo>;
+    /**
+     * Returns the account name and staking info for a batch of up to 100 addresses in one call.
+     *
+     * Batch counterpart of {@link getAccountInfo} with the same per-account record: the node answers
+     * every address from a single state snapshot and returns results in request order. The addresses
+     * travel as a native JSON array parameter; a malformed address rejects the whole batch.
+     */
+    getAccountInfos(accounts: string[]): Promise<AccountInfo[]>;
+    /**
+     * Returns the account name and balance of given address.
+     *
+     * @deprecated The response embeds every NFT id the address owns, so it grows without bound with
+     * the size of the account; the node caps each `balances[].ids` list at 10000 entries while
+     * `balances[].amount` keeps the true count, meaning the list is silently partial for large
+     * holders. Use {@link getAccountInfo} together with {@link getAccountFungibleTokens} and
+     * {@link getAccountNFTs}.
+     */
     getAccount(account: string, extended?: boolean): Promise<Account>;
+    /**
+     * Returns the accounts name and balance of given addresses.
+     *
+     * @deprecated Same unbounded-response problem as {@link getAccount}, multiplied by the number of
+     * addresses in one call. Use {@link getAccountInfo} together with
+     * {@link getAccountFungibleTokens} and {@link getAccountNFTs}.
+     */
     getAccounts(accounts: string[], extended?: boolean): Promise<Account[]>;
     lookUpName(name: string): Promise<string>;
     getBlockHeight(chainInput: string): Promise<number>;
@@ -6005,6 +6753,56 @@ export declare class PhantasmaAPI {
     getTransaction(hashText: string): Promise<TransactionData>;
     getChains(extended?: boolean): Promise<Chain[]>;
     getChain(name: string, extended?: boolean): Promise<Chain>;
+    /**
+     * Returns the current on-chain gas configuration plus the chain parameters fee estimation
+     * needs (block rate target, expiry window). Changes only via governance resolutions, so the
+     * result is safe to cache. Feed gasConfigFromRpc() into estimateNativeFee() for Tier-1 fee
+     * estimates.
+     */
+    getGasConfig(): Promise<GasConfigResult>;
+    /**
+     * Dry-runs a serialized transaction envelope against current chain state and returns its exact
+     * fee bill with recommended maxGas/maxData ceilings (gas-model-v2 Tier-2 estimate). Signatures
+     * inside the envelope may be zero-filled dummies of the correct length - the simulation skips
+     * signature checks, and dummies preserve the exact envelope byte length the bill depends on.
+     * Until the estimate service is launched this method returns a standard RPC error; use the
+     * Tier-1 estimateNativeFee() with getGasConfig() as the fallback.
+     */
+    estimateTransaction(txData: string): Promise<EstimateTransactionResult>;
+    /**
+     * The fee planner of the chain this client talks to. It reads the chain's gas config through this
+     * client, caches it briefly, and prices messages with it. Call it as `api.fees.plan(msg)`.
+     */
+    get fees(): FeePlanner;
+    /**
+     * The gas token's id. The pre-flight uses it as its control lookup, because that token certainly
+     * exists on any live chain. The id comes from the same cached gas config the planner reads, so
+     * asking for it costs a round trip only once a minute. It is undefined when this client cannot
+     * read that config, and the pre-flight then reports `unknown`.
+     */
+    controlTokenId(): Promise<bigint | undefined>;
+    /**
+     * Returns what NFT `instanceId` of token `tokenId` holds at its own address, in the form the fee
+     * planner prices. A burn of that NFT returns every one of these to the burner and pays for each.
+     *
+     * The assets are read through the account queries, with the address in its Carbon form. Fungible
+     * balances are resolved to token ids, so the free rows of the gas and data tokens are recognised.
+     * Whether the burner already holds a returned token is left at the costlier reading, and that
+     * moves the escrow ceiling alone.
+     */
+    infusedAssets(tokenId: bigint, instanceId: bigint): Promise<InfusedAsset[]>;
+    /**
+     * Sends a message in one step. The steps are pre-flight, fee plan, signatures and broadcast.
+     * Returns the transaction hash.
+     *
+     * A message whose `maxGas` is still zero is planned against this chain's prices with `fees.plan`.
+     * A message the caller already planned is sent as it is. Every witness signs through its
+     * {@link TxSigner}, which can hold keys, drive hardware or call a remote service.
+     *
+     * The pre-flight refuses a token creation whose symbol the chain says is taken. It also refuses
+     * one it could establish nothing about. See the `preflight` option.
+     */
+    sendTransaction(msg: TxMsg, signers: TxSigner | TxSigner[], options?: SendTransactionOptions): Promise<string>;
     getNexus(extended?: boolean): Promise<Nexus>;
     getContracts(chainAddressOrName?: string, extended?: boolean): Promise<Contract[]>;
     getContract(chainAddressOrName: string | undefined, contractName: string): Promise<Contract>;
@@ -6016,14 +6814,20 @@ export declare class PhantasmaAPI {
     getLeaderboard(name: string): Promise<Leaderboard>;
     getTokens(ownerAddress: string | undefined | null, extended?: boolean): Promise<Token[]>;
     getToken(symbol: string, extended?: boolean, carbonTokenId?: bigint): Promise<Token>;
+    /**
+     * Returns data of a non-fungible token, in hexadecimal format.
+     *
+     * @deprecated The node serves this as a strict subset of `getNFT` - same response, with property
+     * loading forced off - so {@link getNFT} covers it entirely.
+     */
     getTokenData(symbol: string, IDtext: string): Promise<TokenData>;
-    getTokenBalance(account: string, tokenSymbol: string, chainInput: string, checkAddressResevedByte?: boolean): Promise<Balance>;
+    getTokenBalance(account: string, tokenSymbol: string, chainInput: string, checkAddressResevedByte?: boolean, addressType?: RpcAddressType): Promise<Balance>;
     getTokenSeries(symbol: string, carbonTokenId: bigint, pageSize?: number, cursor?: string): Promise<CursorPaginatedResult<TokenSeriesResult[]>>;
     getTokenSeriesById(symbol: string, carbonTokenId: bigint, seriesId: string, carbonSeriesId: number): Promise<TokenSeriesResult>;
     getTokenNFTs(carbonTokenId: bigint, carbonSeriesId?: number, pageSize?: number, cursor?: string, extended?: boolean): Promise<CursorPaginatedResult<NFT[]>>;
-    getAccountFungibleTokens(account: string, tokenSymbol?: string, carbonTokenId?: bigint, pageSize?: number, cursor?: string, checkAddressReservedByte?: boolean): Promise<CursorPaginatedResult<Balance[]>>;
+    getAccountFungibleTokens(account: string, tokenSymbol?: string, carbonTokenId?: bigint, pageSize?: number, cursor?: string, checkAddressReservedByte?: boolean, addressType?: RpcAddressType): Promise<CursorPaginatedResult<Balance[]>>;
     getAccountNFTs(account: string, tokenSymbol?: string, carbonTokenId?: bigint, carbonSeriesId?: number, pageSize?: number, cursor?: string, extended?: boolean, checkAddressReservedByte?: boolean): Promise<CursorPaginatedResult<NFT[]>>;
-    getAccountOwnedTokens(account: string, tokenSymbol?: string, carbonTokenId?: bigint, pageSize?: number, cursor?: string, checkAddressReservedByte?: boolean): Promise<CursorPaginatedResult<Token[]>>;
+    getAccountOwnedTokens(account: string, tokenSymbol?: string, carbonTokenId?: bigint, pageSize?: number, cursor?: string, checkAddressReservedByte?: boolean, addressType?: RpcAddressType): Promise<CursorPaginatedResult<Token[]>>;
     getAccountOwnedTokenSeries(account: string, tokenSymbol?: string, carbonTokenId?: bigint, pageSize?: number, cursor?: string, checkAddressReservedByte?: boolean): Promise<CursorPaginatedResult<TokenSeriesResult[]>>;
     getAuctionsCount(chainAddressOrName: string, symbol: string): Promise<number>;
     getAuctions(chainAddressOrName: string, symbol: string, page: number, pageSize: number): Promise<Paginated<Auction[]>>;
@@ -6048,7 +6852,7 @@ Source: `dist/types/rpc/rpc-result.d.ts`
 ### Declarations
 
 ```ts
-export type JsonRpcParam = string | number | boolean | null | undefined;
+export type JsonRpcParam = string | number | boolean | null | undefined | string[];
 ```
 
 ```ts
@@ -6107,6 +6911,48 @@ export declare function normalizeRpcError(error: unknown, fallback?: string): Rp
 
 ```ts
 export declare function unwrapRpcResult<T>(result: RpcResult<T>): T;
+```
+
+## phantasma-sdk-ts/rpc/transaction-preflight
+
+Source: `dist/types/rpc/transaction-preflight.d.ts`
+
+### Declarations
+
+```ts
+export declare class TransactionPreflightError extends Error {
+    constructor(message: string);
+}
+```
+
+```ts
+export interface PreflightSource {
+    getToken(symbol: string, extended?: boolean, carbonTokenId?: bigint): Promise<Token>;
+    /**
+     * Id of a token that certainly exists on this chain, which is the gas token. The symbol lookup
+     * needs it as a CONTROL, see {@link preflightTransaction}. A source that cannot supply one still
+     * works. A free symbol is then reported as `unknown`.
+     */
+    controlTokenId?(): Promise<bigint | undefined>;
+}
+```
+
+```ts
+export type PreflightVerdict = 'not-applicable' | 'taken' | 'free' | 'unknown';
+```
+
+```ts
+export interface PreflightResult {
+    verdict: PreflightVerdict;
+    /** What was being checked, for example `token symbol GPX`. Absent when nothing was checked. */
+    subject?: string;
+    /** Why the lookup established nothing, in the node's own words. Present only on `unknown`. */
+    reason?: string;
+}
+```
+
+```ts
+export declare function preflightTransaction(source: PreflightSource, msg: TxMsg): Promise<PreflightResult>;
 ```
 
 ## phantasma-sdk-ts/tx/contract-artifacts
@@ -6515,6 +7361,10 @@ Source: `dist/types/types/carbon/blockchain/extensions/index.d.ts`
 export * from './tx-msg-signer.js';
 ```
 
+```ts
+export * from './tx-signer.js';
+```
+
 ## phantasma-sdk-ts/types/carbon/blockchain/extensions/tx-msg-signer
 
 Source: `dist/types/types/carbon/blockchain/extensions/tx-msg-signer.d.ts`
@@ -6523,8 +7373,102 @@ Source: `dist/types/types/carbon/blockchain/extensions/tx-msg-signer.d.ts`
 
 ```ts
 export declare class TxMsgSigner {
+    /** Signs a single-witness message with in-memory keys. */
     static sign(msg: TxMsg, key: PhantasmaKeys): SignedTxMsg;
     static signAndSerialize(msg: TxMsg, key: PhantasmaKeys): Uint8Array;
+    /**
+     * Signs a message with in-memory keys, one per witness the message needs. It works for every
+     * transaction type. A gas-payer transfer takes the gas payer's key and the owner's key in any
+     * order. A Call takes the keys of every witness the contract will check.
+     */
+    static signWithKeys(msg: TxMsg, keys: PhantasmaKeys[]): SignedTxMsg;
+    static signAndSerializeWithKeys(msg: TxMsg, keys: PhantasmaKeys[]): Uint8Array;
+    /**
+     * Signs a message with any {@link TxSigner}, one per witness. A signer can hold keys, drive a
+     * hardware wallet or call a remote service. Every signer signs the same serialized message.
+     *
+     * One account can fill two witness slots, when it pays the gas and owns the tokens. Such a signer
+     * is asked once and its signature is reused.
+     */
+    static signWith(msg: TxMsg, signers: TxSigner[]): Promise<SignedTxMsg>;
+    static signAndSerializeWith(msg: TxMsg, signers: TxSigner[]): Promise<Uint8Array>;
+}
+```
+
+## phantasma-sdk-ts/types/carbon/blockchain/extensions/tx-signer
+
+Source: `dist/types/types/carbon/blockchain/extensions/tx-signer.d.ts`
+
+### Declarations
+
+```ts
+export interface TxSigner {
+    /** The 32-byte Ed25519 public key that identifies this witness in the transaction. */
+    readonly publicKey: Uint8Array;
+    sign(message: Uint8Array): Signature | Promise<Signature>;
+}
+```
+
+## phantasma-sdk-ts/types/carbon/blockchain/gas-config
+
+Source: `dist/types/types/carbon/blockchain/gas-config.d.ts`
+
+### Declarations
+
+```ts
+export declare class GasConfig implements CarbonBlobLike {
+    version: number;
+    maxNameLength: number;
+    maxTokenSymbolLength: number;
+    feeShift: number;
+    maxStructureSize: number;
+    feeMultiplier: bigint;
+    gasTokenId: bigint;
+    dataTokenId: bigint;
+    minimumGasOffer: bigint;
+    dataEscrowPerRow: bigint;
+    gasFeeTransfer: bigint;
+    gasFeeQuery: bigint;
+    gasFeeCreateTokenBase: bigint;
+    gasFeeCreateTokenSymbol: bigint;
+    gasFeeCreateTokenSeries: bigint;
+    gasFeePerByte: bigint;
+    gasFeeRegisterName: bigint;
+    gasBurnRatioMul: bigint;
+    gasBurnRatioShift: number;
+    /** Floor applied to every settled gas bill (kcal-base). 0 = no floor (v1-equivalent). */
+    minimumGasBill: bigint;
+    /** Producer fee-split ratio, same mul/shift fixed-point form as the burn ratio. */
+    gasProducerRatioMul: bigint;
+    gasProducerRatioShift: number;
+    /** Dapp (tx gasTarget) fee-split ratio. */
+    gasDappRatioMul: bigint;
+    gasDappRatioShift: number;
+    /**
+     * Product-decision prices ("policy fees") in kcal-base, charged directly with no fee
+     * multiplier stage. Under v2 they replace the unit-priced gasFeeCreateToken and
+     * gasFeeRegisterName fields, which stay serialized for version-0 replay.
+     */
+    policyFeeCreateTokenBase: bigint;
+    /** Halved per symbol char after the first (v1 rule kept). */
+    policyFeeCreateTokenSymbol: bigint;
+    policyFeeCreateTokenSeries: bigint;
+    /** Shifted right by (nameLength-1) like the v1 field (v1 rule kept). */
+    policyFeeRegisterName: bigint;
+    /**
+     * The frozen pre-flip dataEscrowPerRow: storage rows existing before the v2 flip refund at
+     * this price (exactly what they escrowed under v1). Immutable after the flip.
+     */
+    legacyDataEscrowPerRow: bigint;
+    constructor(init?: Partial<GasConfig>);
+    /**
+     * True when this config activates the gas-model-v2 billing rules (config version >= 1). The
+     * gas model is gated by the config version, not by a chain feature level.
+     */
+    get hasGasModelV2(): boolean;
+    write(w: CarbonBinaryWriter): void;
+    read(r: CarbonBinaryReader): void;
+    static read(r: CarbonBinaryReader): GasConfig;
 }
 ```
 
@@ -6552,6 +7496,10 @@ export * from './vm/index.js';
 
 ```ts
 export * from './carbon-token-flags.js';
+```
+
+```ts
+export * from './gas-config.js';
 ```
 
 ```ts
@@ -6801,7 +7749,7 @@ export declare class TokenInfoBuilder {
     static build(symbol: string, maxSupply: IntX, isNFT: boolean, decimals: number, creatorPublicKey: Bytes32, metadata?: Uint8Array | null | undefined, tokenSchemas?: TokenSchemas | null | undefined): TokenInfo;
     static maxSymbolLength: number;
     /**
-     * Mirrors carbon::CheckIsValidSymbol from contracts/token.cpp.
+     * Mirrors the chain's own symbol validation, so a symbol this accepts is one CreateToken accepts.
      * Returns true when valid, or false when the symbol must be rejected.
      */
     static checkIsValidSymbol(symbol: string): {
@@ -6867,6 +7815,19 @@ export declare class TokenSeriesMetadataBuilder {
 }
 ```
 
+## phantasma-sdk-ts/types/carbon/blockchain/modules/governance-contract-methods
+
+Source: `dist/types/types/carbon/blockchain/modules/governance-contract-methods.d.ts`
+
+### Declarations
+
+```ts
+export declare enum GovernanceContractMethods {
+    RegisterName = 1,
+    SetGasConfig = 3
+}
+```
+
 ## phantasma-sdk-ts/types/carbon/blockchain/modules
 
 Source: `dist/types/types/carbon/blockchain/modules/index.d.ts`
@@ -6875,6 +7836,10 @@ Source: `dist/types/types/carbon/blockchain/modules/index.d.ts`
 
 ```ts
 export * from './builders/index.js';
+```
+
+```ts
+export * from './governance-contract-methods.js';
 ```
 
 ```ts
@@ -6895,6 +7860,10 @@ export * from './series-info.js';
 
 ```ts
 export * from './standard-meta.js';
+```
+
+```ts
+export * from './token-call-args.js';
 ```
 
 ```ts
@@ -7021,8 +7990,45 @@ export declare const StandardMeta: {
         readonly phantasma_script: SmallString;
         readonly phantasma_abi: SmallString;
         readonly pre_burn: SmallString;
+        readonly inflation_period: SmallString;
     };
 };
+```
+
+## phantasma-sdk-ts/types/carbon/blockchain/modules/token-call-args
+
+Source: `dist/types/types/carbon/blockchain/modules/token-call-args.d.ts`
+
+### Declarations
+
+```ts
+export declare class TokenCallArgs {
+    /** `Token.TransferFungible(to, from, tokenId, amount)`. */
+    static transferFungible(args: Uint8Array): {
+        to: Uint8Array;
+        tokenId: bigint;
+    };
+    /** `Token.TransferNonFungible(to, from, tokenId, instanceIds)`. */
+    static transferNonFungible(args: Uint8Array): {
+        to: Uint8Array;
+        tokenId: bigint;
+        instanceCount: number;
+    };
+    /** `Token.MintFungible(tokenId, to, amount)`. */
+    static mintFungible(args: Uint8Array): {
+        to: Uint8Array;
+        tokenId: bigint;
+    };
+    /** `Token.BurnFungible(tokenId, from, amount)`. */
+    static burnFungible(args: Uint8Array): {
+        tokenId: bigint;
+    };
+    /** `Token.BurnNonFungible(tokenId, address, instanceIds)`. */
+    static burnNonFungible(args: Uint8Array): {
+        tokenId: bigint;
+        instanceIds: bigint[];
+    };
+}
 ```
 
 ## phantasma-sdk-ts/types/carbon/blockchain/modules/token-contract-methods
@@ -7086,6 +8092,15 @@ export type CarbonNftAddressInfo = {
 ```ts
 export declare class TokenHelper {
     static getNftAddress(carbonTokenId: bigint, instanceId: bigint): Bytes32;
+    /**
+     * Returns true if a 32-byte address is an NFT-derived address. Every minted instance owns such an
+     * address, and assets infused into that NFT are sent to it.
+     *
+     * The test is syntactic and is the one the chain applies: fifteen zero bytes, a 0x01 marker, then
+     * a nonzero token id and a nonzero instance id. `planFees` uses it to price the recipient's owner
+     * lookup.
+     */
+    static isNftAddress(address: Bytes32 | Uint8Array): boolean;
     /**
      * Unpacks a Carbon NFT address (32 bytes) into its logical parts:
      * - carbonTokenId: identifies the NFT token contract
@@ -7174,6 +8189,22 @@ export declare class SignedTxMsg implements CarbonBlobLike {
     msg: TxMsg;
     witnesses: Witness[];
     constructor(msg?: TxMsg, witnesses?: Witness[]);
+    /**
+     * Returns the addresses whose signatures the envelope of `msg` must carry, in envelope order.
+     * This works for the types whose witness set the message fixes. It returns `undefined` for the
+     * witness-array types, which are Call, Call_Multi, Trade and Phantasma. The caller chooses the
+     * witnesses of those four.
+     */
+    static requiredWitnesses(msg: TxMsg): Bytes32[] | undefined;
+    /**
+     * Returns the size in bytes of `msg` once signed. That is the envelope the block carries and gas
+     * model v2 bills. No key is needed. Signatures are fixed-width, so zero-filled placeholder
+     * witnesses serialize to exactly the signed length.
+     *
+     * The witness set is the one the message requires. For the witness-array types, which are Call,
+     * Call_Multi, Trade and Phantasma, pass how many witnesses will sign.
+     */
+    static envelopeBytes(msg: TxMsg, witnessCount?: number): number;
     write(w: CarbonBinaryWriter): void;
     read(r: CarbonBinaryReader): void;
     static read(r: CarbonBinaryReader): SignedTxMsg;
@@ -7188,13 +8219,12 @@ Source: `dist/types/types/carbon/blockchain/tx-helpers/create-token-series-tx-he
 
 ```ts
 export declare class CreateTokenSeriesTxHelper {
-    /** Build a Tx without signing. */
+    /** Builds the Token.CreateTokenSeries call. Fees are planned from the message afterwards. */
     static buildTx(tokenId: bigint, // ulong
-    seriesInfo: SeriesInfo, creatorPublicKey: Bytes32, feeOptions?: CreateSeriesFeeOptions, maxData?: bigint, expiry?: bigint): TxMsg;
-    /** Build and sign, returning raw bytes. */
-    static buildTxAndSign(tokenId: bigint, seriesInfo: SeriesInfo, signer: PhantasmaKeys, feeOptions?: CreateSeriesFeeOptions, maxData?: bigint, expiry?: bigint): Uint8Array;
-    /** Build, sign and return hex string. */
-    static buildTxAndSignHex(tokenId: bigint, seriesInfo: SeriesInfo, signer: PhantasmaKeys, feeOptions?: CreateSeriesFeeOptions, maxData?: bigint, expiry?: bigint): string;
+    seriesInfo: SeriesInfo, creatorPublicKey: Bytes32, limits?: TxLimits): TxMsg;
+    /** Builds, plans against `config` and signs with in-memory keys, returning the envelope bytes. */
+    static buildTxAndSign(tokenId: bigint, seriesInfo: SeriesInfo, signer: PhantasmaKeys, config: GasConfig, options?: PlanAndSignOptions): Uint8Array;
+    static buildTxAndSignHex(tokenId: bigint, seriesInfo: SeriesInfo, signer: PhantasmaKeys, config: GasConfig, options?: PlanAndSignOptions): string;
     static parseResult(resultHex: string): number;
 }
 ```
@@ -7207,69 +8237,123 @@ Source: `dist/types/types/carbon/blockchain/tx-helpers/create-token-tx-helper.d.
 
 ```ts
 export declare class CreateTokenTxHelper {
-    static buildTx(tokenInfo: TokenInfo, creatorPublicKey: Bytes32, feeOptions?: CreateTokenFeeOptions, maxData?: bigint, expiry?: bigint): TxMsg;
-    static buildTxAndSign(tokenInfo: TokenInfo, signer: PhantasmaKeys, feeOptions?: CreateTokenFeeOptions, maxData?: bigint, expiry?: bigint): Uint8Array;
-    static buildTxAndSignHex(tokenInfo: TokenInfo, signer: PhantasmaKeys, feeOptions?: CreateTokenFeeOptions, maxData?: bigint, expiry?: bigint): string;
-    static parseResult(resultHex: string): number;
+    /** Builds the Token.CreateToken call. Fees are planned from the message afterwards. */
+    static buildTx(tokenInfo: TokenInfo, creatorPublicKey: Bytes32, limits?: TxLimits): TxMsg;
+    /** Builds the call, plans it against `config`, signs it with in-memory keys and returns the
+     * envelope bytes. */
+    static buildTxAndSign(tokenInfo: TokenInfo, signer: PhantasmaKeys, config: GasConfig, options?: PlanAndSignOptions): Uint8Array;
+    static buildTxAndSignHex(tokenInfo: TokenInfo, signer: PhantasmaKeys, config: GasConfig, options?: PlanAndSignOptions): string;
+    /**
+     * The token id the creation returned. Token.CreateToken answers with a u64, and a token id is a
+     * `bigint` everywhere else in the SDK. A `number` cannot hold the whole range. Reading only its
+     * low half would return a wrong id and would not fail.
+     */
+    static parseResult(resultHex: string): bigint;
 }
 ```
 
-## phantasma-sdk-ts/types/carbon/blockchain/tx-helpers/fee-options
+## phantasma-sdk-ts/types/carbon/blockchain/tx-helpers/fee-plan-summary
 
-Source: `dist/types/types/carbon/blockchain/tx-helpers/fee-options.d.ts`
+Source: `dist/types/types/carbon/blockchain/tx-helpers/fee-plan-summary.d.ts`
 
 ### Declarations
 
 ```ts
-export interface FeeOptionsLike {
-    feeMultiplier: bigint;
-    calculateMaxGas(...args: unknown[]): bigint;
+export interface FeePlanSummary {
+    /** What the transaction will cost in gas, as a decimal KCAL amount. */
+    gasBill: string;
+    /** The gas offer written into the transaction. The difference to `gasBill` is refunded. */
+    gasOffer: string;
+    /**
+     * The storage deposit the transaction may take, as a decimal SOUL amount. The chain escrows it
+     * while the transaction settles and refunds it when the rows it paid for are deleted. A wallet
+     * shows it apart from the fee, as a refundable deposit.
+     */
+    storageCeiling: string;
 }
 ```
 
 ```ts
-export type IFeeOptions = FeeOptionsLike;
-```
-
-```ts
-export declare class FeeOptions implements FeeOptionsLike {
-    gasFeeBase: bigint;
-    feeMultiplier: bigint;
-    constructor(gasFeeBase?: bigint, feeMultiplier?: bigint);
-    calculateMaxGas(): bigint;
-    calculateMaxGas(count: CountInput): bigint;
+export interface FeePlanSummaryDecimals {
+    /** Decimals of the chain's gas token. The default is 10, which is what KCAL has. */
+    gas?: number;
+    /** Decimals of the chain's data token. The default is 8, which is what SOUL has. */
+    data?: number;
 }
 ```
 
 ```ts
-export declare class CreateTokenFeeOptions extends FeeOptions implements FeeOptionsLike {
-    gasFeeCreateTokenBase: bigint;
-    gasFeeCreateTokenSymbol: bigint;
-    constructor(gasFeeBase?: bigint, gasFeeCreateTokenBase?: bigint, gasFeeCreateTokenSymbol?: bigint, feeMultiplier?: bigint);
-    calculateMaxGas(): bigint;
-    calculateMaxGas(symbol: SymbolInput): bigint;
+export declare function summarizeFeePlan(plan: FeePlan, decimals?: FeePlanSummaryDecimals): FeePlanSummary;
+```
+
+## phantasma-sdk-ts/types/carbon/blockchain/tx-helpers/fee-plan
+
+Source: `dist/types/types/carbon/blockchain/tx-helpers/fee-plan.d.ts`
+
+### Declarations
+
+```ts
+export interface FeePlanOptions extends Pick<NativeFeeParams, 'recipientHoldsToken' | 'bigFungible' | 'tokenBurnedBefore' | 'supplyRowExists' | 'duplicatedSeries' | 'romHasMetaId' | 'seriesHasMetaId' | 'infusions' | 'scriptUnitsAllowance' | 'scriptEventBytes' | 'scriptStorageQuanta'> {
+    /**
+     * How many witnesses will sign a Call / Call_Multi / Trade / Phantasma message. Required for those
+     * four types and for no other.
+     *
+     * The caller chooses the witness set of those four, and nothing in the message says how large it
+     * will be. Each witness adds 96 bytes that the chain bills. Every other type fixes its own witness
+     * set, so passing this for one of them is an error. `PhantasmaAPI.sendTransaction` fills it in
+     * from the signers it was given.
+     */
+    witnessCount?: number;
 }
 ```
 
 ```ts
-export declare class CreateSeriesFeeOptions extends FeeOptions implements FeeOptionsLike {
-    gasFeeCreateSeriesBase: bigint;
-    constructor(gasFeeBase?: bigint, gasFeeCreateSeriesBase?: bigint, feeMultiplier?: bigint);
-    calculateMaxGas(): bigint;
+export interface FeePlan extends NativeFeeEstimate {
+    /**
+     * The operations the message was recognised as, in call order. The bill was computed from them. An
+     * ordinary message has one entry. A `Call_Multi` has one entry per inner call.
+     *
+     * Every kind except {@link NativeFeeKind.Script} is priced with the chain's own formula for that
+     * operation. `Script` covers VM scripts and unmodelled calls. Their work depends on execution, so
+     * they can only be budgeted (see `scriptUnitsAllowance` and its neighbours).
+     *
+     * This field says what was priced. How firm the number is, {@link FeePlan.exact} answers. That
+     * field accounts for both causes: a budgeted part, and a state fact the plan had to assume.
+     */
+    kinds: readonly NativeFeeKind[];
+    /**
+     * True when this bill is a prediction of the settlement. False when it is an upper bound on it. A
+     * wallet showing a fee reads this one field to choose between "0.0073 KCAL" and "up to 0.0073
+     * KCAL".
+     *
+     * The field is false in two cases. A chain-state fact was left unstated and its assumed reading
+     * decided part of the price. Or some part of the message had to be budgeted.
+     *
+     * The field says nothing about facts the caller stated. A stated fact that is wrong produces a
+     * wrong bill, and the transaction then aborts if the mistake was on the cheap side. `true` means
+     * only that the plan did not have to guess.
+     *
+     * `bigFungible: true` is the one exception. It claims nothing about chain state. It asks the model
+     * to price the widest answer a variable-length balance can have. A plan that rests on it reports
+     * `false` however it was arrived at.
+     */
+    exact: boolean;
+    /** The signed size the plan was computed for. These are the bytes the block will carry. */
+    envelopeBytes: number;
+    /** A copy of `msg` with `maxGas` and `maxData` set to the plan. The input is left untouched. */
+    apply(msg: TxMsg): TxMsg;
 }
 ```
 
 ```ts
-export declare class MintNftFeeOptions extends FeeOptions implements FeeOptionsLike {
-    constructor(gasFeeBase?: bigint, feeMultiplier?: bigint);
-    calculateMaxGas(): bigint;
-    calculateMaxGas(count: CountInput): bigint;
-    calculateMaxGas(tokens: readonly unknown[]): bigint;
-}
+export declare function planFees(msg: TxMsg, config: GasConfig, options?: FeePlanOptions): FeePlan;
 ```
 
 ```ts
-export {};
+export declare function burnedInstances(msg: TxMsg): {
+    tokenId: bigint;
+    instanceId: bigint;
+}[];
 ```
 
 ## phantasma-sdk-ts/types/carbon/blockchain/tx-helpers
@@ -7287,7 +8371,11 @@ export * from './create-token-tx-helper.js';
 ```
 
 ```ts
-export * from './fee-options.js';
+export * from './fee-plan-summary.js';
+```
+
+```ts
+export * from './fee-plan.js';
 ```
 
 ```ts
@@ -7295,22 +8383,19 @@ export * from './mint-phantasma-non-fungible-tx-helper.js';
 ```
 
 ```ts
-export * from './mint-non-fungible-tx-helper.js';
+export * from './native-fee-estimator.js';
 ```
 
-## phantasma-sdk-ts/types/carbon/blockchain/tx-helpers/mint-non-fungible-tx-helper
-
-Source: `dist/types/types/carbon/blockchain/tx-helpers/mint-non-fungible-tx-helper.d.ts`
-
-### Declarations
+```ts
+export * from './native-tx-helper.js';
+```
 
 ```ts
-export declare class MintNonFungibleTxHelper {
-    static buildTx(carbonTokenId: bigint, carbonSeriesId: number, senderPublicKey: Bytes32, receiverPublicKey: Bytes32, rom: Uint8Array, ram: Uint8Array, feeOptions?: MintNftFeeOptions, maxData?: bigint, expiry?: bigint): TxMsg;
-    static buildTxAndSign(tokenId: bigint, seriesId: number, signer: PhantasmaKeys, receiverPublicKey: Bytes32, rom: Uint8Array, ram: Uint8Array, feeOptions?: MintNftFeeOptions, maxData?: bigint, expiry?: bigint): Uint8Array;
-    static buildTxAndSignHex(tokenId: bigint, seriesId: number, signer: PhantasmaKeys, receiverPublicKey: Bytes32, rom: Uint8Array, ram: Uint8Array | null | undefined, feeOptions?: MintNftFeeOptions, maxData?: bigint, expiry?: bigint): string;
-    static parseResult(carbonTokenId: bigint, resultHex: string): Bytes32[];
-}
+export * from './plan-and-sign.js';
+```
+
+```ts
+export { DEFAULT_TX_EXPIRY_MS, expiryWithin, type TxLimits } from './tx-limits.js';
 ```
 
 ## phantasma-sdk-ts/types/carbon/blockchain/tx-helpers/mint-phantasma-non-fungible-tx-helper
@@ -7320,15 +8405,476 @@ Source: `dist/types/types/carbon/blockchain/tx-helpers/mint-phantasma-non-fungib
 ### Declarations
 
 ```ts
+export interface PhantasmaNftMintParams {
+    tokenId: bigint;
+    /** The account that pays the gas and signs the mint. */
+    sender: Bytes32;
+    /** The account that receives every instance this call mints. */
+    to: Bytes32;
+    /**
+     * One entry per instance. Each entry names the Phantasma series the instance is minted into and
+     * carries the public ROM. Instances of several series may share one call. A single mint passes
+     * one entry.
+     */
+    tokens: readonly PhantasmaNftMintInfo[];
+}
+```
+
+```ts
 export declare class MintPhantasmaNonFungibleTxHelper {
-    static buildTx(tokenId: bigint, phantasmaSeriesId: bigint, senderPublicKey: Bytes32, receiverPublicKey: Bytes32, publicRom: Uint8Array, ram?: Uint8Array, feeOptions?: MintNftFeeOptions, maxData?: bigint, expiry?: bigint): TxMsg;
-    static buildTx(tokenId: bigint, senderPublicKey: Bytes32, receiverPublicKey: Bytes32, tokens: PhantasmaNftMintInfo[], feeOptions?: MintNftFeeOptions, maxData?: bigint, expiry?: bigint): TxMsg;
-    static buildTxAndSign(tokenId: bigint, phantasmaSeriesId: bigint, signer: PhantasmaKeys, receiverPublicKey: Bytes32, publicRom: Uint8Array, ram?: Uint8Array, feeOptions?: MintNftFeeOptions, maxData?: bigint, expiry?: bigint): Uint8Array;
-    static buildTxAndSign(tokenId: bigint, tokens: PhantasmaNftMintInfo[], signer: PhantasmaKeys, receiverPublicKey: Bytes32, feeOptions?: MintNftFeeOptions, maxData?: bigint, expiry?: bigint): Uint8Array;
-    static buildTxAndSignHex(tokenId: bigint, phantasmaSeriesId: bigint, signer: PhantasmaKeys, receiverPublicKey: Bytes32, publicRom: Uint8Array, ram?: Uint8Array, feeOptions?: MintNftFeeOptions, maxData?: bigint, expiry?: bigint): string;
-    static buildTxAndSignHex(tokenId: bigint, tokens: PhantasmaNftMintInfo[], signer: PhantasmaKeys, receiverPublicKey: Bytes32, feeOptions?: MintNftFeeOptions, maxData?: bigint, expiry?: bigint): string;
+    /** Builds the Token.MintPhantasmaNonFungible call. Fees are planned from the message
+     * afterwards. */
+    static buildTx(p: PhantasmaNftMintParams, limits?: TxLimits): TxMsg;
+    /** Builds the call, plans it against `config`, signs it with in-memory keys and returns the
+     * envelope bytes. */
+    static buildTxAndSign(p: PhantasmaNftMintParams, signer: PhantasmaKeys, config: GasConfig, options?: PlanAndSignOptions): Uint8Array;
+    static buildTxAndSignHex(p: PhantasmaNftMintParams, signer: PhantasmaKeys, config: GasConfig, options?: PlanAndSignOptions): string;
     static parseResult(resultHex: string): PhantasmaNftMintResult[];
 }
+```
+
+## phantasma-sdk-ts/types/carbon/blockchain/tx-helpers/native-fee-estimator
+
+Source: `dist/types/types/carbon/blockchain/tx-helpers/native-fee-estimator.d.ts`
+
+### Declarations
+
+```ts
+export declare enum NativeFeeKind {
+    /** Fungible token transfer (TxTypes.TransferFungible and its _GasPayer variant). */
+    TransferFungible = "TransferFungible",
+    /** NFT transfer of `count` instances (TxTypes.TransferNonFungible_* and _GasPayer variants). */
+    TransferNonFungible = "TransferNonFungible",
+    /** Fungible mint (TxTypes.MintFungible). */
+    MintFungible = "MintFungible",
+    /**
+     * NFT mint of `count` instances with caller-supplied ROM (TxTypes.MintNonFungible). The ROM is
+     * stored exactly as submitted. A deterministic Phantasma mint stores a canonical ROM.
+     *
+     * The chain refuses this operation where governance has not allowed caller-supplied ROM ids, and
+     * that is the state of the public chains today. The SDK carries no builder for it. The model is
+     * kept because the calculator prices the operation correctly wherever it is allowed.
+     */
+    MintNonFungible = "MintNonFungible",
+    /**
+     * Deterministic Phantasma NFT mint of `count` instances (TokenContract.MintPhantasmaNonFungible).
+     * The chain stores a canonical ROM. It holds the public ROM, the derived Phantasma NFT id and a
+     * second copy of the public ROM, so storage grows at twice the ROM size.
+     */
+    MintPhantasmaNonFungible = "MintPhantasmaNonFungible",
+    /** Fungible burn (TxTypes.BurnFungible and its _GasPayer variant). */
+    BurnFungible = "BurnFungible",
+    /** NFT burn of `count` instances (TxTypes.BurnNonFungible and its _GasPayer variant). */
+    BurnNonFungible = "BurnNonFungible",
+    /** TokenContract.CreateToken call. Requires `symbolLength` when a symbol is set. */
+    CreateToken = "CreateToken",
+    /** TokenContract.CreateTokenSeries call. */
+    CreateTokenSeries = "CreateTokenSeries",
+    /** GovernanceContract.RegisterName call. Requires `nameLength`. */
+    RegisterName = "RegisterName",
+    /**
+     * Generic Phantasma VM script transaction (AllowGas/SpendGas pattern: stake, marketplace, custom
+     * contract calls). Script opcode costs depend on chain state, and no formula gives them. The
+     * estimate budgets `scriptUnitsAllowance` VM work units and `scriptEventBytes` of events on top
+     * of the byte fee. For an exact script bill use the node-side estimator (`estimateTransaction`).
+     */
+    Script = "Script"
+}
+```
+
+```ts
+export interface NativeFeeParams {
+    /**
+     * Full signed transaction size in bytes. This is the envelope the block carries. Required under
+     * gas model v2 (see {@link envelopeBytesFor} and `SignedTxMsg`). Ignored under v1, which billed
+     * the payload note alone.
+     */
+    envelopeBytes?: number;
+    /** Instance count for NFT kinds (transferred / minted / burned instances). Default 1. */
+    count?: number;
+    /**
+     * Token moved by a transfer / mint / burn. Balance rows of the chain's gas and data tokens are
+     * free, so with the token id known the estimate escrows nothing for them.
+     */
+    tokenId?: bigint;
+    /** The recipient already holds this token, so its balance row exists and costs nothing. Default false. */
+    recipientHoldsToken?: boolean;
+    /**
+     * The recipient is an NFT-derived address, which means an infusion. The chain reads that NFT's
+     * owner, and that costs one extra query fee. Transfers and every mint kind pay it. A burn has no
+     * recipient.
+     *
+     * This is a fact of the recipient's address form. It says nothing about chain state. `planFees`
+     * derives it from the message's own recipient with `TokenHelper.isNftAddress`, so only direct
+     * callers of this calculator pass it.
+     */
+    toIsNftAddress?: boolean;
+    /**
+     * The token's balances can exceed int64. Such a token is called big-fungible.
+     *
+     * A fungible mint or burn answers with the RESULTING balance as a variable-length integer. That is
+     * 9 bytes while the balance fits int64, and up to 33 bytes for an int256 balance. The resulting
+     * balance is chain state, so the default prices the 33-byte maximum. The offer then covers the
+     * bill and the difference is refunded. Pass `false` for an ordinary int64 token and the estimate
+     * is exact.
+     */
+    bigFungible?: boolean;
+    /** The token has been burned before, so its burnt counter row exists. Default false (first burn creates it). */
+    tokenBurnedBefore?: boolean;
+    /**
+     * The token's supply-tracking row exists. The chain drops that row when its balance reaches
+     * exactly zero, so the row can be absent in two cases. A limited-supply token has its entire
+     * supply in circulation, and the next burn recreates the row. An unlimited token has nothing
+     * outstanding, and the next mint recreates it.
+     *
+     * When this fact is unstated, every mint and burn prices the recreation. That is one more storage
+     * quantum in the bill and in the escrow ceiling, and it covers both cases. Pass `true` for the
+     * exact quote whenever the token is in neither of them. Rows of the chain's gas and data tokens
+     * are free either way.
+     */
+    supplyRowExists?: boolean;
+    /**
+     * What the burned NFTs hold at their own addresses (BurnNonFungible). There is one entry per
+     * asset per burned instance.
+     *
+     * The burn returns every one of them to the burner, and the chain charges for each. A fungible
+     * token costs a transfer fee plus the owner-lookup query of the NFT-address source. An NFT token
+     * costs an instance query, a transfer per instance, and that same lookup. A returned token the
+     * burner does not hold also costs the burner's new balance row.
+     *
+     * This is chain state that the message does not carry, and an NFT can hold any number of assets,
+     * so there is no costlier bound to assume. Undefined prices an empty address, because a direct
+     * caller of this calculator states what it knows. `planFees` demands the list, and `api.fees`
+     * reads it from the chain.
+     */
+    infusions?: readonly InfusedAsset[];
+    /** Token symbol length in characters (CreateToken). 0 = no symbol. */
+    symbolLength?: number;
+    /** Serialized `TokenInfo` length (CreateToken). These are the Call arguments, and they become the
+     * token-info row. */
+    tokenInfoBytes?: number;
+    /** The token being created is non-fungible (CreateToken). It costs one more row, the series
+     * counter. */
+    nonFungible?: boolean;
+    /** The token metadata carries `pre_burn` (CreateToken). The burnt counter row is then created at
+     * once. */
+    hasPreBurn?: boolean;
+    /** The token metadata carries an inflation schedule (CreateToken). The next-inflation row is then
+     * created. */
+    hasInflationSchedule?: boolean;
+    /** The token metadata names a staking organisation (CreateToken). The creation looks that
+     * organisation up, which costs one query fee. */
+    hasStakingOrganisation?: boolean;
+    /** The token metadata names a staking reward token (CreateToken). The creation reads that token's
+     * info, which costs one query fee. */
+    hasStakingRewardToken?: boolean;
+    /** Serialized `SeriesInfo` length (CreateTokenSeries). These are the Call arguments after the
+     * token id. */
+    seriesInfoBytes?: number;
+    /**
+     * The series metadata carries a `_i` id (CreateTokenSeries). The meta-id lookup row is then
+     * created. The metadata is schema-encoded like the ROM, so a caller holding only the bytes cannot
+     * tell. The default is true, which is the reading that pays for the row.
+     */
+    seriesHasMetaId?: boolean;
+    /** Registered name length in characters (RegisterName). Required for that kind. */
+    nameLength?: number;
+    /** ROM bytes per minted or burned instance (MintNonFungible / BurnNonFungible: as stored; MintPhantasmaNonFungible: the public ROM). */
+    romBytes?: number | readonly number[];
+    /** RAM bytes per instance. Default 0 (no RAM row). */
+    ramBytes?: number | readonly number[];
+    /**
+     * The raw ROM carries a `_i` id, and the chain indexes it in one more row (MintNonFungible /
+     * BurnNonFungible). The ROM is schema-encoded, so a caller holding only the bytes cannot tell.
+     *
+     * The default is true. On a mint that is the reading which escrows for the row. On a burn it is
+     * the reading that mirrors what the mint created. A burn never prices on this fact either way
+     * (see {@link NativeFeeEstimate.deletedStorageQuanta}). A Phantasma mint always has such an id and
+     * ignores this input.
+     */
+    romHasMetaId?: boolean;
+    /**
+     * The series mints duplicated NFTs (MintPhantasmaNonFungible). A duplicated series costs one more
+     * query fee per instance than a unique one, plus one per distinct series (see
+     * {@link distinctSeriesCount}). A call whose instances mix duplicated and unique series is priced
+     * as if every instance were duplicated.
+     *
+     * Default true. A series' mode is chain state that the message does not carry, so only the
+     * costlier reading is safe. A duplicated mint priced as unique is short by exactly those query
+     * fees, and the planner offers the bill with no headroom, so the transaction aborts. Pass `false`
+     * only when the series is known to be unique. The saving is a few query fees.
+     */
+    duplicatedSeries?: boolean;
+    /**
+     * How many distinct series a duplicated Phantasma mint writes into (MintPhantasmaNonFungible with
+     * `duplicatedSeries`). The chain reads each series' supply once per transaction, not once per
+     * instance, so this is the count of distinct series ids in the call. It is never more than
+     * `count`. Default 1. Ignored for a unique series, which does not read the supply at all.
+     */
+    distinctSeriesCount?: number;
+    /** User payload bytes attached to the tx (billed under gas model v1 only). */
+    payloadBytes?: number;
+    /**
+     * VM work-unit allowance for the Script kind. The default (5000) exceeds every script seen in
+     * mainnet history (max 3392 units) with margin.
+     *
+     * In a `Call_Multi` the allowance counts once per unmodelled call, because each of them can do
+     * that much work. A batch of calls the model does not price therefore offers several times what it
+     * will spend. The localnet measured 4.2x for one such call and 10.1x for ten. The difference is
+     * refunded, and a caller who knows the calls can bring the offer down with this field.
+     */
+    scriptUnitsAllowance?: bigint;
+    /**
+     * Event bytes allowance for the Script kind (Notify payloads count as block data). Default 512,
+     * per unmodelled call like {@link scriptUnitsAllowance}.
+     */
+    scriptEventBytes?: number;
+    /**
+     * New storage quanta allowance for the Script kind. Default 4, per unmodelled call like
+     * {@link scriptUnitsAllowance}.
+     */
+    scriptStorageQuanta?: number;
+}
+```
+
+```ts
+export interface NativeFeePart {
+    kind: NativeFeeKind;
+    params?: NativeFeeParams;
+}
+```
+
+```ts
+export type NativeFeeTransactionParams = Pick<NativeFeeParams, 'envelopeBytes' | 'payloadBytes'>;
+```
+
+```ts
+export interface InfusedAsset {
+    /**
+     * The token's id. Rows of the chain's gas and data tokens are free, and only the id tells which
+     * token this is. Undefined prices the rows as paid, so the escrow ceiling can only come out too
+     * high.
+     */
+    tokenId?: bigint;
+    /** True for an NFT token. The burn returns every instance the address holds, see
+     * `instanceCount`. */
+    nonFungible?: boolean;
+    /** How many instances of an NFT token the address holds. Each one costs a transfer and moves a
+     * lookup row. Default 1. */
+    instanceCount?: number;
+    /**
+     * The burner already holds this token, so no balance row is created when it comes back. Default
+     * false, which is the costlier reading. It moves the escrow ceiling and never the bill, because a
+     * burn refunds more rows than the return creates.
+     */
+    burnerHoldsToken?: boolean;
+}
+```
+
+```ts
+export interface FeeQuote {
+    /**
+     * The gas offer that covers the bill (`TxMsg.maxGas`). The Tier-1 calculator returns the bill
+     * itself, floored at the chain's minimum offer. Unused gas is refunded, so a caller who wants
+     * headroom adds it on top.
+     */
+    maxGas: bigint;
+    /** The storage-escrow ceiling (`TxMsg.maxData`). It prices every new row at the current row
+     * price. */
+    maxData: bigint;
+    /**
+     * The bill the chain formula yields for exactly the provided inputs. It is exact for every native
+     * operation when the inputs describe the transaction and the state facts are right. For the Script
+     * kind it is the budgeted allowance, and the chain settles below it.
+     *
+     * One caveat on the word exact. The chain scales each charge as it is made and adds the results.
+     * This calculator scales their sum. The two agree when `feeShift` is zero, and that is the case on
+     * every network running the v2 model today. Under a non-zero shift the rounding differs. The
+     * difference always goes one way: this calculator quotes a few units MORE than the chain settles,
+     * so the offer still covers the bill.
+     */
+    expectedGasBill: bigint;
+}
+```
+
+```ts
+export interface NativeFeeEstimate extends FeeQuote {
+    /** Storage quanta the operation creates. One quantum is 1024 bytes of a new paid row. */
+    newStorageQuanta: number;
+    /**
+     * Storage quanta the operation deletes. Their escrow is refunded at each row's own price.
+     *
+     * The field is informational and does not enter the bill. `maxData` covers the rows an operation
+     * CREATES. The block-data term uses the net growth, and an operation that deletes more than it
+     * creates floors that growth at zero anyway.
+     *
+     * A burn's figure is a lower bound, because the stored ROM is chain state that the message does
+     * not carry. Nothing depends on tightening it.
+     */
+    deletedStorageQuanta: number;
+}
+```
+
+```ts
+export declare const GAS_MODEL_V2_UNITS_PER_BLOCK_DATA_BYTE = 25n;
+```
+
+```ts
+export declare const STORAGE_QUANTUM_BYTES = 1024;
+```
+
+```ts
+export declare const WITNESS_ARRAY_ENTRY_BYTES = 96;
+```
+
+```ts
+export declare const NATIVE_SIGNATURE_BYTES = 64;
+```
+
+```ts
+export declare function estimateNativeFee(kind: NativeFeeKind, config: GasConfig, params?: NativeFeeParams): NativeFeeEstimate;
+```
+
+```ts
+export declare function estimateNativeFeeBatch(parts: readonly NativeFeePart[], config: GasConfig, transaction?: NativeFeeTransactionParams): NativeFeeEstimate;
+```
+
+```ts
+export declare function envelopeBytesFor(kind: NativeFeeKind, serializedMessageLength: number, witnessCount: number): number;
+```
+
+```ts
+export declare function storageQuantaFor(rowBytes: number): number;
+```
+
+```ts
+export declare function phantasmaCanonicalRomBytes(publicRomBytes: number): number;
+```
+
+## phantasma-sdk-ts/types/carbon/blockchain/tx-helpers/native-tx-helper
+
+Source: `dist/types/types/carbon/blockchain/tx-helpers/native-tx-helper.d.ts`
+
+### Declarations
+
+```ts
+export interface NativeTxParties extends TxLimits {
+    /** The account whose tokens move. It is always a witness. */
+    from: Bytes32;
+    /** A different account that pays the gas and becomes the first witness. */
+    gasPayer?: Bytes32;
+}
+```
+
+```ts
+export interface TransferFungibleParams extends NativeTxParties {
+    to: Bytes32;
+    tokenId: bigint;
+    /** Amount in the token's atoms, as a u64. A big-fungible token needs a script transfer
+     * instead. */
+    amount: bigint;
+}
+```
+
+```ts
+export interface TransferNonFungibleParams extends NativeTxParties {
+    to: Bytes32;
+    tokenId: bigint;
+    /** The instances to move. One instance uses the single-instance type. Several use the
+     * multi-instance type. */
+    instanceIds: readonly bigint[];
+}
+```
+
+```ts
+export interface MintFungibleParams extends TxLimits {
+    /** The token owner. This account pays the gas and signs. */
+    owner: Bytes32;
+    to: Bytes32;
+    tokenId: bigint;
+    /** Amount in the token's atoms. Mint and burn carry an IntX, because they also serve
+     * big-fungible tokens, whose balances do not fit a u64. `IntX.fromI64` wraps an ordinary
+     * amount. */
+    amount: IntX;
+}
+```
+
+```ts
+export interface BurnFungibleParams extends NativeTxParties {
+    tokenId: bigint;
+    /** Amount in the token's atoms, as an IntX. The reason is the same as for a mint. */
+    amount: IntX;
+}
+```
+
+```ts
+export interface BurnNonFungibleParams extends NativeTxParties {
+    tokenId: bigint;
+    instanceId: bigint;
+}
+```
+
+```ts
+export declare class NativeTxHelper {
+    static transferFungible(p: TransferFungibleParams): TxMsg;
+    static transferNonFungible(p: TransferNonFungibleParams): TxMsg;
+    static mintFungible(p: MintFungibleParams): TxMsg;
+    static burnFungible(p: BurnFungibleParams): TxMsg;
+    static burnNonFungible(p: BurnNonFungibleParams): TxMsg;
+}
+```
+
+## phantasma-sdk-ts/types/carbon/blockchain/tx-helpers/plan-and-sign
+
+Source: `dist/types/types/carbon/blockchain/tx-helpers/plan-and-sign.d.ts`
+
+### Declarations
+
+```ts
+export type PlanAndSignOptions = FeePlanOptions & TxLimits;
+```
+
+```ts
+export declare function planAndSignWithKeys(msg: TxMsg, keys: PhantasmaKeys[], config: GasConfig, options?: PlanAndSignOptions): Uint8Array;
+```
+
+## phantasma-sdk-ts/types/carbon/blockchain/tx-helpers/tx-limits
+
+Source: `dist/types/types/carbon/blockchain/tx-helpers/tx-limits.d.ts`
+
+### Declarations
+
+```ts
+export interface TxLimits {
+    /** Gas offer in kcal-base (`TxMsg.maxGas`). Default 0, which means unplanned. */
+    maxGas?: bigint;
+    /** Storage-escrow ceiling in data-token atoms (`TxMsg.maxData`). Default 0. */
+    maxData?: bigint;
+    /**
+     * Expiry as a millisecond timestamp (`TxMsg.expiry`). Default {@link DEFAULT_TX_EXPIRY_MS} from
+     * now.
+     *
+     * A flow with a person in it should set this from the chain's own window instead. Examples are a
+     * hardware wallet confirming and a wallet-link round trip. See {@link expiryWithin}.
+     */
+    expiry?: bigint;
+}
+```
+
+```ts
+export declare function applyTxLimits(msg: TxMsg, limits?: TxLimits): TxMsg;
+```
+
+```ts
+export declare const DEFAULT_TX_EXPIRY_MS = 45000;
+```
+
+```ts
+export declare function defaultExpiry(): bigint;
+```
+
+```ts
+export declare function expiryWithin(expiryWindowMs: number, marginMs?: number): bigint;
 ```
 
 ## phantasma-sdk-ts/types/carbon/blockchain/tx-msg-burn-fungible-gas-payer
@@ -9066,6 +10612,10 @@ export * from './logger.js';
 ```
 
 ```ts
+export * from './units.js';
+```
+
+```ts
 export declare function reverseHex(hex: string): string;
 ```
 
@@ -9148,6 +10698,20 @@ export declare const logger: Required<Logger>;
 
 ```ts
 export declare function setLogger(custom?: Logger): void;
+```
+
+## phantasma-sdk-ts/utils/units
+
+Source: `dist/types/utils/units.d.ts`
+
+### Declarations
+
+```ts
+export declare function parseUnits(value: string | number | bigint, decimals: number): bigint;
+```
+
+```ts
+export declare function formatUnits(atoms: bigint, decimals: number): string;
 ```
 
 ## phantasma-sdk-ts/utils/validation-utils

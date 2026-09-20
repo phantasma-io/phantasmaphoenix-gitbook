@@ -9,14 +9,17 @@ Use the TS SDK in Node.js or server-side tooling to build scripts, sign transact
 3. Create and sign a `Transaction`.
 4. Broadcast with `sendRawTransaction` and poll `getTransaction` for execution state.
 
-For Carbon token flows, use the Carbon helpers and `sendCarbonTransaction`.
+For Carbon flows, build the message with a Carbon helper and pass it to
+`sendTransaction`, which plans the fee, signs and broadcasts. Use
+`sendCarbonTransaction` when the envelope is already signed and serialized.
 
 {% hint style="info" %}
 Start with the step-by-step guide: [Quickstart](../quickstart.md).
 {% endhint %}
 
 {% hint style="info" %}
-For Carbon token flows, see [Carbon Workflows](../carbon-workflows.md).
+For Carbon token flows, see [Carbon Workflows](../carbon-workflows.md) and
+[Fees And Broadcasting](../fees-and-broadcasting.md).
 {% endhint %}
 
 ## Examples

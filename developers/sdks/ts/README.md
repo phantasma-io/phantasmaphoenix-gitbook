@@ -33,6 +33,10 @@ API Overview
 Carbon Workflows
 {% endcontent-ref %}
 
+{% content-ref url="/developers/sdks/ts/fees-and-broadcasting.md" %}
+Fees And Broadcasting
+{% endcontent-ref %}
+
 {% content-ref url="/developers/sdks/ts/reference/README.md" %}
 Complete API Reference
 {% endcontent-ref %}

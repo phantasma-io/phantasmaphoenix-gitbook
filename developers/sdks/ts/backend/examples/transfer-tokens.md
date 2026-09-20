@@ -1,6 +1,15 @@
 # Transfer Tokens
 
-Here's an example how to make a Token transfer.
+Here's an example how to make a Token transfer through a VM script.
+
+{% hint style="info" %}
+A Carbon token transfer needs no VM script. Build it with
+`NativeTxHelper.transferFungible` and send it with
+`PhantasmaAPI.sendTransaction`. A native transfer is priced exactly from the
+message. A VM script can only be budgeted, because its work depends on
+execution. See
+[Fees And Broadcasting](/developers/sdks/ts/fees-and-broadcasting.md).
+{% endhint %}
 
 ```ts
 import {

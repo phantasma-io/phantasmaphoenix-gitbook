@@ -29,18 +29,22 @@ const targetNftAddress = new Bytes32(hexToBytes(target.carbonNftAddress));
 If you already have the Carbon instance ID (from minting), build the address locally:
 
 ```ts
-import { TokenHelper } from "phantasma-sdk-ts/types";
+import { TokenHelper } from "phantasma-sdk-ts/public";
 
 const targetNftAddress = TokenHelper.getNftAddress(carbonTokenId, carbonInstanceId);
 ```
 
-If you just minted the NFT, you can parse the result and use the returned `Bytes32` address directly:
+If you just minted the NFT, read the instance id out of the mint result and
+build the address from it:
 
 ```ts
-import { MintNonFungibleTxHelper } from "phantasma-sdk-ts/types";
+import {
+  MintPhantasmaNonFungibleTxHelper,
+  TokenHelper,
+} from "phantasma-sdk-ts/public";
 
-const carbonNftAddresses = MintNonFungibleTxHelper.parseResult(carbonTokenId, txInfo.result);
-const targetNftAddress = carbonNftAddresses[0];
+const minted = MintPhantasmaNonFungibleTxHelper.parseResult(txInfo.result);
+const targetNftAddress = TokenHelper.getNftAddress(carbonTokenId, minted[0].carbonInstanceId);
 ```
 
 ## Step 2: Infuse NFTs (Carbon transfer)
@@ -50,20 +54,12 @@ Carbon transfer uses **carbon token IDs** and **carbon instance IDs** (not the P
 
 ```ts
 import {
+  Bytes32,
+  NativeTxHelper,
   PhantasmaAPI,
-  bytesToHex,
+  PhantasmaKeys,
   hexToBytes,
 } from "phantasma-sdk-ts/public";
-import {
-  Bytes32,
-  FeeOptions,
-  PhantasmaKeys,
-  SmallString,
-  TxMsg,
-  TxMsgSigner,
-  TxMsgTransferNonFungibleSingle,
-  TxTypes,
-} from "phantasma-sdk-ts/types";
 
 export async function infuseSingleNft() {
   const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, "testnet");
@@ -77,55 +73,39 @@ export async function infuseSingleNft() {
   const infusedTokenId = 555n; // carbon token id of the NFT you are infusing
   const infusedInstanceId = 42n; // carbon instance id of the NFT you are infusing
 
-  const fee = new FeeOptions();
-  const expiry = BigInt(Date.now() + 60_000);
-
-  const msg = new TxMsgTransferNonFungibleSingle({
+  const msg = NativeTxHelper.transferNonFungible({
+    from: senderPk,
     to: targetNftAddress,
     tokenId: infusedTokenId,
-    instanceId: infusedInstanceId,
+    instanceIds: [infusedInstanceId],
   });
 
-  const tx = new TxMsg(
-    TxTypes.TransferNonFungible_Single,
-    expiry,
-    fee.calculateMaxGas(1),
-    0n,
-    senderPk,
-    SmallString.empty,
-    msg,
-  );
-
-  const signed = TxMsgSigner.signAndSerialize(tx, signer);
-  const txHash = await rpc.sendCarbonTransaction(bytesToHex(signed));
-  return txHash;
+  return await rpc.sendTransaction(msg, signer);
 }
 ```
 
-If you want to infuse multiple instances of the same token ID, use `TxMsgTransferNonFungibleMulti`.
-If you need multiple token IDs in a single transaction, use `TxMsgCallMulti` with `TokenContract_Methods.TransferNonFungible` (see `token-deployment-frontend/src/lib/phantasma/infuse.ts`).
+`transferNonFungible` picks the single-instance type for one instance and the
+multi-instance type for several. `sendTransaction` plans the fee from the
+message, signs it and broadcasts it.
+
+To infuse several instances of the same token ID, pass them all in
+`instanceIds`. To infuse several token IDs in one transaction, build a
+`TxMsgCallMulti` with `TokenContractMethods.TransferNonFungible`. The chain
+bills a batch as the sum of its calls, with the envelope counted once.
 
 ## Step 3: Infuse fungible tokens (Carbon transfer)
 
-Fungible infusion is also a transfer to the target NFT address, but it uses `TxMsgTransferFungible`.
-`amount` is an integer in token base units.
+Fungible infusion is also a transfer to the target NFT address. It uses the
+fungible transfer builder. `amount` is an integer in the token's atoms.
 
 ```ts
 import {
+  Bytes32,
+  NativeTxHelper,
   PhantasmaAPI,
-  bytesToHex,
+  PhantasmaKeys,
   hexToBytes,
 } from "phantasma-sdk-ts/public";
-import {
-  Bytes32,
-  FeeOptions,
-  PhantasmaKeys,
-  SmallString,
-  TxMsg,
-  TxMsgSigner,
-  TxMsgTransferFungible,
-  TxTypes,
-} from "phantasma-sdk-ts/types";
 
 export async function infuseFungible() {
   const rpc = new PhantasmaAPI("https://testnet.phantasma.info/rpc", null, "testnet");
@@ -137,28 +117,20 @@ export async function infuseFungible() {
   const targetNftAddress = new Bytes32(hexToBytes(target.carbonNftAddress));
 
   const fungibleTokenId = 777n; // carbon token id for the fungible token
-  const amount = 1_000_000n;
+  const amount = 1_000_000n; // in the token's atoms
 
-  const fee = new FeeOptions();
-  const expiry = BigInt(Date.now() + 60_000);
+  const msg = NativeTxHelper.transferFungible({
+    from: senderPk,
+    to: targetNftAddress,
+    tokenId: fungibleTokenId,
+    amount,
+  });
 
-  const msg = new TxMsgTransferFungible(targetNftAddress, fungibleTokenId, amount);
-
-  const tx = new TxMsg(
-    TxTypes.TransferFungible,
-    expiry,
-    fee.calculateMaxGas(),
-    0n,
-    senderPk,
-    SmallString.empty,
-    msg,
-  );
-
-  const signed = TxMsgSigner.signAndSerialize(tx, signer);
-  const txHash = await rpc.sendCarbonTransaction(bytesToHex(signed));
-  return txHash;
+  return await rpc.sendTransaction(msg, signer);
 }
 ```
+
+`parseUnits(value, decimals)` converts a decimal amount into atoms.
 
 ## Step 4: Verify infusion
 
