@@ -70,11 +70,16 @@ older page/page-size endpoints such as auctions and address transaction history.
 | `OracleResult` | `URL`, `Content` |
 | `SignatureResult` | `Kind`, `Data` |
 | `TransactionResult` | `Hash`, `ChainAddress`, `Timestamp`, `BlockHeight`, `BlockHash`, `Script`, `Payload`, `CarbonTxType`, `CarbonTxData`, optional `DebugComment`, `Events`, `ExtendedEvents`, `State`, `Result`, `Fee`, `Signatures`, `Sender`, `GasPayer`, `GasTarget`, `GasPrice`, `GasLimit`, `Expiration`; helpers: `StateIsSuccess`, `StateIsFault` |
-| `BlockResult` | `Hash`, `PreviousHash`, `Timestamp`, `Height`, `ChainAddress`, `Protocol`, `Txs`, `ValidatorAddress`, `Reward`, optional `Events`, optional `Oracles` |
+| `BlockResult` | `Hash`, `PreviousHash`, `Timestamp`, `Height`, `ChainAddress`, `Protocol`, `Txs`, `ValidatorAddress`, optional `ProducerAddress`, `Reward`, optional `Events`, optional `Oracles` |
 | `ScriptResult` | `Events`, `Result`, `Results`, `Oracles`, optional `Error`, optional `State`, optional `Gas`; helpers: VM result decoding |
 
 For a contract event, `Kind` is `Custom_V2` and `Name` is the event name the
 contract declared. For every other event, `Name` repeats `Kind`.
+
+`ProducerAddress` is the fee payout address that the block producer stamped inside
+the hashed block input. It is set on gas model v2 blocks and `nil` on
+earlier blocks. It is a different field from `ValidatorAddress`, which names the
+consensus-log leader. Do not assume the two are equal.
 
 ## Token, NFT, Schema, And Price Models
 

@@ -104,7 +104,7 @@ inspection flows.
 | `OracleResult` | `url`, `content` |
 | `SignatureResult` | `kind`, `data` |
 | `TransactionResult` | `hash`, `chain_address`, `timestamp`, `block_height`, `block_hash`, `script`, `payload`, `carbon_tx_type`, `carbon_tx_data`, optional `debug_comment`, `events`, `extended_events`, `state`, `result`, `fee`, `signatures`, `sender`, `gas_payer`, `gas_target`, `gas_price`, `gas_limit`, `expiration`; helpers: `state_is_success()`, `state_is_fault()` |
-| `BlockResult` | `hash`, `previous_hash`, `timestamp`, `height`, `chain_address`, `protocol`, `txs`, `validator_address`, `reward`, optional `events`, optional `oracles` |
+| `BlockResult` | `hash`, `previous_hash`, `timestamp`, `height`, `chain_address`, `protocol`, `txs`, `validator_address`, optional `producer_address`, `reward`, optional `events`, optional `oracles` |
 | `ScriptResult` | `events`, optional `result`, `results`, `oracles`, optional `error`, optional `state`, optional `gas`; helpers: `decode_result()`, `decode_results(index)` |
 
 `ScriptResult::decode_result()` and `decode_results(index)` decode VM object
@@ -112,6 +112,11 @@ bytes with `VMObject`.
 
 For a contract event, `kind` is `Custom_V2` and `name` is the event name the
 contract declared. For every other event, `name` repeats `kind`.
+
+`producer_address` is the fee payout address that the block producer stamped inside
+the hashed block input. It is set on gas model v2 blocks and `None` on
+earlier blocks. It is a different field from `validator_address`, which names the
+consensus-log leader. Do not assume the two are equal.
 
 `TransactionResult` is the record to poll after broadcasting. Use
 `state_is_success()` and `state_is_fault()` to classify finalized execution

@@ -211,12 +211,19 @@ Parsed strictly from `PhantasmaAPI.h` (namespace `phantasma::rpc`). Comments sho
   *type:* `PHANTASMA_VECTOR<Transaction>`
 - **validatorAddress**
   *type:* `String`
+- **producerAddress**
+  *type:* `String`
 - **reward**
   *type:* `String`
 - **events**
   *type:* `PHANTASMA_VECTOR<Event>`
 - **oracles**
   *type:* `PHANTASMA_VECTOR<Oracle>`
+
+`producerAddress` is the fee payout address that the block producer stamped inside
+the hashed block input. It is set on gas model v2 blocks and empty on
+earlier blocks. It is a different field from `validatorAddress`, which names the
+consensus-log leader. Do not assume the two are equal.
 
 ---
 

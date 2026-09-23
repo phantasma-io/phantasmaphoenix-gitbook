@@ -40,13 +40,18 @@ Common callback result types include:
 | `AccountResult` | `Address`, `Name`, `Stakes`, `Stake`, `Unclaimed`, optional `Relay`, `Validator`, `Storage`, `Balances`, optional `Txs`. |
 | `BalanceResult` | `Chain`, `Amount`, `Symbol`, `Decimals`, optional `Ids`. |
 | `CursorPaginatedResult<T>` | `Result` plus cursor text for account token/NFT and token series/NFT pagination. |
-| `BlockResult` | `Hash`, `PreviousHash`, `Timestamp`, `Height`, `ChainAddress`, `Protocol`, `Txs`, `ValidatorAddress`, `Reward`, optional `Events`, optional `Oracles`. |
+| `BlockResult` | `Hash`, `PreviousHash`, `Timestamp`, `Height`, `ChainAddress`, `Protocol`, `Txs`, `ValidatorAddress`, optional `ProducerAddress`, `Reward`, optional `Events`, optional `Oracles`. |
 | `TransactionResult` | `Hash`, `ChainAddress`, `Timestamp`, `BlockHeight`, `BlockHash`, `Script`, `CarbonTxType`, `CarbonTxData`, `Payload`, optional `DebugComment`, `Events`, `ExtendedEvents`, `Result`, `Fee`, `State`, optional `Signatures`, `Sender`, `GasPayer`, `GasTarget`, `GasPrice`, `GasLimit`, `Expiration`. |
 | `ScriptResult` | `Events`, optional `Result`, optional `Error`, `Results`, `Oracles`, optional `State`, optional `Gas`. |
 | `TokenResult` | `Symbol`, `Name`, `Decimals`, `CurrentSupply`, `MaxSupply`, `BurnedSupply`, `Address`, `Owner`, `Flags`, optional `Script`, `Series`, `CarbonId`, optional `Metadata`, optional `TokenSchemas`, optional `External`, optional `Price`, and token-flag helpers. |
 | `TokenSeriesResult` | `SeriesId`, `carbonTokenId`, `carbonSeriesId`, `OwnerAddress`, `MaxMint`, `MintCount`, `CurrentSupply`, `MaxSupply`, optional `BurnedSupply`, optional `Mode`, optional `Script`, optional `Methods`, `Metadata`. |
 | `TokenDataResult` | `Id`, `Series`, `carbonTokenId`, `carbonSeriesId`, `carbonNftAddress`, `Mint`, `ChainName`, `OwnerAddress`, `CreatorAddress`, `Ram`, `Rom`, `Status`, `Infusion`, `Properties`. |
 | `AuctionResult`, `ContractResult`, `ArchiveResult` | Marketplace listing, contract ABI, and archive storage response models. |
+
+`ProducerAddress` is the fee payout address that the block producer stamped inside
+the hashed block input. It is set on gas model v2 blocks and `null` on
+earlier blocks. It is a different field from `ValidatorAddress`, which names the
+consensus-log leader. Do not assume the two are equal.
 
 ## Wallet Link Types
 
