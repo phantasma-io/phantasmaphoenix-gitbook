@@ -14,6 +14,7 @@ If you're building in TS, start here:
 
 Then use these pages as needed:
 
+- [Phantasma Link v5 (TS)](/developers/sdks/ts/frontend/phantasma-link-v5.md)
 - [Phantasma Link (TS)](/developers/sdks/ts/shared-methods/phantasmalink.md)
 - [EasyConnect (TS)](/developers/sdks/ts/shared-methods/easyconnect.md)
 - [React Wallet Connection](/developers/sdks/ts/frontend/connect-react.md)
@@ -21,9 +22,11 @@ Then use these pages as needed:
 
 ## Phantasma Link v5
 
-Phantasma Link v5 is the current protocol generation. It keeps the same goal — signing on the user's behalf without exposing the private key — but replaces the v1-v4 string protocol with a structured JSON envelope: typed parameters, numeric error codes, capability negotiation, end-to-end encryption, and revocable sessions. It uses two transports:
+Phantasma Link v5 is the current protocol generation. The wallet still signs on the user's behalf and never exposes the private key. v5 replaces the v1-v4 string protocol with a structured JSON envelope: typed parameters, numeric error codes, capability negotiation, end-to-end encryption, and revocable sessions. The same envelope travels over four transports:
 
-- **Deeplink** ping-pong (app to app): the primary path. It works on iOS and keeps signing working even when the relay is down.
+- **Injected**: a browser extension wallet.
+- **Loopback**: a WebSocket to a desktop wallet on the same machine.
+- **Deeplink** ping-pong (app to app): the primary path on mobile. It works on iOS and keeps signing working even when the relay is down.
 - **Relay**: for large payloads and cross-device flows.
 
 v5 also raises the request size limit from about 32 KB to the chain ceiling (1 MiB metadata, 32 MiB transaction). The TypeScript SDK is the reference implementation, exposed under the `phantasma-sdk-ts/link/v5` entry point, and the full protocol is specified in `spec/phantasma-link-v5.md` in that SDK.
@@ -58,5 +61,5 @@ The dApp ends the session. The wallet clears the session token and cached accoun
 
 Use the SDK pages for the concrete method signatures and examples:
 
-- TypeScript: [Phantasma Link](/developers/sdks/ts/shared-methods/phantasmalink.md), [EasyConnect](/developers/sdks/ts/shared-methods/easyconnect.md)
+- TypeScript: [Phantasma Link v5](/developers/sdks/ts/frontend/phantasma-link-v5.md), [Phantasma Link](/developers/sdks/ts/shared-methods/phantasmalink.md), [EasyConnect](/developers/sdks/ts/shared-methods/easyconnect.md)
 - Unity: [Unity Link Client](/developers/sdks/unity/reference/link-client.md)

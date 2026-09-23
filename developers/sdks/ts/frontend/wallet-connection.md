@@ -1,17 +1,19 @@
 # Wallet Connection
 
-Use the Phantasma Link protocol to connect a browser dApp to a wallet. The TS SDK exposes three layers of that same connection stack.
+Use the Phantasma Link protocol to connect a browser dApp to a wallet. The TS SDK exposes the v5 client and three layers of the v1-v4 connection stack.
 
 ## Choose A Layer
 
 | Layer | Package | Best For | Docs |
 | --- | --- | --- | --- |
+| `PhantasmaLink5` | `phantasma-sdk-ts/link/v5` | the v5 protocol: encrypted deeplink and relay transports, sessions, typed requests, numeric error codes | [Phantasma Link v5](/developers/sdks/ts/frontend/phantasma-link-v5.md) |
 | `PhantasmaLink` | `phantasma-sdk-ts` | direct control over transport, wallet requests, and signing | [Phantasma Link](/developers/sdks/ts/shared-methods/phantasmalink.md) |
 | `EasyConnect` | `phantasma-sdk-ts` | smaller browser wrapper with Carbon and prebuilt signing helpers | [EasyConnect](/developers/sdks/ts/shared-methods/easyconnect.md) |
 | `@phantasma/connect-react` | `@phantasma/connect-react` | React apps, transport selection, restore support, widget UI | [React Wallet Connection](/developers/sdks/ts/frontend/connect-react.md) |
 
 ## Quick Choice
 
+- Wallet that speaks Phantasma Link v5 -> `PhantasmaLink5`
 - React app -> `@phantasma/connect-react`
 - Non-React app, ordinary browser flow -> `EasyConnect`
 - Need direct wallet control or exact low-level signing flow -> `PhantasmaLink`

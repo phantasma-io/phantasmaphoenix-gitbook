@@ -160,6 +160,7 @@
       - [Frontend Guide](developers/sdks/ts/frontend/frontend.md)
         - [Wallet Connection](developers/sdks/ts/frontend/wallet-connection.md)
         - [Phantasma Link](developers/sdks/ts/shared-methods/phantasmalink.md)
+        - [Phantasma Link v5](developers/sdks/ts/frontend/phantasma-link-v5.md)
         - [EasyConnect](developers/sdks/ts/shared-methods/easyconnect.md)
         - [React Wallet Connection](developers/sdks/ts/frontend/connect-react.md)
         - Examples
