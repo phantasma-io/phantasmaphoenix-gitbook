@@ -41,6 +41,7 @@ Common callback result types include:
 | `BalanceResult` | `Chain`, `Amount`, `Symbol`, `Decimals`, optional `Ids`. |
 | `CursorPaginatedResult<T>` | `Result` plus cursor text for account token/NFT and token series/NFT pagination. |
 | `BlockResult` | `Hash`, `PreviousHash`, `Timestamp`, `Height`, `ChainAddress`, `Protocol`, `Txs`, `ValidatorAddress`, optional `ProducerAddress`, `Reward`, optional `Events`, optional `Oracles`. |
+| `EventResult` | `Address`, `Contract`, `Kind`, `Name`, `Data`. |
 | `TransactionResult` | `Hash`, `ChainAddress`, `Timestamp`, `BlockHeight`, `BlockHash`, `Script`, `CarbonTxType`, `CarbonTxData`, `Payload`, optional `DebugComment`, `Events`, `ExtendedEvents`, `Result`, `Fee`, `State`, optional `Signatures`, `Sender`, `GasPayer`, `GasTarget`, `GasPrice`, `GasLimit`, `Expiration`. |
 | `ScriptResult` | `Events`, optional `Result`, optional `Error`, `Results`, `Oracles`, optional `State`, optional `Gas`. |
 | `TokenResult` | `Symbol`, `Name`, `Decimals`, `CurrentSupply`, `MaxSupply`, `BurnedSupply`, `Address`, `Owner`, `Flags`, optional `Script`, `Series`, `CarbonId`, optional `Metadata`, optional `TokenSchemas`, optional `External`, optional `Price`, and token-flag helpers. |
@@ -52,6 +53,9 @@ Common callback result types include:
 the hashed block input. It is set on gas model v2 blocks and `null` on
 earlier blocks. It is a different field from `ValidatorAddress`, which names the
 consensus-log leader. Do not assume the two are equal.
+
+For a contract event, `Kind` is `Custom_V2` and `Name` is the event name the
+contract declared. For every other event, `Name` repeats `Kind`.
 
 ## Wallet Link Types
 

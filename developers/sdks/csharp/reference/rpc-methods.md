@@ -36,6 +36,7 @@ response ids, rejects responses that omit `result`, and enforces
 | `AccountInfoResult` | `Address`, `Name`, `Stake` |
 | `AccountResult` | `Address`, `Name`, `Stakes`, `Stake`, `Unclaimed`, optional `Relay`, `Validator`, `Storage`, `Balances`, optional `Txs` |
 | `BlockResult` | `Hash`, `PreviousHash`, `Timestamp`, `Height`, `ChainAddress`, `Protocol`, `Txs`, `ValidatorAddress`, optional `ProducerAddress`, `Reward`, optional `Events`, optional `Oracles` |
+| `EventResult` | `Address`, `Contract`, `Kind`, `Name`, `Data` |
 | `GasConfigResult` | `GasModelVersion`, optional `GasConfig` of type `GasConfigDataResult`, `BlockRateTarget`, `ExpiryWindow`, optional `UnitsPerBlockDataByte`, and `ToGasConfig()` |
 | `EstimateTransactionResult` | `WouldAbort`, optional `AbortReason`, `GasBillKcalBase`, `DataRows`, `DataEscrowAtoms`, `DataRefundAtoms`, `RecommendedMaxGas`, `RecommendedMaxData`, and `ToFeeQuote()` |
 | `TransactionResult` | `Hash`, `ChainAddress`, `Timestamp`, `BlockHeight`, `BlockHash`, `Script`, `CarbonTxType`, `CarbonTxData`, `Payload`, optional `DebugComment`, `Events`, `ExtendedEvents`, `Result`, `Fee`, `State`, optional `Signatures`, `Sender`, `GasPayer`, `GasTarget`, `GasPrice`, `GasLimit`, `Expiration` |
@@ -57,6 +58,9 @@ an object. The shape itself says which of the three it is. Scalars are always
 `Text`, because chain numbers are big integers and JSON numbers lose precision
 above 2^53. Byte values arrive as hex. Reading a scalar stays a string
 assignment, through the implicit conversion the type declares.
+
+For a contract event, `Kind` is `Custom_V2` and `Name` is the event name the
+contract declared. For every other event, `Name` repeats `Kind`.
 
 ## Accounts
 
