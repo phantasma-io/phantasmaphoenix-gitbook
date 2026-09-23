@@ -6,7 +6,7 @@ The following examples use the C# SDK `ScriptBuilder` to create transaction scri
 
 ```csharp
 ScriptBuilder sb = new ScriptBuilder();
-sb.AllowGas(fromAddress, toAddress, gasPrice, gasLimit);
+sb.AllowGas(fromAddress, Address.Null, gasPrice, gasLimit);
 sb.TransferTokens("KCAL", fromAddress, toAddress, transferAmount);
 sb.SpendGas(fromAddress);
 byte[] script = sb.EndScript();
@@ -16,7 +16,7 @@ byte[] script = sb.EndScript();
 
 ```csharp
 ScriptBuilder sb = new ScriptBuilder();
-sb.AllowGas(fromAddress, toAddress, gasPrice, gasLimit);
+sb.AllowGas(fromAddress, Address.Null, gasPrice, gasLimit);
 sb.TransferNFT("NFT", fromAddress, toAddress, tokenId);
 sb.SpendGas(fromAddress);
 byte[] script = sb.EndScript();
@@ -26,7 +26,7 @@ byte[] script = sb.EndScript();
 
 ```csharp
 ScriptBuilder sb = new ScriptBuilder();
-sb.AllowGas(fromAddress, toAddress, gasPrice, gasLimit);
+sb.AllowGas(fromAddress, Address.Null, gasPrice, gasLimit);
 sb.CallContract("MyContract", "MyMethod", arg1, arg2, arg3);
 sb.SpendGas(fromAddress);
 byte[] script = sb.EndScript();
@@ -36,10 +36,10 @@ byte[] script = sb.EndScript();
 
 ```csharp
 ScriptBuilder sb = new ScriptBuilder();
-sb.AllowGas(fromAddress, toAddress, gasPrice, gasLimit);
+sb.AllowGas(fromAddress, Address.Null, gasPrice, gasLimit);
 sb.CallNFT("NFT", seriesID, "MyMethod", arg1, arg2, arg3);
 sb.SpendGas(fromAddress);
 byte[] script = sb.EndScript();
 ```
 
-These examples show how to create transaction scripts using the ScriptBuilder class and its methods. Each script begins with the AllowGas method to allocate gas for the transaction, followed by the specific operation to be executed, and ends with the SpendGas method to pay for the gas used during the execution. Finally, the EndScript`()` method is called to generate the byte array representation of the transaction script.
+Each script begins with `AllowGas`, which sets the gas payer and the transaction's `maxGas` (`gasPrice * gasLimit`, in KCAL atoms). The operation follows. The closing `SpendGas` call is optional on the current chain. `EndScript()` returns the script bytes.

@@ -69,7 +69,7 @@ if error is not None:
 | ------ | ------- |
 | `call_interop(method, *args)` | Call a runtime interop such as `Runtime.Time`. |
 | `call_contract(contract_name, method, *args)` | Call a contract method. |
-| `allow_gas(...)` / `spend_gas(...)` | Add gas allowance and settlement calls. |
+| `allow_gas(...)` / `spend_gas(...)` | Add the `AllowGas` call, which sets the gas payer and `maxGas`, and the optional `SpendGas` call. |
 | `transfer_tokens(...)` | Add a fungible token transfer call. |
 | `transfer_nft(...)` | Add a non-fungible token transfer call. |
 | `stake(...)` / `unstake(...)` | Add staking calls. |

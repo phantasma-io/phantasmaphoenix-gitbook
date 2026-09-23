@@ -10,7 +10,7 @@ const sb = new ScriptBuilder();
 
 ## allowGas
 
-Allocates KCAL for a transaction. Every state-changing script must call `allowGas` and `spendGas`.
+Sets the gas payer and the most KCAL the transaction may spend: `gasPrice * gasLimit` is the transaction's `maxGas`, in KCAL atoms. A script sent as a VM transaction with `sendRawTransaction` must call `allowGas`.
 
 ```ts
 import { Address, DomainSettings, ScriptBuilder } from "phantasma-sdk-ts/public";
@@ -29,7 +29,7 @@ const script = new ScriptBuilder()
 
 ## spendGas
 
-Finalizes gas usage for the transaction.
+Adds a `SpendGas` call. The current chain accepts the call and ignores it. It settles the gas bill and refunds unused KCAL to the gas payer after the script finishes.
 
 ```ts
 const script = new ScriptBuilder()
