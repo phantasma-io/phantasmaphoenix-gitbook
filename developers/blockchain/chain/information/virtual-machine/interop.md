@@ -29,7 +29,8 @@ These methods are currently available.
 | `Runtime.Version` | none | implemented | Returns current VM behavior version. |
 | `Runtime.IsWitness` | `address` | implemented | Checks whether the address is currently witnessed. |
 | `Runtime.Log` | `message` | implemented | Emits a VM-side log line. |
-| `Runtime.Notify` | `eventKind, address, payload` | implemented | Requires a real deployed contract context; emits a contract event payload. |
+| `Runtime.Notify` | `eventKind, address, payload` | implemented | Requires a real deployed contract context. The kind must be `Custom_V2`; any other kind fails with `contract events must use Runtime.NotifyV2 (Custom_V2)`. |
+| `Runtime.NotifyV2` | `name, address, payload` | implemented | Requires a real deployed contract context. Emits an event with kind `Custom_V2` that carries the event name. `pha-tomb` 2.2.0 and later compile `emit` to this call. |
 
 These names appear in older documentation but are not implemented in the current validator; calls to them are rejected:
 

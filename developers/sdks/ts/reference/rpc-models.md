@@ -53,13 +53,16 @@ uses `stake` for a deprecated flat scalar.
 
 | Type | Fields |
 | ---- | ------ |
-| `RpcEvent`, `EventExtended`, `EventExtendedTyped` | Event address, contract, kind, data, and typed extension fields. |
+| `RpcEvent`, `EventExtended`, `EventExtendedTyped` | Event address, contract, kind, data, and typed extension fields. `RpcEvent` also carries `name`. |
 | `Oracle` | URL and content fields. |
 | `SignatureResult` | signature kind and data. |
 | `TransactionData` | `hash`, `chainAddress`, `timestamp`, `blockHeight`, `blockHash`, `script`, `payload`, `carbonTxType`, `carbonTxData`, `events`, optional `extendedEvents`, `result`, optional `debugComment`, `fee`, `state`, `signatures`, `sender`, `gasPayer`, `gasTarget`, `gasPrice`, `gasLimit`, `expiration`. |
 | `Block` | `hash`, `previousHash`, `timestamp`, `height`, `chainAddress`, `protocol`, `txs`, `validatorAddress`, optional `producerAddress`, `reward`, optional `events`, optional `oracles`. |
 | `Script` | `events`, `result`, `results`, `oracles`, optional `error`. |
 | `VmValue` | A value decoded from VM storage: a scalar, an array or a struct. |
+
+For a contract event, `kind` is `Custom_V2` and `name` is the event name the
+contract declared. For every other event, `name` repeats `kind`.
 
 Use `decodeVMObject` or `Decoder` helpers where a script result contains VM
 object bytes.

@@ -66,12 +66,15 @@ older page/page-size endpoints such as auctions and address transaction history.
 
 | Model | Fields and helpers |
 | ----- | ------------------ |
-| `EventResult` | `Address`, `Contract`, `Kind`, `Data` |
+| `EventResult` | `Address`, `Contract`, `Kind`, `Name`, `Data` |
 | `OracleResult` | `URL`, `Content` |
 | `SignatureResult` | `Kind`, `Data` |
 | `TransactionResult` | `Hash`, `ChainAddress`, `Timestamp`, `BlockHeight`, `BlockHash`, `Script`, `Payload`, `CarbonTxType`, `CarbonTxData`, optional `DebugComment`, `Events`, `ExtendedEvents`, `State`, `Result`, `Fee`, `Signatures`, `Sender`, `GasPayer`, `GasTarget`, `GasPrice`, `GasLimit`, `Expiration`; helpers: `StateIsSuccess`, `StateIsFault` |
 | `BlockResult` | `Hash`, `PreviousHash`, `Timestamp`, `Height`, `ChainAddress`, `Protocol`, `Txs`, `ValidatorAddress`, `Reward`, optional `Events`, optional `Oracles` |
 | `ScriptResult` | `Events`, `Result`, `Results`, `Oracles`, optional `Error`, optional `State`, optional `Gas`; helpers: VM result decoding |
+
+For a contract event, `Kind` is `Custom_V2` and `Name` is the event name the
+contract declared. For every other event, `Name` repeats `Kind`.
 
 ## Token, NFT, Schema, And Price Models
 

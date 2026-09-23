@@ -100,7 +100,7 @@ inspection flows.
 
 | Model | Fields and helpers |
 | ----- | ------------------ |
-| `EventResult` | `address`, `contract`, `kind`, `data` |
+| `EventResult` | `address`, `contract`, `kind`, `name`, `data` |
 | `OracleResult` | `url`, `content` |
 | `SignatureResult` | `kind`, `data` |
 | `TransactionResult` | `hash`, `chain_address`, `timestamp`, `block_height`, `block_hash`, `script`, `payload`, `carbon_tx_type`, `carbon_tx_data`, optional `debug_comment`, `events`, `extended_events`, `state`, `result`, `fee`, `signatures`, `sender`, `gas_payer`, `gas_target`, `gas_price`, `gas_limit`, `expiration`; helpers: `state_is_success()`, `state_is_fault()` |
@@ -109,6 +109,9 @@ inspection flows.
 
 `ScriptResult::decode_result()` and `decode_results(index)` decode VM object
 bytes with `VMObject`.
+
+For a contract event, `kind` is `Custom_V2` and `name` is the event name the
+contract declared. For every other event, `name` repeats `kind`.
 
 `TransactionResult` is the record to poll after broadcasting. Use
 `state_is_success()` and `state_is_fault()` to classify finalized execution

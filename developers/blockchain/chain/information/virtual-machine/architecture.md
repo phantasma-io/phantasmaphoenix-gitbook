@@ -29,7 +29,7 @@ For deployed contracts, the context name is also the contract identity used by t
 This matters for storage and events:
 
 - `Data.Set`, `Data.Delete`, `Map.Set`, `Map.Remove`, `Map.Clear`, `List.Add`, `List.Replace`, `List.RemoveAt`, and `List.Clear` operate on the current deployed contract context
-- `Runtime.Notify(...)` also requires a real contract context because emitted events need a concrete contract name
+- `Runtime.Notify(...)` and `Runtime.NotifyV2(...)` also require a real contract context because emitted events need a concrete contract name
 
 ## Interop Boundary
 

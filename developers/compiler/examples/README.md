@@ -106,6 +106,10 @@ contract test {
 
 ## Custom Events
 
+`emit` compiles to a `Runtime.NotifyV2` call. The chain stores the event with kind `Custom_V2` and the event name, for example `MyPayment`. An application can identify the event without the contract ABI: RPC returns the name in the event's `name` field.
+
+Contracts compiled with `pha-tomb` before 2.2.0 emit events through `Runtime.Notify` with kind `Custom` plus the index of the event. The current chain accepts `Runtime.Notify` from a contract only with kind `Custom_V2` and rejects every other kind. Recompile such a contract with `pha-tomb` 2.2.0 or later and upgrade it. RPC returns the events that such contracts emitted earlier as `Custom_V2`, with the name from the contract ABI when the ABI declares that event.
+
 ### Example 1
 
 Showcases how a contract can declare and emit custom events.
