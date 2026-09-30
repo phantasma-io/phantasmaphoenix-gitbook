@@ -1,42 +1,42 @@
-# Block Producers (BP)
+# Block Producers
 
-{% hint style="warning" %}
-This page describes the block-producer model and rewards at a high level. The specific figures below are governance-controlled and can change; for current supply, issuance, and fee values see [Supply And Issuance](inflation.md) and [Fees](fees.md), and read live values from the chain rather than hardcoding them.
-{% endhint %}
+Block producers are the validator nodes that assemble transactions into blocks on the Phantasma mainnet.
 
-Phantasma is made up of a decentralized network of nodes - also known as Block Producers. These BP's are responsible for validating transactions on the blockchain. The block producers use a rotational scheduling per side-chain to define who the active block producer is. This process occurs in parallel for each side chain, which will allow for horizontal scaling to boost the theoretical TPS of Phantasma Chain. Each block producer is responsible for accepting transactions from Phantasma users, verifying signatures & transaction contents. Once the transaction is accepted, the block producer adds it to the next block
+## How Blocks Are Produced
 
-Inflation is important because it incentivizes the growth of the ecosystem. This will inspire developers to build dApps on Phantasma. It also serves the purpose of helping to fund Phantom Force our decentralized developer team and it also pays our block producers. The yearly inflation is coded to be 3%. On top of receiving fees for verifying transactions, block producers receive 2% of the annual 3%, or 0.75% per quarter.
+The validator nodes keep one shared, replicated transaction log. At any time one validator is the leader. The leader takes the pending transactions from its queue, executes them, and publishes the result as the next block. The other validators re-execute the block against the same chain state and confirm it.
 
-The amount of BPs is based on the amount of side chains & transactions. There will be 10 active BP + 150% standby BPs.All active BPs will rotate over all chains, which results that all active BPs will continuously produce a block for every chain. Every BP can also verify multiple chains at the same time. At the end of every quarter there will be a voting window for people to vote on BPs to become (or remain) an active BP to make sure that the network remains decentralized
+Every block exposes two addresses through the RPC block methods:
 
+- `validatorAddress`: the leader that produced the block.
+- `producerAddress`: the payout address the leader stamped into the block. It is present on blocks produced under gas model v2 and absent on earlier blocks.
 
+The node software stamps the leader's own address, so the two fields hold the same value on current blocks. The fields have different meanings. Applications should read the one they need and should not assume that one equals the other.
 
-**In order to become a block producer, you must:**
+## Running A Validator
 
-* Stake 50,000 soul (also known as a Soul Master)
-* Technical know-how to run and manage a server
-* Be voted by the community
-* Maintain uptime
+Running a validator is not open to the public on the current network. A public procedure for joining the validator set is planned for the near future.
 
+## Fee Shares
 
+The chain gas configuration defines three shares of every gas bill:
 
-# Active Block Producer
+| Share | Configuration fields |
+| --- | --- |
+| Burned | `gasBurnRatioMul`, `gasBurnRatioShift` |
+| Block producer | `gasProducerRatioMul`, `gasProducerRatioShift` |
+| dApp | `gasDappRatioMul`, `gasDappRatioShift` |
 
-Active block producers are actively rotating and adding blocks, verifying transactions and earning a percentage of the chain's fees. These BP's are initially hand selected by the team, but will eventually be determined by the community through voting, whose voting power is calculated by taking the amount of soul and finding its square root.
+Each share is a fraction of the whole bill. The shares are taken in the order of the table, and each one is capped by what the earlier shares leave. The block producer share of every gas bill in a block is credited to that block's `producerAddress`. The dApp share goes to the dApp fee target named by the transaction, when the transaction names one.
 
-### Active Block Producer receive
+The share ratios are protocol configuration. Read the current values from the chain with the `getGasConfig` RPC method. The gas bill itself is described on the [Fees](fees.md) page.
 
-* 75% of the BPs pool rewards divided proportionally to the voting ratio
-* 25% of Energy transaction fees
-* 50% of Main Chain fees
-* 50% of Ghost Chain fees
+## Related Pages
 
-# Standby Block Producer
+{% content-ref url="fees.md" %}
+Fees
+{% endcontent-ref %}
 
-Standby block producers are those whose status is online, but is not currently producing blocks or verifying transactions. These BP's still earn a percentage of the chain fees, but they are much smaller. When voted by the community, these BP's then become Active block producers.
-
-### **Standby Block Producer receive**
-
-* 25% of the BPs pool
-* Rewards divided proportionally to the voting ratio
+{% content-ref url="inflation.md" %}
+Supply And Issuance
+{% endcontent-ref %}
