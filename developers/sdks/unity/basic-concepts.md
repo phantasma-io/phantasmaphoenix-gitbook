@@ -7,7 +7,7 @@ Unity SDK.
 
 #### Phantasma Blockchain
 
-Phantasma is a blockchain platform with smart contracts, side chains, and
+Phantasma is a blockchain platform with smart contracts, side chains (coming soon), and
 decentralized storage. The Phantasma Unity SDK lets Unity projects read chain
 data, connect wallets, sign transactions, and invoke contracts.
 
