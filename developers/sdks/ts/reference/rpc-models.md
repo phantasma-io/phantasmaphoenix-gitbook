@@ -70,8 +70,7 @@ object bytes.
 `producerAddress` is the fee payout address the block producer stamped inside
 the hashed block input. It is present on gas model v2 blocks and absent on
 earlier ones. It is a different field from `validatorAddress`, which names the
-consensus-log leader. The two are usually equal today, and a configurable payout
-address is a planned extension, so do not assume they are equal.
+consensus-log leader. Do not assume the two are equal.
 
 `VmValue` is `string | VmValue[] | { [field: string]: VmValue }`. The wire
 carries the plain JSON value, so the shape itself says which of the three it is.
