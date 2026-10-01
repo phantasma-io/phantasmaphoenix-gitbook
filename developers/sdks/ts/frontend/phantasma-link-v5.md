@@ -24,6 +24,7 @@ Each factory builds the client over one transport.
 
 | Factory | Use it when | Encryption |
 | --- | --- | --- |
+| `PhantasmaLink5.injected(options?)` | A browser-extension wallet is installed. The extension defines `window.phantasmaLink` on the page (spec section 6.1). | None. The page and the extension run in the same browser. |
 | `PhantasmaLink5.webDeeplink(options)` | A web page talks to a wallet app on the same device. | Always, with the channel key created for the pairing. |
 | `PhantasmaLink5.loopback(options?)` | The wallet runs on the same machine and listens on a local WebSocket. | None. The connection stays on the local host. |
 | `PhantasmaLink5.relay(options)` | Both sides already share a pairing topic and a 32-byte session key, and messages go through the relay. | Always. |
@@ -31,11 +32,13 @@ Each factory builds the client over one transport.
 | `PhantasmaLink5.deeplink(options)` | A native app runs the deeplink exchange itself, with its own topic, URL opener and session key. | Always. |
 | `new PhantasmaLink5(transport, options)` | A custom transport implements `LinkTransport`. | Set by `options.sessionKey`. Without a key, frames are plaintext. |
 
+Injected uses the page's `window.phantasmaLink`. The extension defines it before the page's scripts run, so there is no event to wait for. `findInjectedProvider()` returns the provider when it is present and speaks v5, otherwise `undefined`; check it before choosing a transport. The factory throws `LinkError` with code `4900` when no provider is on the page. The `provider` option passes a provider explicitly, which tests use.
+
 Loopback connects to `ws://localhost:7090/phantasma/v5`. The `host`, `port` and `path` options change the parts of that URL, and `webSocketFactory` supplies a WebSocket implementation where no global `WebSocket` exists.
 
 The relay transports connect to `wss://link.phantasma.info/relay` (`DEFAULT_RELAY_URL`). The `url` option changes it. `relay` and `deeplink` refuse to build without a 32-byte `sessionKey` and throw `LinkError` with code `-32602`.
 
-`webDeeplink`, `deeplink`, `relay` and `relayEcdh` wait up to 5 minutes for each answer, because an answer includes an app switch and the user's consent. A client built with the constructor, and the loopback client, wait 60 seconds. The `requestTimeoutMs` option changes the timeout, and `0` disables it.
+`injected`, `webDeeplink`, `deeplink`, `relay` and `relayEcdh` wait up to 5 minutes for each answer, because an answer includes the user's consent, and on mobile an app switch. A client built with the constructor, and the loopback client, wait 60 seconds. The `requestTimeoutMs` option changes the timeout, and `0` disables it.
 
 ## Web dApp Flow
 

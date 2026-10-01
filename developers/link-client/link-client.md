@@ -24,7 +24,7 @@ Then use these pages as needed:
 
 Phantasma Link v5 is the current protocol generation. The wallet still signs on the user's behalf and never exposes the private key. v5 replaces the v1-v4 string protocol with a structured JSON envelope: typed parameters, numeric error codes, capability negotiation, end-to-end encryption, and revocable sessions. The same envelope travels over four transports:
 
-- **Injected**: a browser extension wallet.
+- **Injected**: a browser-extension wallet. The extension defines `window.phantasmaLink` on the page, and the dApp calls it directly.
 - **Loopback**: a WebSocket to a desktop wallet on the same machine.
 - **Deeplink** ping-pong (app to app): the primary path on mobile. It works on iOS and keeps signing working even when the relay is down.
 - **Relay**: for large payloads and cross-device flows.
