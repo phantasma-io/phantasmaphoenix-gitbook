@@ -6,8 +6,8 @@ Different data types are recognized by the compiler.
 
 | Type           | Example                                                           |                                                                                |
 | -------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Number         | 123                                                               | Integer values only. Negative values supported. Number must fit into 256 bits. |
-| Decimal        | 0.123                                                             | Where X is the number of maximum decimal places.                               |
+| Number         | 123                                                               | Integer values only, negative values included. The VM `Number` is a big integer. |
+| Decimal        | 0.123                                                             | Declared as `decimal<N>`, where N is the number of decimal places; stored as a `Number` in fixed point. |
 | Bool           | false                                                             | Either true or false                                                           |
 | String         | "hello"                                                           | Single line only.                                                              |
 | Timestamp      |                                                                   | No literal support for this type, use either Time.now or Time.unix             |

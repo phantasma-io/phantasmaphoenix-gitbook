@@ -4,11 +4,11 @@ Triggers are special methods invoked by the runtime on lifecycle events.
 
 In TOMB source they are written as `trigger onSomething(...)`.
 
-The compiler accepts only the trigger names and signatures it currently implements. If you use an unknown trigger name, compilation fails.
+The compiler accepts the trigger names and signatures below; an unknown name fails compilation.
 
 ## Token triggers
 
-Currently accepted token trigger names:
+The validator invokes these triggers on token-backed contracts:
 
 - `onMint`
 - `onBurn`
@@ -19,8 +19,8 @@ Currently accepted token trigger names:
 - `onUpgrade`
 - `onSeries`
 - `onWrite`
-- `onMigrate`
-- `onKill`
+
+The compiler also accepts `onWitness`, `onMigrate` and `onKill`. The validator never invokes them: account migration and contract kill are not part of the current chain, so a trigger with one of these names compiles and never runs.
 
 ## Shared trigger signatures
 
@@ -36,20 +36,12 @@ trigger onInfuse(from: address, to: address, symbol: string, value: number)
 
 The fourth argument is a `number`. Depending on the runtime flow, it may represent an amount or a token identifier.
 
-### `onWitness`, `onSeries`, `onKill`, `onAttach`, `onUpgrade`
+### `onSeries`, `onAttach`, `onUpgrade`
 
 ```csharp
-trigger onWitness(from: address)
 trigger onSeries(from: address)
-trigger onKill(from: address)
 trigger onAttach(from: address)
 trigger onUpgrade(from: address)
-```
-
-### `onMigrate`
-
-```csharp
-trigger onMigrate(from: address, to: address)
 ```
 
 ### `onWrite`
@@ -58,9 +50,19 @@ trigger onMigrate(from: address, to: address)
 trigger onWrite(from: address, data: bytes)
 ```
 
-## Practical notes
+The compiler declares the second parameter as `any`; a parameter of type
+`any` cannot be placed in the ABI, so declare it as `bytes`.
 
-- `onAttach` is for token-backed contract attachment flows.
-- `onUpgrade` is the lifecycle hook for later code updates.
-- Token-backed contracts should not assume every compiler-accepted trigger is available in every old network snapshot. Validate against the target chain.
-- For current attach/create flows, token-backed contracts must satisfy validator-side token admission rules such as the required `onMint` surface.
+### Accepted but never invoked
+
+```csharp
+trigger onWitness(from: address)
+trigger onKill(from: address)
+trigger onMigrate(from: address, to: address)
+```
+
+## Notes
+
+- `onAttach` runs when VM code is attached to an existing token; `onUpgrade` runs on a later code update.
+- A token-backed contract must define `onMint`; the validator refuses to create or attach one without it.
+- `onInfuse` and `onWrite` run on `Runtime.InfuseToken` and `Runtime.WriteToken`; a trigger that fails rolls the operation back.

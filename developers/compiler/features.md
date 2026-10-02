@@ -26,9 +26,8 @@
 
 ## Important caveats
 
-- `nativecheck` validates against the compiler's pinned Carbon snapshots. Treat warnings and errors there as signal, not noise.
-- Not every compiler-accepted native call is necessarily available on every chain baseline. Always test against the target network.
-- Some helper libraries still have unsupported methods that compile to explicit runtime failure.
+- `nativecheck` checks native-contract and interop calls against the chain snapshot pinned in the compiler. `nativecheck:error` fails the build on a call the chain rejects.
+- The [Libraries](libraries.md) page lists the methods that run on the current chain; a compiler library method that is not listed there is rejected by the validator at run time.
 
 ## Generated artifacts
 

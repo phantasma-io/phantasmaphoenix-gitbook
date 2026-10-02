@@ -6,7 +6,7 @@ coverY: 0
 
 # TOMB Compiler
 
-## Description <a href="#description" id="description"></a>
+## Description
 
 The current Phantasma smart-contract compiler is `pha-tomb`.
 
