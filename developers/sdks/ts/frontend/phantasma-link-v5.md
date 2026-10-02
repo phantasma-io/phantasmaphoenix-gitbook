@@ -32,6 +32,8 @@ Each factory builds the client over one transport.
 | `PhantasmaLink5.deeplink(options)` | A native app runs the deeplink exchange itself, with its own topic, URL opener and session key. | Always. |
 | `new PhantasmaLink5(transport, options)` | A custom transport implements `LinkTransport`. | Set by `options.sessionKey`. Without a key, frames are plaintext. |
 
+React applications can use `phantasma-link-react`, which wraps this client in a provider, a store and a connect widget; see [React Wallet Connection](/developers/sdks/ts/frontend/connect-react.md).
+
 Injected uses the page's `window.phantasmaLink`. The extension defines it before the page's scripts run, so there is no event to wait for. `findInjectedProvider()` returns the provider when it is present and speaks v5, otherwise `undefined`; check it before choosing a transport. The factory throws `LinkError` with code `4900` when no provider is on the page. The `provider` option passes a provider explicitly, which tests use.
 
 Loopback connects to `ws://localhost:7090/phantasma/v5`. The `host`, `port` and `path` options change the parts of that URL, and `webSocketFactory` supplies a WebSocket implementation where no global `WebSocket` exists.

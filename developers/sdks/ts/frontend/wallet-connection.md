@@ -1,6 +1,6 @@
 # Wallet Connection
 
-Use the Phantasma Link protocol to connect a browser dApp to a wallet. The TS SDK exposes the v5 client and three layers of the v1-v4 connection stack.
+Use the Phantasma Link protocol to connect a browser dApp to a wallet. The TS SDK exposes the v5 client and two layers of the v1-v4 connection stack; `phantasma-link-react` adds React bindings for the v5 client.
 
 ## Choose A Layer
 
@@ -9,12 +9,12 @@ Use the Phantasma Link protocol to connect a browser dApp to a wallet. The TS SD
 | `PhantasmaLink5` | `phantasma-sdk-ts/link/v5` | the v5 protocol: encrypted deeplink and relay transports, sessions, typed requests, numeric error codes | [Phantasma Link v5](/developers/sdks/ts/frontend/phantasma-link-v5.md) |
 | `PhantasmaLink` | `phantasma-sdk-ts` | direct control over transport, wallet requests, and signing | [Phantasma Link](/developers/sdks/ts/shared-methods/phantasmalink.md) |
 | `EasyConnect` | `phantasma-sdk-ts` | smaller browser wrapper with Carbon and prebuilt signing helpers | [EasyConnect](/developers/sdks/ts/shared-methods/easyconnect.md) |
-| `@phantasma/connect-react` | `@phantasma/connect-react` | React apps, transport selection, restore support, widget UI | [React Wallet Connection](/developers/sdks/ts/frontend/connect-react.md) |
+| `PhantasmaLinkStore` | `phantasma-link-react` | React apps on the v5 protocol: provider, store, connect widget, session restore | [React Wallet Connection](/developers/sdks/ts/frontend/connect-react.md) |
 
 ## Quick Choice
 
 - Wallet that speaks Phantasma Link v5 -> `PhantasmaLink5`
-- React app -> `@phantasma/connect-react`
+- React app -> `phantasma-link-react`
 - Non-React app, ordinary browser flow -> `EasyConnect`
 - Need direct wallet control or exact low-level signing flow -> `PhantasmaLink`
 
@@ -51,16 +51,9 @@ Use:
 
 ## Transport Choice
 
-Depending on the layer, you may be using:
+The v5 client and the React package offer four transports: `injected` (a browser-extension wallet), `deeplink` (a wallet app on the same device), `relay` (a wallet on another device) and `loopback` (a desktop wallet on the same machine). The React store picks `injected` when an extension is on the page and `deeplink` otherwise; `setTransport(...)` changes it.
 
-- injected wallet transport
-- local socket transport
-
-If your app depends on a specific wallet path, do not leave that choice ambiguous. Current React tooling exposes explicit transport modes:
-
-- `auto`
-- `injected`
-- `local-socket`
+`PhantasmaLink` and `EasyConnect` speak the v1-v4 protocol over the injected transport or the local wallet socket. If your app depends on a specific wallet path, choose it explicitly instead of relying on detection.
 
 ## Typical Flow
 

@@ -1,183 +1,143 @@
-# React Wallet Connection (`@phantasma/connect-react`)
+# React Wallet Connection (`phantasma-link-react`)
 
-## Overview
+`phantasma-link-react` is the React layer for the Phantasma Link v5 protocol. It wraps the
+`PhantasmaLink5` client of `phantasma-sdk-ts` in a provider, a MobX store and a connect widget.
+The protocol logic stays in the SDK; the package binds the session, the account and the wallet
+events to React and renders the pairing link or QR code and the account menu.
 
-`@phantasma/connect-react` is the React-first wallet layer on top of `EasyConnect`.
-
-Current package version:
-
-- `0.1.4`
-
-It gives you:
-
-- a React context
-- a state container for connect / disconnect / restore
-- transport selection
-- connection diagnostics
-- a ready-made account widget
+Current package version: `0.3.0`. It depends on `phantasma-sdk-ts` 0.19.0 or later and needs
+`react` and `react-dom` 18 or later as peer dependencies.
 
 ## Install
 
 ```bash
-npm install @phantasma/connect-react
+npm install phantasma-link-react
 ```
 
-## Core Pieces
+The components ship their stylesheet as `phantasma-link-react/styles.css`. Import it once where
+the application imports its global styles.
 
-The package exports:
-
-- `PhaConnectState`
-- `PhaConnectCtx`
-- `PhaAccountWidgetV1`
-
-`PhaConnectState` is the main object you create and place into context.
-
-## Provider Setup
+## Quick Start
 
 ```tsx
-import { ReactNode } from "react";
-import { PhaConnectCtx, PhaConnectState } from "@phantasma/connect-react";
+import { PhantasmaLinkProvider, ConnectWidget } from "phantasma-link-react";
 
-const phaConnectState = new PhaConnectState({
-  transportMode: "auto",
-});
+const dapp = { name: "My dApp", url: "https://mydapp.example" };
 
-export function PhantasmaProvider({ children }: { children: ReactNode }) {
+export function App() {
   return (
-    <PhaConnectCtx.Provider value={phaConnectState}>
-      {children}
-    </PhaConnectCtx.Provider>
+    <PhantasmaLinkProvider config={{ dapp, transport: "deeplink" }}>
+      <header>
+        <ConnectWidget />
+      </header>
+    </PhantasmaLinkProvider>
   );
 }
 ```
 
-## Connect Options
+The provider creates one store, builds the client when it mounts, restores a persisted session
+if there is one, and disposes the client when it unmounts. It rebuilds the store only when the
+dApp name or URL, the relay URL or the deeplink host changes.
 
-`PhaConnectState` accepts an optional config object:
+## Configuration
 
-```ts
-type ConnectOptions = {
-  requiredVersion?: number;
-  platform?: string;
-  transportMode?: "auto" | "injected" | "local-socket";
-  transportDetectionTimeoutMs?: number;
-  connectAttemptTimeoutMs?: number;
-};
-```
+`PhantasmaLinkConfig`:
 
-### Transport Modes
+| Field | Meaning |
+| --- | --- |
+| `dapp` | `DappMetadata`: the name and URL the wallet shows in its approval screen and embeds in the pairing URI. |
+| `transport` | The initial transport: `injected`, `deeplink`, `relay` or `loopback`. Without it the store picks `injected` when a wallet extension is on the page, otherwise `deeplink`. |
+| `relayUrl` | The relay WebSocket URL for the `relay` transport. Default: the public relay. |
+| `host` | The universal-link host of the `deeplink` pairing URI. Default: `link.phantasma.info`. |
 
-- `auto`
-  - detect and choose between injected and local socket
-- `injected`
-  - prefer injected wallet transport
-- `local-socket`
-  - prefer raw local wallet socket
+## Transports
 
-For tooling or UIs that depend on a predictable local wallet path, `local-socket` is often the safer choice.
+| Transport | Use it when |
+| --- | --- |
+| `injected` | A browser-extension wallet defines `window.phantasmaLink` on the page. No pairing; the wallet prompts in its own UI. |
+| `deeplink` | The dApp runs on the device that holds the wallet. The pairing URI is a universal link that opens the wallet. |
+| `relay` | The wallet is on another device. The pairing URI is shown as a QR code, and the session arrives over the relay. |
+| `loopback` | The wallet runs on the same machine and listens on a local WebSocket. |
 
-## Built-In Widget
+`store.setTransport("relay")` switches at runtime. The store remembers the chosen transport in
+`localStorage`, because the deeplink flow reloads the page on the way back from the wallet.
+
+For `relay`, and for a `deeplink` connection that has no session yet, `connect()` enters the
+`pairing` status and sets `pairingUri`; the session arrives as a wallet event once the user has
+approved the pairing. `loopback`, `injected` and a resumable `deeplink` session call the wallet
+directly.
+
+## The Store
+
+`usePhantasmaLink()` returns the `PhantasmaLinkStore` of the nearest provider. Read its fields
+inside a `mobx-react` `observer` component, otherwise the component does not re-render when
+the session changes.
 
 ```tsx
-import { PhaAccountWidgetV1, PhaConnectState } from "@phantasma/connect-react";
+import { observer } from "mobx-react";
+import { usePhantasmaLink } from "phantasma-link-react";
 
-export function WalletButton({ state }: { state: PhaConnectState }) {
-  return <PhaAccountWidgetV1 state={state} />;
-}
-```
-
-## Custom UI
-
-`PhaConnectState` exposes connection state you can render yourself:
-
-```tsx
-import { useContext, useEffect } from "react";
-import { observer } from "mobx-react-lite";
-import { PhaConnectCtx } from "@phantasma/connect-react";
-
-export const WalletStatus = observer(() => {
-  const pha = useContext(PhaConnectCtx);
-
-  useEffect(() => {
-    pha.restore();
-  }, [pha]);
-
-  if (!pha.is_connected) {
-    return (
-      <button onClick={() => pha.connect()} disabled={pha.is_connecting}>
-        {pha.is_connecting ? "Connecting..." : "Connect wallet"}
-      </button>
-    );
-  }
-
-  const address = pha.conn?.link?.account?.address ?? "";
-  return <div>Connected: {address}</div>;
+export const Demo = observer(function Demo() {
+  const link = usePhantasmaLink();
+  if (!link.connected) return <p>Not connected</p>;
+  return (
+    <div>
+      <p>{link.address}</p>
+      <button onClick={() => link.signMessage("hello")}>Sign message</button>
+      <button onClick={() => link.getChains()}>Get chains</button>
+    </div>
+  );
 });
 ```
 
-## Useful State And Helpers
+Fields:
 
-Common fields and methods on `PhaConnectState`:
+| Field | Meaning |
+| --- | --- |
+| `status` | `idle`, `pairing`, `connecting`, `connected` or `error`. |
+| `connected` | `true` while a session is live. |
+| `account`, `address` | The connected `LinkAccountV5` and its address. |
+| `capabilities`, `walletInfo` | What the wallet reported on connect. |
+| `transport` | The current transport. |
+| `pairingUri` | The pairing link while the status is `pairing`. |
+| `busyOp` | The label of the request in flight, if any. |
+| `logs` | A rolling log of requests, results, events and errors (`LinkLogEntry`, 200 entries). |
+| `client` | The underlying `PhantasmaLink5` client, for calls the store does not wrap. |
 
-- `conn`
-  - current `EasyConnect` instance or `null`
-- `err_msg`
-  - latest error text
-- `is_connecting`
-- `is_connected`
-- `selected_transport_mode`
-- `available_transports`
-- `last_connect_diagnostics`
-- `connect(...)`
-- `connect_with_transport_mode(...)`
-- `set_transport_mode(...)`
-- `disconnect()`
-- `restore()`
-- `refresh_available_transports(...)`
+Operations: `connect()`, `cancel()`, `disconnect()`, `setTransport(kind)`, `getChains()`,
+`getWalletInfo()`, `getAccounts()`, `signMessage(text)`, `sendTransaction(params)`,
+`invokeScript(params)`, `clearLogs()`. Each request appends to `logs`, and a failure is logged
+as an `error` entry. `sendTransaction` takes the `SendTransactionParams` of the v5 protocol: the
+wallet signs and broadcasts. A dApp that wants the signature without the broadcast calls
+`store.client.signTransaction(params)`.
 
-## Diagnostics
+## Components
 
-`last_connect_diagnostics` is especially useful when you are debugging connection behavior. It records things like:
+- `ConnectWidget`: a button that reads "Connect wallet" until a session is live, opens the
+  pairing link or QR code when the transport needs pairing, and then shows the address with
+  "Copy address" and "Disconnect".
+- `PairingModal`: the pairing dialog on its own, with `uri`, `transport` and `onClose` props.
 
-- configured transport mode
-- selected transport
-- available transports
-- whether fallback was used
-- whether injected transport was detected
-- whether local socket was reachable
-- failure class and failure message
+## Helpers And Re-exports
 
-That makes it much easier to explain why a particular wallet path was chosen.
+- `verifyV5Signature(message, result, address)` checks a `signMessage` result against the
+  signer's address. It returns `true` or `false`, or `null` when the inputs cannot be checked.
+- `errMsg(e)` and `clip_copy(text)` are the small utilities the components use.
+- The package re-exports `observer`, `makeAutoObservable` and `runInAction` from MobX, so that an
+  application that builds its own observable stores shares one MobX instance with the package.
+- It also re-exports the v5 types an application needs next to the store: `LinkEvent`,
+  `TxFormat`, `SignatureKind`, `bytesToBase64`, `base64ToBytes`, `utf8ToBytes`, `DappMetadata`,
+  `LinkAccountV5`, `LinkBalance`, `WalletCapabilities`, `WalletInfo`, `ConnectResult`,
+  `SendTransactionParams`, `SignMessageParams`, `InvokeScriptParams`.
 
-## Restore Behavior
+## Relationship To The SDK
 
-`restore()` uses persisted session config and attempts to reconnect. This is the normal way to restore a previous wallet session after a page reload.
+The store owns one `PhantasmaLink5` client and exposes it as `store.client`. Everything the
+protocol offers is documented on the client page:
 
-## Signing
+{% content-ref url="/developers/sdks/ts/frontend/phantasma-link-v5.md" %}
+Phantasma Link v5
+{% endcontent-ref %}
 
-When connected, `pha.conn` is an `EasyConnect` instance. That means you can use:
-
-- `pha.conn.signTransaction(...)`
-- `pha.conn.signCarbonTransaction(...)`
-- `pha.conn.signPrebuiltTransaction(...)`
-- `pha.conn.link.signTx(...)`
-- `pha.conn.link.signPrebuiltTransaction(...)`
-
-Practical rule:
-
-- normal wallet-driven VM transaction -> `signTransaction(...)`
-- prebuilt VM transaction -> `signPrebuiltTransaction(...)`
-- Carbon `TxMsg` -> `signCarbonTransaction(...)`
-
-## Relationship To Lower Layers
-
-The stack looks like this:
-
-- `@phantasma/connect-react`
-  - React state and transport orchestration
-- `EasyConnect`
-  - smaller browser wallet wrapper
-- `PhantasmaLink`
-  - low-level Link transport and signing
-
-If the higher layer is not enough for a particular use case, you can always drop down through `pha.conn` and then through `pha.conn.link`.
+The v1-v4 wrappers `EasyConnect` and `PhantasmaLink` are separate classes of `phantasma-sdk-ts`
+and are not used by this package.

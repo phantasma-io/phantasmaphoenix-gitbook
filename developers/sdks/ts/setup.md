@@ -30,11 +30,13 @@ The Ledger flow lives in the SDK, and the application passes in the transport of
 its own runtime. The SDK opens no device and depends on no USB package, so a
 consumer that never touches a Ledger installs no native USB stack.
 
-### React wrapper (optional)
+### React bindings (optional)
 
 ```
-npm install @phantasma/connect-react
+npm install phantasma-link-react
 ```
+
+`phantasma-link-react` wraps the Link v5 client in a provider, a store and a connect widget. See [React Wallet Connection](/developers/sdks/ts/frontend/connect-react.md).
 
 ## Backend or Frontend?
 

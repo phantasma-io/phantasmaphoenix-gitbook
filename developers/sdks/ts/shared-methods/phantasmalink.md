@@ -17,7 +17,7 @@ Use it when you want direct control over:
 - prebuilt transaction signing
 
 If you want a smaller wrapper, use [EasyConnect](/developers/sdks/ts/shared-methods/easyconnect.md).
-If you want React state and widgets, use [@phantasma/connect-react](/developers/sdks/ts/frontend/connect-react.md).
+If you want React state and widgets on the v5 protocol, use [phantasma-link-react](/developers/sdks/ts/frontend/connect-react.md).
 
 ## Current Defaults
 

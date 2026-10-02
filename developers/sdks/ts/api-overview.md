@@ -116,17 +116,17 @@ Key capabilities:
 - `deployContract(...)`
 - `conn.link` for lower-level escape hatches
 
-### `@phantasma/connect-react`
+### `phantasma-link-react`
 
-Use this when you want React state, transport selection, restore support, and a ready-made account widget.
+Use this in a React application. It wraps `PhantasmaLink5` in a provider, a MobX store and a connect widget.
 
 Key capabilities:
 
-- `PhaConnectState`
-- `PhaConnectCtx`
-- `PhaAccountWidgetV1`
-- transport modes: `auto`, `injected`, `local-socket`
-- connection diagnostics and restore support
+- `PhantasmaLinkProvider`, `usePhantasmaLink()`
+- `PhantasmaLinkStore` with `connect()`, `disconnect()`, `setTransport(...)`, `signMessage(...)`, `sendTransaction(...)`, `invokeScript(...)`
+- `ConnectWidget`, `PairingModal`
+- transports: `injected`, `deeplink`, `relay`, `loopback`
+- `verifyV5Signature(...)`
 
 See:
 
