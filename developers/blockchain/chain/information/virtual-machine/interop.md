@@ -2,21 +2,9 @@
 
 Interop calls are the bridge between VM bytecode and native chain functionality. A script uses `EXTCALL` with a method name such as `Runtime.TransferTokens` or `Data.Get`, and the validator handles the real token, NFT, storage, or contract lifecycle operation in native code.
 
-This page reflects the current Carbon validator behavior: it lists the interops the validator implements today and flags the ones that are not yet available.
-
-## How To Think About Interop
-
-Interop methods fall into three practical buckets:
-
-- fully implemented and safe to rely on
-- implemented but narrow, with important behavior notes
-- not implemented yet and currently rejected
-
-The rest of this page is organized that way.
+This page lists the interops the node implements and the names it rejects.
 
 ## Runtime Context And Utility
-
-These methods are currently available.
 
 | Method | Args | Status | Notes |
 | --- | --- | --- | --- |
@@ -24,7 +12,7 @@ These methods are currently available.
 | `Runtime.Context` | none | implemented | Requires a real current context; rejects if context is not available yet. |
 | `Runtime.PreviousContext` | none | implemented | Returns the parent context name. |
 | `Runtime.IsTrigger` | none | implemented | Returns whether the current execution is inside a trigger path. |
-| `Runtime.GenerateUID` | none | implemented | Monotonic within execution; used to preserve expected UID semantics across interop calls. |
+| `Runtime.GenerateUID` | none | implemented | Returns an id that is unique within the execution. |
 | `Runtime.Time` | none | implemented | Returns current block time as VM timestamp. |
 | `Runtime.Version` | none | implemented | Returns current VM behavior version. |
 | `Runtime.IsWitness` | `address` | implemented | Checks whether the address is currently witnessed. |
@@ -32,13 +20,15 @@ These methods are currently available.
 | `Runtime.Notify` | `eventKind, address, payload` | implemented | Requires a real deployed contract context. The kind must be `Custom_V2`; any other kind fails with `contract events must use Runtime.NotifyV2 (Custom_V2)`. |
 | `Runtime.NotifyV2` | `name, address, payload` | implemented | Requires a real deployed contract context. Emits an event with kind `Custom_V2` that carries the event name. `pha-tomb` 2.2.0 and later compile `emit` to this call. |
 
-These names appear in older documentation but are not implemented in the current validator; calls to them are rejected:
+The node rejects these names:
 
 - `Runtime.TransactionHash`
 - `Runtime.Validator`
 - `Runtime.Random`
 - `Runtime.SetSeed`
 - `Runtime.IsMinter`
+- `Runtime.AESEncrypt`
+- `Runtime.AESDecrypt`
 
 ## Contract Lifecycle
 
@@ -46,9 +36,9 @@ These names appear in older documentation but are not implemented in the current
 | --- | --- | --- | --- |
 | `Runtime.DeployContract` | `from, contractName, script, abi` | implemented | Deploys a standalone custom contract. Requires minimal proof of work. Custom names are lowercase. |
 | `Runtime.UpgradeContract` | `from, contractName, script, abi` | implemented | Upgrades an existing deployed contract. Also used later for token-backed contracts after they already exist. Requires minimal proof of work. |
-| `Runtime.KillContract` | `from, contractName` | not implemented | Rejected by the current validator. |
+| `Runtime.KillContract` | `from, contractName` | not implemented | Rejected. |
 | `Nexus.CreateToken` | `from, script, abi` | implemented | Creates a new token-backed contract from contract metadata. Requires minimal proof of work. |
-| `Nexus.AttachTokenContract` | `from, symbol, script, abi` | implemented | Attaches VM code to an already existing token. Requires minimal proof of work and current validator version support. |
+| `Nexus.AttachTokenContract` | `from, symbol, script, abi` | implemented | Attaches VM code to an existing token. Requires minimal proof of work. |
 
 Important lifecycle rules:
 
@@ -65,9 +55,9 @@ Important lifecycle rules:
 | `Runtime.GetBalance` | `address, symbol` | implemented | Returns the current fungible balance. |
 | `Runtime.TransferTokens` | `source, destination, symbol, amount` | implemented | Main fungible transfer interop. |
 | `Runtime.TransferBalance` | `source, destination, symbol` | implemented | Transfers the full current balance for that symbol. |
-| `Runtime.MintTokens` | `source, destination, symbol, amount` | implemented | Current Carbon implementation includes trigger-aware atomic behavior. |
-| `Runtime.BurnTokens` | `address, symbol, amount` | implemented | Gas charging changed over time; current validator behavior is the source of truth. |
-| `Runtime.SwapTokens` | - | not implemented | Still rejected. |
+| `Runtime.MintTokens` | `source, destination, symbol, amount` | implemented | Runs `onMint` on a token-backed contract; the mint is applied only when the trigger succeeds. |
+| `Runtime.BurnTokens` | `address, symbol, amount` | implemented | Burns a fungible amount. |
+| `Runtime.SwapTokens` | - | not implemented | Rejected. |
 
 ## NFT And Token-Backed Operations
 
@@ -85,7 +75,7 @@ Important lifecycle rules:
 | `Runtime.ReadInfusions` | `symbol, tokenID` | implemented | Rebuilds Phantasma-style infusion view from current Carbon balances. |
 | `Runtime.WriteToken` | `from, symbol, tokenID, ram` | implemented | Updates NFT RAM by runtime-visible Phantasma NFT ID. Invokes `onWrite` before the native RAM update when a token-backed trigger exists. |
 
-For `Runtime.ReadToken` and related NFT interops, the current validator intentionally treats the public Phantasma NFT ID as the runtime identity. Internal Carbon instance IDs stay an internal storage detail.
+`Runtime.ReadToken` and the other NFT interops identify an NFT by its public Phantasma NFT id. The internal instance id is a storage detail.
 
 `Runtime.WriteToken` follows the same runtime-visible NFT ID rule. It replaces RAM bytes, accepts empty RAM to clear the RAM flag, does not change owner, ROM, or token supply, and rolls back the RAM update plus trigger storage writes if `onWrite` fails. Native token symbols and dangerous symbols are rejected.
 
@@ -139,7 +129,7 @@ Storage behavior notes:
 
 - write methods operate on the current deployed contract context, not an arbitrary named contract
 - read methods can target another contract by name
-- collection storage uses canonical count tracking under the hood, so imported or malformed storage can still be rejected if it breaks expected layout
+- the node keeps an entry count per map and list field, and rejects storage whose count and entries disagree
 
 ## Account And Constructor Helpers
 
@@ -150,7 +140,7 @@ Storage behavior notes:
 | `Hash()` | `hashLike` | implemented | Builds a hash object. |
 | `Timestamp()` | `timestampLike` | implemented | Builds a timestamp value. |
 
-These are still not implemented:
+The node rejects these names:
 
 - `Account.LastActivity`
 - `Account.Transactions`
@@ -158,7 +148,7 @@ These are still not implemented:
 
 ## Organization, Oracle, And Task Namespaces
 
-Current Carbon still rejects these as unimplemented:
+The node rejects these names:
 
 - `Organization.AddMember`
 - `Organization.RemoveMember`
@@ -187,4 +177,4 @@ If you are writing new contracts today:
 - use `Nexus.CreateToken`, `Nexus.AttachTokenContract`, and later `Runtime.UpgradeContract` for token-backed contracts
 - rely on `Data.*`, `Map.*`, and `List.*` for persistent state
 - rely on `Runtime.MintTokens`, `Runtime.TransferTokens`, `Runtime.MintToken`, `Runtime.TransferToken`, `Runtime.ReadToken`, `Runtime.WriteToken`, and `Nexus.CreateTokenSeries` for current token and NFT flows
-- do not build new contracts or examples around methods that the validator still rejects as unimplemented
+- do not build contracts or examples around names the node rejects

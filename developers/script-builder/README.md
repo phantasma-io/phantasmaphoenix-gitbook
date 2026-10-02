@@ -1,6 +1,6 @@
 # 📝 ScriptBuilder (C# SDK)
 
-`ScriptBuilder` is the C# SDK helper for assembling Phantasma transaction scripts: it allocates gas, transfers fungible tokens and NFTs, and calls contracts. The methods below are C# extension methods from `PhantasmaPhoenix.VM`; each one emits the VM `EXTCALL` interops the validator runs.
+`ScriptBuilder` is the C# SDK helper for assembling Phantasma transaction scripts: it allocates gas, transfers fungible tokens and NFTs, mints tokens and calls contracts. The methods below are C# extension methods from `PhantasmaPhoenix.VM` (`ScriptBuilderExtensions.cs` and `ScriptUtils.cs`); each one emits the VM `EXTCALL` interops the node runs. Every method that takes a `to: Address` also has an overload that takes the destination as an address string. The `CrossTransferToken` and `CrossTransferNFT` extensions emit `Runtime.SendTokens`, which the node does not implement, so they are not documented here.
 
 {% hint style="info" %}
 For the underlying VM interop surface (and the script builders in the other SDKs), see [External Calls](external-calls.md).
@@ -41,7 +41,7 @@ Adds a `SpendGas` call. The current chain accepts the call and ignores it. It se
 
 `public static ScriptBuilder TransferTokens(this ScriptBuilder sb, string tokenSymbol, Address from, Address to, BigInteger amount)`
 
-This method is used to transfer a specific amount of fungible tokens from one address to another in the Phantasma blockchain.
+Transfers an amount of a fungible token between two addresses (`Runtime.TransferTokens`).
 
 **Parameters**
 
@@ -55,7 +55,7 @@ This method is used to transfer a specific amount of fungible tokens from one ad
 
 `public static ScriptBuilder TransferBalance(this ScriptBuilder sb, string tokenSymbol, Address from, Address to)`
 
-This method is used to transfer the full available balance of a specific fungible token from one address to another in the Phantasma blockchain.
+Transfers the whole balance of a fungible token between two addresses (`Runtime.TransferBalance`).
 
 **Parameters**
 
@@ -68,17 +68,15 @@ This method is used to transfer the full available balance of a specific fungibl
 
 `public static ScriptBuilder TransferNFT(this ScriptBuilder sb, string tokenSymbol, Address from, Address to, BigInteger tokenId)`
 
-The TransferNFT method of the ScriptBuilder class is used to transfer a single Non-Fungible Token (NFT) from one address to another. The NFT is specified by its tokenID argument, which uniquely identifies the NFT within the given tokenSymbol and from address.
+Transfers one NFT, identified by its Phantasma NFT id, between two addresses (`Runtime.TransferToken`).
 
 **Parameters**
 
 * `sb`: The ScriptBuilder instance.
-*   `tokenSymbol`: A string representing the&#x20;
-
-    symbol of the NFT to be transferred.
-* `from`: An Address object representing the source address from which the NFT will be transferred.
-* `to`: An Address object representing the destination address to which the NFT will be transferred.
-* `tokenId`: A BigInteger representing the unique identifier of the NFT to be transferred.
+* `tokenSymbol`: The symbol of the NFT token.
+* `from`: The source address.
+* `to`: The destination address.
+* `tokenId`: The Phantasma NFT id.
 
 **Example**
 
@@ -88,11 +86,19 @@ sb.TransferNFT("NFT", fromAddress, toAddress, tokenId);
 byte[] script = sb.EndScript();
 ```
 
+#### MintTokens
+
+`public static ScriptBuilder MintTokens(this ScriptBuilder sb, string tokenSymbol, Address from, Address target, BigInteger amount)`
+
+Mints an amount of a fungible token to `target` (`Runtime.MintTokens`). `from` must be allowed to mint the token.
+
 #### CallContract
 
 `public static ScriptBuilder CallContract(this ScriptBuilder sb, string contractName, string method, params object[] args)`
 
-The CallContract method of the ScriptBuilder class is used to call a specific method from a smart contract with custom arguments. The contract is specified by its contractName, and the method to be called is specified by its method argument. Custom arguments can be passed as an array of objects using the args parameter.
+`public static ScriptBuilder CallContract(this ScriptBuilder sb, NativeContractKind contractKind, string method, params object[] args)`
+
+Calls a method of a deployed contract, or of a native contract named by `NativeContractKind`, with the given arguments. The arguments are pushed in reverse order, then the method name, then the contract context is entered with `CTX` and `SWITCH`.
 
 **Parameters**
 
@@ -113,7 +119,7 @@ byte[] script = sb.EndScript();
 
 `public static ScriptBuilder CallNFT(this ScriptBuilder sb, string symbol, BigInteger seriesID, string method, params object[] args)`
 
-The CallNFT method of the ScriptBuilder class is used to call a specific method from a smart Non-Fungible Token (NFT) contract, identified by its symbol and seriesID, with custom arguments. The method to be called is specified by its method argument, and custom arguments can be passed as an array of objects using the args parameter.
+Calls a method of an NFT series contract. The context name is `SYMBOL#seriesID`, which the node resolves to the series created from the token's `nft` submodule.
 
 **Parameters**
 

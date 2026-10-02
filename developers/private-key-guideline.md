@@ -25,7 +25,7 @@ Support is planned according to the [roadmap](https://phantasma.info/blockchain#
 
 ### **B. Wallet-controlled private key (via Phantasma Link)**
 - The private key is **never stored in your app**.
-- Transactions are signed by the wallet (e.g., Phantasma Link, Ledger), not by the game/app.
+- Transactions are signed by a wallet that speaks Phantasma Link, not by the game or app.
 - The app sends signing requests to the wallet.
 
 **Pros:**
@@ -46,7 +46,7 @@ Support is planned according to the [roadmap](https://phantasma.info/blockchain#
 | You want maximum user trust with minimal onboarding friction | Consider **auto-generated wallet** with clear export/import options |
 
 {% hint style="info" %}
-If you choose the **wallet-controlled** approach via Phantasma Link, make sure to install and use the dedicated **Link Client** package for your SDK.
+If you choose the **wallet-controlled** approach via Phantasma Link, use the Link client of your SDK: `phantasma-sdk-ts/link/v5` or `phantasma-link-react` for TypeScript, `PhantasmaPhoenix.Unity.LinkClient` for Unity.
 
 If you choose the **application-controlled** approach (working directly with the private key), use the lower-level **Core** or equivalent packages for your SDK.
 {% endhint %}

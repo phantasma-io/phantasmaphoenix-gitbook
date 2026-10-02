@@ -52,7 +52,7 @@ The panel says which of the two it is showing:
 
 ### Before a token creation
 
-`Token.CreateToken` is charged its policy fee before the contract looks at the
+`Token.CreateToken` is charged its base policy fee before the contract looks at the
 symbol, and that fee is the largest single price in the protocol. A symbol that
 is already taken would cost the fee and create nothing.
 
@@ -111,7 +111,7 @@ Required fields:
 Icon rules:
 - Only PNG, JPEG, or WebP data URIs are supported.
 - The base64 payload must be valid and non-empty.
-- Phantasma Link enforces a ~64 KB transaction size limit. The UI caps icon payloads at 30,000 base64 chars (about 22.5 KB), but you should still keep the icon small (roughly <= 22 KB) to avoid rejection.
+- The v1-v4 Link protocol refuses a transaction above 64 KB (65,536 hex characters); Link v5 raises the limit to the chain ceiling. The UI caps icon payloads at 30,000 base64 chars (about 22.5 KB), but you should still keep the icon small (roughly <= 22 KB) to avoid rejection.
 
 You can add extra key/value metadata, but do **not** reuse reserved keys `name`, `icon`, `url`, `description`.
 

@@ -26,7 +26,7 @@ If you are using a helper library or Script Builder abstraction, it usually hide
 
 ## Interop Namespaces You Can Rely On Today
 
-The current Carbon validator supports useful working surfaces in these namespaces:
+The node serves these namespaces:
 
 - `Runtime.*`
   - context helpers, logging, token operations, NFT operations, contract deploy and upgrade

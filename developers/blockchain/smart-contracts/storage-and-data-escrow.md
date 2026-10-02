@@ -40,9 +40,9 @@ The contract address does not need to have staked SOUL for storage writes to suc
 - the transaction must be authorized correctly
 - the transaction payer must have enough KCAL for gas
 - the transaction payer must have enough SOUL available for data escrow
-- the transaction's `maxData` limit must be high enough for the storage growth
+- for a Carbon message, the `maxData` ceiling must cover the storage growth
 
-If the write grows persistent state and the required SOUL data escrow exceeds `maxData`, the transaction aborts with a data-fee failure.
+A Carbon message whose storage growth exceeds its `maxData` ceiling is rejected with `DataFees`. A script transaction sent with `sendRawTransaction` carries no ceiling: the chain bills the escrow for the actual growth after execution, and the gas payer must hold that SOUL.
 
 ## How Data Usage Is Measured
 
@@ -59,7 +59,7 @@ Some internal chain rows are excluded from data escrow accounting. Contract auth
 
 ## `maxData` And SOUL Data Escrow
 
-`maxData` is the transaction's maximum SOUL data escrow. It is not a byte count and it is not a contract storage quota. It is a spending limit for the transaction's persistent state growth.
+`maxData` is the maximum SOUL data escrow of a Carbon message, including a script wrapped in one. It is not a byte count and it is not a contract storage quota. It is a spending limit for the message's persistent state growth. A script transaction sent with `sendRawTransaction` has no such limit; the escrow is settled from the gas payer's SOUL balance.
 
 The effective charge is:
 

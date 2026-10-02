@@ -1,6 +1,6 @@
 # pha-decode
 
-CLI tool for decoding Phantasma Carbon + VM transactions, contract lifecycle scripts, legacy event hex, ROM blobs, serialized VM objects, and address conversions.
+CLI tool for decoding Phantasma Carbon and VM transactions, contract lifecycle scripts, event payload hex, ROM blobs, serialized VM objects, and address conversions.
 
 ## What it can decode
 
@@ -8,7 +8,7 @@ CLI tool for decoding Phantasma Carbon + VM transactions, contract lifecycle scr
 - Carbon `Phantasma` / `Phantasma_Raw` wrappers reconstructed into a VM view.
 - VM transaction containers and raw VM scripts, including disassembly and method calls.
 - Deploy / upgrade interops with contract name, signer, script hash, ABI hash, and ABI method/event summaries when ABI bytes are present.
-- Legacy event hex payloads.
+- Event payload hex, as carried by `events[].data` of a transaction result.
 - ROM blobs in auto, legacy/common, or `CROWN` mode.
 - Serialized VM objects, such as the `result` of an `invokeRawScript` RPC call.
 - Carbon `bytes32` addresses to Phantasma addresses and back.
@@ -53,7 +53,7 @@ pha-decode tx --hash 155422A6882C3342933521DDC1A335292BF6448DBD489ED0BE21CFC74AF
   --carbon-detail call
 ```
 
-Decode legacy event hex:
+Decode an event payload:
 
 ```bash
 pha-decode event --hex 0xAABBCC... --kind TokenMint
@@ -83,7 +83,7 @@ pha-decode address --pha P2KKzrLNZK75f4Vtp4wwWocfgoqywBo3zKBWxBXjLgbxXmL
 `pha-decode` supports five commands:
 
 - `tx` (default): decode a transaction. Provide it as raw hex (`--hex`), fetch it by hash (`--hash` with `--rpc`), pass an RPC transaction JSON (`--rpc-json <path|->`), or decode a Carbon transaction body (`--carbon-tx-data` with `--carbon-tx-type`). Optional context for `--carbon-tx-data`: `--payload`, `--expiration`, `--gas-payer`, `--gas-limit`, `--signature-count`.
-- `event`: decode legacy event data from hex (`--hex`) with an optional event kind (`--kind`).
+- `event`: decode an event payload from hex (`--hex`) with an optional event kind (`--kind`).
 - `rom`: decode ROM hex (`--hex`) with optional `--symbol`, `--token-id`, and `--rom-format`.
 - `vmobj`: decode one serialized VM object from hex, passed as `--hex` or as a positional argument.
 - `address`: convert or derive addresses from `--bytes32`, `--pha`, `--wif`, `--private-key`, `--mnemonic`, or `--mnemonic-legacy`.
@@ -163,7 +163,7 @@ Carbon output detail:
 
 Event decoding:
 
-- `--kind <eventKind>` Event kind hint for legacy event hex. Accepts numeric id or name.
+- `--kind <eventKind>` Event kind hint for the event payload. Accepts numeric id or name.
 
 ROM decoding:
 
@@ -264,7 +264,7 @@ Inside `entries` and `fields`, a nested struct is rendered as its `fields` objec
 
 The decoder rejects an unknown VM type id and nesting deeper than 128 levels. Bytes left after the object produce a warning such as `VM object has 2 trailing bytes`.
 
-## Event kinds (legacy)
+## Event kinds
 
 `--kind` accepts either the numeric id or the name (case-insensitive, whitespace ignored).
 

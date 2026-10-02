@@ -169,7 +169,7 @@ every such call inside a `Call_Multi`. An empty answer means no list is needed.
 
 ## The Pre-Flight Before A Token Creation
 
-`Token.CreateToken` is charged its policy fee before the contract looks at the
+`Token.CreateToken` is charged its base policy fee before the contract looks at the
 symbol. That fee is the largest single price in the protocol. Governance sets it
 and `getGasConfig` reports it. Sending a symbol that is already taken pays the
 fee and gets nothing back.

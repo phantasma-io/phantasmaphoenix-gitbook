@@ -1,6 +1,6 @@
 # Phantasma Chain
 
-This section covers the current Carbon validator from the developer point of view.
+This section covers the node's virtual machine from the developer point of view.
 
 Use it when you need chain-facing behavior rather than deployment tooling:
 

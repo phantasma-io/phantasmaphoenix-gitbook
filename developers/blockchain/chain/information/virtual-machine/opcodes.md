@@ -1,6 +1,6 @@
 # Opcodes
 
-This page documents the current Phantasma VM opcode set used by the Carbon validator.
+This page documents the Phantasma VM opcode set and the base gas cost of each opcode.
 
 ## Gas Cost Model
 
@@ -74,12 +74,11 @@ The current base costs are:
 | `GET` | `dst, target, field` | Read a field from a struct-like target. | `5` |
 | `CLEAR` | `reg` | Reset a register to `None`. | `1` |
 | `UNPACK` | `src, dst` | Decode a serialized struct-like value. | `1` |
-| `PACK` | - | Reserved; currently unused. | `1` |
+| `PACK` | - | Reserved and unused. | `1` |
 | `DEBUG` | - | Debug breakpoint opcode. In code this is stored as `DEBUG_`. | `1` |
 
 ## Notes For Contract Authors
 
 - `EXTCALL` is how VM code reaches native chain functionality such as token transfers, storage helpers, and contract lifecycle operations.
 - `CTX` and `SWITCH` are what make cross-context contract calls and trigger execution possible.
-- `PACK` is still effectively unused in the current implementation.
 - The base opcode gas above is only part of the final transaction cost. Heavy interops can add much larger native gas charges.

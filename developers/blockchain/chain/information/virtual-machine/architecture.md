@@ -1,6 +1,6 @@
 # Architecture
 
-The Phantasma VM used by the current Carbon validator is a register-based virtual machine with a shared stack and explicit execution contexts. It is the execution engine behind VM contracts, VM token triggers, and raw script execution.
+The Phantasma VM is a register-based virtual machine with a shared stack and explicit execution contexts. It is the execution engine behind VM contracts, VM token triggers, and raw script execution.
 
 ## Core Execution Model
 
@@ -52,14 +52,7 @@ There are two gas layers to keep in mind:
 2. Interop and native work gas
    - interops consume additional configured gas buckets and may trigger much larger native charges underneath
 
-The base opcode costs are defined in the VM opcode table. The interop buckets come from the Phantasma VM config and include categories such as:
-
-- constructor
-- standard
-- account
-- organization
-- oracle
-- nexus
+The base opcode costs are in the opcode table. The interop buckets are the fields of the Phantasma VM config: `gasConstructor`, `gasStandard`, `gasAccount`, `gasOrganization`, `gasLeaderboard`, `gasOracle` and `gasNexus`.
 
 For contract lifecycle flows, native work dominates the total cost. `Runtime.DeployContract`, `Runtime.UpgradeContract`, `Nexus.CreateToken`, and `Nexus.AttachTokenContract` are not cheap operations.
 
@@ -76,17 +69,19 @@ If the transaction does not meet the minimum difficulty, execution fails before 
 
 ## Trigger Execution
 
-Token-backed contracts can expose trigger methods such as:
+Token-backed contracts can expose these trigger methods:
 
 - `onMint`
 - `onBurn`
 - `onSend`
 - `onReceive`
+- `onInfuse`
 - `onSeries`
 - `onAttach`
 - `onUpgrade`
+- `onWrite`
 
-The runtime invokes these through dedicated trigger paths rather than treating them as ordinary public helpers. Current Carbon behavior preserves several important properties:
+The runtime invokes them through dedicated trigger paths rather than as ordinary public methods:
 
 - trigger guards prevent unsafe recursive trigger re-entry
 - important token operations run speculatively and merge state only on success
@@ -97,7 +92,7 @@ One especially important example is `onMint`: token-backed create and attach flo
 
 ## Token-Backed Contracts Versus Standalone Contracts
 
-Carbon currently supports two distinct VM contract models:
+The VM has two contract models:
 
 - standalone custom contracts
   - lowercase contract names
@@ -106,4 +101,4 @@ Carbon currently supports two distinct VM contract models:
   - uppercase token symbols
   - created through `Nexus.CreateToken(...)` or attached later through `Nexus.AttachTokenContract(...)`
 
-They both run on the same VM, but they are admitted through different validator rules and lifecycle paths. That distinction is intentional and important.
+They run on the same VM and are admitted through different rules and lifecycle paths.

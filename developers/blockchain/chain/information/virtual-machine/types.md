@@ -20,7 +20,7 @@ The Phantasma VM uses a small fixed set of runtime value types. These types appe
 | `Timestamp` | `5` | date/time values | Exposed as a distinct VM type and also convertible through numeric paths. |
 | `Bool` | `6` | true / false | Used heavily in interop results and guard conditions. |
 | `Enum` | `7` | enum-like values | Common for flags, trigger kinds, and typed control values. |
-| `Object` | `8` | runtime-native objects | In current Carbon practice this is mainly used for values such as `Address`, `Hash`, or execution-context objects. |
+| `Object` | `8` | runtime-native objects | Used for `Address`, `Hash` and execution-context values. |
 
 ## Developer Notes
 
@@ -41,7 +41,7 @@ The Phantasma VM uses a small fixed set of runtime value types. These types appe
 
 `Object` deserves special attention.
 
-For contract authors, it is best treated as a runtime-native wrapper type rather than a generic user-defined object model. In current Carbon code it is mainly used for:
+For contract authors it is a runtime-native wrapper type, not a user-defined object model. The runtime uses it for:
 
 - addresses
 - hashes

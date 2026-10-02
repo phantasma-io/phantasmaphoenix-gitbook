@@ -5,8 +5,9 @@ transaction signing, VM script construction, and Carbon workflows.
 
 ## Script Builder
 
-`ScriptBuilder` is the common SDK abstraction for building VM scripts. Use it for
-contract calls, interop calls, gas, transfers, staking, and NFT operations.
+Every SDK has a `ScriptBuilder` for VM scripts: contract calls, interop calls,
+gas, transfers, staking and NFT operations. The C# methods are documented
+under Script Builder; the other SDKs document theirs on their VM pages.
 
 {% content-ref url="/developers/script-builder" %}
 Script builder

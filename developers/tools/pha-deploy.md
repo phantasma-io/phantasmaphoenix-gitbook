@@ -323,7 +323,7 @@ line then reads `up to <amount>`, and the difference is refunded. The storage
 deposit is refunded once the rows it paid for are deleted.
 
 `--create-token` runs one lookup before it signs. `Token.CreateToken` is charged
-its policy fee before the contract checks the symbol, so a symbol that is
+its base policy fee before the contract checks the symbol, so a symbol that is
 already taken would cost that fee for nothing. The CLI refuses to send when the
 chain says the symbol is taken, and also when the lookup could not establish an
 answer.
@@ -347,7 +347,6 @@ pha-deploy contract compile \
   --compiler /path/to/pha-tomb \
   --out ./dist/contracts/demo \
   --debug \
-  --protocol 16 \
   --nativecheck warn
 ```
 
@@ -356,7 +355,7 @@ Important flags:
 - `--compiler <path>` explicit `pha-tomb` executable
 - `--out <dir>` output directory for the bundle
 - `--contract-name <name>` required only when the compiler emits multiple modules
-- `--protocol <number>`
+- `--protocol <number>` target protocol version; left out, the compiler uses the latest protocol it knows
 - `--debug`
 - `--nativecheck <off|warn|error>`
 - `--libpath <path>` repeatable library search path

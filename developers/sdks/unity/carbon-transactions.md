@@ -92,7 +92,7 @@ StartCoroutine(api.SignAndSendCarbonTransaction(
 
 ## Creating A Token
 
-A token creation spends the policy fee before the contract looks at the symbol,
+A token creation spends the base policy fee before the contract looks at the symbol,
 and that fee is the largest single price in the protocol. A creation whose
 symbol is already taken spends that fee and creates no token.
 
