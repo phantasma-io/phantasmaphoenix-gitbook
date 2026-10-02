@@ -1,5 +1,5 @@
 ---
-description: Here, we will provide information on how to deploy your Smart Contract
+description: Deploying a compiled contract with pha-deploy
 ---
 
 # How to Deploy
@@ -8,9 +8,7 @@ description: Here, we will provide information on how to deploy your Smart Contr
 Before deployment, compile your source with `pha-tomb` and make sure you have the generated `.pvm` and `.abi` artifacts.
 {% endhint %}
 
-## Step 1: decide which flow you actually need
-
-This is the most common source of deployment errors.
+## Step 1: decide which flow you need
 
 ### Standalone custom contract
 

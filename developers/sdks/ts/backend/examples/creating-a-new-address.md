@@ -1,6 +1,6 @@
 # Creating a new Address
 
-This is just a simple way to create a new wallet.
+Generates a new key pair and prints its address.
 
 ```ts
 import { bytesToHex, PhantasmaKeys } from "phantasma-sdk-ts/public";

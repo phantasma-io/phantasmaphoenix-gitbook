@@ -7,17 +7,7 @@ description: Connecting wallets to dApps
 Phantasma Link is a protocol that lets dApps sign transactions and run on-chain operations on behalf of users, in a transparent way, without ever accessing the user's private key.
 
 {% hint style="info" %}
-This page is a protocol overview, not a TypeScript guide.
-If you're building in TS, start here:
-
-- [Frontend Guide](/developers/sdks/ts/frontend/frontend.md)
-
-Then use these pages as needed:
-
-- [Phantasma Link v5 (TS)](/developers/sdks/ts/frontend/phantasma-link-v5.md)
-- [Phantasma Link (TS)](/developers/sdks/ts/shared-methods/phantasmalink.md)
-- [EasyConnect (TS)](/developers/sdks/ts/shared-methods/easyconnect.md)
-- [React Wallet Connection](/developers/sdks/ts/frontend/connect-react.md)
+This page describes the protocol. The TypeScript implementation is documented on [Frontend Guide](/developers/sdks/ts/frontend/frontend.md), [Phantasma Link v5](/developers/sdks/ts/frontend/phantasma-link-v5.md), [Phantasma Link](/developers/sdks/ts/shared-methods/phantasmalink.md), [EasyConnect](/developers/sdks/ts/shared-methods/easyconnect.md) and [React Wallet Connection](/developers/sdks/ts/frontend/connect-react.md).
 {% endhint %}
 
 ## Phantasma Link v5

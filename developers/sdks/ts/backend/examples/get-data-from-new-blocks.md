@@ -1,8 +1,6 @@
 # Get data from new Blocks
 
-This shows how to get a program to go **block** by block until it finds a event that we want.
-
-It's possible to add more **validation**, such as check for the **address**, the **symbol** that was **received** etc.
+The program reads blocks one by one and stops at the first event it is looking for. Add checks on the address, the symbol or the amount as the application needs.
 
 ```ts
 import { PhantasmaAPI, getTokenEventData } from "phantasma-sdk-ts/public";

@@ -7,9 +7,7 @@ coverY: 0
 
 ## Smart contract Development
 
-{% hint style="info" %}
-Are you looking for creating your own smart contract?
-{% endhint %}
+Smart contracts are written in TOMB and deployed with `pha-deploy`:
 
 {% content-ref url="/developers/blockchain/smart-contracts/" %}
 Smart Contracts
@@ -105,7 +103,7 @@ https://peers.phantasma.info/devnet-getpeers.json
 </td></tr>
 </tbody></table>
 
-### Phantasma SDK's
+### Phantasma SDKs
 
 {% hint style="info" %}
 Phantasma ships SDKs for C#, Unity, TypeScript/JavaScript, Go, Python, Rust, and C++. Pick the one that matches your stack.

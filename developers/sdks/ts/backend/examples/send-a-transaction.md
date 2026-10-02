@@ -1,18 +1,14 @@
 ---
-description: >-
-  Here's an small example how to send a transaction using NodeJS for the
-  backend.
+description: Sending a transaction from a Node.js backend.
 ---
 
 # Send a Transaction
 
 {% hint style="info" %}
-Don't forget to import the WIF, you can the wif by exporting it from Poltergeist or Ecto Wallet.
+The signer's WIF is needed; export it from Poltergeist Lite or Ecto.
 {% endhint %}
 
-Here's how to import the wallet keys.
-
-Here we'll create the script that will be sending the transaction.
+The program imports the keys, builds the script, signs the transaction and polls for its result.
 
 ```ts
 import { PhantasmaAPI, Transaction } from "phantasma-sdk-ts/public";

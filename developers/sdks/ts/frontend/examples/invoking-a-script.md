@@ -9,9 +9,7 @@ Current SDK source exposes the invoke-script methods used below. The call reads 
 # Invoking a Script
 
 {% hint style="info" %}
-This is used to query data from the blockchain, it's act's like a **get**
-
-The arguments or **args** here should be always inside of an array.
+`invokeRawScript` reads chain data without changing state. The arguments go in an array.
 {% endhint %}
 
 To do it using the **PhantasmaAPI** check this example

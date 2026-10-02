@@ -1,7 +1,7 @@
 # Sign a Transaction
 
 {% hint style="info" %}
-Here's a simple example how to sign a transaction
+Signing a transaction locally with a key pair.
 {% endhint %}
 
 ```ts
