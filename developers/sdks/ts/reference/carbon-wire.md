@@ -2,8 +2,8 @@
 
 Most core Carbon value types and builders are exported from
 `phantasma-sdk-ts/public`. The full Carbon helper surface is exported from
-`phantasma-sdk-ts/types`, including fee option classes and helper functions such
-as `getRandomPhantasmaId`.
+`phantasma-sdk-ts/types`, including the wire serializers, the fee plan types and
+helper functions such as `getRandomPhantasmaId`.
 
 ## Core Serialization
 

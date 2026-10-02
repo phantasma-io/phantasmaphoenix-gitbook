@@ -75,7 +75,20 @@ Common entry points:
 
 ## Wallet Layers
 
-The TS SDK exposes three wallet integration layers.
+The TS SDK exposes four wallet integration layers.
+
+### `PhantasmaLink5`
+
+Use this for new integrations. It is the current protocol generation: a JSON envelope with typed parameters, numeric error codes, capability negotiation and revocable sessions, over the injected, deeplink, loopback and relay transports.
+
+Key capabilities:
+
+- `PhantasmaLink5.injected(...)`, `.webDeeplink(...)`, `.loopback(...)`, `.relay(...)`, `.relayEcdh(...)`, `.deeplink(...)`
+- `connect(...)`, `getAccounts()`, `getChains()`, `getWalletInfo()`
+- `signTransaction(...)`, `sendTransaction(...)`, `signMessage(...)`, `invokeScript(...)`
+- `onEvent(...)`, `disconnect()`, `forgetSession()`
+
+See [Phantasma Link v5](/developers/sdks/ts/frontend/phantasma-link-v5.md).
 
 ### `PhantasmaLink`
 
@@ -118,6 +131,7 @@ Key capabilities:
 See:
 
 - [Wallet Connection](/developers/sdks/ts/frontend/wallet-connection.md)
+- [Phantasma Link v5](/developers/sdks/ts/frontend/phantasma-link-v5.md)
 - [Phantasma Link](/developers/sdks/ts/shared-methods/phantasmalink.md)
 - [EasyConnect](/developers/sdks/ts/shared-methods/easyconnect.md)
 - [React Wallet Connection](/developers/sdks/ts/frontend/connect-react.md)

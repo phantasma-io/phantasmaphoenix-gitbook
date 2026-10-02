@@ -6,7 +6,7 @@ Infusion in Carbon is a transfer to the target NFT's Carbon address. RPC builds 
 
 - Target NFT Carbon address (32-byte hex).
 - Carbon token ID and instance IDs for infused NFTs, or carbon token ID and amount for fungible infusion.
-- Signatures: the owner of the infused assets must sign; with FeatureLevel max (`NftInfuseWitness` active), the target NFT owner must also sign.
+- Signatures: the owner of the infused assets and the owner of the target NFT both sign (the `NftInfuseWitness` rule).
 
 ## Step 1: Resolve the target NFT Carbon address
 

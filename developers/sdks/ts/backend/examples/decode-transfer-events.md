@@ -2,7 +2,7 @@
 
 
 {% hint style="info" %}
-The **Data** is inside the **TokenSent** and **TokenReceived** Events
+The event data of a fungible transfer is carried by the `TokenSend` and `TokenReceive` events.
 {% endhint %}
 
 ```ts

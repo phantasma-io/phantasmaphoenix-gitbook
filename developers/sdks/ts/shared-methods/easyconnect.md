@@ -137,17 +137,20 @@ Example:
 
 ```ts
 import { EasyConnect, Transaction } from "phantasma-sdk-ts/public";
+import type { PrebuiltTransactionSignResult } from "phantasma-sdk-ts/public";
 
 const conn = new EasyConnect();
 
 const tx = new Transaction("<nexus>", "<chain>", "<scriptHex>", new Date(), "<payloadHex>");
 
+// The EasyConnect callbacks receive `unknown`; this one gets a PrebuiltTransactionSignResult.
 conn.signPrebuiltTransaction(
   tx,
-  (result) => {
-    console.log("signed tx:", result.signedTx);
+  (result?: unknown) => {
+    const signed = result as PrebuiltTransactionSignResult;
+    console.log("signed tx:", signed.signedTx);
   },
-  (error) => {
+  (error?: unknown) => {
     console.error(error);
   }
 );
@@ -160,8 +163,8 @@ conn.signPrebuiltTransaction(
 ```ts
 conn.signCarbonTransaction(
   txMsg,
-  (result) => console.log("Carbon tx result:", result),
-  (error) => console.error("Carbon signing failed:", error)
+  (result?: unknown) => console.log("Carbon tx result:", result),
+  (error?: unknown) => console.error("Carbon signing failed:", error)
 );
 ```
 

@@ -12,7 +12,7 @@ compatibility notes, and lower-level helpers.
 | [RPC Client](rpc-methods.md) | You need `PhantasmaAPI` methods, raw JSON-RPC result handling, broadcast helpers, or pagination behavior. |
 | [RPC Result Models](rpc-models.md) | You need result interface fields returned by account, token, block, transaction, NFT, auction, archive, or network calls. |
 | [VM and Transaction APIs](vm-transaction-binary.md) | You need key/address handling, VM scripts, transactions, signatures, event decoding, binary helpers, or compatibility aliases. |
-| [Carbon API and Wire Format](carbon-wire.md) | You need Carbon serializers, schemas, token/series/NFT builders, fee options, signed messages, or result parsers. |
+| [Carbon API and Wire Format](carbon-wire.md) | You need Carbon serializers, schemas, token/series/NFT builders, fee plans, signed messages, or result parsers. |
 | [Public API Inventory](public-api.md) | You need the complete declaration list across package exports and deep-import declaration files. |
 
 ## Import Policy

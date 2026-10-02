@@ -118,7 +118,7 @@ main().catch(console.error);
 ```
 
 {% hint style="warning" %}
-`Token.CreateToken` pays its policy fee before the contract looks at the symbol.
+`Token.CreateToken` pays its base policy fee before the contract looks at the symbol.
 A symbol that is already taken costs that fee and returns nothing.
 `sendTransaction` runs one lookup first and refuses when the chain says the
 symbol is taken, or when it could establish nothing. See

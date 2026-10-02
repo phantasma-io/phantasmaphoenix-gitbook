@@ -113,7 +113,9 @@ wallet shows the amount when the flag is `true`, and "up to" in front of the
 amount when it is `false`.
 
 The flag says nothing about facts the caller stated. A stated fact that is wrong
-produces a wrong bill.
+produces a wrong bill. The one exception is `bigFungible`: stated as `true`, it
+asks for the widest answer a variable-length balance can have, and a plan that
+rests on it reports `false` however it was arrived at.
 
 ### Stating A Fact
 
@@ -178,7 +180,7 @@ const plan = await api.fees.plan(burn, { infusions });
 
 ## The Pre-Flight Before A Token Creation
 
-`Token.CreateToken` is charged its policy fee before the contract looks at the
+`Token.CreateToken` is charged its base policy fee before the contract looks at the
 symbol. That fee is the largest single price in the protocol. Governance sets it
 and `getGasConfig` reports it. Sending a symbol that is already taken pays the
 fee and gets nothing back.

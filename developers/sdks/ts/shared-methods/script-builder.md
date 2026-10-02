@@ -29,7 +29,7 @@ const script = new ScriptBuilder()
 
 ## spendGas
 
-Adds a `SpendGas` call. The current chain accepts the call and ignores it. It settles the gas bill and refunds unused KCAL to the gas payer after the script finishes.
+Adds a `SpendGas` call. The chain accepts the call and ignores it: the chain settles the gas bill and refunds unused KCAL to the gas payer after the script finishes, with or without `SpendGas`.
 
 ```ts
 const script = new ScriptBuilder()

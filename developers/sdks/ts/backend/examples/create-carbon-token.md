@@ -97,7 +97,7 @@ To see the fee before sending, plan it first:
 ```
 
 {% hint style="warning" %}
-`Token.CreateToken` pays its policy fee before the contract looks at the symbol,
+`Token.CreateToken` pays its base policy fee before the contract looks at the symbol,
 and that fee is the largest single price in the protocol. A symbol that is
 already taken costs the fee and returns nothing. `sendTransaction` asks the
 chain first and refuses to send when the symbol is taken, or when the lookup
