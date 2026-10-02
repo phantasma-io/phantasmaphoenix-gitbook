@@ -54,10 +54,11 @@ Each SDK documents this on its own fees page:
 * Go
 * Python
 * Rust
-* TypeScript
-* JavaScript
+* TypeScript (usable from JavaScript)
 
 ## C# SDK / Godot Engine
+
+The C# SDK is a set of .NET libraries with no engine dependency; a Godot project in C# uses it like any other package.
 
 {% content-ref url="/developers/sdks/csharp/" %}
 C# SDK
@@ -94,6 +95,8 @@ Unity SDK
 {% endcontent-ref %}
 
 ## C++ / Unreal Engine
+
+The C++ SDK is a header-only library with no engine dependency; an Unreal Engine project includes it with its own JSON, HTTP and crypto adapters.
 
 {% content-ref url="/developers/sdks/cpp/" %}
 C++

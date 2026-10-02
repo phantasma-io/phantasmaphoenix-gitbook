@@ -1,9 +1,5 @@
 # Burn an NFT
 
-{% hint style="warning" %}
-This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
-{% endhint %}
-
 This example demonstrates how to burn an NFT, permanently removing it from the Phantasma blockchain. A transaction script is created and sent using the `SendTransaction()` method from the `PhantasmaLinkClient` class.
 
 ```csharp

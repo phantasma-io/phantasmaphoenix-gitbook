@@ -106,7 +106,8 @@ for the random and encoded data fields.
 
 ## Platform Enum
 
-`PlatformKind` values:
+`PlatformKind` values. Current wallets use `Phantasma`; the other values are
+not used:
 
 | Name | Value |
 | ---- | ---- |

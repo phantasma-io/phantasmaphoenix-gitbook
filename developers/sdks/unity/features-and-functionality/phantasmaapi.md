@@ -151,5 +151,4 @@ the cost before it asks the player to confirm.
 
 **Validation**
 
-* `public static bool IsValidPrivateKey(string key);`
-* `public static bool IsValidAddress(string address);` checks prefix `P` and length 45, which no current 47-character address satisfies; use `PhantasmaPhoenix.Cryptography.Address.IsValidAddress(text)` instead
+* `public static bool IsValidPrivateKey(string key);` checks the WIF shape (`L` or `K` prefix, length 52). Validate addresses with `PhantasmaPhoenix.Cryptography.Address.IsValidAddress(text)`.

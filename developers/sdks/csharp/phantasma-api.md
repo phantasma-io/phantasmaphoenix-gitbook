@@ -859,15 +859,3 @@ Validates a WIF‑formatted private key string
 - must start with `L` or `K` and have length 52
 
 ---
-
-### `static bool IsValidAddress(string address)`
-Checks that the text starts with `P` and is 45 characters long
-
-**Parameters**
-- `address`: address text
-
-**Returns**
-- `true` if the text starts with `P` and has length 45
-
-**Notes**
-- A Phantasma address text is 47 characters (the prefix letter and 34 Base58-encoded bytes), so this helper returns `false` for every current address. Validate addresses with `PhantasmaPhoenix.Cryptography.Address.IsValidAddress(text)`, which parses the text.

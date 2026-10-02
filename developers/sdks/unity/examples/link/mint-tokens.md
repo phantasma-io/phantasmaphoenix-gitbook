@@ -1,9 +1,5 @@
 # Mint Tokens
 
-{% hint style="warning" %}
-This functionality is currently disabled and will be re‑enabled according to the [roadmap](https://phantasma.info/blockchain#roadmap)
-{% endhint %}
-
 This example shows how to mint tokens on the Phantasma blockchain. A transaction script is created and sent using the `SendTransaction()` method from the `PhantasmaLinkClient` class.
 
 ```csharp

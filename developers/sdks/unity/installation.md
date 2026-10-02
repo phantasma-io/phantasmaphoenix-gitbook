@@ -38,9 +38,7 @@ commit hash to the Git URL. Example:
    * **DappID**: Set the DappID to your Dapp's contract name. This will be displayed when a user logs in to your Dapp.
    * **Version**: The recommended version is `2`.
    * **Wallet Endpoint**: The default wallet endpoint is `localhost:7090`. Do not change this unless required.
-   * **Platform and Signature**: Choose the appropriate platform and signature:
-     * For Phantasma, select `ED25519`.
-     * For Ethereum, select `ECDSA`.
+   * **Platform and Signature**: `Phantasma` and `ED25519`. The other values of the two enums are not used by current wallets.
 
 ## Connecting to the Wallet via the SDK (Android)
 

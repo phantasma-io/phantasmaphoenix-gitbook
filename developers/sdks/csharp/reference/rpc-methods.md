@@ -188,10 +188,7 @@ token creation whose symbol the chain reports as taken.
 | `WriteArchiveAsync(hash, blockIndex, blockContent)` | `writeArchive` | Writing one archive block. Current backend behavior is stubbed and returns `false`. | `Task<bool>` |
 | `ReadArchiveAsync(hash, blockIndex)` | `readArchive` | Reading one archive block. Current backend behavior is stubbed and returns an empty string. | `Task<string?>` |
 | `IsValidPrivateKey(key)` | none | Checking the WIF shape used by the SDK helper. | `bool` |
-| `IsValidAddress(address)` | none | Checking the SDK address text shape. | `bool` |
 
-`IsValidPrivateKey` checks for `L` or `K` WIF prefixes and length 52.
-`IsValidAddress` checks for prefix `P` and length 45, which no current address
-satisfies: an address text is 47 characters. Validate addresses with
-`PhantasmaPhoenix.Cryptography.Address.IsValidAddress(text)`, which parses the
-text. Neither helper replaces chain-side validation.
+`IsValidPrivateKey` checks for `L` or `K` WIF prefixes and length 52. Validate
+addresses with `PhantasmaPhoenix.Cryptography.Address.IsValidAddress(text)`,
+which parses the text. Neither helper replaces chain-side validation.

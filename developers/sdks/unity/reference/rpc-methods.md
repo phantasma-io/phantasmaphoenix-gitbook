@@ -138,10 +138,7 @@ with the estimate service switched off.
 | `WriteArchive(hashText, blockIndex, blockContent, ...)` | Stubbed archive write; returns `false`. | `Action<Boolean>` |
 | `ReadArchive(hashText, blockIndex, ...)` | Stubbed archive read; returns an empty string. | `Action<string>` |
 | `IsValidPrivateKey(key)` | Local WIF shape check. | `bool` |
-| `IsValidAddress(address)` | Local address text shape check. | `bool` |
 
-`IsValidPrivateKey` checks for `L` or `K` WIF prefixes and length 52.
-`IsValidAddress` checks for prefix `P` and length 45, which no current address
-satisfies: an address text is 47 characters. Validate addresses with
-`PhantasmaPhoenix.Cryptography.Address.IsValidAddress(text)`, which parses the
-text. Chain-side validation is still authoritative.
+`IsValidPrivateKey` checks for `L` or `K` WIF prefixes and length 52. Validate
+addresses with `PhantasmaPhoenix.Cryptography.Address.IsValidAddress(text)`,
+which parses the text. Chain-side validation is still authoritative.
