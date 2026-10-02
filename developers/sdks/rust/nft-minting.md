@@ -180,8 +180,9 @@ fn parse_phantasma_mint_result(
 Use the current Carbon id-aware RPC calls:
 
 ```rust
+// `parse_create_token_series_result` yields the series id as `u32`; the NFT reads take `u64`.
 let nfts_page = rpc
-    .get_token_nfts(carbon_token_id, carbon_series_id, 20, "", true, "")
+    .get_token_nfts(carbon_token_id, u64::from(carbon_series_id), 20, "", true, "")
     .await?;
 
 let account_nfts = rpc
@@ -189,7 +190,7 @@ let account_nfts = rpc
         &keys.address().to_text(),
         "ART",
         carbon_token_id,
-        carbon_series_id,
+        u64::from(carbon_series_id),
         20,
         "",
         true,

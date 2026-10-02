@@ -149,10 +149,11 @@ Use the Carbon token id returned by `CreateToken`.
 ```rust
 use phantasma_sdk::{
     build_create_token_series_tx_and_sign_hex, build_series_info,
-    bytes32_from_public_key, PhantasmaKeys, Result,
+    bytes32_from_public_key, GasConfig, PhantasmaKeys, PlanAndSignOptions, Result,
 };
 
-fn build_create_series_hex(wif: &str, carbon_token_id: u64) -> Result<String> {
+// `config` is the chain's gas config, read once with `rpc.fees().config(false)`.
+fn build_create_series_hex(wif: &str, carbon_token_id: u64, config: &GasConfig) -> Result<String> {
     let keys = PhantasmaKeys::from_wif(wif)?;
     let owner = bytes32_from_public_key(&keys.public_key())?;
 
@@ -202,7 +203,7 @@ let token = rpc.get_token("ART", true).await?;
 let series_page = rpc.get_token_series("ART", carbon_token_id, 100, "").await?;
 
 println!("{} {}", token.symbol, token.carbon_id);
-println!("cursor={}", series_page.cursor);
+println!("cursor={:?}", series_page.cursor);
 ```
 
 `get_token_series_by_id(symbol, series_id)` fetches one known series by

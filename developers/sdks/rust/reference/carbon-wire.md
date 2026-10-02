@@ -375,12 +375,14 @@ use phantasma_sdk::carbon::{
     build_create_token_tx,
     bytes32_from_phantasma_address,
     TokenInfo,
+    TxLimits,
     TxMsg,
 };
 use phantasma_sdk::{PhantasmaKeys, Result};
 
+// The message leaves the builder with a zero gas offer; plan it before signing.
 fn unsigned_create_token_msg(keys: &PhantasmaKeys, token_info: TokenInfo) -> Result<TxMsg> {
     let creator = bytes32_from_phantasma_address(&keys.address())?;
-    build_create_token_tx(token_info, creator, None, 100_000_000, 0)
+    build_create_token_tx(token_info, creator, TxLimits::default())
 }
 ```

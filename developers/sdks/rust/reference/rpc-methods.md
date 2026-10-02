@@ -139,13 +139,13 @@ Cursor example:
 let mut cursor = String::new();
 loop {
     let page = rpc.get_token_series("ART", 0, 100, &cursor).await?;
-    for series in &page.result {
+    for series in page.result.as_deref().unwrap_or(&[]) {
         println!("{} {}", series.series_id, series.carbon_series_id);
     }
-    if page.cursor.is_empty() {
-        break;
+    match page.cursor {
+        Some(next) if !next.is_empty() => cursor = next,
+        _ => break,
     }
-    cursor = page.cursor;
 }
 ```
 

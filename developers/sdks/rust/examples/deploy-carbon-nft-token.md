@@ -8,10 +8,16 @@ hex, but does not broadcast.
 use phantasma_sdk::{
     build_create_token_series_tx_and_sign_hex, build_create_token_tx_and_sign_hex,
     build_series_info, build_token_info, build_token_metadata, bytes32_from_public_key,
-    prepare_standard_token_schemas, serialize, IntX, PhantasmaKeys, Result,
+    prepare_standard_token_schemas, serialize, IntX, PhantasmaKeys, PhantasmaRpc,
+    PlanAndSignOptions, Result,
 };
 
-fn main() -> Result<()> {
+#[tokio::main]
+async fn main() -> Result<()> {
+    // The signing helpers plan the fee, so they need the chain's gas config.
+    let rpc = PhantasmaRpc::new("https://testnet.phantasma.info/rpc");
+    let config = rpc.fees().config(false).await?;
+
     let keys = PhantasmaKeys::generate();
     let owner = bytes32_from_public_key(&keys.public_key())?;
     let schemas = prepare_standard_token_schemas(false);
@@ -31,15 +37,25 @@ fn main() -> Result<()> {
         serialize(&schemas)?,
     )?;
 
-    let create_token_hex = build_create_token_tx_and_sign_hex(token_info, &keys)?;
+    let create_token_hex = build_create_token_tx_and_sign_hex(
+        token_info,
+        &keys,
+        Some(&config),
+        &PlanAndSignOptions::default(),
+    )?;
     println!("signer: {}", keys.address().to_text());
     println!("create token tx: {create_token_hex}");
 
     let carbon_token_id = 123;
     let series_info = build_series_info(1i64, 0, 0, owner)?;
 
-    let create_series_hex =
-        build_create_token_series_tx_and_sign_hex(carbon_token_id, series_info, &keys)?;
+    let create_series_hex = build_create_token_series_tx_and_sign_hex(
+        carbon_token_id,
+        series_info,
+        &keys,
+        Some(&config),
+        &PlanAndSignOptions::default(),
+    )?;
     println!("create series tx: {create_series_hex}");
 
     Ok(())

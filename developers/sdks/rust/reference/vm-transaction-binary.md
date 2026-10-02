@@ -307,7 +307,7 @@ in version `3.0.1` the marker is `RS-SDK-v3.0.1`.
 
 Fields:
 
-```rust
+```text
 pub nexus_name: String
 pub chain_name: String
 pub script: Vec<u8>

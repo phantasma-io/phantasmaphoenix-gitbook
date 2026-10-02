@@ -119,11 +119,15 @@ serialized token schemas.
 ## Create Token Transactions
 
 ```rust
-use phantasma_sdk::{build_create_token_tx_and_sign_hex, PhantasmaKeys, Result, TokenInfo};
+use phantasma_sdk::{
+    build_create_token_tx_and_sign_hex, GasConfig, PhantasmaKeys, PlanAndSignOptions, Result,
+    TokenInfo,
+};
 
-fn sign_create_token(token: TokenInfo, wif: &str) -> Result<String> {
+// `config` is the chain's gas config, read once with `rpc.fees().config(false)`.
+fn sign_create_token(token: TokenInfo, wif: &str, config: &GasConfig) -> Result<String> {
     let keys = PhantasmaKeys::from_wif(wif)?;
-    build_create_token_tx_and_sign_hex(token, &keys)
+    build_create_token_tx_and_sign_hex(token, &keys, Some(config), &PlanAndSignOptions::default())
 }
 ```
 
@@ -131,15 +135,17 @@ Use unsigned builders when you need to inspect or modify `TxMsg` before signing:
 
 ```rust
 use phantasma_sdk::{
-    build_create_token_tx, bytes32_from_public_key, sign_and_serialize_tx_msg_hex,
-    PhantasmaKeys, Result, TokenInfo,
+    build_create_token_tx, bytes32_from_public_key, plan_fees, sign_and_serialize_tx_msg_hex,
+    FeePlanOptions, GasConfig, PhantasmaKeys, Result, TokenInfo, TxLimits,
 };
 
-fn build_then_sign(token: TokenInfo, keys: &PhantasmaKeys) -> Result<String> {
+fn build_then_sign(token: TokenInfo, keys: &PhantasmaKeys, config: &GasConfig) -> Result<String> {
     let creator = bytes32_from_public_key(&keys.public_key())?;
-    let msg = build_create_token_tx(token, creator, None, 100_000_000, 0)?;
+    let msg = build_create_token_tx(token, creator, TxLimits::default())?;
 
-    sign_and_serialize_tx_msg_hex(&msg, keys)
+    // The builder sets no prices, and signing refuses a message with a zero gas offer.
+    let plan = plan_fees(&msg, config, &FeePlanOptions::default())?;
+    sign_and_serialize_tx_msg_hex(&plan.apply(&msg), keys)
 }
 ```
 

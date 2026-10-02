@@ -26,6 +26,8 @@ Use `.with_api_key(api_key)` to send an API key in the `X-Api-Key` header on
 every request:
 
 ```rust
+use phantasma_sdk::PhantasmaRpc;
+
 let rpc = PhantasmaRpc::new("http://localhost:5172/rpc").with_api_key("your-api-key");
 ```
 
@@ -38,10 +40,9 @@ use phantasma_sdk::{PhantasmaRpc, Result};
 async fn main() -> Result<()> {
     let rpc = PhantasmaRpc::new("http://localhost:5172/rpc");
     let info = rpc.get_account_info("P...").await?;
+    let balance = rpc.get_token_balance("P...", "SOUL", "main", false).await?;
 
-    if let Some(balance) = account.token_balance("SOUL") {
-        println!("{}", balance.decimal_amount());
-    }
+    println!("{} {}", info.name, balance.decimal_amount());
 
     Ok(())
 }
@@ -71,6 +72,8 @@ The SDK includes chain-aware wrappers for current block and transaction RPC
 signatures:
 
 ```rust
+let block = rpc.get_block_by_height("main", 1).await?;
+
 let count = rpc
     .get_block_transaction_count_by_hash_on_chain("main", &block.hash)
     .await?;
@@ -117,11 +120,10 @@ loop {
         println!("{} {}", nft.id, nft.series);
     }
 
-    if page.cursor.is_empty() {
-        break;
+    match page.cursor {
+        Some(next) if !next.is_empty() => cursor = next,
+        _ => break,
     }
-
-    cursor = page.cursor;
 }
 ```
 
@@ -158,7 +160,9 @@ async fn main() -> Result<()> {
 ## Broadcasting
 
 Broadcasting helpers are explicit and should be used only after selecting the
-endpoint, keys, and funds intentionally:
+endpoint, keys, and funds intentionally. `raw_vm_tx_hex` is the hex of a signed
+script transaction and `raw_carbon_tx_bytes` the bytes of a signed Carbon
+envelope:
 
 ```rust
 let tx_hash = rpc.send_raw_transaction(&raw_vm_tx_hex).await?;
@@ -192,11 +196,11 @@ parameter order expected by current RPC methods.
 | Group | Representative methods |
 | ----- | ---------------------- |
 | Build info | `get_version`, `get_phantasma_vm_config` |
-| Account | `get_account`, `get_accounts`, `lookup_name`, `get_address_transactions` |
+| Account | `get_account_info`, `get_account_infos`, `lookup_name`, `get_address_transactions`; `get_account` and `get_accounts` are deprecated |
 | Blocks | `get_block_height`, `get_block_by_height`, `get_block_by_hash`, `get_latest_block` |
 | Transactions | `get_transaction`, `get_transaction_by_block_hash_and_index_on_chain`, `send_raw_transaction` |
 | Chain and contracts | `get_chains`, `get_chain`, `get_nexus`, `get_contract`, `get_contracts` |
-| Organizations | `get_organization`, `get_organization_by_name`, `get_organizations` |
+| Organizations | `get_organization`, `get_organizations`, `get_organization_members`, `get_organization_member` |
 | Tokens and NFTs | `get_token`, `get_tokens`, `get_token_balance`, `get_token_series`, `get_token_nfts`, `get_nft`, `get_nfts` |
 | Account token cursors | `get_account_fungible_tokens`, `get_account_nfts`, `get_account_owned_tokens`, `get_account_owned_token_series` |
 | Auctions and archives | `get_auctions`, `get_auction`, `get_archive`, `read_archive`, `write_archive` |
