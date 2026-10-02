@@ -19,7 +19,7 @@ serialized with `carbon.Serialize`.
 ## Custom Call Message
 
 ```go
-args := carbon.Serialize(carbon.TransferFungibleArgs{
+args := carbon.Serialize(&carbon.TransferFungibleArgs{
     To:      receiver,
     TokenID: carbonTokenID,
     Amount:  carbon.NewIntX(big.NewInt(100)),
@@ -29,7 +29,7 @@ msg := carbon.TxMsg{
     Type:    carbon.TxTypeCall,
     Expiry:  carbon.DefaultExpiry(),
     GasFrom: sender,
-    Call: &carbon.TxMsgCall{
+    Msg: &carbon.TxMsgCall{
         ModuleID: uint32(carbon.ModuleIDToken),
         MethodID: uint32(carbon.TokenMethodTransferFungible),
         Args:     args,

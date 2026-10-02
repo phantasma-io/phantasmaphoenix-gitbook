@@ -7,13 +7,14 @@ not broadcast.
 package main
 
 import (
+    "context"
     "fmt"
     "log"
     "math/big"
-    "time"
 
     "github.com/phantasma-io/phantasma-sdk-go/pkg/carbon"
     "github.com/phantasma-io/phantasma-sdk-go/pkg/cryptography"
+    "github.com/phantasma-io/phantasma-sdk-go/pkg/rpc"
 )
 
 func main() {
@@ -51,8 +52,18 @@ func main() {
         log.Fatal(err)
     }
 
-    // Signing needs the chain's prices. Carry the gas config to the offline
-    // machine, or read it there from a node the machine can reach.
+    // Signing needs the chain's prices. Read the gas config once on a machine
+    // that reaches a node, and carry it to the signer; signing itself needs no node.
+    client := rpc.NewRPCTestnet()
+    gasResult, err := client.GetGasConfig(context.Background())
+    if err != nil {
+        log.Fatal(err)
+    }
+    gasConfig, err := gasResult.ToGasConfig()
+    if err != nil {
+        log.Fatal(err)
+    }
+
     signedHex, err := carbon.BuildCreateTokenTxAndSignHex(
         tokenInfo,
         keys,

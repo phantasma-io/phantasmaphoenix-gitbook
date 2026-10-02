@@ -7,17 +7,23 @@ series already exist and that the caller has the schema used by that token.
 package main
 
 import (
+    "context"
     "fmt"
     "log"
     "math/big"
-    "time"
 
     "github.com/phantasma-io/phantasma-sdk-go/pkg/carbon"
     "github.com/phantasma-io/phantasma-sdk-go/pkg/cryptography"
+    "github.com/phantasma-io/phantasma-sdk-go/pkg/rpc"
 )
 
 func main() {
     keys, err := cryptography.FromWIF("YOUR_WIF")
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    sender, err := carbon.Bytes32FromPublicKey(keys.PublicKey())
     if err != nil {
         log.Fatal(err)
     }
@@ -28,7 +34,7 @@ func main() {
     }
 
     schemas := carbon.PrepareStandardTokenSchemas(false)
-    rom, err := carbon.BuildNFTRom(schemas.ROM, big.NewInt(1), []carbon.MetadataField{
+    rom, err := carbon.BuildPhantasmaNFTRom(schemas.ROM, []carbon.MetadataField{
         {Name: "name", Value: "NFT #1"},
         {Name: "description", Value: "Example mint"},
         {Name: "imageURL", Value: "https://example.com/nft.png"},
@@ -53,6 +59,7 @@ func main() {
     }
 
     client := rpc.NewRPCTestnet()
+    ctx := context.Background()
     hash, err := client.SendTransaction(ctx, msg, carbon.KeyPairSigners(keys), rpc.SendTransactionOptions{})
     if err != nil {
         log.Fatal(err)

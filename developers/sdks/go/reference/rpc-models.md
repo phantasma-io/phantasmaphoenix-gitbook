@@ -58,7 +58,7 @@ older page/page-size endpoints such as auctions and address transaction history.
 | `GovernanceResult` | `Name`, `Value` |
 | `OrganizationResult` | `Name`, `Owner`, `CarbonOwner`, `Metadata`, `MemberCount` |
 | `OrganizationMemberResult` | `Address`, `CarbonAddress`, `IsMember`, `MemberTime` |
-| `CrowdsaleResult` | `Hash`, `Name`, `Creator`, `Flags`, `StartDate`, `EndDate`, `SellSymbol`, `ReceiveSymbol`, `Price`, cap fields |
+| `CrowdsaleResult` | `Hash`, `Name`, `Creator`, `Flags`, `StartDate`, `EndDate`, `SellSymbol`, `ReceiveSymbol`, `Price`, `GlobalSoftCap`, `GlobalHardCap`, `UserSoftCap`, `UserHardCap` |
 | `ChainResult` | `Name`, `Address`, `Parent`, `Height`, `Organization`, `Contracts`, `Dapps` |
 | `NexusResult` | `Name`, `Protocol`, `Platforms`, `Tokens`, `Chains`, `Governance`, `Organizations` |
 | `LeaderboardResult` | `Name`, `Rows` |
@@ -92,8 +92,8 @@ consensus-log leader. Do not assume the two are equal.
 | `VMVariableSchemaResult` | `Type`, `Schema` |
 | `VMNamedVariableSchemaResult` | `Name`, `Schema` |
 | `VMStructSchemaResult` | `Fields`, `Flags` |
-| `TokenSchemasResult` | `SeriesMetadata`, `Rom`, `Ram` |
-| `TokenSeriesResult` | `SeriesID`, `CarbonTokenID`, `CarbonSeriesID`, owner and supply fields, optional `BurnedSupply`, optional `Mode`, optional `Script`, optional `Methods`, `Metadata` |
+| `TokenSchemasResult` | `SeriesMetadata`, `ROM`, `RAM` |
+| `TokenSeriesResult` | `SeriesID`, `CarbonTokenID`, `CarbonSeriesID`, `OwnerAddress`, `MaxMint`, `MintCount`, `CurrentSupply`, `MaxSupply`, `BurnedSupply`, `Mode`, `Script`, `Methods`, `Metadata` |
 | `TokenResult` | token definition fields, `CarbonID`, optional metadata, schemas, external mappings, price rows; helpers: `IsBurnable`, `IsDivisible`, `IsFiat`, `IsFinite`, `IsFuel`, `IsFungible`, `IsMintable`, `IsStakable`, `IsTransferable` |
 | `TokenDataResult` | NFT id, series, Carbon identifiers, owner/creator, ROM/RAM, status, infusion, properties |
 

@@ -48,7 +48,7 @@ loop. `GetAccountInfos` answers up to 100 addresses in one call.
 Read balances and NFTs through the cursor methods:
 
 ```go
-balances, err := client.GetAccountFungibleTokens(ctx, "P...", "", 0, 100, "")
+balances, err := client.GetAccountFungibleTokens(ctx, "P...", "", 0, 100, "", false)
 ```
 
 `GetAccount` and `GetAccounts` are deprecated. Their response embeds every NFT
@@ -58,8 +58,7 @@ true count, so the list is silently partial for a large holder.
 
 ## Carbon And Current RPC Wrappers
 
-The current Go SDK includes the Carbon-era methods used by the other Phoenix
-SDKs:
+The Go SDK exposes the same RPC methods as the other SDKs:
 
 | Area | Methods |
 | ---- | ------- |
@@ -86,10 +85,10 @@ for {
     for _, series := range page.Result {
         fmt.Println(series.SeriesID, series.CarbonSeriesID)
     }
-    if page.Cursor == "" {
+    if page.Cursor == nil || *page.Cursor == "" {
         break
     }
-    cursor = page.Cursor
+    cursor = *page.Cursor
 }
 ```
 

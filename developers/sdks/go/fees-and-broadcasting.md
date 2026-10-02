@@ -164,7 +164,7 @@ every such call inside a `CallMulti`. An empty answer means no list is needed.
 
 ## The Pre-Flight Before A Token Creation
 
-A token creation pays its policy fee before the chain looks at the symbol, and
+A token creation pays its base policy fee before the chain looks at the symbol, and
 that fee is the largest single price in the protocol. `SendTransaction`
 therefore asks whether the symbol is taken, and refuses to send unless the chain
 answered that it is free.

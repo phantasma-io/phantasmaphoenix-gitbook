@@ -58,7 +58,7 @@ carbonTokenID, err := carbon.ParseCreateTokenResult(tx.Result)
 ```
 
 {% hint style="warning" %}
-A token creation pays its policy fee before the chain looks at the symbol, and
+A token creation pays its base policy fee before the chain looks at the symbol, and
 that fee is the largest single price in the protocol. A symbol that is already
 taken costs the fee and returns nothing. `SendTransaction` asks the chain first
 and refuses to send when the symbol is taken, or when the lookup established
