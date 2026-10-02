@@ -1,8 +1,8 @@
 # C++ SDK Complete API Reference
 
-This section documents the public C++ SDK API at the level needed for ordinary
-application and tooling work. The existing low-level and high-level API pages
-remain linked as detailed method lists.
+This section documents the public C++ SDK API: the RPC client and its result
+structs, the key, VM and transaction types, the Carbon API and the full
+declaration inventory.
 
 ## Pages
 
@@ -23,21 +23,3 @@ after `PhantasmaAPI.h`. Carbon transaction signing uses the crypto adapter.
 The Carbon headers expose a mix of view structs and owned helper structs. When a
 builder returns a `TxEnvelope`, keep it alive until signing or serialization is
 complete because it owns buffers referenced by the `TxMsg`.
-
-## Related Existing Pages
-
-{% content-ref url="../low-level-api.md" %}
-Low-level API
-{% endcontent-ref %}
-
-{% content-ref url="../high-level-api.md" %}
-High-level API
-{% endcontent-ref %}
-
-{% content-ref url="../data-models.md" %}
-Data models
-{% endcontent-ref %}
-
-{% content-ref url="../cryptography.md" %}
-Cryptography
-{% endcontent-ref %}

@@ -1,7 +1,7 @@
 # C++ SDK API Overview
 
-This page summarizes the current C++ SDK public surface and links to deeper
-reference pages.
+This page lists the public surface of the C++ SDK by header group. The
+reference section documents each group.
 
 {% content-ref url="reference/README.md" %}
 C++ SDK Complete API Reference
@@ -16,21 +16,3 @@ C++ SDK Complete API Reference
 | VM | `VM/ScriptBuilder.h`, `VM/VMObject.h`, `VM/Opcodes.h` | VM bytecode construction, VM object serialization, opcode-level tooling. |
 | Transactions | `Blockchain/Transaction.h` | VM transaction construction, signing, mining, serialization. |
 | Carbon | `Carbon/*` | Carbon wire primitives, token schemas, token/series/NFT structures, transaction builders, signing, result parsers. |
-
-Existing deep pages remain available:
-
-{% content-ref url="low-level-api.md" %}
-Low-level API
-{% endcontent-ref %}
-
-{% content-ref url="high-level-api.md" %}
-High-level API
-{% endcontent-ref %}
-
-{% content-ref url="data-models.md" %}
-Data models
-{% endcontent-ref %}
-
-{% content-ref url="cryptography.md" %}
-Cryptography
-{% endcontent-ref %}

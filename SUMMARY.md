@@ -277,7 +277,3 @@
         - [Read-Only RPC](developers/sdks/cpp/examples/read-only-rpc.md)
         - [Keys And Addresses](developers/sdks/cpp/examples/keys-and-addresses.md)
         - [Offline Carbon Transaction](developers/sdks/cpp/examples/offline-carbon-transaction.md)
-      - [Low-level API](developers/sdks/cpp/low-level-api.md)
-      - [High-level API](developers/sdks/cpp/high-level-api.md)
-      - [Data models](developers/sdks/cpp/data-models.md)
-      - [Cryptography](developers/sdks/cpp/cryptography.md)
