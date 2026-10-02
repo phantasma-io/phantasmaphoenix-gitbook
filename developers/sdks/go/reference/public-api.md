@@ -3011,7 +3011,7 @@ Source: `pkg/domain`
 ### Declarations
 
 ```go
-const SDKVersion = "0.18.0"
+const SDKVersion = "0.18.1"
 ```
 
 ```go

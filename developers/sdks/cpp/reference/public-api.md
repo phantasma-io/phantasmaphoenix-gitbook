@@ -8051,7 +8051,7 @@ Source: `include/Utils/RpcUtils.h`
 ### Declarations
 
 ```cpp
-Transaction tx(nexus, chain, script, Timestamp::Now() + Timespan::FromMinutes(1), payload)
+Transaction tx(nexus, chain, script, expiration.Value ? expiration : DefaultScriptExpiration(), payload)
 ```
 
 ```cpp

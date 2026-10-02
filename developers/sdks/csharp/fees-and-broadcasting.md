@@ -291,7 +291,7 @@ because an aborted simulation carries no recommendation.
 | `SendTransactionAsync(msg, signers, options?)` | Carbon message, with plan, pre-flight, signatures and broadcast in one step. |
 | `SendCarbonTransactionAsync(txHex)` | A Carbon envelope that is already signed and serialized. |
 | `SendRawTransactionAsync(txHex)` | A signed VM script transaction. |
-| `SignAndSendTransactionAsync(keys, nexus, script, chain, payload)` | A VM script transaction, signed locally and broadcast. |
+| `SignAndSendTransactionAsync(keys, nexus, script, chain, payload, customSignFunction?, expiration?)` | A VM script transaction, signed locally and broadcast. Without `expiration` it gets `TxLimits.DefaultExpiryMs` from now, like a Carbon message. |
 
 Broadcasting only submits the transaction. Read it back before acting on the
 result:

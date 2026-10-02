@@ -139,8 +139,8 @@ parameter.
 | `InvokeRawScript(ctx, chain, scriptHex)` | Executes a read-only VM script. |
 | `SendRawTransaction(ctx, txData)` | Broadcasts signed VM transaction hex. |
 | `SendCarbonTransaction(ctx, txData)` | Broadcasts signed Carbon transaction hex. |
-| `SignAndSendTransaction(...)` | Builds, signs, and broadcasts a VM transaction. |
-| `SignAndSendTransactionWithExpiration(...)` | VM sign-and-send with explicit expiration. |
+| `SignAndSendTransaction(ctx, keys, nexus, script, chainName, payload)` | Builds, signs, and broadcasts a VM transaction that expires `carbon.DefaultTxExpiry` (45 seconds) from now. |
+| `SignAndSendTransactionWithExpiration(ctx, keys, nexus, script, chainName, payload, expiration)` | The same with an explicit expiration, a Unix time in seconds. |
 | `SignAndSendTransactionTextPayload(...)` | VM sign-and-send where payload is provided as text and encoded by the SDK. |
 | `SignAndSendBuiltTransaction(ctx, tx, keys)` | Signs and broadcasts an existing VM transaction. |
 | `SendTransaction(ctx, msg, signers, options)` | Plans, pre-flights, signs and broadcasts a Carbon message. |

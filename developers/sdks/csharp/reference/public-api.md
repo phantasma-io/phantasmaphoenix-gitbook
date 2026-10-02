@@ -15490,11 +15490,11 @@ public async Task<string> SendTransactionAsync(TxMsg msg, IReadOnlyList<ITxSigne
 ```
 
 ```csharp
-public async Task<string?> SignAndSendTransactionAsync( IKeyPair keys, string nexus, byte[] script, string chain, byte[] payload, Func<byte[], byte[], byte[], byte[]>? customSignFunction = null)
+public async Task<string?> SignAndSendTransactionAsync( IKeyPair keys, string nexus, byte[] script, string chain, byte[] payload, Func<byte[], byte[], byte[], byte[]>? customSignFunction = null, Timestamp? expiration = null)
 ```
 
 ```csharp
-public async Task<string?> SignAndSendTransactionAsync( IKeyPair keys, string nexus, byte[] script, string chain, string payload, Func<byte[], byte[], byte[], byte[]>? customSignFunction = null)
+public async Task<string?> SignAndSendTransactionAsync( IKeyPair keys, string nexus, byte[] script, string chain, string payload, Func<byte[], byte[], byte[], byte[]>? customSignFunction = null, Timestamp? expiration = null)
 ```
 
 ```csharp

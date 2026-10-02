@@ -3609,6 +3609,14 @@ export declare class PhantasmaLink5 {
     constructor(transport: LinkTransport, options?: PhantasmaLink5Options);
     /** Build a client over the desktop loopback transport (plaintext, trusted-local). */
     static loopback(options?: LoopbackTransportOptions): PhantasmaLink5;
+    /** A browser-extension wallet on this page (spec §6.1): frames go through the provider
+     * `window.phantasmaLink`. Trusted-local, plaintext. Throws `4900` when no v5 provider is
+     * present; check {@link findInjectedProvider} first to fall back to another transport.
+     * Consents run in the extension UI, so the request timeout is the same generous default
+     * as deeplink and relay. */
+    static injected(options?: InjectedTransportOptions & {
+        requestTimeoutMs?: number;
+    }): PhantasmaLink5;
     /** Build a client over the deeplink transport (spec §17). The channel key from pairing is
      * MANDATORY here: deeplink URLs are interceptable, so plaintext frames are never allowed. */
     static deeplink(options: DeeplinkTransportOptions & {
@@ -3961,6 +3969,10 @@ export * from './loopback-transport.js';
 ```
 
 ```ts
+export * from './injected-transport.js';
+```
+
+```ts
 export * from './deeplink.js';
 ```
 
@@ -3974,6 +3986,52 @@ export * from './web-deeplink.js';
 
 ```ts
 export * from './client.js';
+```
+
+## phantasma-sdk-ts/link/v5/injected-transport
+
+Source: `dist/types/link/v5/injected-transport.d.ts`
+
+### Declarations
+
+```ts
+export interface PhantasmaLinkProvider {
+    /** Protocol generations the wallet speaks. Contains 5. */
+    readonly plvVersions: readonly number[];
+    /** Sends one request envelope and returns its response envelope. Rejects only when the
+     * bridge to the extension fails; wallet and protocol errors arrive as error envelopes. */
+    request(frame: string): Promise<string>;
+    /** Subscribes to event envelopes. Returns the function that unsubscribes. */
+    onEvent(handler: (frame: string) => void): () => void;
+}
+```
+
+```ts
+export interface ProviderHost {
+    phantasmaLink?: unknown;
+}
+```
+
+```ts
+export declare function findInjectedProvider(host?: ProviderHost): PhantasmaLinkProvider | undefined;
+```
+
+```ts
+export interface InjectedTransportOptions {
+    /** The provider to use. Default: the page's `window.phantasmaLink`. Tests pass a fake. */
+    provider?: PhantasmaLinkProvider;
+}
+```
+
+```ts
+export declare class InjectedTransport implements LinkTransport {
+    constructor(options?: InjectedTransportOptions);
+    send(frame: string): Promise<void>;
+    onMessage(handler: (frame: string) => void): void;
+    onClose(handler: (reason?: string) => void): void;
+    /** Stops delivering frames. The provider itself stays on the page for the next client. */
+    close(): void;
+}
 ```
 
 ## phantasma-sdk-ts/link/v5/loopback-transport
@@ -7064,6 +7122,13 @@ export interface ContractScriptBuildParams {
 export interface ContractTransactionBuildParams extends ContractScriptBuildParams {
     nexus: string;
     chain?: string;
+    /**
+     * Moment the transaction stops being admissible. Default {@link DEFAULT_TX_EXPIRY_MS} from now,
+     * the same lifetime a Carbon transaction gets.
+     *
+     * A flow with a person in it should set this from the chain's own window instead. Examples are a
+     * hardware wallet confirming and a wallet-link round trip. See `expiryWithin`.
+     */
     expiration?: Date;
     payloadHex?: string;
 }

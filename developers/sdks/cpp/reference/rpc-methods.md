@@ -61,10 +61,18 @@ Carbon inventory methods use `pageSize` and `cursor` where the node returns
 
 ## Broadcast Methods
 
-`SendRawTransaction` expects signed classic VM transaction hex.
+`SendRawTransaction` expects signed VM script transaction hex.
 `SendCarbonTransaction` expects signed Carbon message hex. Both return the hash
 reported by the node and do not poll for execution state; call `GetTransaction`
 and check `state` before parsing `result`.
+
+`Utils/RpcUtils.h` adds `SignAndSendTransaction(api, keys, nexus, chain,
+script, payload, outError, expiration)`, which builds, signs and broadcasts a
+script transaction. An `expiration` left at its default `Timestamp()` becomes
+`DefaultScriptExpiration()`, which is `carbon::DefaultExpiryMs` (45 seconds)
+from now, the same lifetime a Carbon message gets. The same header has
+`SendTransaction(api, tx, outHash)`, `CheckConfirmation` and
+`WaitForConfirmation`.
 
 ## Stubbed Methods
 

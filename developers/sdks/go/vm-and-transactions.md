@@ -54,8 +54,8 @@ For trusted local signing flows, the RPC client also exposes:
 
 | Helper | Use it for |
 | ------ | ---------- |
-| `SignAndSendTransaction` | Build, sign, and broadcast a classic VM transaction with default expiration. |
-| `SignAndSendTransactionWithExpiration` | Same flow with explicit expiration. |
+| `SignAndSendTransaction` | Build, sign, and broadcast a script transaction that expires `carbon.DefaultTxExpiry` (45 seconds) from now, the same lifetime a Carbon message gets. |
+| `SignAndSendTransactionWithExpiration` | Same flow with an explicit expiration, a Unix time in seconds. A flow that waits for a person takes it from the chain's window with `carbon.ExpiryWithin`. |
 | `SignAndSendTransactionTextPayload` | Same flow with UTF-8 payload text. |
 | `SignAndSendBuiltTransaction` | Sign and broadcast an already-built `blockchain.Transaction`. |
 

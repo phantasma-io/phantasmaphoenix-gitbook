@@ -152,12 +152,15 @@ The cursor methods accept a `pageSize` of 1 to 100. The NFT methods accept 1 to
 | `SendRawTransactionAsync(txData)` | `sendRawTransaction` | Broadcasting a hex-encoded Phantasma transaction. | `Task<string?>` |
 | `SendCarbonTransactionAsync(txData)` | `sendCarbonTransaction` | Broadcasting a hex-encoded Carbon transaction. | `Task<string?>` |
 | `InvokeRawScriptAsync(chain, scriptData)` | `invokeRawScript` | Running a hex-encoded VM script without committing state. | `Task<ScriptResult?>` |
-| `SignAndSendTransactionAsync(keys, nexus, script, chain, payload, customSignFunction)` | `sendRawTransaction` | Building a `Protocol.Transaction`, signing it, broadcasting it, and checking the returned hash against the local hash. | `Task<string?>` |
+| `SignAndSendTransactionAsync(keys, nexus, script, chain, payload, customSignFunction, expiration)` | `sendRawTransaction` | Building a `Protocol.Transaction`, signing it, broadcasting it, and checking the returned hash against the local hash. | `Task<string?>` |
 | `SendTransactionAsync(msg, signers, options, cancellationToken)` | `sendCarbonTransaction` | Planning, pre-flighting, signing and broadcasting a Carbon message in one call. | `Task<string>` |
 
 `SignAndSendTransactionAsync` throws if the RPC hash differs from the locally
 computed transaction hash. It signs the transaction bytes before signatures are
-attached, serializes with signatures, and broadcasts the hex string.
+attached, serializes with signatures, and broadcasts the hex string. Without
+`expiration` the transaction expires `TxLimits.DefaultExpiryMs` (45 seconds)
+after it is built; a flow that waits for a person should pass an expiration
+from `TxLimits.ExpiryWithin`.
 
 `SendTransactionAsync` takes one `ITxSigner`, a list of them, one `IKeyPair` or
 an array of them. It plans a message whose `MaxGas` is still zero, and refuses a

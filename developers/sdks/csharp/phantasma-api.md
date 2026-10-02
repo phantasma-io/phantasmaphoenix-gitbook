@@ -695,7 +695,7 @@ Plans, pre-flights, signs and broadcasts a Carbon message
 
 ---
 
-### `Task<string?> SignAndSendTransactionAsync(IKeyPair keys, string nexus, byte[] script, string chain, string payload, Func<byte[], byte[], byte[], byte[]>? customSignFunction = null)`
+### `Task<string?> SignAndSendTransactionAsync(IKeyPair keys, string nexus, byte[] script, string chain, string payload, Func<byte[], byte[], byte[], byte[]>? customSignFunction = null, Timestamp? expiration = null)`
 Builds, signs and broadcasts a transaction with a UTF8 payload
 
 **Parameters**
@@ -705,6 +705,7 @@ Builds, signs and broadcasts a transaction with a UTF8 payload
 - `chain` — target chain name
 - `payload` — UTF8 payload string
 - `customSignFunction` — optional custom signer that receives data, script and payload bytes
+- `expiration`: moment the transaction stops being admissible; `null` means `TxLimits.DefaultExpiryMs` (45 seconds) from now
 
 **Returns**
 - transaction hash text or `null`
@@ -714,7 +715,7 @@ Builds, signs and broadcasts a transaction with a UTF8 payload
 
 ---
 
-### `Task<string?> SignAndSendTransactionAsync(IKeyPair keys, string nexus, byte[] script, string chain, byte[] payload, Func<byte[], byte[], byte[], byte[]>? customSignFunction = null)`
+### `Task<string?> SignAndSendTransactionAsync(IKeyPair keys, string nexus, byte[] script, string chain, byte[] payload, Func<byte[], byte[], byte[], byte[]>? customSignFunction = null, Timestamp? expiration = null)`
 Builds, signs and broadcasts a transaction with a binary payload
 
 **Parameters**
@@ -724,12 +725,13 @@ Builds, signs and broadcasts a transaction with a binary payload
 - `chain` — target chain name
 - `payload` — binary payload bytes
 - `customSignFunction` — optional custom signer that receives data, script and payload bytes
+- `expiration`: moment the transaction stops being admissible; `null` means `TxLimits.DefaultExpiryMs` (45 seconds) from now
 
 **Returns**
 - transaction hash text or `null`
 
 **Behavior**
-- Transaction expiration is set to `DateTime.UtcNow + 20 minutes`
+- Without `expiration`, the transaction expires `TxLimits.DefaultExpiryMs` (45 seconds) after it is built, the same lifetime a Carbon message gets. A flow with a person in it, such as a hardware wallet confirmation, should pass an expiration taken from the chain's window with `TxLimits.ExpiryWithin`
 - The transaction is signed and sent as hex using `SendRawTransactionAsync`
 - If the hash returned by RPC differs from the locally computed hash an `Exception` is thrown
 

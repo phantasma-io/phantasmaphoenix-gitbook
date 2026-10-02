@@ -16,7 +16,7 @@ Rust SDK Complete API Reference
 | ---- | ----- |
 | Crate | `phantasma-sdk` |
 | Import path | `phantasma_sdk` |
-| Current source version | `3.0.0` |
+| Current source version | `3.0.1` |
 | Version constant | `SDK_VERSION` |
 | Rust edition | 2021 |
 | Minimum Rust version | `1.74` |
