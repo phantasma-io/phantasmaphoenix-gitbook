@@ -42,14 +42,14 @@ from phantasma_py.rpc import PhantasmaRPC
 
 rpc = PhantasmaRPC.mainnet()
 info = rpc.get_account_info("P...")
-balance = account.get_token_balance("SOUL", decimals=8)
+balance = rpc.get_token_balance("P...", "SOUL")
 
-print(balance.decimal_amount())
+print(info.name, balance.decimal_amount())
 ```
 
-`AccountResult.get_token_balance(symbol, decimals)` returns a zero balance if the
-token is not present in the account result, so callers can render balances
-without manually scanning the list.
+`get_token_balance(address, symbol)` answers one token; `get_account_fungible_tokens(address)`
+pages through every fungible balance of the address. Both return `BalanceResult`
+values, and `decimal_amount()` renders the amount with the token's decimals.
 
 ## Blocks And Transactions
 
@@ -185,12 +185,12 @@ The current `PhantasmaRPC` class wraps these groups:
 | Group | Representative methods |
 | ----- | ---------------------- |
 | Build info | `get_version`, `get_phantasma_vm_config` |
-| Account | `get_account`, `get_accounts`, `lookup_name`, `get_address_transactions` |
+| Account | `get_account_info`, `get_account_infos`, `lookup_name`, `get_address_transactions`; `get_account` and `get_accounts` are deprecated |
 | Blocks | `get_block_height`, `get_block_by_height`, `get_block_by_hash`, `get_latest_block` |
 | Transactions | `get_transaction`, `get_transaction_by_block_hash_and_index`, `send_raw_transaction` |
 | Chain and contracts | `get_chains`, `get_chain`, `get_nexus`, `get_contract`, `get_contracts` |
-| Organizations | `get_organization`, `get_organization_by_name`, `get_organizations` |
+| Organizations | `get_organization`, `get_organizations`, `get_organization_members`, `get_organization_member` |
 | Tokens and NFTs | `get_token`, `get_tokens`, `get_token_balance`, `get_token_series`, `get_token_nfts`, `get_nft`, `get_nfts` |
 | Account token cursors | `get_account_fungible_tokens`, `get_account_nfts`, `get_account_owned_tokens`, `get_account_owned_token_series` |
 | Auctions and archives | `get_auctions`, `get_auction`, `get_archive`, `read_archive`, `write_archive` |
-| Scripts and Carbon | `invoke_raw_script`, `send_carbon_transaction`, `sign_carbon_transaction` |
+| Scripts and Carbon | `invoke_raw_script`, `send_carbon_transaction`, `send_transaction` |

@@ -139,7 +139,7 @@ print(carbon_token_id)
 ```
 
 {% hint style="warning" %}
-A token creation pays its policy fee before the chain looks at the symbol, and
+A token creation pays its base policy fee before the chain looks at the symbol, and
 that fee is the largest single price in the protocol. A symbol that is already
 taken costs the fee and returns nothing. `send_transaction` asks the chain first
 and refuses to send when the symbol is taken, or when the lookup established
@@ -161,9 +161,14 @@ from phantasma_py.carbon import (
     bytes32_from_public_key,
 )
 from phantasma_py.crypto import PhantasmaKeys
+from phantasma_py.rpc import PhantasmaRPC
 
 keys = PhantasmaKeys.from_wif("YOUR_WIF")
 owner = bytes32_from_public_key(keys.public_key)
+
+# The signing helper plans the fee, so it needs the chain's gas config.
+rpc = PhantasmaRPC.testnet()
+config = rpc.get_gas_config().to_gas_config()
 
 carbon_token_id = 123
 series_info = build_series_info(
@@ -177,6 +182,7 @@ create_series_hex = build_create_token_series_tx_and_sign_hex(
     carbon_token_id,
     series_info,
     keys,
+    config,
 )
 ```
 

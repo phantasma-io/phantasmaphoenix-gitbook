@@ -29,19 +29,22 @@ from phantasma_py.carbon import (
     TxMsgTransferFungible,
     TxType,
     bytes32_from_public_key,
+    default_expiry,
     sign_and_serialize_tx_msg_hex,
 )
 from phantasma_py.crypto import PhantasmaKeys
+from phantasma_py.rpc import PhantasmaRPC
 
+rpc = PhantasmaRPC.mainnet()
 keys = PhantasmaKeys.from_wif("YOUR_WIF")
 sender = bytes32_from_public_key(keys.public_key)
 receiver = bytes32_from_public_key(PhantasmaKeys.generate().public_key)
 
 msg = TxMsg(
     TxType.TRANSFER_FUNGIBLE,
-    expiry=1_759_711_416_000,
-    max_gas=10_000_000,
-    max_data=1_000,
+    expiry=default_expiry(),
+    max_gas=0,
+    max_data=0,
     gas_from=sender,
     payload=SmallString("example"),
     msg=TxMsgTransferFungible(
@@ -51,7 +54,9 @@ msg = TxMsg(
     ),
 )
 
-signed_hex = sign_and_serialize_tx_msg_hex(msg, keys)
+# The message carries no prices. Plan it against the chain's gas config, then sign.
+plan = rpc.fees.plan(msg)
+signed_hex = sign_and_serialize_tx_msg_hex(plan.apply(msg), keys)
 ```
 
 The direct transfer message uses a Carbon token id, not a token symbol. Keep the

@@ -66,10 +66,10 @@ Carbon Operations
 from phantasma_py.rpc import PhantasmaRPC
 
 rpc = PhantasmaRPC.mainnet()
-account = rpc.get_account("P...")
-soul = account.get_token_balance("SOUL", decimals=8)
+info = rpc.get_account_info("P...")
+soul = rpc.get_token_balance("P...", "SOUL")
 
-print(account.address)
+print(info.address, info.name)
 print(soul.decimal_amount())
 ```
 
