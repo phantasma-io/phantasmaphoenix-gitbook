@@ -139,7 +139,7 @@
       - [Phantasma API](developers/sdks/ts/shared-methods/phantasmaapi.md)
       - [Script Builder](developers/sdks/ts/shared-methods/script-builder.md)
       - [Backend Guide](developers/sdks/ts/backend/backend.md)
-        - Examples
+        - [Examples](developers/sdks/ts/backend/examples/README.md)
           - [Create a Transaction](developers/sdks/ts/backend/examples/create-a-transaction.md)
           - [Create Script Call](developers/sdks/ts/backend/examples/create-script-call.md)
           - [Creating a New Address](developers/sdks/ts/backend/examples/creating-a-new-address.md)
@@ -163,7 +163,7 @@
         - [Phantasma Link v5](developers/sdks/ts/frontend/phantasma-link-v5.md)
         - [EasyConnect](developers/sdks/ts/shared-methods/easyconnect.md)
         - [React Wallet Connection](developers/sdks/ts/frontend/connect-react.md)
-        - Examples
+        - [Examples](developers/sdks/ts/frontend/examples/README.md)
           - [Connect to the Wallet](developers/sdks/ts/frontend/examples/connect-to-the-wallet.md)
           - [Invoking a Script](developers/sdks/ts/frontend/examples/invoking-a-script.md)
           - [Sending a Transaction](developers/sdks/ts/frontend/examples/sending-a-transaction.md)
