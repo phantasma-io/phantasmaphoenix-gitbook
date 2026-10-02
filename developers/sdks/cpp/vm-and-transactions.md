@@ -1,6 +1,6 @@
 # C++ SDK VM And Transactions
 
-Classic VM transactions use `VM/ScriptBuilder.h` for scripts and
+Script transactions use `VM/ScriptBuilder.h` for scripts and
 `Blockchain/Transaction.h` for transaction wrapping, signing, serialization,
 and optional proof-of-work mining.
 
@@ -13,10 +13,11 @@ calls. Common helpers include:
 | ------ | ------- |
 | `CallContract(contract, method, ...)` | Emits a contract call. |
 | `CallInterop(method, ...)` | Emits an interop call. |
-| `AllowGas`, `SpendGas` | Adds gas allowance and gas spend calls. |
-| `TransferTokens`, `TransferBalance`, `TransferNFT` | Transfer helpers. |
-| `CrossTransferToken`, `CrossTransferNFT` | Cross-chain transfer helpers. |
-| `Stake`, `Unstake`, `CallNFT` | Stake and NFT contract helpers. |
+| `AllowGas`, `SpendGas` | Adds the gas allowance and gas spend calls. |
+| `TransferTokens`, `TransferToken`, `TransferBalance` | Transfers a fungible amount, one NFT by id, or a whole balance. |
+| `MintTokens`, `BurnToken`, `BurnTokens` | Mints a fungible amount, burns one NFT or a fungible amount. |
+| `Stake` | Stakes SOUL for an address. |
+| `WriteToken`, `WriteTokenFromRegister`, `ReadTokenRAMToRegister` | Writes or reads NFT RAM. |
 
 Generic string arguments are VM strings. Use `Address` values when the target
 ABI expects address bytes.
@@ -39,6 +40,9 @@ Build a transaction from a final script, sign it, then serialize it for
 `SendRawTransaction`.
 
 ```cpp
+#include "VM/ScriptBuilder.h"
+#include "Blockchain/Transaction.h"
+
 phantasma::Transaction tx(
     "mainnet",
     "main",

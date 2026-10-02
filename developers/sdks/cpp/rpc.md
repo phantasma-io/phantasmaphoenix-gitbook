@@ -46,7 +46,7 @@ model.
 
 ## Current RPC Coverage
 
-The generated API includes current chain and Carbon-era wrappers for:
+The generated API includes wrappers for:
 
 | Area | Methods |
 | ---- | ------- |
@@ -70,19 +70,7 @@ deprecated too, because `GetNFT` covers it entirely.
 
 ## Stubbed Node Methods
 
-The C++ generated header marks several Phantasma RPC methods as currently
-stubbed in the underlying node/API surface. They should not be treated as live
-data sources until the node returns real values:
-
-| Method group | Stub behavior documented in source |
-| ------------ | ---------------------------------- |
-| `GetChains` | returns an empty array |
-| `GetChain` | returns a default chain object |
-| `GetNexus` | returns a default nexus object |
-| `GetLeaderboard` | returns a default leaderboard object |
-| `GetArchive` | returns a default archive object |
-| `WriteArchive` | returns false without persisting data |
-| `ReadArchive` | returns an empty string |
-
-Document code paths that depend on these methods and prefer direct node
-verification before making them production-critical.
+`GetChains`, `GetChain`, `GetNexus`, `GetLeaderboard`, `GetArchive`,
+`WriteArchive` and `ReadArchive` are stubbed on the node and return default
+values. The table is in the [RPC Client](reference/rpc-methods.md#stubbed-methods)
+reference.

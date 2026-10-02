@@ -1,6 +1,6 @@
 # C++ SDK VM And Transaction APIs
 
-This page covers keys, addresses, VM scripts, classic VM transactions, and
+This page covers keys, addresses, VM scripts, script transactions, and
 binary helpers outside the Carbon module.
 
 ## Keys And Addresses
@@ -26,12 +26,11 @@ binary helpers outside the Carbon module.
 | Low-level opcodes | `Emit`, `EmitPush`, `EmitPop`, arithmetic/logical emitters, jumps, labels, register helpers |
 | Load helpers | `EmitLoad` overloads for bytes, strings, big integers, booleans, timestamps, addresses, arrays, and serializable values |
 | Contract/interop calls | `CallContract`, `CallInterop` |
-| Common chain calls | `AllowGas`, `SpendGas`, `MintTokens`, `TransferTokens`, `TransferBalance`, `TransferNFT`, `Stake`, `Unstake`, `CallNFT` |
-| Cross-chain helpers | `CrossTransferToken`, `CrossTransferNFT` |
+| Common chain calls | `AllowGas`, `SpendGas`, `MintTokens`, `TransferTokens`, `TransferToken`, `TransferBalance`, `BurnToken`, `BurnTokens`, `Stake`, `WriteToken`, `WriteTokenFromRegister`, `ReadTokenRAMToRegister` |
 
 ## Transaction
 
-`Blockchain/Transaction.h` exposes the classic VM transaction type.
+`Blockchain/Transaction.h` exposes the script transaction type.
 
 | API | Purpose |
 | --- | ------- |

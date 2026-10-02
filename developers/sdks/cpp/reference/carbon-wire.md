@@ -59,10 +59,10 @@ Overflow is reported through the SDK exception macro path.
 
 | Builder | Important behavior |
 | ------- | ------------------ |
-| `CreateTokenTxHelper::BuildTx` | Serializes `TokenInfo`, sets token module `CreateToken`, computes create-token gas, and defaults expiry when zero. |
+| `CreateTokenTxHelper::BuildTx` | Serializes `TokenInfo` into a `Token.CreateToken` call. The envelope carries the `TxLimits` given, a zero gas offer by default, and `DefaultExpiryMs` from now when `expiry` is zero. |
 | `CreateTokenSeriesTxHelper::BuildTx` | Serializes token id plus `SeriesInfo` and sets token module `CreateTokenSeries`. |
-| `MintNonFungibleTxHelper::BuildTx` | Builds direct `MINT_NON_FUNGIBLE` transaction for one NFT and uses one-mint gas. |
-| `MintPhantasmaNonFungibleTxHelper::BuildTx` | Serializes a count plus `PhantasmaNftMintInfo` records and scales gas by count. |
+| `MintNonFungibleTxHelper::BuildTx` | Builds a direct `MintNonFungible` message for one NFT, with the same limits rule. |
+| `MintPhantasmaNonFungibleTxHelper::BuildTx` | Serializes a count plus `PhantasmaNftMintInfo` records into a `Token.MintPhantasmaNonFungible` call and returns the envelope through its out parameter; it answers `false` for an empty list. The fee is planned afterwards and grows with the count. |
 | `SignAndSerialize(env, keys)` | Signs the `TxMsg` in a `TxEnvelope` and serializes the signed Carbon message. |
 
 `TxEnvelope.buffers` owns serialized argument buffers referenced by the `TxMsg`.

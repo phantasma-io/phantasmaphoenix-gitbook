@@ -10,6 +10,10 @@ Local key generation, WIF import, and signing require a crypto adapter such as
 ## Keys
 
 ```cpp
+#include "PhantasmaAPI.h"
+#include "Adapters/PhantasmaAPI_openssl.h"
+#include "Cryptography/KeyPair.h"
+
 using namespace phantasma;
 
 auto keys = PhantasmaKeys::Generate();
@@ -46,6 +50,37 @@ auto signature = keys.Sign(message);
 
 `Transaction::Sign(keys)` signs the unsigned VM transaction bytes and appends
 the resulting signature to the transaction.
+
+A signature is checked against the addresses allowed to have produced it:
+
+```cpp
+Ed25519Signature signature = keys.Sign(message);
+
+const Address allowed[] = { keys.GetAddress() };
+bool ok = signature.Verify(message.data(), (int)message.size(), allowed, 1);
+```
+
+## Private Key Bytes
+
+`PrivateKey` keeps its 32 bytes in a guarded buffer. `Read()` and `Write()`
+return short-lived accessors with `Bytes()` and `Size()`; use them only inside
+the scope that needs the raw key.
+
+```cpp
+const PrivateKey& sk = keys.GetPrivateKey();
+auto reader = sk.Read();
+ByteArray copy(reader.Bytes(), reader.Bytes() + reader.Size());
+```
+
+## Hashes
+
+`Hash` is a 32-byte value. `Hash::FromBytes(bytes)` builds one, `Hash::Parse(text)`
+reads the hex form, and `ToString()` renders it.
+
+```cpp
+Hash h = Hash::FromBytes(bytes);
+String text = h.ToString();
+```
 
 ## Carbon Address Conversion
 

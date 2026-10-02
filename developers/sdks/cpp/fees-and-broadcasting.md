@@ -225,7 +225,7 @@ key.
 
 ## The Pre-Flight Before A Token Creation
 
-`Token.CreateToken` is charged its policy fee before the contract looks at the
+`Token.CreateToken` is charged its base policy fee before the contract looks at the
 symbol, and that fee is the largest single price in the protocol. Sending a
 symbol that is already taken pays the fee and gets nothing back.
 
@@ -297,5 +297,5 @@ then call `SendCarbonTransaction`. After broadcast, fetch the transaction and
 parse the result with the matching helper only if the transaction state is
 successful.
 
-For classic VM transactions, sign `Transaction`, serialize with signatures, and
+For script transactions, sign `Transaction`, serialize with signatures, and
 broadcast with `SendRawTransaction`.

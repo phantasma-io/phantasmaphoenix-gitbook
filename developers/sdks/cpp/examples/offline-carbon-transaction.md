@@ -40,6 +40,6 @@ Real token deployment must also provide token metadata and NFT schemas before
 broadcasting.
 
 A stated offer that is short is rejected by the chain, and a token creation pays
-its policy fee before the symbol is checked. Plan the message against the
+its base policy fee before the symbol is checked. Plan the message against the
 chain's gas config whenever a node can be reached. See
 [Fees And Broadcasting](/developers/sdks/cpp/fees-and-broadcasting.md).

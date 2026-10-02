@@ -7,6 +7,10 @@ create-token envelope.
 ## Create Token
 
 ```cpp
+#include "Carbon/Contracts/Token.h"
+#include "Carbon/Tx.h"
+#include "Carbon/FeePlan.h"
+
 using namespace phantasma;
 using namespace phantasma::carbon;
 
@@ -38,7 +42,7 @@ auto signedBytes = SignAndSerialize(env, keys);
 symbol, plans the fee, signs and broadcasts.
 
 {% hint style="warning" %}
-`Token.CreateToken` pays its policy fee before the contract looks at the symbol,
+`Token.CreateToken` pays its base policy fee before the contract looks at the symbol,
 and that fee is the largest single price in the protocol. A symbol that is
 already taken costs the fee and returns nothing. `PreflightTransaction` asks the
 chain first. See

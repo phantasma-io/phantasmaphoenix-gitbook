@@ -16,7 +16,7 @@ Repository: [https://github.com/phantasma-io/phantasma-sdk-cpp](https://github.c
 | RPC | `PhantasmaAPI.h`, `Adapters/*` | High-level RPC calls or low-level JSON request/response construction. |
 | Keys and addresses | `Cryptography/*` | WIF, Ed25519 signatures, addresses, hashes, proof of work, and secure byte/string wrappers. |
 | VM scripts | `VM/ScriptBuilder.h` | Contract calls, interop calls, gas, transfers, staking, and low-level opcode emission. |
-| VM transactions | `Blockchain/Transaction.h` | Classic VM transaction construction, signing, serialization, and mining. |
+| VM transactions | `Blockchain/Transaction.h` | Script transaction construction, signing, serialization, and mining. |
 | Carbon | `Carbon/*` | Carbon serialization, token info, schemas, token/series/NFT transaction builders, signing, and result parsing. |
 
 ## Getting Started
@@ -42,7 +42,7 @@ int main() {
     PhantasmaAPI api(http);
 
     PhantasmaError err{};
-    Account me = api.GetAccount("P2K...address", &err);
+    AccountInfo me = api.GetAccountInfo("P2K...address", &err);
     if (err.code != 0) {
         // handle err.message
     }
@@ -57,9 +57,8 @@ Build system notes:
 - Add RapidJSON headers when using the RapidJSON adapter
 - Add CppRestSDK when using the cpprest adapter
 
-Compatibility notes:
-- `GetBlockTransactionCountByHash(blockHash, err)` and `GetTransactionByBlockHashAndIndex(blockHash, index, err)` are legacy overloads that default to the `"main"` chain.
-- Prefer the chain-aware overloads for new code: pass `chainAddressOrName` explicitly before the block hash.
+Notes:
+- `GetBlockTransactionCountByHash` and `GetTransactionByBlockHashAndIndex` take `chainAddressOrName` before the block hash; there is no overload that defaults the chain.
 - Carbon token endpoints use `carbonTokenId` / `carbonSeriesId`; pass `0` when resolving by Phantasma symbol or series id only.
 
 ## Guides

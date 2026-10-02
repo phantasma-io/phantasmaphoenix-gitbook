@@ -52,7 +52,7 @@ after `PhantasmaAPI.h`; JSON and HTTP adapters must still be included before
 | `include/PhantasmaAPI.h` | Generated high-level and low-level RPC API. |
 | `include/Adapters/` | HTTP, JSON, and crypto adapter integrations. |
 | `include/Cryptography/` | Address, key, signature, hash, WIF, entropy, encryption, and proof-of-work helpers. |
-| `include/Blockchain/` | Classic VM transaction type. |
+| `include/Blockchain/` | Script transaction type. |
 | `include/VM/` | Script builder, opcodes, VM object, and NFT helpers. |
 | `include/Carbon/` | Carbon wire serialization, token/series/NFT structures, transaction builders, signing, and result parsers. |
 

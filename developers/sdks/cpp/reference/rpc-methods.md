@@ -47,11 +47,11 @@ against current chain state. A node with the estimate service switched off answe
 [Fees And Broadcasting](/developers/sdks/cpp/fees-and-broadcasting.md)
 {% endcontent-ref %}
 
-## Chain-Aware Overloads
+## Chain Argument
 
-Legacy overloads for `GetBlockTransactionCountByHash(blockHash, err)` and
-`GetTransactionByBlockHashAndIndex(blockHash, index, err)` default to `"main"`.
-For new code, prefer overloads that pass `chainAddressOrName` explicitly.
+`GetBlockTransactionCountByHash(chainAddressOrName, blockHash, err)` and
+`GetTransactionByBlockHashAndIndex(chainAddressOrName, blockHash, index, err)`
+take the chain first. There is no overload that defaults it.
 
 ## Cursor Parameters
 
