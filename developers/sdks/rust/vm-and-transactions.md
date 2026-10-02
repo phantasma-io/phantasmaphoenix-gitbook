@@ -22,6 +22,8 @@ fn main() -> Result<()> {
 Generate local keys only for development or offline examples:
 
 ```rust
+use phantasma_sdk::PhantasmaKeys;
+
 let keys = PhantasmaKeys::generate();
 let signature = keys.sign(b"message");
 let address = keys.address();
@@ -55,6 +57,8 @@ fn main() -> Result<()> {
 Use `end_script_hex()` when an RPC method expects hex:
 
 ```rust
+use phantasma_sdk::{ScriptArg, ScriptBuilder};
+
 let script_hex = ScriptBuilder::begin()
     .call_interop("Runtime.Time", Vec::<ScriptArg>::new())
     .end_script_hex()?;

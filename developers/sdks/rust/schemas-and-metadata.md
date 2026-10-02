@@ -51,6 +51,8 @@ let schemas = prepare_standard_token_schemas(false);
 `name`, `description`, `imageURL`, `infoURL`, and `royalties`.
 
 ```rust
+use phantasma_sdk::prepare_standard_token_schemas;
+
 let schemas = prepare_standard_token_schemas(true);
 ```
 
