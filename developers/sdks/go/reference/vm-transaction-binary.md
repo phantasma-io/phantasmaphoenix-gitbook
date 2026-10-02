@@ -2,7 +2,7 @@
 
 This page covers the lower-level Go SDK APIs outside `pkg/carbon`: keys,
 addresses, signatures, hashes, VM script building, VM object decoding, and
-classic VM transactions.
+script transactions.
 
 ## Cryptography
 
@@ -90,7 +90,7 @@ object serialization. These are separate from `pkg/carbon.Writer` and
 returning zero values or ignoring writes. Check `Err` before using decoded data
 from untrusted input.
 
-## Classic VM Transaction
+## Script Transaction
 
 ```go
 tx := blockchain.NewTransaction(

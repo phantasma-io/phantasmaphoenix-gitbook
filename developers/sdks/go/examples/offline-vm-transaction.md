@@ -1,6 +1,6 @@
 # Go SDK Example: Offline VM Transaction
 
-This example builds and signs a classic VM transaction locally. It does not
+This example builds and signs a script transaction locally. It does not
 broadcast.
 
 ```go

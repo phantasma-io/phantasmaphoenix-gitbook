@@ -170,7 +170,7 @@ When the client already holds a session id, `connect()` asks the wallet to resum
 
 | Field | Meaning |
 | --- | --- |
-| `format` | `script` for a classic `Transaction`, `carbon` for a Carbon `TxMsg`. The wallet sends a `script` transaction with `sendRawTransaction` and a `carbon` transaction with `sendCarbonTransaction`. |
+| `format` | `script` for a script `Transaction`, `carbon` for a Carbon `TxMsg`. The wallet sends a `script` transaction with `sendRawTransaction` and a `carbon` transaction with `sendCarbonTransaction`. |
 | `tx` | The unsigned transaction bytes, base64. |
 | `signatureKind` | Optional. `Ed25519` selects the Phantasma key, `ECDSA` the secp256k1 key. Carbon witnesses are Ed25519 only, so `ECDSA` with `format: 'carbon'` fails with `5003`. |
 | `pow` | Optional proof of work, meaningful only with `format: 'script'`. The protocol does not let the wallet mine proof of work on a transaction the dApp built, because mining would change bytes the dApp already assembled. A transaction that needs proof of work carries it before it is sent. |
@@ -205,7 +205,7 @@ const { hash } = await client.sendTransaction({
 });
 ```
 
-A classic VM transaction goes to the wallet without signatures:
+A script transaction goes to the wallet without signatures:
 
 ```ts
 import { Address, ScriptBuilder, Transaction } from 'phantasma-sdk-ts/public';

@@ -166,8 +166,7 @@ const script = sb
   .endScript();
 ```
 
-Limitations (current behavior):
+Rules:
 
-- Currently, when the target token is an NFT, `Runtime.InfuseToken` only supports NFT infusion.
-- It does **not** currently support fungible infusion into an NFT. Use the Carbon transfer flow above for fungible infusion.
-- `Runtime.TransferToken` refuses to send NFTs to NFT addresses; NFT infusion must use `Runtime.InfuseToken`.
+- `Runtime.InfuseToken` moves either a fungible amount or one NFT into the target NFT; the chain picks the path from the infused token's flags.
+- `Runtime.TransferToken` refuses to send an NFT to an NFT address; NFT infusion goes through `Runtime.InfuseToken` or the Carbon transfer flow above.

@@ -20,7 +20,7 @@ should pass a timeout or cancellation context.
 The underlying `pkg/jsonrpc` client generates request ids for `Call` and
 `CallBatch`, rejects missing or mismatched response ids, rejects batch responses
 whose id set does not match the request set, and enforces
-`jsonrpc.DefaultMaxResponseBytes`, currently 16 MiB. Lower-level users can pass
+`jsonrpc.DefaultMaxResponseBytes`, 16 MiB. Lower-level users can pass
 `RPCClientOpts.MaxResponseBytes` to `jsonrpc.NewClientWithOpts(...)`.
 
 ## Build And VM Configuration

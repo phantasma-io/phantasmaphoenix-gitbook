@@ -112,7 +112,7 @@ In Gen2, this could be used to increase the address-level storage space availabl
 - wallet or tooling shows KCAL gas and SOUL data escrow before signing
 - contract storage writes are allowed or rejected by the transaction result, not by contract stake balance
 
-Do not preserve `Stake.stake($THIS_ADDRESS, amount)` only for storage compatibility. Keeping it can make the transaction fail before the storage writes run, and even if staking support changes in the future, staking the contract would still not be the storage funding path.
+Do not keep `Stake.stake($THIS_ADDRESS, amount)` for storage compatibility. The call fails before the storage writes run, and staking the contract is not the storage funding path.
 
 ## Troubleshooting
 

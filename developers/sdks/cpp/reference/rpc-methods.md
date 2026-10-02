@@ -20,7 +20,7 @@ Each `Make...Request` helper now assigns a generated JSON-RPC id. Use
 `PhantasmaJsonAPI::UseRequestId(request)` before parsing a response built from
 that request; `Parse...Response` rejects missing or mismatched response ids.
 The bundled cURL and cpprest adapters cap RPC response bodies at
-`PHANTASMA_DEFAULT_MAX_RPC_RESPONSE_BYTES`, currently 16 MiB, unless the adapter
+`PHANTASMA_DEFAULT_MAX_RPC_RESPONSE_BYTES`, 16 MiB, unless the adapter
 is configured otherwise.
 
 ## Low-Level Lifecycle
@@ -133,7 +133,7 @@ from now, the same lifetime a Carbon message gets. The same header has
 
 ## Stubbed Methods
 
-The generated source currently marks these wrappers as stubbed node methods:
+The header marks these wrappers as stubbed node methods:
 
 | Wrapper | Documented return behavior |
 | ------- | -------------------------- |

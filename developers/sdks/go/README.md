@@ -33,7 +33,7 @@ Repository: [https://github.com/phantasma-io/phantasma-sdk-go](https://github.co
 | RPC | `pkg/rpc`, `pkg/rpc/response` | Context-aware JSON-RPC calls and typed response models. |
 | Keys and addresses | `pkg/cryptography` | WIF import/export, Ed25519 signatures, address parsing, hashes. |
 | VM scripts | `pkg/vm/script_builder` | Contract calls, interop calls, gas handling, transfers, staking, and NFT calls. |
-| VM transactions | `pkg/blockchain` | Classic VM transaction construction, signing, serialization, and state helpers. |
+| VM transactions | `pkg/blockchain` | Script transaction construction, signing, serialization, and state helpers. |
 | Carbon | `pkg/carbon` | Carbon serialization, schemas, token creation payloads, NFT mint payloads, signed Carbon messages. |
 
 ## Carbon Workflows

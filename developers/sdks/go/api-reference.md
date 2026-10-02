@@ -57,7 +57,7 @@ Details: [VM and Transaction APIs](reference/vm-transaction-binary.md).
 | API | Purpose |
 | --- | ------- |
 | `ScriptBuilder` | VM bytecode builder with generic contract/interop calls and high-level gas/transfer/stake helpers. |
-| `Transaction` | Classic VM transaction with serialization and signing. |
+| `Transaction` | Script transaction with serialization and signing. |
 | `TxStateIsSuccess`, `TxStateIsFault` | Helpers for finalized transaction state strings. |
 
 Details: [VM and Transaction APIs](reference/vm-transaction-binary.md).

@@ -89,9 +89,9 @@ Use these for uppercase token symbols. Do not try to deploy an uppercase token-b
 - `Map.Has`, `Map.Get`, `Map.Set`, `Map.Remove`, `Map.Count`, `Map.Clear`, `Map.Keys`
 - `List.Get`, `List.Add`, `List.Replace`, `List.RemoveAt`, `List.Count`, `List.Clear`
 
-## Methods Not Yet Available
+## Names The Node Rejects
 
-Do not write new examples around these yet:
+Do not build scripts around these names:
 
 - `Runtime.KillContract`
 - `Runtime.SwapTokens`

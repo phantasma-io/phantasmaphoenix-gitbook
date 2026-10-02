@@ -92,9 +92,9 @@ decide whether the call is valid.
 | `Transaction.GetTransactionFee(Hash transactionHash, Block block)` | Sums `GasPayment` events emitted by the `gas` contract for the transaction. |
 | `ValidateNexus(Nexus chainNexus)` | Parses the transaction nexus name and compares it with the supplied enum value. |
 
-Gas-specific constructor parameters are present, but gas serialization is
-currently commented out in the SDK. Do not rely on those constructor
-arguments to write gas fields into the serialized transaction.
+The constructor accepts gas parameters, but the SDK does not serialize them
+(the gas fields of `Transaction.cs` are commented out). A script transaction
+carries its gas in the `AllowGas` call of the script.
 
 ## VM Objects
 

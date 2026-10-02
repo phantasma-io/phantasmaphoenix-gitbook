@@ -58,4 +58,4 @@ contexts to enforce request deadlines and cancellation.
 | `pkg/carbon` | Carbon serialization, transaction messages, token builders, fee options, and result parsers. |
 | `pkg/cryptography` | Address, WIF, Ed25519 key, signature, and hash types. |
 | `pkg/vm/script_builder` | VM script builder and high-level script helpers. |
-| `pkg/blockchain` | Classic VM transaction type and transaction state helpers. |
+| `pkg/blockchain` | Script transaction type and transaction state helpers. |

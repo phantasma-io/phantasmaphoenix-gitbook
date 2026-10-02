@@ -23,7 +23,7 @@ return the transaction hash text returned by the node.
 
 `RpcClient` generates a per-request JSON-RPC id, rejects missing or mismatched
 response ids, rejects responses that omit `result`, and enforces
-`RpcClient.DefaultMaxResponseBytes`, currently 16 MiB. The constructor accepts
+`RpcClient.DefaultMaxResponseBytes`, 16 MiB. The constructor accepts
 `maxResponseBytes` when a caller needs a different positive limit.
 
 ## Result Models

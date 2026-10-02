@@ -15,7 +15,7 @@ This page lists the interops the node implements and the names it rejects.
 | `Runtime.GenerateUID` | none | implemented | Returns an id that is unique within the execution. |
 | `Runtime.Time` | none | implemented | Returns current block time as VM timestamp. |
 | `Runtime.Version` | none | implemented | Returns current VM behavior version. |
-| `Runtime.IsWitness` | `address` | implemented | Checks whether the address is currently witnessed. |
+| `Runtime.IsWitness` | `address` | implemented | Returns true if the address signed the transaction. |
 | `Runtime.Log` | `message` | implemented | Emits a VM-side log line. |
 | `Runtime.Notify` | `eventKind, address, payload` | implemented | Requires a real deployed contract context. The kind must be `Custom_V2`; any other kind fails with `contract events must use Runtime.NotifyV2 (Custom_V2)`. |
 | `Runtime.NotifyV2` | `name, address, payload` | implemented | Requires a real deployed contract context. Emits an event with kind `Custom_V2` that carries the event name. `pha-tomb` 2.2.0 and later compile `emit` to this call. |
@@ -44,7 +44,7 @@ Important lifecycle rules:
 
 - `Runtime.DeployContract` is for standalone custom contracts, not uppercase token symbols.
 - `Nexus.CreateToken` is the install path for a new token-backed contract.
-- `Nexus.AttachTokenContract` is the install path for an existing token that does not yet have VM code attached.
+- `Nexus.AttachTokenContract` is the install path for an existing token without VM code.
 - `Runtime.UpgradeContract` is the later update path for both standalone contracts and already-installed token-backed contracts.
 - Token-backed create and attach flows require a valid token contract shape. In practice, `onMint` is mandatory.
 

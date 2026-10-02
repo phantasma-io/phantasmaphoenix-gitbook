@@ -10,9 +10,9 @@ Plain .NET RPC wrapper for the Phantasma API using `RpcClient` with `async` / `a
 Creates a new Phantasma API wrapper using the given `RpcClient` or a new internal instance
 
 **Parameters**
-- `host` — RPC endpoint URL like `https://testnet.phantasma.info/rpc`
-- `rpcClient` — optional `RpcClient` to use. If `null`, a new instance will be created and disposed by this object
-- `apiKey` — optional API key sent in the `X-Api-Key` header on every request. Used only when this wrapper creates its own `RpcClient` (when `rpcClient` is `null`)
+- `host`: RPC endpoint URL like `https://testnet.phantasma.info/rpc`
+- `rpcClient`: optional `RpcClient` to use. If `null`, a new instance will be created and disposed by this object
+- `apiKey`: optional API key sent in the `X-Api-Key` header on every request. Used only when this wrapper creates its own `RpcClient` (when `rpcClient` is `null`)
 
 **Ownership**
 - If `rpcClient` is not provided, the internal client is owned by `PhantasmaAPI` and will be disposed on `Dispose()`
@@ -59,7 +59,7 @@ Gets the same record for a batch of up to 100 addresses in one call
 Gets account information, including balances, for the specified address
 
 **Parameters**
-- `address` — account address
+- `address`: account address
 
 **Returns**
 - `AccountResult` or `null` if not found
@@ -77,10 +77,10 @@ Gets account information, including balances, for the specified address
 Gets account information for a specific address encoding.
 
 **Parameters**
-- `address` — account address text
-- `extended` — deprecated server flag; kept for RPC parity
-- `checkAddressReservedByte` — `true` to validate the address reserved byte
-- `addressType` — account address encoding expected by the RPC
+- `address`: account address text
+- `extended`: deprecated server flag; kept for RPC parity
+- `checkAddressReservedByte`: `true` to validate the address reserved byte
+- `addressType`: account address encoding expected by the RPC
 
 **Returns**
 - `AccountResult` or `null` if not found
@@ -91,7 +91,7 @@ Gets account information for a specific address encoding.
 Gets account information for multiple addresses
 
 **Parameters**
-- `addresses` — array of account addresses
+- `addresses`: array of account addresses
 
 **Returns**
 - array of `AccountResult` or `null`
@@ -106,7 +106,7 @@ Gets account information for multiple addresses
 Looks up an address by name
 
 **Parameters**
-- `name` — registered name to resolve
+- `name`: registered name to resolve
 
 **Returns**
 - resolved address text or `null`
@@ -117,12 +117,12 @@ Looks up an address by name
 Gets fungible token balances owned by an address (cursor pagination)
 
 **Parameters**
-- `account` — account address
-- `tokenSymbol` — token symbol filter (optional, cannot be used together with `carbonTokenId`)
-- `carbonTokenId` — Carbon token id filter (optional, cannot be used together with `tokenSymbol`)
-- `pageSize` — items per page
-- `cursor` — cursor for the next page
-- `checkAddressReservedByte` — `true` to validate address reserved byte
+- `account`: account address
+- `tokenSymbol`: token symbol filter (optional, cannot be used together with `carbonTokenId`)
+- `carbonTokenId`: Carbon token id filter (optional, cannot be used together with `tokenSymbol`)
+- `pageSize`: items per page
+- `cursor`: cursor for the next page
+- `checkAddressReservedByte`: `true` to validate address reserved byte
 
 **Returns**
 - cursor paginated balances or `null`
@@ -133,14 +133,14 @@ Gets fungible token balances owned by an address (cursor pagination)
 Gets NFTs owned by an address (cursor pagination)
 
 **Parameters**
-- `account` — account address
-- `tokenSymbol` — token symbol filter (optional)
-- `carbonTokenId` — Carbon token id filter (optional)
-- `carbonSeriesId` — Carbon series id filter (optional)
-- `pageSize` — items per page
-- `cursor` — cursor for the next page
-- `extended` — `true` to include properties
-- `checkAddressReservedByte` — `true` to validate address reserved byte
+- `account`: account address
+- `tokenSymbol`: token symbol filter (optional)
+- `carbonTokenId`: Carbon token id filter (optional)
+- `carbonSeriesId`: Carbon series id filter (optional)
+- `pageSize`: items per page
+- `cursor`: cursor for the next page
+- `extended`: `true` to include properties
+- `checkAddressReservedByte`: `true` to validate address reserved byte
 
 **Returns**
 - cursor paginated NFT data or `null`
@@ -151,12 +151,12 @@ Gets NFTs owned by an address (cursor pagination)
 Gets NFT tokens for which the account owns at least one NFT instance (cursor pagination)
 
 **Parameters**
-- `account` — account address
-- `tokenSymbol` — token symbol filter (optional)
-- `carbonTokenId` — Carbon token id filter (optional)
-- `pageSize` — items per page
-- `cursor` — cursor for the next page
-- `checkAddressReservedByte` — `true` to validate address reserved byte
+- `account`: account address
+- `tokenSymbol`: token symbol filter (optional)
+- `carbonTokenId`: Carbon token id filter (optional)
+- `pageSize`: items per page
+- `cursor`: cursor for the next page
+- `checkAddressReservedByte`: `true` to validate address reserved byte
 
 **Returns**
 - cursor paginated token data or `null`
@@ -167,12 +167,12 @@ Gets NFT tokens for which the account owns at least one NFT instance (cursor pag
 Gets NFT series for which the account owns at least one NFT instance (cursor pagination)
 
 **Parameters**
-- `account` — account address
-- `tokenSymbol` — token symbol filter (optional)
-- `carbonTokenId` — Carbon token id filter (optional)
-- `pageSize` — items per page
-- `cursor` — cursor for the next page
-- `checkAddressReservedByte` — `true` to validate address reserved byte
+- `account`: account address
+- `tokenSymbol`: token symbol filter (optional)
+- `carbonTokenId`: Carbon token id filter (optional)
+- `pageSize`: items per page
+- `cursor`: cursor for the next page
+- `checkAddressReservedByte`: `true` to validate address reserved byte
 
 **Returns**
 - cursor paginated series data or `null`
@@ -185,8 +185,8 @@ Gets NFT series for which the account owns at least one NFT instance (cursor pag
 Gets the number of auctions currently available in the market contract for a given token
 
 **Parameters**
-- `chainAddressOrName` — chain address or name
-- `symbol` — token symbol
+- `chainAddressOrName`: chain address or name
+- `symbol`: token symbol
 
 **Returns**
 - auctions count as integer
@@ -197,10 +197,10 @@ Gets the number of auctions currently available in the market contract for a giv
 Gets all auctions currently available in the market contract for a given token with pagination
 
 **Parameters**
-- `chainAddressOrName` — chain address or name
-- `symbol` — token symbol
-- `page` — page number starting at 1
-- `pageSize` — items per page
+- `chainAddressOrName`: chain address or name
+- `symbol`: token symbol
+- `page`: page number starting at 1
+- `pageSize`: items per page
 
 **Returns**
 - tuple with results array, current page, total items and total pages
@@ -211,9 +211,9 @@ Gets all auctions currently available in the market contract for a given token w
 Gets a single auction by symbol and auction id
 
 **Parameters**
-- `chainAddressOrName` — chain address or name
-- `symbol` — token symbol
-- `id` — auction id
+- `chainAddressOrName`: chain address or name
+- `symbol`: token symbol
+- `id`: auction id
 
 **Returns**
 - auction data or `null`
@@ -226,7 +226,7 @@ Gets a single auction by symbol and auction id
 Gets the latest block height for a chain
 
 **Parameters**
-- `chain` — chain name
+- `chain`: chain name
 
 **Returns**
 - block height as `long`
@@ -237,8 +237,8 @@ Gets the latest block height for a chain
 Gets the number of transactions in a block by block hash
 
 **Parameters**
-- `chainAddressOrName` — chain address or name
-- `blockHash` — block hash
+- `chainAddressOrName`: chain address or name
+- `blockHash`: block hash
 
 **Returns**
 - transaction count
@@ -249,7 +249,7 @@ Gets the number of transactions in a block by block hash
 Gets a block by its hash
 
 **Parameters**
-- `blockHash` — block hash
+- `blockHash`: block hash
 
 **Returns**
 - block data or `null`
@@ -260,8 +260,8 @@ Gets a block by its hash
 Gets a block by chain and height
 
 **Parameters**
-- `chain` — chain name
-- `height` — block height
+- `chain`: chain name
+- `height`: block height
 
 **Returns**
 - block data or `null`
@@ -272,7 +272,7 @@ Gets a block by chain and height
 Gets the latest block for a chain
 
 **Parameters**
-- `chain` — chain name
+- `chain`: chain name
 
 **Returns**
 - latest block data or `null`
@@ -280,12 +280,12 @@ Gets the latest block for a chain
 ---
 
 ### `Task<TransactionResult?> GetTransactionByBlockHashAndIndexAsync(string chainAddressOrName, string blockHash, int index)`
-Gets a transaction by chain, block hash, and transaction index. The legacy overload `GetTransactionByBlockHashAndIndexAsync(string blockHash, int index)` is still available and defaults to the main chain.
+Gets a transaction by chain, block hash, and transaction index.
 
 **Parameters**
-- `chainAddressOrName` — chain address or name
-- `blockHash` — block hash
-- `index` — transaction index within the block
+- `chainAddressOrName`: chain address or name
+- `blockHash`: block hash
+- `index`: transaction index within the block
 
 **Returns**
 - transaction data or `null`
@@ -295,7 +295,7 @@ Gets a transaction by chain, block hash, and transaction index. The legacy overl
 ## Chain
 
 {% hint style="warning" %}
-The current RPC source exposes these wrappers for compatibility, but the chain endpoints are still stubbed: `getChains` returns an empty array and `getChain` returns a default `ChainResult`. Do not use this section as a reliable chain-data source until the backend query implementation is completed.
+The node stubs these endpoints: `getChains` returns an empty array and `getChain` returns a default `ChainResult`.
 {% endhint %}
 
 ### `Task<ChainResult[]?> GetChainsAsync()`
@@ -310,8 +310,8 @@ Gets an array of all chains deployed on Phantasma
 Gets chain information by name
 
 **Parameters**
-- `name` — chain name
-- `extended` — `true` to include extended data
+- `name`: chain name
+- `extended`: `true` to include extended data
 
 **Returns**
 - chain data or `null`
@@ -324,7 +324,7 @@ Gets chain information by name
 Gets contract metadata by name from the main chain
 
 **Parameters**
-- `contractName` — contract name
+- `contractName`: contract name
 
 **Returns**
 - contract data or `null`
@@ -335,8 +335,8 @@ Gets contract metadata by name from the main chain
 Gets contract metadata by address from a specific chain
 
 **Parameters**
-- `chainAddressOrName` — chain address or name
-- `contractAddress` — contract address
+- `chainAddressOrName`: chain address or name
+- `contractAddress`: contract address
 
 **Returns**
 - contract data or `null`
@@ -354,14 +354,14 @@ Gets all contracts deployed on the main chain
 ## Leaderboard
 
 {% hint style="warning" %}
-The current RPC source exposes `getLeaderboard`, but the backend still returns a default `LeaderboardResult` from a stubbed query path. Do not treat this method as live leaderboard data yet.
+The node stubs `getLeaderboard` and returns a default `LeaderboardResult`.
 {% endhint %}
 
 ### `Task<LeaderboardResult?> GetLeaderboardAsync(string name)`
 Gets a leaderboard by name
 
 **Parameters**
-- `name` — leaderboard name
+- `name`: leaderboard name
 
 **Returns**
 - leaderboard data or `null`
@@ -371,7 +371,7 @@ Gets a leaderboard by name
 ## Nexus
 
 {% hint style="warning" %}
-The current RPC source exposes `getNexus`, but the backend still returns a default `NexusResult` from a stubbed query path. Do not use it as authoritative nexus metadata yet.
+The node stubs `getNexus` and returns a default `NexusResult`.
 {% endhint %}
 
 ### `Task<NexusResult?> GetNexusAsync()`
@@ -388,8 +388,8 @@ Gets nexus metadata including an array of all chains deployed on Phantasma
 Gets organization data by name.
 
 **Parameters**
-- `name` — organization name, for example `"masters"`
-- `includeMemberCount` — include the member count (requires a server-side member range scan)
+- `name`: organization name, for example `"masters"`
+- `includeMemberCount`: include the member count (requires a server-side member range scan)
 
 **Returns**
 - organization data or `null`
@@ -400,9 +400,9 @@ Gets organization data by name.
 Lists organizations deployed on Phantasma using cursor pagination.
 
 **Parameters**
-- `pageSize` — items per page
-- `cursor` — cursor for the next page
-- `includeMemberCount` — include the member count per organization
+- `pageSize`: items per page
+- `cursor`: cursor for the next page
+- `includeMemberCount`: include the member count per organization
 
 **Returns**
 - cursor-paginated organizations or `null`
@@ -413,10 +413,10 @@ Lists organizations deployed on Phantasma using cursor pagination.
 Lists members of an organization by name using cursor pagination.
 
 **Parameters**
-- `name` — organization name
-- `pageSize` — items per page
-- `cursor` — cursor for the next page
-- `includeMemberTime` — include each member's join timestamp
+- `name`: organization name
+- `pageSize`: items per page
+- `cursor`: cursor for the next page
+- `includeMemberTime`: include each member's join timestamp
 
 **Returns**
 - cursor-paginated organization members or `null`
@@ -427,10 +427,10 @@ Lists members of an organization by name using cursor pagination.
 Gets membership status for an address in an organization.
 
 **Parameters**
-- `name` — organization name
-- `address` — address to check
-- `checkAddressReservedByte` — validate the address reserved byte
-- `addressType` — address text format
+- `name`: organization name
+- `address`: address to check
+- `checkAddressReservedByte`: validate the address reserved byte
+- `addressType`: address text format
 
 **Returns**
 - organization member status or `null`
@@ -443,7 +443,7 @@ Gets membership status for an address in an organization.
 Gets token metadata by symbol
 
 **Parameters**
-- `symbol` — token symbol
+- `symbol`: token symbol
 
 **Returns**
 - token data or `null`
@@ -454,9 +454,9 @@ Gets token metadata by symbol
 Gets token metadata by symbol or Carbon token id
 
 **Parameters**
-- `symbol` — token symbol (optional when using `carbonTokenId`)
-- `extended` — `true` to include extended data
-- `carbonTokenId` — Carbon token id (optional when using `symbol`)
+- `symbol`: token symbol (optional when using `carbonTokenId`)
+- `extended`: `true` to include extended data
+- `carbonTokenId`: Carbon token id (optional when using `symbol`)
 
 **Returns**
 - token data or `null`
@@ -475,8 +475,8 @@ Gets an array of all tokens deployed on Phantasma
 Gets an array of all tokens deployed on Phantasma with optional owner filtering
 
 **Parameters**
-- `extended` — `true` to include extended data
-- `ownerAddress` — optional owner address filter
+- `extended`: `true` to include extended data
+- `ownerAddress`: optional owner address filter
 
 **Returns**
 - array of token metadata or `null`
@@ -487,10 +487,10 @@ Gets an array of all tokens deployed on Phantasma with optional owner filtering
 Gets token series for a token (cursor pagination)
 
 **Parameters**
-- `symbol` — token symbol (optional when using `carbonTokenId`)
-- `carbonTokenId` — Carbon token id (optional when using `symbol`)
-- `pageSize` — items per page
-- `cursor` — cursor for the next page
+- `symbol`: token symbol (optional when using `carbonTokenId`)
+- `carbonTokenId`: Carbon token id (optional when using `symbol`)
+- `pageSize`: items per page
+- `cursor`: cursor for the next page
 
 **Returns**
 - cursor paginated series data or `null`
@@ -501,10 +501,10 @@ Gets token series for a token (cursor pagination)
 Gets one token series by Phantasma or Carbon identifiers
 
 **Parameters**
-- `symbol` — token symbol (optional when using `carbonTokenId`)
-- `carbonTokenId` — Carbon token id (optional when using `symbol`)
-- `seriesId` — Phantasma series id (optional when using `carbonSeriesId`)
-- `carbonSeriesId` — Carbon series id (optional when using `seriesId`)
+- `symbol`: token symbol (optional when using `carbonTokenId`)
+- `carbonTokenId`: Carbon token id (optional when using `symbol`)
+- `seriesId`: Phantasma series id (optional when using `carbonSeriesId`)
+- `carbonSeriesId`: Carbon series id (optional when using `seriesId`)
 
 **Returns**
 - token series data or `null`
@@ -515,12 +515,12 @@ Gets one token series by Phantasma or Carbon identifiers
 Gets NFTs for a token (cursor pagination)
 
 **Parameters**
-- `carbonTokenId` — Carbon token id
-- `carbonSeriesId` — Carbon series id filter (optional)
-- `pageSize` — items per page
-- `cursor` — cursor for the next page
-- `extended` — `true` to include properties
-- `seriesId` — Phantasma series id filter (optional)
+- `carbonTokenId`: Carbon token id
+- `carbonSeriesId`: Carbon series id filter (optional)
+- `pageSize`: items per page
+- `cursor`: cursor for the next page
+- `extended`: `true` to include properties
+- `seriesId`: Phantasma series id filter (optional)
 
 **Returns**
 - cursor paginated NFT data or `null`
@@ -531,9 +531,9 @@ Gets NFTs for a token (cursor pagination)
 Gets the token balance for a given address and token symbol
 
 **Parameters**
-- `address` — account address
-- `symbol` — token symbol
-- `chain` — chain name, default `main`
+- `address`: account address
+- `symbol`: token symbol
+- `chain`: chain name, default `main`
 
 **Returns**
 - balance data or `null`
@@ -544,11 +544,11 @@ Gets the token balance for a given address and token symbol
 Gets the token balance for a given address, token symbol, and address encoding.
 
 **Parameters**
-- `address` — account address text
-- `symbol` — token symbol
-- `chain` — chain name
-- `checkAddressReservedByte` — `true` to validate the address reserved byte
-- `addressType` — account address encoding expected by the RPC
+- `address`: account address text
+- `symbol`: token symbol
+- `chain`: chain name
+- `checkAddressReservedByte`: `true` to validate the address reserved byte
+- `addressType`: account address encoding expected by the RPC
 
 **Returns**
 - balance data or `null`
@@ -559,8 +559,8 @@ Gets the token balance for a given address, token symbol, and address encoding.
 Gets token data for a specific token id
 
 **Parameters**
-- `symbol` — token symbol
-- `tokenId` — token id
+- `symbol`: token symbol
+- `tokenId`: token id
 
 **Returns**
 - token data or `null`
@@ -575,9 +575,9 @@ Gets token data for a specific token id
 Gets NFT data and optionally loads properties
 
 **Parameters**
-- `symbol` — NFT symbol
-- `tokenId` — token id
-- `loadProperties` — `true` to load properties
+- `symbol`: NFT symbol
+- `tokenId`: token id
+- `loadProperties`: `true` to load properties
 
 **Returns**
 - NFT data or `null`
@@ -588,9 +588,9 @@ Gets NFT data and optionally loads properties
 Gets NFT data for multiple token ids
 
 **Parameters**
-- `symbol` — NFT symbol
-- `tokenIds` — token ids
-- `extended` — `true` to load properties
+- `symbol`: NFT symbol
+- `tokenIds`: token ids
+- `extended`: `true` to load properties
 
 **Returns**
 - array of NFT data or `null`
@@ -603,9 +603,9 @@ Gets NFT data for multiple token ids
 Gets address transactions with pagination
 
 **Parameters**
-- `address` — account address
-- `page` — page number starting at 1
-- `pageSize` — items per page
+- `address`: account address
+- `page`: page number starting at 1
+- `pageSize`: items per page
 
 **Returns**
 - tuple with result object, current page, total pages
@@ -616,8 +616,8 @@ Gets address transactions with pagination
 Gets the number of transactions for an address on a chain
 
 **Parameters**
-- `address` — account address
-- `chain` — chain name
+- `address`: account address
+- `chain`: chain name
 
 **Returns**
 - total number of transactions
@@ -628,7 +628,7 @@ Gets the number of transactions for an address on a chain
 Gets a transaction by its hash if available
 
 **Parameters**
-- `txHash` — transaction hash
+- `txHash`: transaction hash
 
 **Returns**
 - transaction data or `null`
@@ -639,7 +639,7 @@ Gets a transaction by its hash if available
 Broadcasts a transaction in hexadecimal encoding
 
 **Parameters**
-- `txData` — hex encoded transaction bytes
+- `txData`: hex encoded transaction bytes
 
 **Returns**
 - transaction hash text or `null`
@@ -650,7 +650,7 @@ Broadcasts a transaction in hexadecimal encoding
 Broadcasts a Carbon transaction in hexadecimal encoding
 
 **Parameters**
-- `txData` — hex encoded Carbon transaction bytes
+- `txData`: hex encoded Carbon transaction bytes
 
 **Returns**
 - transaction hash text or `null`
@@ -661,8 +661,8 @@ Broadcasts a Carbon transaction in hexadecimal encoding
 Invokes a VM script without state changes and returns its result
 
 **Parameters**
-- `chain` — chain name
-- `scriptData` — hex encoded script bytes
+- `chain`: chain name
+- `scriptData`: hex encoded script bytes
 
 **Returns**
 - script invocation result or `null`
@@ -699,12 +699,12 @@ Plans, pre-flights, signs and broadcasts a Carbon message
 Builds, signs and broadcasts a transaction with a UTF8 payload
 
 **Parameters**
-- `keys` — key pair used to sign a transaction
-- `nexus` — nexus name
-- `script` — transaction script bytes
-- `chain` — target chain name
-- `payload` — UTF8 payload string
-- `customSignFunction` — optional custom signer that receives data, script and payload bytes
+- `keys`: key pair used to sign a transaction
+- `nexus`: nexus name
+- `script`: transaction script bytes
+- `chain`: target chain name
+- `payload`: UTF8 payload string
+- `customSignFunction`: optional custom signer that receives data, script and payload bytes
 - `expiration`: moment the transaction stops being admissible; `null` means `TxLimits.DefaultExpiryMs` (45 seconds) from now
 
 **Returns**
@@ -719,12 +719,12 @@ Builds, signs and broadcasts a transaction with a UTF8 payload
 Builds, signs and broadcasts a transaction with a binary payload
 
 **Parameters**
-- `keys` — key pair used to sign a transaction
-- `nexus` — nexus name
-- `script` — transaction script bytes
-- `chain` — target chain name
-- `payload` — binary payload bytes
-- `customSignFunction` — optional custom signer that receives data, script and payload bytes
+- `keys`: key pair used to sign a transaction
+- `nexus`: nexus name
+- `script`: transaction script bytes
+- `chain`: target chain name
+- `payload`: binary payload bytes
+- `customSignFunction`: optional custom signer that receives data, script and payload bytes
 - `expiration`: moment the transaction stops being admissible; `null` means `TxLimits.DefaultExpiryMs` (45 seconds) from now
 
 **Returns**
@@ -805,14 +805,14 @@ Gets what an NFT holds at its own address, in the form the fee planner prices
 ## Storage
 
 {% hint style="warning" %}
-The current RPC source exposes the archive endpoints, but this storage section is still backed by stubbed handlers: `getArchive` returns a default `ArchiveResult`, `writeArchive` returns `false`, and `readArchive` returns an empty string. Do not use these methods as working archive storage flows yet.
+The node stubs the archive endpoints: `getArchive` returns a default `ArchiveResult`, `writeArchive` returns `false`, and `readArchive` returns an empty string.
 {% endhint %}
 
 ### `Task<ArchiveResult?> GetArchiveAsync(string hash)`
 Gets archive metadata by its hash
 
 **Parameters**
-- `hash` — archive hash
+- `hash`: archive hash
 
 **Returns**
 - archive data or `null`
@@ -823,9 +823,9 @@ Gets archive metadata by its hash
 Writes a single archive block
 
 **Parameters**
-- `hash` — archive hash
-- `blockIndex` — block index
-- `blockContent` — block content bytes
+- `hash`: archive hash
+- `blockIndex`: block index
+- `blockContent`: block content bytes
 
 **Returns**
 - `true` if the write succeeded
@@ -836,8 +836,8 @@ Writes a single archive block
 Reads a single archive block as a base64 string
 
 **Parameters**
-- `hash` — archive hash
-- `blockIndex` — block index
+- `hash`: archive hash
+- `blockIndex`: block index
 
 **Returns**
 - base64 block content or `null`
@@ -847,10 +847,10 @@ Reads a single archive block as a base64 string
 ## Validation helpers
 
 ### `static bool IsValidPrivateKey(string key)`
-Validates a WIF‑formatted private key string
+Validates a WIF-formatted private key string
 
 **Parameters**
-- `key` — WIF string
+- `key`: WIF string
 
 **Returns**
 - `true` if the key format looks valid

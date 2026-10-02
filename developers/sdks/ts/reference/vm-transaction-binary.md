@@ -46,7 +46,7 @@ removal at v1.0.
 
 ## Transaction
 
-`Transaction` represents a classic VM script transaction.
+`Transaction` represents a script transaction.
 
 | API | Purpose |
 | --- | ------- |

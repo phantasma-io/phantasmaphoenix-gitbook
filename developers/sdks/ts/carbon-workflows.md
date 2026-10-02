@@ -51,7 +51,7 @@ Rules:
   (These arrays are not related to `Array_*` field types.)
 - `type` must be a `VmType` name string (for example `String`, `Int32`, `Bytes32`, `Array_String`).
   See the [Schema JSON Reference](schema-json-reference.md).
-- Do not include system fields `_i`, `mode`, `rom` — the builder adds them automatically.
+- Do not include the system fields `_i`, `mode` and `rom`; the builder adds them.
 - Standard NFT fields (`name`, `description`, `imageURL`, `infoURL`, `royalties`) must be declared
   in either **series metadata** or the NFT **ROM schema** (at least one of the two).
 - Field names are case-sensitive.

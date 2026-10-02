@@ -19,7 +19,7 @@ call path. Code that needs explicit result objects can call `JSONRPCResult<T>`.
 | `convertDecimals(amount, decimals)` | Decimal conversion helper retained on the client. |
 
 `options.maxRpcResponseBytes` and `setMaxRpcResponseBytes(...)` default to
-`DEFAULT_MAX_RPC_RESPONSE_BYTES`, currently 16 MiB. Values must be positive.
+`DEFAULT_MAX_RPC_RESPONSE_BYTES`, 16 MiB. Values must be positive.
 `options.apiKey` and `setApiKey(...)` send the key as the `X-Api-Key` header.
 
 ## Raw JSON-RPC
@@ -33,7 +33,7 @@ call path. Code that needs explicit result objects can call `JSONRPCResult<T>`.
 | `unwrapRpcResult(result)` | Returns the success value or throws for an error result. |
 
 Use typed methods when they exist. Use raw calls for endpoint diagnostics or
-node methods that do not yet have wrappers.
+node methods without a wrapper.
 
 `JSONRPC(...)` unwraps successful JSON-RPC responses. It returns an
 `{ error: ... }` object when the endpoint returns a JSON-RPC error object, and

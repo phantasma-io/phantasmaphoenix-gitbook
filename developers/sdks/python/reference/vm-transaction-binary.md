@@ -1,7 +1,7 @@
 # Python SDK VM and Transaction APIs
 
 This page documents the lower-level `phantasma_py` APIs outside the Carbon module.
-Use these APIs for classic VM scripts, VM script transactions, VM object decoding,
+Use these APIs for VM scripts, script transactions, VM object decoding,
 key and address handling, and binary values used by VM serialization. Use the
 Carbon reference when the operation is a Carbon token, series, NFT, transfer,
 market, or message-payload flow.

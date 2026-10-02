@@ -1,7 +1,7 @@
 # Rust SDK VM and Transaction APIs
 
 This page documents the lower-level `phantasma_sdk` APIs outside the Carbon
-module. Use these APIs for classic VM scripts, VM transaction bytes, local
+module. Use these APIs for VM scripts, script transaction bytes, local
 transaction signing, key/address handling, and VM object decoding. Use the
 Carbon API instead for Carbon token, series, NFT, transfer, market, and message
 payload flows.
@@ -13,10 +13,10 @@ Fallible APIs return `phantasma_sdk::Result<T>`, an alias for
 
 | API | Purpose |
 | --- | ------- |
-| `ADDRESS_LENGTH` | Address byte length, currently `34`. |
-| `PRIVATE_KEY_LENGTH` | Private key byte length, currently `32`. |
-| `PUBLIC_KEY_LENGTH` | Ed25519 public key byte length, currently `32`. |
-| `SIGNATURE_LENGTH` | Ed25519 signature byte length, currently `64`. |
+| `ADDRESS_LENGTH` | Address byte length, `34`. |
+| `PRIVATE_KEY_LENGTH` | Private key byte length, `32`. |
+| `PUBLIC_KEY_LENGTH` | Ed25519 public key byte length, `32`. |
+| `SIGNATURE_LENGTH` | Ed25519 signature byte length, `64`. |
 | `AddressKind` | Address kind enum: `Invalid`, `User`, `System`, `Interop`. `Address::kind()` returns `System` for the null address. |
 | `SignatureKind` | Signature kind enum: `None`, `Ed25519`, `Ecdsa`, `Ring`. The SDK only implements Ed25519 signatures in `Ed25519Signature`. |
 

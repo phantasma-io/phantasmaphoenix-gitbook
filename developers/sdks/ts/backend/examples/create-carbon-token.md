@@ -56,7 +56,7 @@ In the following examples, we will use the deployer’s `PhantasmaKeys` keypair 
   const info = TokenInfoBuilder.build(
     "MYNFT", // New token symbol
     IntX.fromI64(0n), // Maximum token supply, or 0 for unlimited supply
-    true, // Whether the token is non-fungible (NFT) or not (fungible). Currently, only NFTs are supported
+    true, // true for an NFT token, false for a fungible token
     0, // Token decimals (always 0 for NFTs)
     senderPubKey, // Public key of the token creator
     metadata, // Token metadata (required for all tokens; values are strings)

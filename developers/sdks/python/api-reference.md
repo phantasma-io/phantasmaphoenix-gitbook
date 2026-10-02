@@ -86,7 +86,7 @@ Method and helper reference: [VM and Transaction APIs](reference/vm-transaction-
 | ------ | --- | ------- |
 | `encoding` | `encode_base58`, `decode_base58` | Base58 helpers used by address and WIF parsing. |
 | `encoding` | `encode_hex`, `decode_hex` | Hex helpers. `decode_hex` trims whitespace and accepts an optional `0x`/`0X` prefix. |
-| `binary` | `BinaryWriter`, `BinaryReader` | VM binary writer/reader for scripts, VM objects, and classic VM transactions. |
+| `binary` | `BinaryWriter`, `BinaryReader` | VM binary writer/reader for scripts, VM objects, and script transactions. |
 | `binary` | `big_int_to_vm_bytes`, `vm_bytes_to_big_int` | Phantasma VM bigint conversion helpers. |
 | `errors` | `PhantasmaError` and subclasses | SDK exception hierarchy used by RPC, crypto, encoding, serialization, and builder code. |
 

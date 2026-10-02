@@ -54,7 +54,7 @@ Chain path:
 Use:
 - `pha-deploy contract attach`
 
-This is for a token that already exists on-chain but does not yet have the desired VM contract attached.
+This is for a token that exists on-chain without the desired VM contract.
 
 Chain path:
 - `Nexus.AttachTokenContract(...)`

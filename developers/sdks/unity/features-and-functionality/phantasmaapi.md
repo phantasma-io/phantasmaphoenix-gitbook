@@ -15,7 +15,7 @@
 
 * All RPC methods accept an optional `Action<EPHANTASMA_SDK_ERROR_TYPE, string> errorHandlingCallback` plus optional `timeout` and `retries` arguments.
 * Block-hash methods provide both main-chain defaults and explicit `chainAddressOrName` overloads for transaction counts and transaction-by-block-position reads.
-* The Unity wrappers for Chain, Leaderboard, Nexus, and Storage exist, but the current RPC backend still returns stubbed/default data for those endpoint groups.
+* The node stubs the Chain, Leaderboard, Nexus and Storage endpoints and returns default data for them.
 
 #### Methods
 

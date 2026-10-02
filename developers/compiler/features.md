@@ -2,7 +2,7 @@
 
 ## Supported Languages
 
-`pha-tomb` currently documents one source language for contract authoring:
+`pha-tomb` compiles one source language:
 
 | Language  | File Extension | Status                                | Description                                                                                               |
 | --------- | -------------- | ------------------------------------- | --------------------------------------------------------------------------------------------------------- |

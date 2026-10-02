@@ -98,7 +98,7 @@ auctions and address transaction history.
 
 ## Broadcast
 
-`SendRawTransaction` broadcasts signed classic VM transaction hex.
+`SendRawTransaction` broadcasts signed script transaction hex.
 `SendCarbonTransaction` broadcasts signed Carbon transaction hex. Neither method
 waits for final execution state; poll `GetTransaction(ctx, hash)` and check
 `TransactionResult.StateIsSuccess()`.

@@ -166,7 +166,7 @@ The returned `signedTx` can then be sent through `PhantasmaAPI.sendRawTransactio
 It accepts:
 
 - an unsigned serialized transaction hex
-- a signature type, currently `Ed25519`
+- a signature type (`Ed25519`)
 
 The wallet returns a signature payload. Use
 `signPrebuiltTransaction(...)` when the SDK should also assemble and verify the
