@@ -15,7 +15,7 @@ In this example, the contract imports the **NFT** library. The same import patte
 contract test {
 	import NFT;
 
-	public mintSample(from:address, to:address, symbol:string, rom:any, ram:any)
+	public mintSample(from:address, to:address, symbol:string, rom:bytes, ram:bytes)
 	{
 		NFT.mint(from, to, symbol, rom, ram, 1);
 	}

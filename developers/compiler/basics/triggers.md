@@ -55,7 +55,7 @@ trigger onMigrate(from: address, to: address)
 ### `onWrite`
 
 ```csharp
-trigger onWrite(from: address, data: any)
+trigger onWrite(from: address, data: bytes)
 ```
 
 ## Practical notes

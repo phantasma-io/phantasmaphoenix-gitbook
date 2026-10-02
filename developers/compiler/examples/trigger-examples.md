@@ -10,6 +10,8 @@ This trigger runs when VM code is attached to an already existing token through 
 token TEST {
     import Runtime;
 
+    property name: string = "Test";
+
     global attached: bool;
 
     trigger onAttach(from:address)
@@ -62,6 +64,9 @@ In this example, the contract validates the symbol and the caller context.
 ```csharp
 token TEST {
     import Runtime;
+
+    property name: string = "Test";
+
     trigger onMint(from:address, to:address, symbol:string, value:number)
     {
         local contractSymbol: string = $THIS_SYMBOL;
@@ -109,6 +114,9 @@ In this example, the contract checks that the owner initiated the series creatio
 ```csharp
 token TEST {
     import Runtime;
+
+    property name: string = "Test";
+
     global owner : address;
 
     trigger onSeries(from:address)
@@ -132,6 +140,9 @@ In this example, the token only accepts infusion with the same symbol.
 ```csharp
 token TEST {
     import Runtime;
+
+    property name: string = "Test";
+
     trigger onInfuse(from:address, target:address, symbol:string, nftID:number)
     {
         local thisSymbol = $THIS_SYMBOL;
@@ -154,8 +165,12 @@ In this example, this token will only be able to be updated if it's the owner th
 ```csharp
 token TEST {
     import Runtime;
+
+    property name: string = "Test";
+
     global owner: address;
-    trigger onWrite(from:address, ram:any)
+
+    trigger onWrite(from:address, ram:bytes)
     {
         Runtime.expect(Runtime.isWitness(owner), "Only owner can update");
         return;
@@ -198,8 +213,6 @@ This method will be **triggered** when a token is **received**.
 It's possible to prevent receiving external tokens!
 {% endhint %}
 
-### Example 1
-
 In this example, this account will only accept transfers of KCAL and reject anything else.
 
 {% code lineNumbers="true" %}
@@ -210,26 +223,6 @@ contract test {
     {
         if (symbol != "KCAL") {
             throw "can't receive asset: " + symbol;
-        }
-
-        return;
-    }
-}
-```
-{% endcode %}
-
-### Example 2
-
-In this example, any asset sent to this account will be auto-converted into SOUL.
-
-{% code lineNumbers="true" %}
-```csharp
-contract test {
-    import Call;
-    trigger onReceive(from:address, to:address, symbol:string, amount:number)
-    {
-        if (symbol != "SOUL") {
-            Call.contract("Swap", "SwapTokens", from, symbol, "SOUL", amount);
         }
 
         return;

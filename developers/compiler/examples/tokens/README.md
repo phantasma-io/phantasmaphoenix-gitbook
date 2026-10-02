@@ -42,11 +42,11 @@ contract test {
 	{
 		Runtime.expect(Runtime.isWitness(from), "witness failed");
 
-		local flags:TokenFlags := Token.getFlags(symbol);
+		local flags:TokenFlags = Token.getFlags(symbol);
 
 		if (flags.isSet(TokenFlags.Fungible)) {
-			local thisAddr:address := $THIS_ADDRESS;
-			Token.transfer(from, thisAddr, "SOUL", price);
+			local thisAddr:address = $THIS_ADDRESS;
+			Token.transfer(from, thisAddr, "SOUL", amount);
 		}
 	}
 }

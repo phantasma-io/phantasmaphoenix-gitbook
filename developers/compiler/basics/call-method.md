@@ -6,7 +6,7 @@ If a method is declared private, it can't be called by anyone except the actual 
 {% code lineNumbers="true" %}
 ```csharp
 contract test {
-	private sum(a:number, b:number) {
+	private sum(a:number, b:number): number {
 		return a + b;
 	}
 

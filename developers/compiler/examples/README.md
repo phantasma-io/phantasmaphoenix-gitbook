@@ -57,8 +57,7 @@ contract test {
 
 ## Conditions
 
-Like most programming languages, it is possible to do conditional branching use if statement.
-Logic operators supported include and, or and xor.
+Conditional branching uses `if` and `else`. The logical operators are `&&` and `||`.
 
 
 {% code lineNumbers="true" %}
@@ -66,7 +65,7 @@ Logic operators supported include and, or and xor.
 contract test {
 	public isEvenAndPositive(n:number):bool
 	{
-		if (n>0 and n%2==0)
+		if (n > 0 && n % 2 == 0)
 		{
 			return true;
 		}
@@ -117,6 +116,9 @@ Showcases how a contract can declare and emit custom events.
 {% code lineNumbers="true" %}
 ```csharp
 contract test {
+	import Runtime;
+	import Token;
+
 	event MyPayment:number = "{address} paid {data}"; // here we use a short-form description
 
 	public paySomething(from:address, x:number)
@@ -256,20 +258,22 @@ contract test {
 
 ## Inline asm
 
-Inline asm allows to write assembly code that is then inserted and merged into the rest of the code.
-This feature is useful as an workaround for missing features in the compiler.
+Inline asm inserts VM assembly into the compiled code. A local the assembly
+writes must be initialized before the block and used after it, because the
+compiler rejects uninitialized and unused locals.
 
 {% code lineNumbers="true" %}
 ```csharp
 script startup {
 
-	import Call;
+	import Runtime;
 
 	code() {
-		local temp:string;
+		local temp:string = "";
 		asm {
 			LOAD $temp "hello"
 		}
+		Runtime.log(temp);
 	}
 }
 ```
@@ -283,6 +287,8 @@ Maps are one of the few types that don't have to initialized in the constructor.
 
 ```csharp
 contract test {
+	import Map;
+
 	global my_state: storage_map<address, number>;
 
 	constructor(owner:address)
@@ -297,56 +303,26 @@ contract test {
 }
 ```
 
-## Methods variables
+## Calling A Method Through Call.method
 
-It is possible to use methods as variables.
-
+`Call.method<T>(name, args...)` calls one of the contract's own methods by
+name and returns its result as `T`.
 
 {% code lineNumbers="true" %}
 ```csharp
 contract test {
+	import Call;
 
-	import Runtime;
-	import Map;
-
-	global _counter:number;
-
-	global _callMap: storage_map<address, method<address>>;
-
-	constructor(owner:address)
+	private sum(x:number, y:number) : number
 	{
-		_counter = 0;
+		return x + y;
 	}
 
-	public registerUser(from:address, amount:number)
+	public fetch(val:number) : number
 	{
-		local target: method<address>;
-
-		if (amount > 10) {
-			target = incCounter;
-		}
-		else {
-			target = decCounter;
-		}
-
-		_callMap.set(from, target);
-	}
-
-	public callUser(from:address) {
-		local target: method<address> = _callMap.get(from);
-
-		Call.method(target, from);
-	}
-
-	private incCounter(target:address) {
-		_counter += 1;
-	}
-
-	private subCounter(target:address) {
-		_counter -= 1;
+		return Call.method<number>(sum, val, 1);
 	}
 }
-
 ```
 {% endcode %}
 
@@ -435,18 +411,19 @@ token NACHO {
 		}
 
 		property imageURL: string {
-			return "https://nacho.men/img/luchador/"+ _tokenID;
+			return "https://example.invalid/img/luchador/"+ _tokenID;
 		}
 
 		property infoURL: string {
-			return "https://nacho.men/api/luchador/"+ _tokenID;
+			return "https://example.invalid/api/luchador/"+ _tokenID;
 		}
 	}
 
 	nft item<item_rom, item_ram> {
 
 		property name: string {
-			switch (_ROM.kind)
+			local kind: number = _ROM.kind;
+			switch (kind)
 			{
 				case 1: return "Potion";
 				case 2: return "Gloves";
@@ -459,11 +436,11 @@ token NACHO {
 		}
 
 		property imageURL: string {
-			return "https://nacho.men/img/item/"+ _tokenID;
+			return "https://example.invalid/img/item/"+ _tokenID;
 		}
 
 		property infoURL: string {
-			return "https://nacho.men/api/item/"+ _tokenID;
+			return "https://example.invalid/api/item/"+ _tokenID;
 		}
 	}
 
@@ -494,7 +471,7 @@ script startup {
 
 	code(target:address) {
 		local temp:number = 50000;
-		Call.contract("Stake", "Unstake", target, temp);
+		Call.contract<none>("stake", "Unstake", target, temp);
 	}
 }
 ```
@@ -509,7 +486,7 @@ This example showcases a script that deploys a token contract.
 {% code lineNumbers="true" %}
 ```csharp
 token GHOST {
-...
+    property name: string = "Ghost";
 }
 
 script deploy {
