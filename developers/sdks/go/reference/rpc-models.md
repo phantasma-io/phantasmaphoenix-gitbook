@@ -56,7 +56,8 @@ older page/page-size endpoints such as auctions and address transaction history.
 | `InteropResult` | `Local`, `External` |
 | `PlatformResult` | `Platform`, `Chain`, `Fuel`, `Tokens`, `Interop` |
 | `GovernanceResult` | `Name`, `Value` |
-| `OrganizationResult` | `ID`, `Name`, `Members` |
+| `OrganizationResult` | `Name`, `Owner`, `CarbonOwner`, `Metadata`, `MemberCount` |
+| `OrganizationMemberResult` | `Address`, `CarbonAddress`, `IsMember`, `MemberTime` |
 | `CrowdsaleResult` | `Hash`, `Name`, `Creator`, `Flags`, `StartDate`, `EndDate`, `SellSymbol`, `ReceiveSymbol`, `Price`, cap fields |
 | `ChainResult` | `Name`, `Address`, `Parent`, `Height`, `Organization`, `Contracts`, `Dapps` |
 | `NexusResult` | `Name`, `Protocol`, `Platforms`, `Tokens`, `Chains`, `Governance`, `Organizations` |
@@ -104,7 +105,7 @@ application storage. They have different identities and update paths.
 | Model | Fields |
 | ----- | ------ |
 | `ABIParameterResult`, `ABIMethodResult`, `ABIEventResult` | Contract ABI field, method, and event shapes. |
-| `ContractResult` | `Name`, `Address`, `Script`, `Methods`, `Events` |
+| `ContractResult` | `Name`, `Address`, `Script`, `Owner`, `Methods`, `Events` |
 | `AuctionResult` | creator/chain addresses, dates, base/quote symbols, token id, prices, type, ROM/RAM, listing fee, current winner |
 | `ArchiveResult` | optional `Name`, optional `Hash`, `Time`, `Size`, optional `Encryption`, `BlockCount`, optional `MissingBlocks`, optional `Owners` |
 | `BuildInfoResult` | `Version`, `Commit`, `BuildTimeUTC` |

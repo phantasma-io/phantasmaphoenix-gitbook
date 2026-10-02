@@ -191,5 +191,7 @@ token creation whose symbol the chain reports as taken.
 | `IsValidAddress(address)` | none | Checking the SDK address text shape. | `bool` |
 
 `IsValidPrivateKey` checks for `L` or `K` WIF prefixes and length 52.
-`IsValidAddress` checks for prefix `P` and length 45. These helpers do not
-replace chain-side validation.
+`IsValidAddress` checks for prefix `P` and length 45, which no current address
+satisfies: an address text is 47 characters. Validate addresses with
+`PhantasmaPhoenix.Cryptography.Address.IsValidAddress(text)`, which parses the
+text. Neither helper replaces chain-side validation.

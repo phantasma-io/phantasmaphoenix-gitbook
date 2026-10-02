@@ -773,8 +773,8 @@ Dry-runs a serialized transaction envelope against current chain state
 - Signatures inside the envelope may be zero-filled dummies of the correct
   length. The simulation skips signature checks, and the dummies keep the exact
   byte length the bill depends on.
-- The method returns a standard RPC error until the estimate service is
-  launched. The local planner is the fallback.
+- A node with the estimate service switched off answers a standard RPC error.
+  The local planner is the fallback.
 
 ---
 
@@ -861,13 +861,13 @@ Validates a WIF‑formatted private key string
 ---
 
 ### `static bool IsValidAddress(string address)`
-Validates the format of a Phantasma address string
+Checks that the text starts with `P` and is 45 characters long
 
 **Parameters**
-- `address` — address text
+- `address`: address text
 
 **Returns**
-- `true` if the address format looks valid
+- `true` if the text starts with `P` and has length 45
 
-**Heuristics**
-- must start with `P` and have length 45
+**Notes**
+- A Phantasma address text is 47 characters (the prefix letter and 34 Base58-encoded bytes), so this helper returns `false` for every current address. Validate addresses with `PhantasmaPhoenix.Cryptography.Address.IsValidAddress(text)`, which parses the text.

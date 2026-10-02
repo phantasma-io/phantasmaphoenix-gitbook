@@ -41,8 +41,7 @@ is configured otherwise.
 
 `GetGasConfig` returns the on-chain gas configuration and the chain parameters
 fee estimation needs. `EstimateTransaction` dry-runs a serialized envelope
-against current chain state, and it returns a standard RPC error until the
-estimate service is launched.
+against current chain state. A node with the estimate service switched off answers a standard RPC error.
 
 {% content-ref url="/developers/sdks/cpp/fees-and-broadcasting.md" %}
 [Fees And Broadcasting](/developers/sdks/cpp/fees-and-broadcasting.md)

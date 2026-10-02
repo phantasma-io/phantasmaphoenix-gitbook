@@ -84,7 +84,8 @@ and does not need account profile, storage, stake, or other balances.
 | `InteropResult` | `local`, `external` |
 | `PlatformResult` | `platform`, `chain`, `fuel`, `tokens`, `interop` |
 | `GovernanceResult` | `name`, `value` |
-| `OrganizationResult` | `id`, `name`, `members` |
+| `OrganizationResult` | `name`, `owner`, `carbon_owner`, `metadata`, `member_count` |
+| `OrganizationMemberResult` | `address`, `carbon_address`, `is_member`, `member_time` |
 | `CrowdsaleResult` | `hash`, `name`, `creator`, `flags`, `start_date`, `end_date`, `sell_symbol`, `receive_symbol`, `price`, `global_soft_cap`, `global_hard_cap`, `user_soft_cap`, `user_hard_cap` |
 | `DappResult` | `name`, `address`, `chain` |
 | `ChainResult` | `name`, `address`, `parent`, `height`, `organization`, `contracts`, `dapps` |
@@ -137,7 +138,7 @@ for the single-result path and `results` for indexed VM results.
 | `TokenSeriesResult` | `series_id`, `carbon_token_id`, `carbon_series_id`, `owner_address`, `max_mint`, `mint_count`, `current_supply`, `max_supply`, optional `burned_supply`, optional `mode`, optional `script`, optional `methods`, `metadata` |
 | `TokenResult` | `symbol`, `name`, `decimals`, `current_supply`, `max_supply`, `burned_supply`, `address`, `owner`, `flags`, optional `script`, `series`, `carbon_id`, optional `metadata`, optional `token_schemas`, optional `external`, optional `price`; helpers: `has_flag`, `is_fungible`, `is_non_fungible`, `is_burnable`, `is_divisible`, `is_fiat`, `is_finite`, `is_fuel`, `is_mintable`, `is_stakable`, `is_transferable` |
 | `TokenDataResult` | `id`, `series`, `carbon_token_id`, `carbon_series_id`, `carbon_nft_address`, `mint`, `chain_name`, `owner_address`, `creator_address`, `ram`, `rom`, `status`, `infusion`, `properties` |
-| `NftResult` | `id`, `series`, `mint`, `chain_name`, `owner_address`, `creator_address`, `rom`, `ram`, `status` |
+| `NftResult` | `id`, `series`, `carbon_token_id`, `carbon_series_id`, `carbon_nft_address`, `mint`, `chain_name`, `owner_address`, `creator_address`, `ram`, `rom`, `status`, `infusion`, `properties` |
 
 Use `carbon_id`, `carbon_token_id`, `carbon_series_id`, and
 `carbon_nft_address` when reconciling RPC reads with Carbon transaction results.
@@ -155,7 +156,7 @@ storage.
 | `AbiParameterResult` | `name`, `type_name` |
 | `AbiMethodResult` | `name`, `return_type`, `parameters` |
 | `AbiEventResult` | `name`, `value`, `return_type`, `description` |
-| `ContractResult` | `name`, `address`, `script`, `methods`, `events` |
+| `ContractResult` | `name`, `address`, `owner`, `script`, `methods`, `events` |
 
 ABI models are descriptive. They let tooling display callable contract methods
 and event shapes, but they do not execute calls by themselves. Use

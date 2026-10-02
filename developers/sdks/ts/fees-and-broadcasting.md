@@ -284,9 +284,8 @@ safe to cache. `gasConfigFromRpc` turns the result into a `GasConfig`.
 
 `estimateTransaction` is the node-side estimate. Signatures inside the envelope
 may be zero-filled dummies of the correct length, because the simulation skips
-signature checks and the dummies keep the byte length the bill depends on. The
-method returns a standard RPC error until the estimate service is launched. The
-local planner is the fallback.
+signature checks and the dummies keep the byte length the bill depends on. A node with the estimate service switched off answers a standard RPC error.
+The local planner is the fallback.
 
 ## Broadcasting
 

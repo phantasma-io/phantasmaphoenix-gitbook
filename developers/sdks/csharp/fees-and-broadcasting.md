@@ -277,8 +277,8 @@ a v2 response that is missing its tail fields.
 `EstimateTransactionAsync` is the node-side estimate. Signatures inside the
 envelope may be zero-filled dummies of the correct length, because the
 simulation skips signature checks and the dummies keep the byte length the bill
-depends on. The method returns a standard RPC error until the estimate service
-is launched. The local planner is the fallback.
+depends on. A node with the estimate service switched off answers a standard RPC error.
+The local planner is the fallback.
 
 `EstimateTransactionResult.ToFeeQuote()` converts a completed estimate into the
 same `FeeQuote` a local plan produces. It throws when `WouldAbort` is set,

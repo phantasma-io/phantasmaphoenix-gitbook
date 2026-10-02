@@ -111,8 +111,8 @@ defaults to `true`.
 `getGasConfig` changes only through a governance resolution, so the result is
 safe to cache. The planner reads it once and keeps it for a minute.
 
-`estimateTransaction` returns a standard RPC error until the estimate service is
-launched. The local planner is the fallback.
+`estimateTransaction` answers a standard RPC error on a node with the estimate
+service switched off. The local planner is the fallback.
 
 {% content-ref url="/developers/sdks/ts/fees-and-broadcasting.md" %}
 [Fees And Broadcasting](/developers/sdks/ts/fees-and-broadcasting.md)

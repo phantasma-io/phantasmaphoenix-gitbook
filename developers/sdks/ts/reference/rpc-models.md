@@ -45,7 +45,9 @@ uses `stake` for a deprecated flat scalar.
 | `Platform`, `Interop`, `Governance` | Nexus platform and governance metadata. |
 | `Chain` | name, address, parent, height, organization, contracts, dapps. |
 | `Nexus` | name, protocol, platforms, tokens, chains, governance, organizations. |
-| `Organization` | id, name, members. |
+| `Organization` | name, owner, carbonOwner, metadata, memberCount. |
+| `OrganizationMember` | address, carbonAddress, isMember, memberTime. |
+| `Contract` | name, address, owner, script, methods, events. |
 | `Leaderboard`, `LeaderboardRow` | named leaderboard rows. |
 | `ABIContract`, `ABIMethod`, `ABIEvent`, `ABIParameter` | Contract ABI structures. |
 

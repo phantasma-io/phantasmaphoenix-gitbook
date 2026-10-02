@@ -217,8 +217,7 @@ A margin of `0` means five seconds of headroom for clock skew.
 
 `getGasConfig` changes only through a governance resolution, so its result is
 safe to cache. `EstimateTransaction` gives the exact bill of a script, which the
-local planner can only budget. It returns a standard RPC error until the
-estimate service is launched.
+local planner can only budget. A node with the estimate service switched off answers a standard RPC error.
 
 ## Broadcast And Confirmation
 

@@ -123,7 +123,7 @@ fee estimation needs. It changes only through a governance resolution, so the
 result is safe to cache.
 
 `EstimateTransaction` dry-runs a serialized envelope against current chain
-state. It returns a standard RPC error until the estimate service is launched.
+state. A node with the estimate service switched off answers a standard RPC error.
 
 **Storage**
 
@@ -152,4 +152,4 @@ the cost before it asks the player to confirm.
 **Validation**
 
 * `public static bool IsValidPrivateKey(string key);`
-* `public static bool IsValidAddress(string address);`
+* `public static bool IsValidAddress(string address);` checks prefix `P` and length 45, which no current 47-character address satisfies; use `PhantasmaPhoenix.Cryptography.Address.IsValidAddress(text)` instead

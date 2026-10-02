@@ -85,7 +85,8 @@ and does not need account profile, storage, stake, or other balances.
 | `InteropResult` | `local`, `external` |
 | `PlatformResult` | `platform`, `chain`, `fuel`, `tokens`, `interop` |
 | `GovernanceResult` | `name`, `value` |
-| `OrganizationResult` | `id`, `name`, `members` |
+| `OrganizationResult` | `name`, `owner`, `carbon_owner`, `metadata`, `member_count` |
+| `OrganizationMemberResult` | `address`, `carbon_address`, `is_member`, `member_time` |
 | `CrowdsaleResult` | `hash`, `name`, `creator`, `flags`, `start_date`, `end_date`, `sell_symbol`, `receive_symbol`, `price`, `global_soft_cap`, `global_hard_cap`, `user_soft_cap`, `user_hard_cap` |
 | `DappResult` | `name`, `address`, `chain` |
 | `ChainResult` | `name`, `address`, `parent`, `height`, `organization`, `contracts`, `dapps` |
@@ -155,7 +156,7 @@ storage.
 | `ABIParameterResult` | `name`, `type` |
 | `ABIMethodResult` | `name`, `return_type`, `parameters` |
 | `ABIEventResult` | `value`, `name`, `return_type`, `description` |
-| `ContractResult` | `name`, `address`, `script`, `methods`, `events` |
+| `ContractResult` | `name`, `address`, `owner`, `script`, `methods`, `events` |
 
 ABI models are descriptive. They let tooling display callable contract methods
 and event shapes, but they do not execute calls by themselves. Use

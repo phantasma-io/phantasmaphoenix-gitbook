@@ -258,8 +258,7 @@ the offer is refunded.
 
 `getGasConfig` changes only through a governance resolution, so its result is
 safe to cache. `estimate_transaction` gives the exact bill of a script, which
-the local planner can only budget. It returns a standard RPC error until the
-estimate service is launched.
+the local planner can only budget. A node with the estimate service switched off answers a standard RPC error.
 
 ## Explicit Carbon Broadcast
 

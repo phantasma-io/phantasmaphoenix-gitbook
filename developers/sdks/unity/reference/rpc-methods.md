@@ -123,8 +123,8 @@ an expiration 20 minutes from now; there is no argument to change it.
 | `EstimateTransaction(txData, ...)` | Dry-running a serialized envelope against current chain state. | `Action<EstimateTransactionResult>` |
 
 `GetGasConfig` changes only through a governance resolution, so the result is
-safe to cache. `EstimateTransaction` returns a standard RPC error until the
-estimate service is launched.
+safe to cache. `EstimateTransaction` answers a standard RPC error on a node
+with the estimate service switched off.
 
 {% content-ref url="/developers/sdks/unity/carbon-transactions.md" %}
 [Carbon Transactions And Fees](/developers/sdks/unity/carbon-transactions.md)
@@ -141,5 +141,7 @@ estimate service is launched.
 | `IsValidAddress(address)` | Local address text shape check. | `bool` |
 
 `IsValidPrivateKey` checks for `L` or `K` WIF prefixes and length 52.
-`IsValidAddress` checks for prefix `P` and length 45. Chain-side validation is
-still authoritative.
+`IsValidAddress` checks for prefix `P` and length 45, which no current address
+satisfies: an address text is 47 characters. Validate addresses with
+`PhantasmaPhoenix.Cryptography.Address.IsValidAddress(text)`, which parses the
+text. Chain-side validation is still authoritative.
