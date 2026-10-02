@@ -42,6 +42,47 @@ The relay transports connect to `wss://link.phantasma.info/relay` (`DEFAULT_RELA
 
 `injected`, `webDeeplink`, `deeplink`, `relay` and `relayEcdh` wait up to 5 minutes for each answer, because an answer includes the user's consent, and on mobile an app switch. A client built with the constructor, and the loopback client, wait 60 seconds. The `requestTimeoutMs` option changes the timeout, and `0` disables it.
 
+## Browser-Extension Flow
+
+An extension wallet defines a provider object on the page, and the injected transport talks to it directly. The provider has three members:
+
+```ts
+interface PhantasmaLinkProvider {
+  /** Protocol generations the wallet speaks. Contains 5. */
+  readonly plvVersions: readonly number[];
+  /** Sends one request envelope and returns its response envelope. */
+  request(frame: string): Promise<string>;
+  /** Subscribes to event envelopes. Returns the function that unsubscribes. */
+  onEvent(handler: (frame: string) => void): () => void;
+}
+```
+
+`findInjectedProvider()` applies the detection rule of the specification: the object exists, `request` and `onEvent` are functions, and `plvVersions` contains `5`. A dApp checks it once and falls back to another transport when it is absent:
+
+```ts
+import { PhantasmaLink5, findInjectedProvider } from 'phantasma-sdk-ts/link/v5';
+
+const dapp = { name: 'My dApp', url: 'https://dapp.example' };
+
+// The extension when one is installed, otherwise the desktop loopback wallet.
+const client = findInjectedProvider() ? PhantasmaLink5.injected() : PhantasmaLink5.loopback();
+
+const result = await client.connect(dapp);
+console.log(result.account.address);
+
+const unsubscribe = client.onEvent((event, data) => {
+  if (event === 'pha_accountsChanged') {
+    console.log(data);
+  }
+});
+```
+
+Frames travel in plain text: the page and the extension run in the same browser, and a key held by the page would be visible to every script that can call the provider. The wallet learns the page origin from its own runtime, never from the frame, binds the session to that origin and shows it in every approval; the `dapp.url` of `connect()` is information for the user. Each iframe gets its own provider and counts as its own origin.
+
+A `request` call rejects only when the bridge to the extension fails; the client reports that as `LinkError` `4900`. A wallet error, a protocol error or a declined approval arrives as an error envelope and rejects the request with its own code. The extension pushes events to the pages that own the session, so `onEvent` works over this transport for as long as the page lives. The wallet advertises `maxPayloadBytes.injected`; the default is the chain maximum, 32 MiB.
+
+A page has one provider slot; when two extensions define it, the later one wins. During the deprecation window an extension may also define the `window.PhantasmaLinkSocket` object of the v1-v4 protocol for older dApps; a v5 client never reads it.
+
 ## Web dApp Flow
 
 `webDeeplink` builds a client for a browser page. It also keeps the pairing record, builds the pairing link and reads the wallet answers:
@@ -221,7 +262,7 @@ const valid = new Ed25519Signature(base64ToBytes(signature)).verify(
 
 The client handles the last three by itself. It adopts the session from `pha_sessionEstablished`, and it clears the local session on `pha_sessionDeleted` and `pha_sessionExpired`.
 
-A wallet pushes events over a transport that stays open, such as loopback or the relay. Over deeplink the wallet can only answer requests, with one exception: `pha_sessionEstablished` arrives over deeplink, because the wallet is in the foreground when the user approves the pairing.
+A wallet pushes events over a transport that stays open: injected, loopback or the relay. Over deeplink the wallet can only answer requests, with one exception: `pha_sessionEstablished` arrives over deeplink, because the wallet is in the foreground when the user approves the pairing.
 
 ## Errors
 
@@ -259,6 +300,6 @@ try {
 
 ## Payload Size
 
-The wallet reports its limits per transport in `capabilities.maxPayloadBytes`. Check a large transaction, such as one that carries image data, against that value before sending.
+The wallet reports its limits per transport in `capabilities.maxPayloadBytes`. Check a large transaction, such as one that carries image data, against that value before sending. The defaults are 8192 bytes for deeplink and the chain maximum, 32 MiB, for loopback, relay and injected.
 
 The relay transport splits an outgoing frame into chunks of 900,000 bytes, because the relay accepts at most 1 MiB per frame. It reassembles incoming messages of up to 64 chunks and refuses a reassembled message above 64 MiB of frame text.
