@@ -38,7 +38,7 @@ KCAL has two core roles on Phantasma:
 KCAL does not pay for permanent state growth. Storage growth is paid separately
 in SOUL; see [SOUL Data Escrow](fees.md#soul-data-escrow).
 
-## Protocol Surfaces
+## Protocol Modules
 
 KCAL behavior is split across native protocol modules:
 
@@ -112,6 +112,6 @@ Fees
 Token Deployment UI
 {% endcontent-ref %}
 
-{% content-ref url="/developers/sdks/csharp/examples/claim-kcal.md" %}
-Claim KCAL
+{% content-ref url="/developers/sdks/README.md" %}
+SDKs
 {% endcontent-ref %}

@@ -13,7 +13,7 @@ Phantasma has been live on mainnet since October 2019, combines low minting and 
 
 Phantasma Link connects dApps to wallets for signing transactions.
 
-Please view this short 2 minutes video overview of our chain:
+A two-minute video overview of the chain:
 
 {% embed url="https://www.youtube.com/watch?v=g3m22SF-9WM" %}
 
@@ -38,38 +38,38 @@ Site
 Telegram
 {% endembed %}
 
+### X
+
+{% embed url="https://x.com/phantasmachain" %}
+X
+{% endembed %}
+
+### YouTube
+
+{% embed url="https://www.youtube.com/channel/UCdojlc5ps_cHjGCQRS4MXqg" %}
+YouTube
+{% endembed %}
+
 ### Discord
 
 {% embed url="https://discord.gg/sUjcHFk68t" %}
 Discord
 {% endembed %}
 
-### Medium
+### Instagram
 
-{% embed url="https://medium.com/phantasticphantasma" %}
-Medium
-{% endembed %}
-
-### Github
-
-{% embed url="https://github.com/Phantasma-io" %}
-Github
-{% endembed %}
-
-### Youtube
-
-{% embed url="https://www.youtube.com/channel/UCdojlc5ps_cHjGCQRS4MXqg" %}
-Youtube
-{% endembed %}
-
-## Twitter
-
-{% embed url="https://twitter.com/phantasmachain" %}
-Twitter
+{% embed url="https://www.instagram.com/phantasmachain/" %}
+Instagram
 {% endembed %}
 
 ### Facebook
 
 {% embed url="https://www.facebook.com/phantasmachain/" %}
 Facebook
+{% endembed %}
+
+### GitHub
+
+{% embed url="https://github.com/Phantasma-io" %}
+GitHub
 {% endembed %}

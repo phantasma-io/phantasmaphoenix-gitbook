@@ -2,8 +2,7 @@
 
 SOUL is the primary native staking and governance asset of Phantasma mainnet. It
 is maintained by the protocol token module, so normal SOUL balances, transfers,
-staking state, supply accounting, and data escrow are native chain state rather
-than application-level token logic.
+staking state, supply accounting, and data escrow are native chain state.
 
 SOUL works together with KCAL. SOUL represents long-term network participation
 and is used for staking and data escrow. KCAL is the resource asset used for gas
@@ -42,7 +41,7 @@ SOUL staking also decides who belongs to the `masters` organization. An account
 joins it when its stake reaches the Soul Master threshold and leaves it when an
 unstake takes the stake below the threshold.
 
-## Protocol Surfaces
+## Protocol Modules
 
 SOUL behavior is split across native protocol modules:
 
@@ -141,14 +140,6 @@ Dual Token System
 Storage And Data Escrow
 {% endcontent-ref %}
 
-{% content-ref url="/developers/sdks/csharp/examples/stake-soul.md" %}
-Stake SOUL
-{% endcontent-ref %}
-
-{% content-ref url="/developers/sdks/csharp/examples/unstake-soul.md" %}
-Unstake SOUL
-{% endcontent-ref %}
-
-{% content-ref url="/developers/sdks/csharp/examples/claim-kcal.md" %}
-Claim KCAL
+{% content-ref url="/developers/sdks/README.md" %}
+SDKs
 {% endcontent-ref %}

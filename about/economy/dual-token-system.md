@@ -12,9 +12,9 @@ costs:
 - KCAL is paid for computation, VM execution, and transaction data in blocks.
 - SOUL is escrowed when a transaction creates or expands persistent chain state.
 
-Staking SOUL generates claimable KCAL. Users who want network participation can
-stake SOUL and claim KCAL over time. Users or applications that only need to pay
-for transactions can hold KCAL directly.
+Staking SOUL generates claimable KCAL. Users who stake SOUL claim KCAL over
+time. Users or applications that only need to pay for transactions can hold KCAL
+directly.
 
 ## Native Assets
 
