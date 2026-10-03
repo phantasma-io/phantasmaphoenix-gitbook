@@ -35,7 +35,7 @@ commit hash to the Git URL. Example:
      * For local node deployments, set the Nexus to `simnet`.
      * For testnet deployment, set the Nexus to `testnet`.
      * For mainnet deployment, set the Nexus to `mainnet`.
-   * **DappID**: Set the DappID to your Dapp's contract name. This will be displayed when a user logs in to your Dapp.
+   * **DappID**: Set the DappID to your dApp's contract name. The wallet shows it when a user logs in to your dApp.
    * **Version**: The recommended version is `2`.
    * **Wallet Endpoint**: The default wallet endpoint is `localhost:7090`. Do not change this unless required.
    * **Platform and Signature**: `Phantasma` and `ED25519`. The other values of the two enums are not used by current wallets.

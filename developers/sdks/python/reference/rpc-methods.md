@@ -107,7 +107,7 @@ balances = rpc.get_account_fungible_tokens("P...", page_size=100)
 
 | API | Purpose and parameters | Returns and failures | Use it when |
 | --- | ---------------------- | -------------------- | ----------- |
-| `get_chains(*, extended=True)` | Reads the chain list from the nexus. `extended` controls nested contract and dapp detail. | Returns `list[ChainResult]`. Raises `RPCError` if the node does not return an array. | Explorer or infrastructure code needs all chain metadata. |
+| `get_chains(*, extended=True)` | Reads the chain list from the nexus. `extended` controls nested contract and dApp detail. | Returns `list[ChainResult]`. Raises `RPCError` if the node does not return an array. | Explorer or infrastructure code needs all chain metadata. |
 | `get_chain(name="main", *, extended=True)` | Reads one chain by name. | Returns `ChainResult`. Raises `RPCError` for node or decode failures. | A page needs metadata for a specific chain. |
 | `get_nexus(*, extended=True)` | Reads nexus metadata, including platforms, tokens, chains, governance, and organizations when the node returns them. | Returns `NexusResult`. Raises `RPCError` for node or decode failures. | Tooling needs a topology snapshot for the configured nexus. |
 | `get_contract(contract_name, chain="main")` | Reads a contract by name on a chain. | Returns `ContractResult`, including script, ABI methods, and ABI events when available. Raises `RPCError` for node or decode failures. | Client tooling needs ABI information before constructing a VM call. |
@@ -117,7 +117,7 @@ balances = rpc.get_account_fungible_tokens("P...", page_size=100)
 | `get_organization(organization_id, *, extended=True)` | Reads organization metadata by id. | Returns `OrganizationResult`. Raises `RPCError` for node or decode failures. | Governance or validator tooling works with an organization id. |
 | `get_organization_by_name(name, *, extended=True)` | Reads organization metadata by name. | Returns `OrganizationResult`. Raises `RPCError` for node or decode failures. | UI or CLI receives a human-readable organization name. |
 | `get_organizations(*, extended=False)` | Reads the organization list. | Returns `list[OrganizationResult]`. Raises `RPCError` if the result is not an array. | A page needs a compact organization list; pass `extended=True` only when nested data is needed. |
-| `get_leaderboard(name)` | Reads a leaderboard by name. | Returns `LeaderboardResult`. Raises `RPCError` for node or decode failures. | A dapp or explorer displays leaderboard rows from the chain. |
+| `get_leaderboard(name)` | Reads a leaderboard by name. | Returns `LeaderboardResult`. Raises `RPCError` for node or decode failures. | A dApp or explorer displays leaderboard rows from the chain. |
 
 ## Tokens, Series, And NFT Reads
 
