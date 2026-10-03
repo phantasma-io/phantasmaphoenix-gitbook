@@ -6814,8 +6814,7 @@ export declare class PhantasmaAPI {
     /**
      * Returns the current on-chain gas configuration plus the chain parameters fee estimation
      * needs (block rate target, expiry window). Changes only via governance resolutions, so the
-     * result is safe to cache. Feed gasConfigFromRpc() into estimateNativeFee() for Tier-1 fee
-     * estimates.
+     * result is safe to cache. `api.fees` reads it to plan fees.
      */
     getGasConfig(): Promise<GasConfigResult>;
     /**
@@ -6823,8 +6822,8 @@ export declare class PhantasmaAPI {
      * fee bill with recommended maxGas/maxData ceilings (gas-model-v2 Tier-2 estimate). Signatures
      * inside the envelope may be zero-filled dummies of the correct length - the simulation skips
      * signature checks, and dummies preserve the exact envelope byte length the bill depends on.
-     * Until the estimate service is launched this method returns a standard RPC error; use the
-     * Tier-1 estimateNativeFee() with getGasConfig() as the fallback.
+     * A node with the estimate service switched off answers with a standard RPC error.
+     * `api.fees.plan(msg)` plans a fee without that service.
      */
     estimateTransaction(txData: string): Promise<EstimateTransactionResult>;
     /**

@@ -23,7 +23,7 @@ repository is built with Unity 6000.0 LTS.
 {% hint style="info" %}
 **Note:** To pin a package to a specific source revision, append `#` and the
 commit hash to the Git URL. Example:
-`https://github.com/phantasma-io/phantasma-sdk-unity.git?path=PhantasmaPhoenix.Unity.Core#d011152db4d212e3787628334c6ebd6ce31cea47`
+`https://github.com/phantasma-io/phantasma-sdk-unity.git?path=PhantasmaPhoenix.Unity.Core#704143b141129df210d83bf3d248f8873748b761`
 {% endhint %}
 
 ## Connecting to the Wallet via the SDK

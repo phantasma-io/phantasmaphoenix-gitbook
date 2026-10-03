@@ -15502,10 +15502,6 @@ public async Task<ulong?> ControlTokenIdAsync()
 ```
 
 ```csharp
-public static bool IsValidAddress(string address)
-```
-
-```csharp
 public static bool IsValidPrivateKey(string key)
 ```
 

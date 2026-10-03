@@ -112,8 +112,10 @@ The cursor methods accept a `pageSize` of 1 to 100. The NFT methods accept 1 to
 | `PlanCarbonTransaction(keys[], txMsg, options, ...)` | Pricing a Carbon message without signing it. | `Action<FeePlan>` |
 
 The `SignAndSendTransaction` overloads accept string or byte-array payloads.
-The byte-array overload also accepts `customSignFunction`. The coroutine stamps
-an expiration 20 minutes from now; there is no argument to change it.
+The byte-array overload also accepts `customSignFunction`. Without
+`expiration` the transaction expires `TxLimits.DefaultExpiryMs` (45 seconds)
+after it is built, the same lifetime a Carbon message gets; a flow that waits
+for a person should pass an expiration from `TxLimits.ExpiryWithin`.
 
 ## Fees And Gas Configuration
 
