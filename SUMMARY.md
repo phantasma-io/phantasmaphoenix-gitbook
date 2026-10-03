@@ -5,11 +5,7 @@
   - [Our Features](about/our-features.md)
   - [Carbon](about/carbon.md)
   - [Token Deployment UI](about/token-deployment-ui.md)
-  - Dapps
-    - [22 Racing Series](about/dapps/22-racing-series.md)
-    - [Blood Rune](about/dapps/blood-rune.md)
-    - [Ghostmarket](about/dapps/ghostmarket.md)
-    - [Pavillion](about/dapps/pavillion.md)
+  - [dApps](about/dapps/README.md)
   - [Economy](about/economy/dual-token-system.md)
     - [SOUL](about/economy/soul.md)
     - [KCAL](about/economy/kcal.md)
