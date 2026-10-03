@@ -98,34 +98,29 @@ has a RAM schema or when the token uses dynamic RAM extras.
 
 ## Broadcast And Parse Mint Result
 
+After the transaction is in a block, its result names every minted instance:
+
 ```rust
-use phantasma_sdk::{parse_mint_non_fungible_result, PhantasmaRpc, Result};
+use phantasma_sdk::{
+    parse_mint_phantasma_non_fungible_result, PhantasmaNFTMintResult, PhantasmaRpc, Result,
+};
 
-async fn broadcast_mint(
-    rpc: &PhantasmaRpc,
-    carbon_token_id: u64,
-    tx_hex: &str,
-) -> Result<Vec<phantasma_sdk::Bytes32>> {
-    let tx_bytes = phantasma_sdk::decode_hex(tx_hex)?;
-    let tx_hash = rpc.send_carbon_transaction(&tx_bytes).await?;
-
-    let tx_result = rpc.get_transaction(&tx_hash).await?;
-    parse_mint_non_fungible_result(carbon_token_id, &tx_result.result)
+async fn minted_instances(rpc: &PhantasmaRpc, tx_hash: &str) -> Result<Vec<PhantasmaNFTMintResult>> {
+    let tx_result = rpc.get_transaction(tx_hash).await?;
+    parse_mint_phantasma_non_fungible_result(&tx_result.result)
 }
 ```
 
-`parse_mint_non_fungible_result(...)` returns Carbon NFT addresses derived from
-the Carbon token id and the instance ids emitted by the chain.
+Each entry carries the Phantasma NFT id the chain derived and the Carbon
+instance id it minted. Check that the transaction state is `HALT` before
+parsing. `parse_mint_non_fungible_result(...)` is the parser of a direct
+`MintNonFungible` result, which has another layout.
 
-## Phantasma NFT Mint Helper
+## Mint Without A Client
 
-The SDK also exposes Phantasma NFT mint helpers. These use a token-module call
-instead of the direct `MintNonFungible` transaction payload and return
-`PhantasmaNFTMintResult` values.
-
-Use `build_phantasma_nft_rom(...)` for the caller-provided public ROM. It
-rejects reserved fields such as `_i` and `rom`, because those fields are
-chain-owned for this flow.
+`build_mint_phantasma_non_fungible_single_tx_and_sign_hex(...)` builds the same
+mint, plans it against a gas config the caller provides, and signs it. It suits
+a process that signs without a client.
 
 ```rust
 use phantasma_sdk::{
@@ -163,17 +158,7 @@ fn build_phantasma_mint_hex(wif: &str, config: &GasConfig) -> Result<String> {
 }
 ```
 
-Parse the result with:
-
-```rust
-use phantasma_sdk::{parse_mint_phantasma_non_fungible_result, Result};
-
-fn parse_phantasma_mint_result(
-    result_hex: &str,
-) -> Result<Vec<phantasma_sdk::PhantasmaNFTMintResult>> {
-    parse_mint_phantasma_non_fungible_result(result_hex)
-}
-```
+`rpc.send_carbon_transaction(&decode_hex(&tx_hex)?)` sends the signed bytes.
 
 ## Read Back Minted NFTs
 
