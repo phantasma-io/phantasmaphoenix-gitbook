@@ -25,9 +25,10 @@ The interface paths are the same on every node and network:
 | --- | --- | --- |
 | JSON-RPC | `/rpc` | Primary programmatic interface (HTTP POST). |
 | REST | `/api/v1` | Same methods and argument names as JSON-RPC. |
+| JSON-RPC, REST | `/rpc/v2`, `/api/v2` | The same methods with metadata and NFT property values as real JSON. |
 | API reference | `/` | The node root redirects to the interactive Swagger UI. |
 
-For example, on mainnet node 1, JSON-RPC is `https://pharpc1.phantasma.info/rpc` and REST is `https://pharpc1.phantasma.info/api/v1`. In production, discover live nodes from the network's peers list instead of hardcoding a single node.
+For example, on mainnet node 1, JSON-RPC is `https://pharpc1.phantasma.info/rpc` and REST is `https://pharpc1.phantasma.info/api/v1`. In production, discover live nodes from the network's peers list instead of hardcoding a single node. [Node RPC](/developers/rpc/README.md) describes every method and answer.
 
 ### Mainnet
 
