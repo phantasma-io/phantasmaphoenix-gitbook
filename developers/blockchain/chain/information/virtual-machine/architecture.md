@@ -45,14 +45,13 @@ Each interop is dispatched inside the validator's native runtime. That is where 
 
 ## Gas Model
 
-There are two gas layers to keep in mind:
+A script pays gas units for:
 
-1. Opcode gas
-   - every VM instruction has a small base cost
-2. Interop and native work gas
-   - interops consume additional configured gas buckets and may trigger much larger native charges underneath
+1. Every instruction it executes: a flat cost per opcode, listed in the opcode table.
+2. The size of its work: data that instructions copy or concatenate, struct reads and writes, call frames, and arithmetic on large numbers.
+3. Every interop call: a cost from the Phantasma VM configuration, `gasStandard` for most interops and `gasNexus`, `gasOrganization`, `gasAccount`, `gasOracle`, or `gasConstructor` for some, plus the native work the interop performs, such as token fees.
 
-The base opcode costs are in the opcode table. The interop buckets are the fields of the Phantasma VM config: `gasConstructor`, `gasStandard`, `gasAccount`, `gasOrganization`, `gasLeaderboard`, `gasOracle` and `gasNexus`.
+The chain converts gas units to KCAL and adds the block data of the transaction. [Fees And Gas](/developers/blockchain/chain/fees-and-gas.md) gives the formulas and the full work table. The `getPhantasmaVmConfig` RPC method returns the interop costs.
 
 For contract lifecycle flows, native work dominates the total cost. `Runtime.DeployContract`, `Runtime.UpgradeContract`, `Nexus.CreateToken`, and `Nexus.AttachTokenContract` are not cheap operations.
 

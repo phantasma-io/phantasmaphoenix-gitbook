@@ -4,7 +4,7 @@ The Phantasma VM opcode set and the base gas cost of each opcode.
 
 ## Gas Cost Model
 
-The VM assigns a small base gas cost per opcode before any interop-side native work is considered.
+The VM assigns a small base gas cost per opcode before any interop-side native work is considered. Instructions that move data or compute on large numbers also charge by size; see [The Work Table](/developers/blockchain/chain/fees-and-gas.md#the-work-table).
 
 The current base costs are:
 

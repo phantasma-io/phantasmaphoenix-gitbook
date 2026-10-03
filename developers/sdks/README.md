@@ -25,10 +25,12 @@ External Calls
 
 ## Fees Under Gas Model v2
 
-The chain bills every byte a transaction puts in the block, and it escrows every
-storage row the transaction creates. A Carbon message therefore carries a gas
-offer and a storage ceiling, and both have to be set before it is signed. A
-message signed with a zero offer is never admitted.
+The chain bills every byte a transaction puts in the block, and it escrows SOUL
+for every storage quantum the transaction adds. A Carbon message therefore
+carries a gas offer and a storage ceiling, and both have to be set before it is
+signed. A message signed with a zero offer is never admitted. [Fees And
+Gas](/developers/blockchain/chain/fees-and-gas.md) describes the rules the
+chain applies.
 
 Every SDK computes both from the message itself and from the chain's own gas
 configuration. Builders carry no prices. The flow is the same in each language:

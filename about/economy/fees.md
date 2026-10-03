@@ -97,6 +97,10 @@ SOUL
 Block Producers
 {% endcontent-ref %}
 
+{% content-ref url="/developers/blockchain/chain/fees-and-gas.md" %}
+Fees And Gas
+{% endcontent-ref %}
+
 {% content-ref url="/developers/blockchain/smart-contracts/storage-and-data-escrow.md" %}
 Storage And Data Escrow
 {% endcontent-ref %}

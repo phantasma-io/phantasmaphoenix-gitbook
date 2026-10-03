@@ -21,6 +21,7 @@
       - [How to Deploy](developers/blockchain/smart-contracts/how-to-deploy.md)
       - [Storage And Data Escrow](developers/blockchain/smart-contracts/storage-and-data-escrow.md)
     - [Chain](developers/blockchain/chain/README.md)
+      - [Fees And Gas](developers/blockchain/chain/fees-and-gas.md)
       - [Virtual Machine](developers/blockchain/chain/information/virtual-machine/README.md)
         - [Architecture](developers/blockchain/chain/information/virtual-machine/architecture.md)
         - [Interop](developers/blockchain/chain/information/virtual-machine/interop.md)
