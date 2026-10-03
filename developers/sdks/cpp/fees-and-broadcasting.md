@@ -66,8 +66,9 @@ single-instance type and several use the multi-instance one, which is what the
 chain prices differently. The `instanceIds` array has to outlive the message,
 because the multi-instance forms point at it.
 
-A big-fungible token whose balances pass int64 needs a module call instead,
-because the native transfer carries the amount as a u64.
+The native transfer carries the amount as a u64, also for a big-fungible token.
+Only an amount above that range needs a module call or a script transfer, whose
+amounts are big integers.
 
 ## What The Chain Bills
 
