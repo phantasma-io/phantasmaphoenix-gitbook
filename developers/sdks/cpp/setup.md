@@ -60,8 +60,28 @@ after `PhantasmaAPI.h`; JSON and HTTP adapters must still be included before
 
 `PhantasmaAPI.h` supports single-header style implementation control. In one
 translation unit, define `PHANTASMA_IMPLEMENTATION` before including the header
-when function bodies are needed there. If you include implementation bodies in
+when function bodies are needed there. A program that calls the RPC methods
+and defines it nowhere fails to link. If you include implementation bodies in
 more than one translation unit, also define `PHANTASMA_FUNCTION inline`.
 
 Keep `PHANTASMA_*` macro overrides consistent across translation units that
 include the SDK.
+
+## Node URL
+
+`HttpClient` takes the base URL of the node, such as
+`https://testnet.phantasma.info` or `http://localhost:5172`. `PhantasmaAPI`
+sends every call to that URL followed by `/rpc`, so a URL that already ends in
+`/rpc` reaches `/rpc/rpc` and gets no JSON-RPC answer.
+
+## Header Order
+
+Include `Carbon/Carbon.h` before `VM/ScriptBuilder.h` or `VM/VMObject.h`: the
+VM headers use declarations of the Carbon headers.
+
+## Exceptions
+
+Define `PHANTASMA_EXCEPTION_ENABLE` before `PhantasmaAPI.h` to have the SDK
+throw `std::runtime_error` on bad input. Without it, a function with an error
+parameter fills that parameter, and any other function returns a default
+value; see [Keys And Addresses](/developers/sdks/cpp/keys-and-addresses.md#errors).

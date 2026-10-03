@@ -1,12 +1,13 @@
 # C++ SDK Example: Read-Only RPC
 
 ```cpp
+#define PHANTASMA_IMPLEMENTATION
 #include "Adapters/PhantasmaAPI_rapidjson.h"
 #include "Adapters/PhantasmaAPI_curl.h"
 #include "PhantasmaAPI.h"
 
 int main() {
-    phantasma::HttpClient http("http://localhost:5172/rpc");
+    phantasma::HttpClient http("http://localhost:5172"); // the node's base URL
     phantasma::rpc::PhantasmaAPI api(http);
 
     phantasma::rpc::PhantasmaError err{};

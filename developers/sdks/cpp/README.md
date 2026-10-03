@@ -27,6 +27,9 @@ The SDK supports multiple backends. **Include an adapter BEFORE `PhantasmaAPI.h`
 - or `Adapters/PhantasmaAPI_cpprest.h` (Microsoft CppRestSDK)
 
 ```cpp
+// The function bodies of the API, in exactly one source file.
+#define PHANTASMA_IMPLEMENTATION
+
 // JSON + HTTP backends first
 #include "Adapters/PhantasmaAPI_rapidjson.h"
 #include "Adapters/PhantasmaAPI_curl.h"
@@ -38,7 +41,7 @@ using namespace phantasma;
 using namespace phantasma::rpc;
 
 int main() {
-    HttpClient http("https://your-node-url"); // provided by adapter
+    HttpClient http("https://testnet.phantasma.info"); // the node's base URL; the API adds /rpc
     PhantasmaAPI api(http);
 
     PhantasmaError err{};

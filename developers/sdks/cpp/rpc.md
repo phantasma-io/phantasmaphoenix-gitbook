@@ -10,7 +10,7 @@ The C++ SDK exposes two RPC layers:
 ## High-Level Calls
 
 ```cpp
-HttpClient http("http://localhost:5172/rpc");
+HttpClient http("http://localhost:5172"); // the API sends every call to <base>/rpc
 phantasma::rpc::PhantasmaAPI api(http);
 
 phantasma::rpc::PhantasmaError err{};
@@ -27,8 +27,25 @@ For nodes that require an API key, pass it as the third argument of the cURL
 adapter; it is sent in the `X-Api-Key` header on every request:
 
 ```cpp
-HttpClient http("http://localhost:5172/rpc", PHANTASMA_DEFAULT_MAX_RPC_RESPONSE_BYTES, "your-api-key");
+HttpClient http("http://localhost:5172", PHANTASMA_DEFAULT_MAX_RPC_RESPONSE_BYTES, "your-api-key");
 ```
+
+## Errors
+
+Every method takes an optional `PhantasmaError*`. `code` is `0` on success;
+otherwise `message` says what failed:
+
+| `code` | Meaning |
+| ------ | ------- |
+| `PhantasmaError::InvalidJSON` (-1) | The answer is JSON, but a field has the wrong shape. |
+| `PhantasmaError::HttpError` (-2) | The HTTP request failed, or the answer exceeded the size limit of the adapter. |
+| `PhantasmaError::InvalidRpcResponse` (-3) | The answer is not a JSON-RPC response for this request: not JSON, no `id`, another `id`, or no `result`. A node URL that already ends in `/rpc` produces this. |
+| `PhantasmaError::RpcMessage` (-4) | The answer carries an error without a code. |
+| Any other value | The node's own JSON-RPC error code, for example `-32603`. |
+
+In the current SDK, `InvokeRawScript` reports a script that ran as error `-4`
+with an empty message: the node answers every script result with an empty
+`error` field, and the SDK reads its presence as a failure.
 
 ## Low-Level Calls
 
