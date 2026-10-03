@@ -1,18 +1,62 @@
 # C++ SDK API Overview
 
-This page lists the public surface of the C++ SDK by header group. The
-reference section documents each group.
+The header groups of the C++ SDK and their main types. The reference pages list
+every method, result field, wire structure and helper.
 
 {% content-ref url="reference/README.md" %}
 C++ SDK Complete API Reference
 {% endcontent-ref %}
 
-## Main API Groups
+## RPC
 
-| API group | Main headers | Purpose |
-| --------- | ------------ | ------- |
-| RPC | `PhantasmaAPI.h`, `Adapters/*` | High-level RPC calls, low-level JSON request/response construction, adapter-backed HTTP/JSON integration. |
-| Cryptography | `Cryptography/*` | Addresses, WIF, Ed25519 keys/signatures, hashing, entropy, secure memory wrappers. |
-| VM | `VM/ScriptBuilder.h`, `VM/VMObject.h`, `VM/Opcodes.h` | VM bytecode construction, VM object serialization, opcode-level tooling. |
-| Transactions | `Blockchain/Transaction.h` | VM transaction construction, signing, mining, serialization. |
-| Carbon | `Carbon/*` | Carbon wire primitives, token schemas, token/series/NFT structures, transaction builders, signing, result parsers. |
+| API | Purpose |
+| --- | ------- |
+| `rpc::PhantasmaAPI` (`PhantasmaAPI.h`) | Typed RPC calls through an adapter's `HttpClient`, which takes the node's base URL. Each method fills an optional `PhantasmaError`. |
+| `rpc::PhantasmaJsonAPI` | `Make...Request` and `Parse...Response` pairs for an application that owns its transport. |
+| `Adapters/*` | RapidJSON and libcurl, or CppRestSDK, for JSON and HTTP; OpenSSL for the cryptography. |
+
+Details: [RPC Client](reference/rpc-methods.md), [RPC Result Models](reference/rpc-models.md).
+
+## Keys, Addresses And Hashes
+
+| API | Purpose |
+| --- | ------- |
+| `PhantasmaKeys` | Ed25519 key pair: generation, WIF, address, signing. |
+| `Address` | Text and byte forms, kinds, system addresses from names. |
+| `Ed25519Signature`, `Hash`, `PrivateKey` | Signatures, hashes, the guarded private key. |
+
+Details: [Keys And Addresses](keys-and-addresses.md).
+
+## VM And Script Transactions
+
+| API | Purpose |
+| --- | ------- |
+| `ScriptBuilder` (`VM/ScriptBuilder.h`) | VM bytecode: contract and interop calls, gas, transfers, staking, low-level emitters. |
+| `Transaction` (`Blockchain/Transaction.h`) | The script transaction: signing, serialization, proof of work. |
+| `VMObject` (`VM/VMObject.h`) | VM values, such as the results of a read-only script. |
+| `Utils/RpcUtils.h` | `SignAndSendTransaction`, `DefaultScriptExpiration`, the confirmation helpers. |
+
+Details: [VM And Transactions](vm-and-transactions.md), [VM and Transaction APIs](reference/vm-transaction-binary.md).
+
+## Carbon
+
+| API | Purpose |
+| --- | ------- |
+| `NativeTxHelper` | Transfers, mints and burns without a script. |
+| `CreateTokenTxHelper`, `CreateTokenSeriesTxHelper`, `MintPhantasmaNonFungibleTxHelper` | Token, series and NFT mint messages, and the parsers of their results. |
+| `TokenInfoBuilder`, `TokenMetadataBuilder`, `TokenSchemasBuilder`, `SeriesInfoBuilder`, `TokenSeriesMetadataBuilder`, `PhantasmaNftRomBuilder` | Token, schema, series and ROM data. |
+| `PlanFees`, `ChainFeePlanner`, `SummarizeFeePlan`, `TxLimits`, `ExpiryWithin` | Fee planning and lifetimes. |
+| `TxMsgSigner`, `SignAndSerialize`, `ParseTx`, `ParseSignedTx` | Signing and reading messages. |
+| `PreflightTransaction`, `SendTransaction` | The symbol check, and build, plan, check, sign and send in one call. |
+
+Details: [Carbon](carbon.md), [Carbon Operations](carbon-operations.md), [Carbon API and Wire Format](reference/carbon-wire.md).
+
+## Fees
+
+Under gas model v2 the chain bills every byte a transaction puts in the block
+and escrows SOUL for new storage. Builders carry no prices, so a message is
+planned before it is signed.
+
+{% content-ref url="/developers/sdks/cpp/fees-and-broadcasting.md" %}
+[Fees And Broadcasting](/developers/sdks/cpp/fees-and-broadcasting.md)
+{% endcontent-ref %}
