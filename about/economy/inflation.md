@@ -1,28 +1,26 @@
 # Supply And Issuance
 
-SOUL and KCAL are native Phantasma assets with live on-chain supply accounting.
-Current supply, burned supply, and metadata should be read from the chain rather
-than copied from static documentation.
-
-Neither SOUL nor KCAL uses a fixed maximum supply field in native token metadata.
-Their supply is live protocol state: SOUL changes through scheduled issuance and
-reward accounting, while KCAL changes through staking rewards and fee burns.
+SOUL and KCAL have no maximum supply. SOUL supply grows by a monthly issuance
+and falls when SOUL is burned. KCAL supply grows when stakers claim their
+rewards and falls by the burned share of gas fees. `getToken` returns the
+current and the burned supply of each token.
 
 ## SOUL Supply
 
-SOUL is the staking and governance asset. It has no fixed maximum supply; new
-SOUL is issued on a fixed monthly schedule, on the first of each month.
+SOUL is the staking and governance asset. New SOUL is issued on a fixed monthly
+schedule, on the first day of each month (UTC).
 
 Each month the protocol applies two issuances, in this order:
 
-1. A proportional issuance of `0.25%` of the current SOUL supply (`3%` per year).
+1. A proportional issuance of `0.25%` of the current SOUL supply (about `3%` per
+   year).
 2. A fixed `125,000 SOUL`, shared equally among eligible Soul Masters.
 
-The order matters for the amounts. The `0.25%` is computed from the SOUL supply
-before the fixed `125,000 SOUL` is added, not after. The next month's `0.25%` is
-then computed from the resulting supply, which already includes both of the
-previous month's issuances. The chain tracks when the next issuance is due and
-applies it through the scheduled issuance flow.
+The `0.25%` is computed from the supply before the month's issuance, so it does
+not include the `125,000 SOUL` of the same month. The next month's `0.25%` is
+computed from the resulting supply, which includes both of the previous month's
+issuances. When an issuance is due, the validator producing blocks submits the
+transaction that applies it.
 
 ### Soul Master Distribution
 
@@ -36,28 +34,15 @@ that month's share. It becomes eligible from the first full month it holds the
 threshold continuously. The share each eligible Soul Master receives therefore
 depends on how many accounts were eligible for that month.
 
-The current supply is queryable through token RPC methods such as `getToken`.
-Applications, explorers, and reports should use live chain data when presenting
-SOUL supply.
-
 ## KCAL Supply
 
-KCAL is the resource asset used for transaction gas. KCAL is minted when SOUL
-staking rewards are claimed. Transaction fee settlement can burn KCAL according
-to the current gas configuration. Refunds return unused prepaid KCAL to the fee
-payer and are not a separate issuance path.
+KCAL is the resource asset used for transaction gas. The chain mints KCAL when
+stakers claim their staking rewards; the reward rate is described on the
+[SOUL](soul.md#staking-metadata) page.
 
-Because KCAL is minted by staking reward claims and reduced by fee burns, current
-supply should be read from the chain.
-
-## Staking Rewards
-
-Current mainnet SOUL staking metadata defines KCAL as the reward token and sets
-the base reward rate to `0.002 KCAL` per staked SOUL per day before configured
-boosters.
-
-Reward metadata is protocol state. Wallets and applications should query live
-stake data and unclaimed KCAL rather than relying only on a copied formula.
+Every gas bill is divided into shares, and the burned share leaves the supply;
+see [Block Producers](block-producer.md#fee-shares). The unused part of a
+`maxGas` reservation returns to the fee payer and does not change the supply.
 
 ## Related Pages
 

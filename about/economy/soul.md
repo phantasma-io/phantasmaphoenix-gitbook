@@ -33,14 +33,14 @@ SOUL has three core roles on Phantasma:
 - **Staking and governance participation.** SOUL can be staked through the
   native stake contract. Staked SOUL is tracked separately from available SOUL
   and must be unstaked before it can be transferred or spent.
-- **KCAL generation.** Staked SOUL accrues claimable KCAL over time. Claiming,
-  staking more SOUL, or unstaking can materialize accrued KCAL into the account's
-  available KCAL balance.
+- **KCAL generation.** Staked SOUL earns KCAL over time. A claim, a further
+  stake, or an unstake pays the earned KCAL into the account's KCAL balance.
 - **Data escrow.** SOUL is the chain's data token. A transaction that grows
   permanent chain state escrows SOUL for the growth.
 
-SOUL is also used by protocol-level organization membership. The current mainnet
-staking metadata links the Soul Master threshold to the `masters` organization.
+SOUL staking also decides who belongs to the `masters` organization. An account
+joins it when its stake reaches the Soul Master threshold and leaves it when an
+unstake takes the stake below the threshold.
 
 ## Protocol Surfaces
 
@@ -48,17 +48,16 @@ SOUL behavior is split across native protocol modules:
 
 - the token module stores SOUL metadata, balances, transfers, staked balances,
   and supply accounting
-- the stake contract exposes VM-facing staking methods such as `Stake`,
-  `Unstake`, `Claim`, and `GetUnclaimed`
-- the chain gas configuration identifies SOUL as the data token used by
-  `maxData`
+- the stake contract serves `Stake`, `Unstake`, `Claim`, and `GetUnclaimed` to
+  VM scripts
+- the chain gas configuration identifies SOUL as the data token
 - token metadata and issuance schedule state define scheduled SOUL issuance
 
 ## Staking Metadata
 
-Current mainnet token metadata defines these staking parameters:
+The SOUL token metadata defines these staking parameters:
 
-| Parameter | Current value |
+| Parameter | Value |
 | --- | --- |
 | Reward token | `KCAL` |
 | Base reward period | `1 day` |
@@ -66,26 +65,35 @@ Current mainnet token metadata defines these staking parameters:
 | Minimum stake duration before unstake | `60 seconds` |
 | Soul Master threshold | `50,000 SOUL` staked |
 | Reward booster token | `CROWN` |
-| Reward booster rate | `5%` per CROWN, up to `20` CROWNs |
+| Reward booster rate | `5%` of the base reward per CROWN, up to `20` CROWNs |
 
-These values are protocol metadata. Applications should query the chain for
-live metadata and unclaimed KCAL instead of hardcoding reward calculations in
-user-facing balances.
+A CROWN boosts the reward only for the time the staking account has held it
+within the current staking interval, which starts at the last stake, unstake,
+or claim. A CROWN that arrived during the interval counts from its arrival, and
+a CROWN that has left the account adds nothing. With more than 20 CROWNs, the 20
+held longest count.
+
+`getToken` returns these parameters as part of the SOUL metadata.
+`getAccountInfo` returns the KCAL an account has earned and not yet claimed,
+boosters included.
 
 ## Staking Flow
 
-When SOUL is staked, the protocol moves the amount from the account's available
-SOUL balance into staked SOUL accounting and records a staking timestamp. If the
-account already had SOUL staked, the previous staking interval can trigger an
-automatic KCAL claim before the new staking timestamp is recorded.
+When SOUL is staked, the chain moves the amount from the account's available
+SOUL balance into its stake and records a staking timestamp. If the account
+already had SOUL staked, the chain first claims the KCAL earned since the
+previous timestamp.
 
-When SOUL is unstaked, the protocol checks the staking lock, claims any eligible
-KCAL for the previous staking interval, and moves the unstaked SOUL back into
-the account's available SOUL balance.
+When SOUL is unstaked, the chain checks the minimum stake duration: the unstake
+fails until that time has passed since the staking timestamp. The chain then
+claims the KCAL earned since the timestamp and moves the unstaked SOUL back into
+the account's available balance.
 
-A direct KCAL claim can be made without changing the staked SOUL amount. The
-claim operation mints the accrued KCAL reward into the staking account's
-available KCAL balance.
+A claim pays the earned KCAL without changing the staked amount. The chain mints
+the reward into the staking account's KCAL balance.
+
+Stake, unstake, and claim each record a new staking timestamp, so an unstake
+right after a claim waits for the minimum stake duration again.
 
 ## SOUL Data Escrow
 
@@ -103,12 +111,9 @@ writes it.
 
 ## Supply
 
-SOUL does not use a fixed maximum supply field in native token metadata. SOUL
-supply changes through scheduled protocol issuance and reward accounting.
-
-The chain tracks current supply, burned supply, and token metadata as live
-protocol state, so documentation and applications should read current values
-from RPC instead of copying fixed totals.
+SOUL has no maximum supply. The supply grows by a monthly issuance and falls
+when SOUL is burned; see [Supply And Issuance](inflation.md). `getToken` returns
+the current and the burned supply.
 
 ## Working With SOUL
 

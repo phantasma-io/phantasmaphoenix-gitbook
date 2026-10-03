@@ -70,24 +70,17 @@ before signing.
 
 ## KCAL From SOUL Staking
 
-Staked SOUL accrues KCAL over time. The current mainnet SOUL staking metadata
-sets the base reward to `0.002 KCAL` per staked SOUL per day before configured
-boosters.
+Staked SOUL earns KCAL over time. The reward rate and the CROWN booster are
+described on the [SOUL](soul.md#staking-metadata) page.
 
-KCAL rewards are minted when the staking account claims them. Claiming can happen
-through an explicit `Claim` call, or as part of stake and unstake flows that close
-the previous staking interval.
+The chain mints the earned KCAL when the staking account claims it, with an
+explicit `Claim` call or as part of a stake or an unstake, which claim first.
 
 ## Supply
 
-KCAL does not use a fixed maximum supply field in native token metadata. Current
-supply and burned supply should be read from the chain because they are live
-protocol state.
-
-KCAL supply changes through native protocol accounting. Staking reward claims
-mint new KCAL into accounts. Transaction fee settlement can burn KCAL according
-to the current gas configuration; refunds return unused prepaid KCAL and are not
-an issuance path.
+KCAL has no maximum supply. Staking reward claims add to it, and the burned
+share of gas fees removes from it; see [Supply And Issuance](inflation.md#kcal-supply).
+`getToken` returns the current and the burned supply.
 
 ## Working With KCAL
 
