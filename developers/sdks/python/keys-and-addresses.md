@@ -63,7 +63,7 @@ from phantasma_py.crypto import Address
 
 null_address = Address.null()
 
-assert null_address.is_null()
+assert null_address.is_null
 ```
 
 ## Sign And Verify Bytes
