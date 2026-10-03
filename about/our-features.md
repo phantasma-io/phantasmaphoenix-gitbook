@@ -6,11 +6,11 @@ Carbon is the native asset runtime for tokens and NFTs on Phantasma Phoenix. Ass
 
 ## SmartNFTs (dynamic NFTs)
 
-SmartNFTs extend Carbon with VM-driven logic for NFTs that can evolve and update their content based on defined rules. In the current developer flow, this means using token-backed contract workflows: create a token with VM code, or attach VM code to an existing token, then upgrade that token-backed contract over time if needed.
+SmartNFTs extend Carbon with VM-driven logic for NFTs that can evolve and update their content based on defined rules. A SmartNFT token is backed by a VM contract: the contract is installed when the token is created or attached to an existing token later, and it can be upgraded.
 
 ## NFT addresses and infusion
 
-Each NFT has its own Carbon address derived from its token id and instance id. Assets sent to that address become attached to the NFT, enabling nested ownership. Infusion is supported by both Carbon NFTs and SmartNFTs.
+Each NFT has its own address, derived from its token id and instance id. Assets sent to that address become attached to the NFT, enabling nested ownership. Sending assets to an NFT address, and moving them out of it, needs the signature of the NFT's owner. Infusion works for every NFT, SmartNFTs included.
 
 ## Dual Token Economy
 
@@ -21,7 +21,7 @@ SOUL and KCAL work together in the Phantasma economy.
 **SOUL**
 
 - Core token used for staking and governance.
-- Staking SOUL mints KCAL.
+- Staked SOUL earns KCAL, which the staker claims.
 
 **KCAL**
 
@@ -37,8 +37,8 @@ Phantasma Link connects dApps to wallets for signing transactions and interactin
 
 ## Tools and SDKs
 
-Use the Token Deployment UI for Carbon workflows and contract lifecycle actions: [Token Deployment UI](/about/token-deployment-ui.md). Developers can also build directly with the C#, Unity, TypeScript/JavaScript, Go, Python, Rust, and C++ SDKs, or use `pha-deploy` for repeatable CLI workflows.
+Use the Token Deployment UI for token and NFT workflows and contract lifecycle actions: [Token Deployment UI](/about/token-deployment-ui.md). Developers can also build directly with the C#, Unity, TypeScript/JavaScript, Go, Python, Rust, and C++ SDKs, or use `pha-deploy` for repeatable CLI workflows.
 
 ## On-chain storage
 
-Phantasma includes a native storage contract for on-chain data.
+Contracts keep their own data on chain. The fee payer of the transaction that writes the data escrows SOUL for it, and a transaction that removes the data receives the escrow back. See [Storage And Data Escrow](/developers/blockchain/smart-contracts/storage-and-data-escrow.md).

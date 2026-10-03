@@ -1,10 +1,10 @@
 ---
-description: Create Carbon tokens and NFTs without writing code.
+description: Create tokens and NFTs without writing code.
 ---
 
 # Token Deployment UI
 
-The Token Deployment UI is a web interface for creating Carbon tokens and NFTs, and for managing VM contract lifecycle without writing custom frontend code.
+The Token Deployment UI is a web interface for creating tokens and NFTs, and for managing VM contract lifecycle without writing custom frontend code.
 
 ## What you can do
 
@@ -19,9 +19,9 @@ The Token Deployment UI is a web interface for creating Carbon tokens and NFTs, 
 ## How it works
 
 1. Open the Token Deployment UI: https://deploy.phantasma.info
-2. Connect a wallet that supports Carbon transactions.
+2. Connect a Phantasma Link wallet, such as Poltergeist Lite.
 3. Choose an action:
-   - **Token** for native Carbon token flows
+   - **Token** for native token flows
    - **Contract** for VM contract lifecycle
    - **Series**, **Mint**, or **Infuse** for NFT flows
 4. Fill in the required fields.
