@@ -95,6 +95,7 @@
       - [Installation](developers/sdks/unity/installation.md)
       - [Phantasma API](developers/sdks/unity/features-and-functionality/phantasmaapi.md)
       - [Carbon Transactions And Fees](developers/sdks/unity/carbon-transactions.md)
+      - [Keys, Scripts, Tokens And NFTs](developers/sdks/unity/csharp-classes.md)
       - [Phantasma Link Client](developers/sdks/unity/features-and-functionality/phantasma-link-client.md)
       - [Complete API Reference](developers/sdks/unity/reference/README.md)
         - [RPC Methods](developers/sdks/unity/reference/rpc-methods.md)

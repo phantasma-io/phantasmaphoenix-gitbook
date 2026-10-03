@@ -21,6 +21,10 @@ PhantasmaAPI
 Carbon Transactions And Fees
 {% endcontent-ref %}
 
+{% content-ref url="/developers/sdks/unity/csharp-classes.md" %}
+Keys, Scripts, Tokens And NFTs
+{% endcontent-ref %}
+
 {% content-ref url="/developers/sdks/unity/reference/README.md" %}
 Complete API Reference
 {% endcontent-ref %}
