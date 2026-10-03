@@ -1,75 +1,198 @@
 # Go SDK Carbon
 
-`pkg/carbon` implements Phantasma Phoenix Carbon serialization, transaction
-messages, signing helpers, token-module argument/result blobs, and schema-aware
-metadata helpers.
+A structured transaction carries a typed message, a `carbon.TxMsg`, that the
+chain executes without a VM script. Transfers, mints and burns of tokens and
+NFTs, and calls into the token module such as a token creation, use it. The
+types and builders live in `github.com/phantasma-io/phantasma-sdk-go/pkg/carbon`.
 
-## API Layers
+A message goes through four steps: build, plan the fee, sign, send.
+`PhantasmaRPC.SendTransaction` runs the last three.
 
-| Layer | Main APIs | Use it for |
-| ----- | --------- | ---------- |
-| Lifecycle builders | `BuildCreateTokenTx`, `BuildCreateTokenSeriesTx`, `BuildMintPhantasmaNonFungibleTx`, signed and hex variants | Token deployment, series creation, and deterministic Phantasma NFT mints. |
-| Native builders | `BuildTransferFungibleTx`, `BuildTransferNonFungibleTx`, `BuildMintFungibleTx`, `BuildBurnFungibleTx`, `BuildBurnNonFungibleTx` | Transfers, fungible mints and burns, which need no VM script. |
-| Fee planning | `PlanFees`, `FeePlan`, `FeePlanOptions`, `SummarizeFeePlan`, `TxLimits`, `ExpiryWithin` | Pricing a message before it is signed. |
-| Typed messages | `TxMsg`, `SignedTxMsg`, `Witness`, `TxMsg*`, module argument structs | Inspecting, assembling, signing, or serializing Carbon transactions directly. |
-| Wire primitives | `Writer`, `Reader`, `Serialize`, `Deserialize`, fixed bytes, `IntX`, `SmallString` | Protocol tooling, tests, diagnostics, and custom Carbon messages. |
+## Workflow Guides
 
-## Serialization
+| Task | Page |
+| ---- | ---- |
+| Create a token and its series | [Token Deployment](/developers/sdks/go/token-deployment.md) |
+| Mint NFTs | [NFT Minting](/developers/sdks/go/nft-minting.md) |
+| Choose schemas, build metadata | [Schemas And Metadata](/developers/sdks/go/schemas-and-metadata.md) |
+| Plan the fee, sign, send | [Fees And Broadcasting](/developers/sdks/go/fees-and-broadcasting.md) |
+| Call a module method, decode a message | [Carbon Operations](/developers/sdks/go/carbon-operations.md) |
+| Read the binary format | [Carbon API and Wire Format](/developers/sdks/go/reference/carbon-wire.md) |
+
+## The Message
+
+| `TxMsg` field | Meaning |
+| ------------- | ------- |
+| `Type` | The message type, a `TxType`. |
+| `Expiry` | The last moment the chain accepts the message, in milliseconds since 1970. |
+| `MaxGas` | The gas offer in KCAL atoms. A builder leaves it at `0`, which marks the message as not planned; planning sets it. |
+| `MaxData` | The storage deposit ceiling in SOUL atoms. Planning sets it. |
+| `GasFrom` | The 32-byte public key of the account that pays the gas. |
+| `Payload` | A text the transaction carries, a `SmallString` of at most 255 bytes of UTF-8. |
+| `Msg` | The body of the type, for example `*carbon.TxMsgTransferFungible`. |
+
+Accounts are 32-byte public keys, `carbon.Bytes32`. See
+[Keys And Addresses](/developers/sdks/go/keys-and-addresses.md) for the
+conversions from key pairs and addresses.
+
+## Native Builders
+
+| Builder | Parameters | Message types |
+| ------- | ---------- | ------------- |
+| `BuildTransferFungibleTx(TransferFungibleParams)` | `From`, `To`, `TokenID`, `Amount` (`uint64` atoms), optional `GasPayer` | `TransferFungible`, `TransferFungibleGasPayer` |
+| `BuildTransferNonFungibleTx(TransferNonFungibleParams)` | `From`, `To`, `TokenID`, `InstanceIDs`, optional `GasPayer` | `TransferNonFungibleSingle` for one instance, `TransferNonFungibleMulti` for several, and their gas-payer forms |
+| `BuildMintFungibleTx(MintFungibleParams)` | `Owner`, `To`, `TokenID`, `Amount` (`IntX`) | `MintFungible` |
+| `BuildBurnFungibleTx(BurnFungibleParams)` | `From`, `TokenID`, `Amount` (`IntX`), optional `GasPayer` | `BurnFungible`, `BurnFungibleGasPayer` |
+| `BuildBurnNonFungibleTx(BurnNonFungibleParams)` | `From`, `TokenID`, `InstanceID`, optional `GasPayer` | `BurnNonFungible`, `BurnNonFungibleGasPayer` |
+
+`BuildTransferNonFungibleTx` returns an error for an empty `InstanceIDs`; the
+others return the message alone.
+
+The account named in `From` or `Owner` signs. With `GasPayer` set, a second
+account pays the gas and signs as well. Any holder can burn its own tokens.
+Only the token owner can mint.
+
+A transfer amount is a `uint64`, also for a big-fungible token, whose balances
+can exceed that range. A larger amount moves with a script transfer, whose
+amount is a big integer. Mints and burns carry an `IntX`:
+`carbon.IntXFromInt64(n)` wraps an ordinary amount and `carbon.NewIntX(b)` a
+`*big.Int`.
+
+Every parameter struct embeds `TxLimits`: `MaxGas`, `MaxData` and `Expiry`.
+Without `Expiry` the builder stamps `carbon.DefaultTxExpiry` (45 seconds) from
+now; see [Expiry](/developers/sdks/go/fees-and-broadcasting.md#expiry) for a
+longer lifetime.
+
+## Example: Send NFTs, Burn Tokens
 
 ```go
-w := carbon.NewWriter()
-w.Write8U(42)
+package main
 
-symbol, err := carbon.NewSmallString("SOUL")
-if err != nil {
-    return err
+import (
+    "context"
+    "fmt"
+    "log"
+    "os"
+    "time"
+
+    "github.com/phantasma-io/phantasma-sdk-go/pkg/carbon"
+    "github.com/phantasma-io/phantasma-sdk-go/pkg/cryptography"
+    "github.com/phantasma-io/phantasma-sdk-go/pkg/rpc"
+)
+
+func main() {
+    ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+    defer cancel()
+
+    owner, err := cryptography.FromWIF(os.Getenv("OWNER_WIF"))
+    if err != nil {
+        log.Fatal(err)
+    }
+    payer, err := cryptography.FromWIF(os.Getenv("PAYER_WIF"))
+    if err != nil {
+        log.Fatal(err)
+    }
+    to, err := carbon.Bytes32FromPhantasmaAddressText(os.Getenv("TO"))
+    if err != nil {
+        log.Fatal(err)
+    }
+    ownerKey, err := carbon.Bytes32FromPublicKey(owner.PublicKey())
+    if err != nil {
+        log.Fatal(err)
+    }
+    payerKey, err := carbon.Bytes32FromPublicKey(payer.PublicKey())
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    client := rpc.NewRPCTestnet()
+
+    // Two NFT instances of token 77 move to the receiver. The payer pays the gas.
+    send, err := carbon.BuildTransferNonFungibleTx(carbon.TransferNonFungibleParams{
+        From:        ownerKey,
+        GasPayer:    payerKey,
+        To:          to,
+        TokenID:     77,
+        InstanceIDs: []uint64{1001, 1002},
+    })
+    if err != nil {
+        log.Fatal(err)
+    }
+    sendHash, err := client.SendTransaction(ctx, send, carbon.KeyPairSigners(owner, payer), rpc.SendTransactionOptions{})
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // The owner burns 5 whole SOUL, which has 8 decimals, and pays the gas itself.
+    burn := carbon.BuildBurnFungibleTx(carbon.BurnFungibleParams{
+        From:    ownerKey,
+        TokenID: 2,
+        Amount:  carbon.IntXFromInt64(5 * 100_000_000),
+    })
+    burnHash, err := client.SendTransaction(ctx, burn, carbon.KeyPairSigners(owner), rpc.SendTransactionOptions{})
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    fmt.Println(sendHash, burnHash)
 }
-symbol.WriteCarbon(w)
-
-bytes := w.Bytes()
-r := carbon.NewReader(bytes)
-value := r.Read8U()
-fmt.Println(value)
 ```
 
-Use `Serialize(blob)` and `Deserialize(data, blob)` when the object implements
-the `carbon.Blob` interface. Use `Must...` variants only where invalid input is
-a programmer error.
+`SendTransaction` plans each message from the chain's current prices, signs it
+with the given keys and sends it. It returns the transaction hash. Token `2` is
+SOUL and token `1` is KCAL; other token ids come from `GetToken`, instance ids
+from `GetAccountNFTs`.
 
-## Signing
+## Token Module Builders
 
-```go
-signed, err := carbon.SignTxMsg(tx, keys)
-if err != nil {
-    return err
-}
+| Builder | Call | Result parser | Page |
+| ------- | ---- | ------------- | ---- |
+| `BuildCreateTokenTx(tokenInfo, creator, limits)` | `Token.CreateToken` | `ParseCreateTokenResult`: the token id | [Token Deployment](/developers/sdks/go/token-deployment.md) |
+| `BuildCreateTokenSeriesTx(tokenID, seriesInfo, creator, limits)` | `Token.CreateTokenSeries` | `ParseCreateTokenSeriesResult`: the Carbon series id | [Token Deployment](/developers/sdks/go/token-deployment.md) |
+| `BuildMintPhantasmaNonFungibleTx(tokenID, sender, receiver, tokens, limits)` | `Token.MintPhantasmaNonFungible` | `ParseMintPhantasmaNonFungibleResult`: the NFT ids and instance ids | [NFT Minting](/developers/sdks/go/nft-minting.md) |
+| `BuildMintPhantasmaNonFungibleSingleTx(tokenID, seriesID, sender, receiver, rom, ram, limits)` | The same, for one NFT | The same | [NFT Minting](/developers/sdks/go/nft-minting.md) |
 
-hexTx, err := carbon.SignAndSerializeTxMsgHex(tx, keys)
-```
+Each has two more forms for a process that signs without a client.
+`...AndSign(..., signer, config, options)` plans the message against a gas
+config, signs it with the one key pair and returns the signed bytes.
+`...AndSignHex` returns them as hex. The signer is the creator or the sender.
 
-`SignAndSerializeTxMsgHex` returns the form accepted by
-`rpc.PhantasmaRPC.SendCarbonTransaction`.
+## NFT Addresses And Instance Ids
 
-## Lifecycle Builders
+| Function | Meaning |
+| -------- | ------- |
+| `GetNFTAddress(tokenID, instanceID)` | The address of one NFT instance. Assets sent to it belong to the NFT. |
+| `UnpackNFTAddress(address)` | The token id and the instance id of an NFT address. |
+| `IsNFTAddress(address)` | `true` for the form of an NFT address: fifteen zero bytes, a `0x01` byte, a non-zero token id and a non-zero instance id. |
+| `UnpackNFTInstanceID(instanceID)` | The Carbon series id (low 32 bits) and the mint number (high 32 bits). |
 
-| Builder family | Purpose |
-| -------------- | ------- |
-| `BuildCreateTokenTx*` | Create a Carbon token definition. |
-| `BuildCreateTokenSeriesTx*` | Create a series under an NFT token. |
-| `BuildMintPhantasmaNonFungibleTx*` | Mint one or more deterministic Phantasma NFT instances. |
-| `BuildMintPhantasmaNonFungibleSingleTx*` | Convenience wrapper for one deterministic Phantasma NFT. |
+A transfer into an NFT address needs the signature of the NFT's owner.
 
-The builder forms return `TxMsg`. `AndSign` returns signed bytes. `AndSignHex`
-returns signed hex.
+## Sign And Serialize
 
-## Result Parsers
+| Function | Does |
+| -------- | ---- |
+| `SignTxMsg(msg, keys...)` | Signs with in-memory key pairs and returns a `SignedTxMsg`. |
+| `SignAndSerializeTxMsg(msg, keys...)`, `SignAndSerializeTxMsgHex(msg, keys...)` | The same, returned as bytes or hex. The hex goes to `SendCarbonTransaction`. |
+| `SignTxMsgWith(ctx, msg, signers...)` | Signs with any `TxSigner`, for example a hardware wallet or a signing service. |
+| `Serialize(blob)`, `Deserialize(data, blob)` | Writes and reads any Carbon structure, `TxMsg` and `SignedTxMsg` included. |
 
-Parse transaction results only after `GetTransaction` reports a successful
-state:
+Signing refuses a message whose `MaxGas` is `0`: plan it first, or set the offer
+deliberately. A native message fixes its own witnesses, and the keys must match
+them exactly: a missing key or an extra key is an error. One account that pays
+the gas and owns the tokens signs once. A `Call`, `CallMulti` or `Trade` takes
+the witnesses in the order given, and the gas payer must be one of them.
 
-| Operation | Parser |
-| --------- | ------ |
-| Create token | `ParseCreateTokenResult(resultHex)` |
-| Create token series | `ParseCreateTokenSeriesResult(resultHex)` |
-| Direct Carbon NFT mint | `ParseMintNonFungibleResult(carbonTokenID, resultHex)` |
-| Phantasma NFT helper mint | `ParseMintPhantasmaNonFungibleResult(resultHex)` |
+## Related Pages
+
+{% content-ref url="/developers/sdks/go/fees-and-broadcasting.md" %}
+[Fees And Broadcasting](/developers/sdks/go/fees-and-broadcasting.md)
+{% endcontent-ref %}
+
+{% content-ref url="/developers/sdks/go/carbon-operations.md" %}
+[Carbon Operations](/developers/sdks/go/carbon-operations.md)
+{% endcontent-ref %}
+
+{% content-ref url="/developers/sdks/go/reference/carbon-wire.md" %}
+[Carbon API and Wire Format](/developers/sdks/go/reference/carbon-wire.md)
+{% endcontent-ref %}
