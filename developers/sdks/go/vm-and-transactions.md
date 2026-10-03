@@ -321,9 +321,9 @@ block. Its `State` then tells the outcome:
 
 | `State` | Meaning |
 | ------- | ------- |
-| `HALT` | The script completed. `StateIsSuccess()` is `true`. |
-| `BREAK` | The script aborted. It changed nothing, and the gas payer paid the gas bill. `StateIsFault()` is `true`. |
-| `FAULT` | The chain rejected the transaction. `StateIsFault()` is `true`. |
+| `Halt` | The script completed. `StateIsSuccess()` is `true`. |
+| `Break` | The script aborted. It changed nothing, and the gas payer paid the gas bill. `StateIsFault()` is `true`. |
+| `Fault` | The chain rejected the transaction. `StateIsFault()` is `true`. |
 
 `Result` holds the return value in hex and `Events` the events the transaction
 emitted. This function waits for a final state:

@@ -112,8 +112,7 @@ async fn minted_instances(rpc: &PhantasmaRpc, tx_hash: &str) -> Result<Vec<Phant
 ```
 
 Each entry carries the Phantasma NFT id the chain derived and the Carbon
-instance id it minted. Check that the transaction state is `HALT` before
-parsing. `parse_mint_non_fungible_result(...)` is the parser of a direct
+instance id it minted. Check `tx_result.state_is_success()` before parsing. `parse_mint_non_fungible_result(...)` is the parser of a direct
 `MintNonFungible` result, which has another layout.
 
 ## Mint Without A Client

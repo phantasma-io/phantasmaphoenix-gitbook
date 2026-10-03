@@ -120,7 +120,7 @@ hexTx := hex.EncodeToString(tx.Bytes())
 | `Mine(difficulty)` | Replaces the payload with a 4-byte counter and raises it until the hash reaches the difficulty. Run it before signing. |
 | `Serialize(writer)`, `Deserialize(reader)` | The binary form. Decoding reads only Ed25519 signatures and at most `MaxTransactionSignatureCount` (1024) of them. |
 
-`blockchain.TxStateIsSuccess(state)` is `true` for `HALT`, and
-`blockchain.TxStateIsFault(state)` for `FAULT` and `BREAK`. The RPC
+`blockchain.TxStateIsSuccess(state)` is `true` for `Halt`, and
+`blockchain.TxStateIsFault(state)` for `Fault` and `Break`, in any case. The RPC
 `TransactionResult` has the same checks as `StateIsSuccess()` and
 `StateIsFault()`.
