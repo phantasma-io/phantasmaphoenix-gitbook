@@ -190,7 +190,7 @@ schema exactly, including case. The value's Go type has to fit the field's type:
 | Field type | Go value |
 | ---------- | -------- |
 | `String` | `string` |
-| `Int8`, `Int16`, `Int32`, `Int64` | `int`, `int8`, `int16`, `int32`, `int64`, `uint8`, `uint16`, `uint32` or `uint64` |
+| `Int8`, `Int16`, `Int32`, `Int64` | `int`, `int8`, `int16`, `int32`, `int64`, `uint`, `uint8`, `uint16`, `uint32` or `uint64` |
 | `Int256` | `*big.Int`, `big.Int`, `carbon.IntX`, `int`, `int64` or `uint64` |
 | `Bytes` | `[]byte`, `carbon.Bytes16`, `carbon.Bytes32` or `carbon.Bytes64` |
 | `Bytes16`, `Bytes32`, `Bytes64` | `carbon.Bytes16`, `carbon.Bytes32`, `carbon.Bytes64` |
@@ -199,7 +199,8 @@ schema exactly, including case. The value's Go type has to fit the field's type:
 
 An integer field takes a value in the signed or the unsigned range of its width:
 `Int32` takes -2,147,483,648 to 4,294,967,295, and a value above 2,147,483,647
-is stored as its two's complement. A value of another Go type returns an error.
+is stored as its two's complement. A value outside that range, or a value of
+another Go type, returns an error that names the field.
 
 ## Related Pages
 
