@@ -74,11 +74,6 @@ include the SDK.
 sends every call to that URL followed by `/rpc`, so a URL that already ends in
 `/rpc` reaches `/rpc/rpc` and gets no JSON-RPC answer.
 
-## Header Order
-
-Include `Carbon/Carbon.h` before `VM/ScriptBuilder.h` or `VM/VMObject.h`: the
-VM headers use declarations of the Carbon headers.
-
 ## Exceptions
 
 Define `PHANTASMA_EXCEPTION_ENABLE` before `PhantasmaAPI.h` to have the SDK

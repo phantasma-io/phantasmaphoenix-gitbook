@@ -1638,6 +1638,10 @@ TxMsgPhantasma_Raw::ByteView transaction{}
 ```
 
 ```cpp
+TxMsgSigner::static constexpr const char* NoGasOffer = "Transaction has no gas offer: plan its fees or set maxGas before signing"
+```
+
+```cpp
 TxMsgSpecialResolution::TxMsgCall_Multi calls{}
 ```
 

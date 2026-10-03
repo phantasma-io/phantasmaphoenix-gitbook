@@ -90,8 +90,8 @@ than copy it: a copy's message still points into the original's buffers.
 
 | API | Purpose |
 | --- | ------- |
-| `Blockchain::TxMsgSigner::SignAndSerialize(msg, keys)` | Signs a message with one key. |
-| `Blockchain::TxMsgSigner::SignAndSerialize(msg, signers, out, error)` | Signs with several keys; the gas payer first, then the owner of a `_GasPayer` type. |
+| `Blockchain::TxMsgSigner::SignAndSerialize(msg, keys)` | Signs a message with one key. Answers an empty result for a message whose `maxGas` is `0`. |
+| `Blockchain::TxMsgSigner::SignAndSerialize(msg, signers, out, error)` | Signs with several keys; the gas payer first, then the owner of a `_GasPayer` type. Answers `false` for a message whose `maxGas` is `0`. |
 | `Blockchain::RequiredWitnessCount(type, out)` | The fixed number of witnesses of a type; `false` for the types whose witnesses the caller chooses. |
 | `Blockchain::ParseTx(msg, bytes, alloc)`, `Blockchain::ParseSignedTx(signed, signedPortion, bytes, alloc)` | Read a message or a signed transaction the way the chain does. |
 | `FromPhantasmaAddress(address)`, `FromPhantasmaSystemAddress(address)` | A Phantasma address as a `Bytes32`. |

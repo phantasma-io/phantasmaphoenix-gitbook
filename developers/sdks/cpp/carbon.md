@@ -119,10 +119,11 @@ copy's message still points into the original's buffers.
 | -------- | ---- |
 | `SignAndSerialize(env, keys)` | Signs an envelope with one key and returns the signed bytes. |
 | `Blockchain::TxMsgSigner::SignAndSerialize(msg, keys)` | The same for a message. |
-| `Blockchain::TxMsgSigner::SignAndSerialize(msg, signers, out, outError)` | Signs with several keys. It answers `false` when the count is not the one the type fixes, or when a key is not the account the message names. |
+| `Blockchain::TxMsgSigner::SignAndSerialize(msg, signers, out, outError)` | Signs with several keys. It answers `false` when the message has no gas offer, when the count is not the one the type fixes, or when a key is not the account the message names. |
 
-The signing functions do not check the gas offer: plan the message before
-signing it, or the chain rejects the zero offer. A `Call`, `CallMulti` or
+The signing functions refuse a message whose `maxGas` is `0`, a message that was
+never planned: the one-key forms answer an empty result, or throw with
+`PHANTASMA_EXCEPTION_ENABLE`, and the several-key form answers `false`. A `Call`, `CallMulti` or
 `Trade` takes its witnesses in the order given, and the gas payer must be one of
 them.
 

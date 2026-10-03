@@ -12,9 +12,6 @@ carries no script; see [Carbon](/developers/sdks/cpp/carbon.md).
 | `VM/VMObject.h`, `VM/Opcodes.h` | VM values and opcodes. |
 | `Utils/RpcUtils.h` | `SignAndSendTransaction` and the confirmation helpers. |
 
-The VM headers expect the Carbon headers before them: include
-`Carbon/Carbon.h` before `VM/ScriptBuilder.h`.
-
 ## Build And Send
 
 ```cpp
@@ -224,8 +221,8 @@ if( err.code == 0 && !result.results.empty() )
 
 `results` holds every value the script left, each a serialized VM object in
 hex, and `result` the last of them. `AsNumber`, `AsString`, `AsBool` and
-`AsByteArray` convert a `VMObject`. In the current SDK this call reports a
-script that ran as error `-4`; see [Errors](/developers/sdks/cpp/rpc.md#errors).
+`AsByteArray` convert a `VMObject`. A script that aborted comes back as error
+`-4` with the reason in `message`; see [Errors](/developers/sdks/cpp/rpc.md#errors).
 
 ## The Result Of A Transaction
 

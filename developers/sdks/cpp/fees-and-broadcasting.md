@@ -239,7 +239,12 @@ if( check.verdict == PreflightVerdict::Taken )
 ```
 
 The check costs one query and no fee. Every message that is not a token
-creation answers `NotApplicable`.
+creation answers `NotApplicable`. `Unknown` means the lookup established
+nothing, for example because the node did not answer.
+
+`SendTransaction` runs the check itself unless `SendOptions::preflight` is
+`false`, and refuses both `Taken` and `Unknown`. Its `controlTokenId` `0` means the gas
+token of the configuration.
 
 ## Signing
 

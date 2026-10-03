@@ -61,7 +61,7 @@ if (!ok) {
 | `-1` | `PhantasmaError::InvalidJSON` | The response body is not JSON. |
 | `-2` | `PhantasmaError::HttpError` | The transport failed. The adapters call `OnHttpError(err, message)`. |
 | `-3` | `PhantasmaError::InvalidRpcResponse` | The JSON is not a JSON-RPC response, or its id does not match the request. |
-| `-4` | `PhantasmaError::RpcMessage` | The node answered an error object; `message` holds its text. |
+| `-4` | `PhantasmaError::RpcMessage` | The result carried an error text, as `InvokeRawScript` does for a script that aborted; `message` holds it. |
 
 A high-level method returns a default-constructed value on any failure, so
 read `err.code` before the value.
@@ -177,7 +177,7 @@ parameter lists.
 | `GetChains(PhantasmaError* out_error = nullptr)` | `PHANTASMA_VECTOR<Chain>` | Returns an array of all chains deployed in Phantasma. Warning: this Phantasma RPC method is currently stubbed and returns an empty array. |
 | `GetChain(const Char* name, bool extended, PhantasmaError* out_error = nullptr)` | `Chain` | Returns info about a specific chain. Warning: this Phantasma RPC method is currently stubbed and returns a default chain object. |
 | `GetGasConfig(PhantasmaError* out_error = nullptr)` | `GasConfigResult` | Returns the current on-chain gas configuration, gas model version and fee-estimation chain parameters. Changes only via governance resolutions, so the result is cacheable. |
-| `EstimateTransaction(const Char* txData, PhantasmaError* out_error = nullptr)` | `EstimateTransactionResult` | Dry-runs a serialized transaction envelope against current chain state and returns its exact fee bill with recommended maxGas/maxData ceilings (gas-model-v2 Tier-2 estimate). Signatures inside the envelope may be zero-filled dummies of the correct length - the simulation skips signature checks, and dummies preserve the exact envelope byte length the bill depends on. Until the estimate service is launched this returns a standard RPC error; use Carbon::EstimateNativeFee with GetGasConfig as the fallback. |
+| `EstimateTransaction(const Char* txData, PhantasmaError* out_error = nullptr)` | `EstimateTransactionResult` | Dry-runs a serialized transaction envelope against current chain state and returns its exact fee bill with recommended maxGas/maxData ceilings (gas-model-v2 Tier-2 estimate). Signatures inside the envelope may be zero-filled dummies of the correct length - the simulation skips signature checks, and dummies preserve the exact envelope byte length the bill depends on. A node with the estimate service switched off answers with a standard RPC error. carbon::ChainFeePlanner plans a fee without that service. |
 | `GetNexus(bool extended, PhantasmaError* out_error = nullptr)` | `Nexus` | Returns info about the nexus. Warning: this Phantasma RPC method is currently stubbed and returns a default nexus object. |
 | `GetOrganization(const Char* name, PhantasmaError* out_error = nullptr)` | `Organization` | Returns info about an organization by registered name. |
 | `GetOrganization(const Char* name, bool includeMemberCount, PhantasmaError* out_error = nullptr)` | `Organization` |  |
