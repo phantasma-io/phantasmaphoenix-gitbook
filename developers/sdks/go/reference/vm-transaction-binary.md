@@ -40,7 +40,7 @@ material owned by the SDK.
 | `CallContract(contractName, method, args...)` | Emits a contract call. |
 | `CallInterop(method, args...)` | Emits an interop call. |
 | `AllowGas`, `SpendGas`, `MintTokens`, `TransferTokens`, `TransferBalance`, `TransferNFT` | Typed address helpers for common calls. |
-| `CrossTransferToken`, `CrossTransferNFT` | Cross-chain transfer helpers. |
+| `CrossTransferToken`, `CrossTransferNFT` | Emit `Runtime.SendTokens` and `Runtime.SendToken`. The chain has no such interops, and a script that calls one faults. |
 | `Stake`, `Unstake`, `CallNFT` | Stake and NFT contract helpers. |
 | `*Text` helpers | Parse Phantasma address text before emitting address bytes. |
 

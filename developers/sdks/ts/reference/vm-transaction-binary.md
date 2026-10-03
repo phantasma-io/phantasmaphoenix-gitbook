@@ -37,7 +37,7 @@ or `new ScriptBuilder()`.
 | `callContract(contractName, method, args)` | Emits a contract call. |
 | `allowGas`, `spendGas` | Gas helpers. |
 | `mintTokens`, `transferTokens`, `transferBalance`, `transferNft` | Token helpers. |
-| `crossTransferToken`, `crossTransferNft` | Cross-chain helpers. |
+| `crossTransferToken`, `crossTransferNft` | Emit `Runtime.SendTokens` and `Runtime.SendToken`. The chain has no such interops, and a script that calls one faults. |
 | `stake`, `unstake`, `callNft` | Stake and NFT helpers. |
 | `appendHexEncoded(bytes)` | Appends already-encoded bytecode. |
 
