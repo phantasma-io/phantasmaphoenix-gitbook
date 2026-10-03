@@ -5,11 +5,14 @@ and metadata structures.
 
 ## Wire Blob Model
 
-Carbon types implement `ICarbonBlob` and define:
+Carbon types implement `ICarbonBlob`:
 
 ```csharp
-void Write(BinaryWriter w);
-void Read(BinaryReader r);
+public interface ICarbonBlob
+{
+	public void Write(BinaryWriter w);
+	public void Read(BinaryReader r);
+}
 ```
 
 `CarbonBlob` provides the generic entry points:

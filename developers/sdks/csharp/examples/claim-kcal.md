@@ -1,6 +1,6 @@
 # Claim KCAL
 
-This example demonstrates how to claim all KCAL tokens earned from SOUL staking
+This example demonstrates how to claim all KCAL tokens earned from SOUL staking.
 
 ```csharp
 using PhantasmaPhoenix.Cryptography;
@@ -22,7 +22,7 @@ public static async Task ClaimKcal()
 	// Target chain Nexus name (e.g. "testnet" or "mainnet")
 	var nexus = "testnet";
 
-	// VM transactions still pass explicit AllowGas price and limit.
+	// A script transaction states its gas price and limit in AllowGas.
 	var feePrice = DomainSettings.DefaultMinimumGasFee;
 	var feeLimit = Transaction.DefaultGasLimit;
 
@@ -65,3 +65,5 @@ public static async Task ClaimKcal()
 	}
 }
 ```
+
+The method waits for the final state with `Example06_CheckTransactionState.Run` from [Check Transaction State](check-transaction-state.md).

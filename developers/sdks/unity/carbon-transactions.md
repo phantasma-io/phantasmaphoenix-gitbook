@@ -29,12 +29,12 @@ with.
 
 ## The Fee
 
-A message whose `MaxGas` is zero is priced against the chain's current gas
+A message whose `maxGas` is zero is priced against the chain's current gas
 configuration before it is signed. The chain refuses an offer of zero. It also
 aborts a transaction that spends more gas than it offered, and takes the whole
 offer for it.
 
-A message whose `MaxGas` you set yourself is signed as it is, and the gas
+A message whose `maxGas` you set yourself is signed as it is, and the gas
 configuration is not read.
 
 ## Showing The Fee Before The Player Confirms

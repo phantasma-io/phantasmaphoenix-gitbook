@@ -1,6 +1,6 @@
 # Send Token
 
-This example demonstrates how to transfer fungible tokens
+This example demonstrates how to transfer fungible tokens.
 
 ```csharp
 using PhantasmaPhoenix.Core;
@@ -38,7 +38,7 @@ public static async Task SendToken()
 		throw new Exception("Token is not fungible");
 	}
 
-	// VM transactions still pass explicit AllowGas price and limit.
+	// A script transaction states its gas price and limit in AllowGas.
 	var feePrice = DomainSettings.DefaultMinimumGasFee;
 	var feeLimit = Transaction.DefaultGasLimit;
 
@@ -82,3 +82,5 @@ public static async Task SendToken()
 	}
 }
 ```
+
+The method waits for the final state with `Example06_CheckTransactionState.Run` from [Check Transaction State](check-transaction-state.md).

@@ -163,7 +163,7 @@ after it is built; a flow that waits for a person should pass an expiration
 from `TxLimits.ExpiryWithin`.
 
 `SendTransactionAsync` takes one `ITxSigner`, a list of them, one `IKeyPair` or
-an array of them. It plans a message whose `MaxGas` is still zero, and refuses a
+an array of them. It plans a message whose `maxGas` is still zero, and refuses a
 token creation whose symbol the chain reports as taken.
 
 ## Fees And Gas Configuration

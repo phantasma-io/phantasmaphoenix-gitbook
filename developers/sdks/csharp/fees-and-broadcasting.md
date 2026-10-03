@@ -4,7 +4,7 @@ A Carbon transaction is built, planned, signed and sent as four separate steps.
 The same message works whether the key sits in memory, in a hardware wallet, or
 in a wallet reached over Phantasma Link.
 
-Builders carry no prices. A message leaves a builder with `MaxGas` at `0`, and
+Builders carry no prices. A message leaves a builder with `maxGas` at `0`, and
 that marks it as not yet planned. The chain never admits a message that offers
 zero gas.
 
@@ -38,7 +38,7 @@ var hash = await api.SendTransactionAsync(transfer, keys);
 ```
 
 `SendTransactionAsync` runs steps 2 to 4 in one call. It plans a message whose
-`MaxGas` is still zero, signs it with every signer it was given, and broadcasts
+`maxGas` is still zero, signs it with every signer it was given, and broadcasts
 it. A message the caller already planned is sent as it is.
 
 ## What The Chain Bills
@@ -49,8 +49,8 @@ two ceilings, and both have to be set before it is signed:
 
 | Field | Meaning |
 | ----- | ------- |
-| `TxMsg.MaxGas` | The gas offer, in KCAL atoms. Unused gas is refunded. A short offer is rejected. |
-| `TxMsg.MaxData` | The storage escrow ceiling, in SOUL atoms. It prices every new row at the current row price. |
+| `TxMsg.maxGas` | The gas offer, in KCAL atoms. Unused gas is refunded. A short offer is rejected. |
+| `TxMsg.maxData` | The storage escrow ceiling, in SOUL atoms. It prices every new row at the current row price. |
 
 ## The Fee Planner
 
@@ -78,7 +78,7 @@ method. Use it when the config is already in hand and no client is available.
 | `Kinds` | The operations the message was recognised as, in call order. |
 | `Exact` | Whether the bill is a prediction or a ceiling. |
 | `EnvelopeBytes` | The signed size the plan was computed for. |
-| `Apply(msg)` | Returns a copy of the message with `MaxGas` and `MaxData` set. The input is left untouched. |
+| `Apply(msg)` | Returns a copy of the message with `maxGas` and `maxData` set. The input is left untouched. |
 
 `FeePlanSummary.Summarize(plan)` renders the three amounts as decimal strings
 for display, through `GasBill`, `GasOffer` and `StorageCeiling`.

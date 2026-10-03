@@ -1,6 +1,6 @@
 # Stake SOUL
 
-This example demonstrates how to stake SOUL tokens
+This example demonstrates how to stake SOUL tokens.
 
 ```csharp
 using PhantasmaPhoenix.Core;
@@ -26,7 +26,7 @@ public static async Task StakeSoul()
 	// Amount to stake
 	var amount = 0.01m;
 
-	// VM transactions still pass explicit AllowGas price and limit.
+	// A script transaction states its gas price and limit in AllowGas.
 	var feePrice = DomainSettings.DefaultMinimumGasFee;
 	var feeLimit = Transaction.DefaultGasLimit;
 
@@ -70,3 +70,5 @@ public static async Task StakeSoul()
 	}
 }
 ```
+
+The method waits for the final state with `Example06_CheckTransactionState.Run` from [Check Transaction State](check-transaction-state.md).

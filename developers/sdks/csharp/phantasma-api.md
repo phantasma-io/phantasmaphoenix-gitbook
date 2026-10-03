@@ -683,7 +683,7 @@ Plans, pre-flights, signs and broadcasts a Carbon message
 - transaction hash text
 
 **Behavior**
-- A message whose `MaxGas` is still zero is planned against this chain's prices.
+- A message whose `maxGas` is still zero is planned against this chain's prices.
   A message the caller already planned is sent as it is.
 - A token creation is refused when the chain says the symbol is taken, and when
   the lookup established nothing. The call then throws
