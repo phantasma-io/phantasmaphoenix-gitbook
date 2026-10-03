@@ -1,7 +1,7 @@
 # Go SDK Example: Deploy Carbon NFT Token
 
-This example signs a create-token transaction and shows the confirmation parser.
-Broadcast requires a funded key and a network endpoint.
+This example creates an NFT token, waits for the transaction, and reads the new
+token id from its result. It needs a funded key on the network it sends to.
 
 ```go
 package main
@@ -19,7 +19,7 @@ import (
 )
 
 func main() {
-    ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+    ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
     defer cancel()
 
     keys, err := cryptography.FromWIF("YOUR_WIF")
@@ -35,7 +35,7 @@ func main() {
     schemas := carbon.PrepareStandardTokenSchemas(true)
     metadata, err := carbon.BuildTokenMetadata(map[string]string{
         "name":        "My NFT",
-        "icon":        "data:image/png;base64,iVBORw0KGgo=",
+        "icon":        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
         "url":         "https://example.com",
         "description": "My Carbon NFT token",
     })
@@ -67,9 +67,15 @@ func main() {
         log.Fatal(err)
     }
 
+    // The transaction is readable once it is in a block.
     tx, err := client.GetTransaction(ctx, hash)
-    if err != nil {
-        log.Fatal(err)
+    for err != nil || !(tx.StateIsSuccess() || tx.StateIsFault()) {
+        select {
+        case <-ctx.Done():
+            log.Fatal(ctx.Err())
+        case <-time.After(time.Second):
+        }
+        tx, err = client.GetTransaction(ctx, hash)
     }
     if !tx.StateIsSuccess() {
         log.Fatalf("transaction failed: %s", tx.State)
@@ -84,5 +90,7 @@ func main() {
 }
 ```
 
-For production flows, poll until the transaction is confirmed instead of
-reading it immediately after broadcast.
+The token uses `PrepareStandardTokenSchemas(true)`, so its NFTs share the
+standard fields of their series. Its series therefore carry series metadata
+built with `BuildTokenSeriesMetadata`; see
+[Series Metadata](/developers/sdks/go/schemas-and-metadata.md#series-metadata).

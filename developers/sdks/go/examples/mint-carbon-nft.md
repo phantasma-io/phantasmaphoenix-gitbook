@@ -1,7 +1,8 @@
 # Go SDK Example: Mint Carbon NFT
 
-This example signs a direct one-item Carbon NFT mint. It assumes the token and
-series already exist and that the caller has the schema used by that token.
+This example mints one NFT into an existing series. The token was created with
+`PrepareStandardTokenSchemas(false)`, so each NFT carries the standard fields in
+its ROM. The key belongs to the series owner.
 
 ```go
 package main
@@ -69,9 +70,10 @@ func main() {
 }
 ```
 
-Build the public ROM with `BuildPhantasmaNFTRom`. For batch mints, pass a slice
-of `carbon.PhantasmaNFTMintInfo` to `BuildMintPhantasmaNonFungibleTx`.
+For several NFTs in one call, pass a slice of `carbon.PhantasmaNFTMintInfo` to
+`BuildMintPhantasmaNonFungibleTx`. [NFT Minting](/developers/sdks/go/nft-minting.md#parse-the-result)
+shows how to wait for the transaction and read the ids of the minted NFTs.
 
-The SDK carries no builder for a direct `MintNonFungible`. The chain refuses
-that operation where governance has not allowed caller-supplied ROM ids, and
-that is the state of the public chains today.
+The SDK has no builder for a direct `MintNonFungible`, which takes an NFT id
+chosen by the caller. The chain refuses that call while its configuration
+disables such ids, as it does on mainnet.
