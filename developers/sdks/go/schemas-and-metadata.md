@@ -32,6 +32,11 @@ Use field declarations when the schema is built in Go:
 schemas, err := carbon.BuildTokenSchemasFromFields(
     nil,
     []carbon.FieldType{
+        {Name: "name", Type: carbon.VMTypeString},
+        {Name: "description", Type: carbon.VMTypeString},
+        {Name: "imageURL", Type: carbon.VMTypeString},
+        {Name: "infoURL", Type: carbon.VMTypeString},
+        {Name: "royalties", Type: carbon.VMTypeInt32},
         {Name: "artist", Type: carbon.VMTypeString},
     },
     nil,
@@ -43,13 +48,22 @@ Use JSON when the schema comes from configuration or another tool:
 ```go
 schemas, err := carbon.TokenSchemasFromJSON(`{
   "seriesMetadata": [],
-  "rom": [{"name":"artist","type":"String"}],
+  "rom": [
+    {"name":"name","type":"String"},
+    {"name":"description","type":"String"},
+    {"name":"imageURL","type":"String"},
+    {"name":"infoURL","type":"String"},
+    {"name":"royalties","type":"Int32"},
+    {"name":"artist","type":"String"}
+  ],
   "ram": [{"name":"level","type":"Int32"}]
 }`)
 ```
 
 The parser expects `seriesMetadata`, `rom`, and `ram` arrays of objects with
-string `name` and `type` fields.
+string `name` and `type` fields. Both calls add the system fields and then run
+`VerifyTokenSchemas`: the five standard display fields must be in the series
+metadata or in the ROM, or the call returns an error.
 
 ## Metadata Builders
 

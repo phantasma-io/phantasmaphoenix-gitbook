@@ -7,9 +7,14 @@ This page documents the JSON format accepted by `TokenSchemasBuilder.fromJson` i
 ```json
 {
   "seriesMetadata": [
-    { "name": "name", "type": "String" }
+    { "name": "season", "type": "String" }
   ],
   "rom": [
+    { "name": "name", "type": "String" },
+    { "name": "description", "type": "String" },
+    { "name": "imageURL", "type": "String" },
+    { "name": "infoURL", "type": "String" },
+    { "name": "royalties", "type": "Int32" },
     { "name": "artist", "type": "String" }
   ],
   "ram": [
@@ -17,6 +22,8 @@ This page documents the JSON format accepted by `TokenSchemasBuilder.fromJson` i
   ]
 }
 ```
+
+The five standard NFT fields must be in `seriesMetadata` or in `rom`; `fromJson` throws otherwise (see [Standard NFT fields requirement](#standard-nft-fields-requirement)). This example keeps them in `rom`, one set per NFT.
 
 Rules:
 - `seriesMetadata`, `rom`, and `ram` must be JSON arrays (they can be empty).

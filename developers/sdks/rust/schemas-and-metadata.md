@@ -83,6 +83,11 @@ fn main() -> Result<()> {
             { "name": "season", "type": "String" }
           ],
           "rom": [
+            { "name": "name", "type": "String" },
+            { "name": "description", "type": "String" },
+            { "name": "imageURL", "type": "String" },
+            { "name": "infoURL", "type": "String" },
+            { "name": "royalties", "type": "Int32" },
             { "name": "artist", "type": "String" },
             { "name": "rarity", "type": "Int32" }
           ],
@@ -99,7 +104,9 @@ fn main() -> Result<()> {
 ```
 
 The JSON object must contain `seriesMetadata`, `rom`, and `ram` arrays. Each
-entry is an object with `name` and `type`.
+entry is an object with `name` and `type`. The five standard NFT fields
+(`name`, `description`, `imageURL`, `infoURL`, `royalties`) must be in
+`seriesMetadata` or in `rom`; without them the call returns an error.
 
 Supported type names:
 
@@ -120,6 +127,11 @@ fn main() -> Result<()> {
     let schemas = build_token_schemas_from_fields(
         &[TokenSchemaField::new("season", VMType::String)],
         &[
+            TokenSchemaField::new("name", VMType::String),
+            TokenSchemaField::new("description", VMType::String),
+            TokenSchemaField::new("imageURL", VMType::String),
+            TokenSchemaField::new("infoURL", VMType::String),
+            TokenSchemaField::new("royalties", VMType::Int32),
             TokenSchemaField::new("artist", VMType::String),
             TokenSchemaField::new("rarity", VMType::Int32),
         ],

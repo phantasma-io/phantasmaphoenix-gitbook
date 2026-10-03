@@ -77,6 +77,11 @@ schemas = token_schemas_from_json(
         { "name": "season", "type": "String" }
       ],
       "rom": [
+        { "name": "name", "type": "String" },
+        { "name": "description", "type": "String" },
+        { "name": "imageURL", "type": "String" },
+        { "name": "infoURL", "type": "String" },
+        { "name": "royalties", "type": "Int32" },
         { "name": "artist", "type": "String" },
         { "name": "rarity", "type": "Int32" }
       ],
@@ -89,7 +94,9 @@ schemas = token_schemas_from_json(
 ```
 
 The JSON object must contain `seriesMetadata`, `rom`, and `ram` arrays. Each
-entry is an object with `name` and `type`.
+entry is an object with `name` and `type`. The five standard NFT fields
+(`name`, `description`, `imageURL`, `infoURL`, `royalties`) must be in
+`seriesMetadata` or in `rom`; without them the call raises `BuilderError`.
 
 Supported type names:
 
@@ -108,7 +115,15 @@ from phantasma_py.carbon import build_token_schemas_from_fields
 
 schemas = build_token_schemas_from_fields(
     series_metadata=[("season", "String")],
-    rom=[("artist", "String"), ("rarity", "Int32")],
+    rom=[
+        ("name", "String"),
+        ("description", "String"),
+        ("imageURL", "String"),
+        ("infoURL", "String"),
+        ("royalties", "Int32"),
+        ("artist", "String"),
+        ("rarity", "Int32"),
+    ],
     ram=[("level", "Int32")],
 )
 ```
