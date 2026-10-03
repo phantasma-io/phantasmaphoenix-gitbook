@@ -36,9 +36,8 @@ SOUL has three core roles on Phantasma:
 - **KCAL generation.** Staked SOUL accrues claimable KCAL over time. Claiming,
   staking more SOUL, or unstaking can materialize accrued KCAL into the account's
   available KCAL balance.
-- **Data escrow.** SOUL is the chain's data token. Transactions that grow
-  permanent chain state use SOUL data escrow through the transaction `maxData`
-  limit.
+- **Data escrow.** SOUL is the chain's data token. A transaction that grows
+  permanent chain state escrows SOUL for the growth.
 
 SOUL is also used by protocol-level organization membership. The current mainnet
 staking metadata links the Soul Master threshold to the `masters` organization.
@@ -90,18 +89,17 @@ available KCAL balance.
 
 ## SOUL Data Escrow
 
-Phantasma uses SOUL for persistent state growth. A transaction that creates or
-expands charged chain state must set a `maxData` limit and the fee payer must
-have enough available SOUL to cover the resulting data escrow.
+Phantasma uses SOUL for persistent state growth. The chain counts storage in
+quanta of 1024 bytes. A transaction that adds quanta escrows `dataEscrowPerRow`
+SOUL for each of them from its fee payer. A transaction that deletes or shrinks
+storage receives the escrow that the released quanta paid. A structured
+transaction limits its escrow with `maxData`; a script transaction has no such
+limit and pays the escrow after the script runs. [Fees](fees.md#soul-data-escrow)
+gives the full rules.
 
-The chain measures the transaction's actual state change, rounds charged storage
-rows to the protocol storage quantum, and applies the current
-`dataEscrowPerRow` value. Unused prepaid data escrow is refunded. Transactions
-that delete or shrink charged state can also produce a SOUL data escrow refund.
-
-This is separate from staking. Staking SOUL to an account or contract does not
-increase a contract storage quota. Storage growth is paid by the transaction
-fee payer through `maxData`.
+This is separate from staking. Staking SOUL on an account or a contract does not
+give it storage. Storage growth is paid by the fee payer of the transaction that
+writes it.
 
 ## Supply
 
@@ -117,10 +115,12 @@ from RPC instead of copying fixed totals.
 APIs usually return SOUL amounts as integer strings in base units. Convert using
 8 decimals when showing user-facing amounts.
 
-For balances and metadata, use token and account RPC methods such as `getToken`,
-`getTokenBalance`, and `getAccount`. For staking, use the native stake contract
-methods exposed by the SDKs: `Stake`, `Unstake`, `Claim`, and read methods for
-staked and unclaimed amounts.
+`getToken` returns the SOUL metadata, including the staking parameters, and the
+supply. `getTokenBalance` returns the SOUL balance of an account, and
+`getAccountFungibleTokens` all fungible balances of an account. `getAccountInfo`
+returns an account's staked SOUL, its staking timestamp, and the KCAL it has
+earned and not yet claimed. To stake, unstake, and claim, call `Stake`,
+`Unstake`, and `Claim` of the stake contract; the SDK guides show the calls.
 
 ## Related Pages
 

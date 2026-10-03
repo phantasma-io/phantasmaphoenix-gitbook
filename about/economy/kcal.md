@@ -28,14 +28,15 @@ Wallets, RPC responses, and explorers can also display the token address above.
 
 KCAL has two core roles on Phantasma:
 
-- **Transaction gas.** Transactions pay KCAL for execution and for data written
-  into the block result, such as payload, result, and event data.
-- **Application resource use.** Contract calls, native token operations, NFT
-  operations, and deployment workflows all require enough KCAL on the transaction
-  fee payer to cover the final gas bill.
+- **Transaction gas.** Every transaction pays KCAL for the work it performs and
+  for the bytes it adds to the block: the transaction itself, its result, and
+  its events.
+- **Application resource use.** Contract calls, token and NFT operations, and
+  token deployments are paid in KCAL. The fee payer must hold the transaction's
+  whole `maxGas` before the transaction runs.
 
-KCAL is not the data escrow asset for permanent state growth. Persistent storage
-growth is covered separately by SOUL through the transaction `maxData` limit.
+KCAL does not pay for permanent state growth. Storage growth is paid separately
+in SOUL; see [SOUL Data Escrow](fees.md#soul-data-escrow).
 
 ## Protocol Surfaces
 
@@ -51,19 +52,21 @@ KCAL behavior is split across native protocol modules:
 
 ## Gas Flow
 
-A transaction sets a maximum KCAL gas amount through `maxGas`. VM transactions
-also include an `AllowGas` instruction, where gas price multiplied by gas limit
-must match the transaction's `maxGas` value. The fee payer must sign the
-transaction and must have enough available KCAL.
+Every transaction states `maxGas`, the most KCAL it may spend. A script
+transaction states it in its `AllowGas` call, as the gas price multiplied by the
+gas limit. The fee payer signs the transaction, and the chain reserves the whole
+`maxGas` from the fee payer's KCAL before the transaction runs. If the fee payer
+cannot cover it, the transaction is rejected.
 
-The validator executes the transaction, measures the gas used, adds the
-configured block-data fee, and settles the final gas bill. Unused prepaid gas is
-refunded. If the final gas bill is above `maxGas`, or the payer cannot cover the
-bill, the transaction is rejected or aborted according to the transaction path.
+After the transaction runs, the chain computes the gas bill from the work, the
+block data, and the operation fees, charges it, and returns the rest of the
+reservation. A transaction that fails, or whose bill would exceed `maxGas`, keeps
+none of its changes and still pays its bill. [Fees](fees.md) gives the full
+rules.
 
-The current gas configuration controls fee constants and fee settlement,
-including the configured fee burn. Wallets and developer tools should show
-the final fee estimate before signing and should not assume fixed fee values.
+The gas configuration sets the fee values and the share of each bill that is
+burned. Wallets and developer tools should read it and show the fee estimate
+before signing.
 
 ## KCAL From SOUL Staking
 
@@ -91,11 +94,12 @@ an issuance path.
 APIs usually return KCAL amounts as integer strings in base units. Convert using
 10 decimals when showing user-facing amounts.
 
-For balances and metadata, use token and account RPC methods such as `getToken`,
-`getTokenBalance`, and `getAccount`. For staking rewards, query the stake state
-or use SDK helpers that call the native stake contract. For transaction fees,
-build transactions with explicit gas settings and confirm the wallet or tooling
-fee estimate before signing.
+`getToken` returns the KCAL metadata and supply, `getTokenBalance` the KCAL
+balance of an account, and `getAccountFungibleTokens` all fungible balances of
+an account. `getAccountInfo` returns the KCAL that an account's SOUL stake has
+earned and not yet claimed. For transaction fees, build transactions with
+explicit gas settings and confirm the wallet or tooling fee estimate before
+signing.
 
 ## Related Pages
 

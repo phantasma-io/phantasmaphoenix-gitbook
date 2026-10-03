@@ -31,7 +31,9 @@ KCAL
 Developers should plan for both fee dimensions:
 
 - `maxGas` limits the KCAL a transaction can spend on execution and block data.
-- `maxData` limits the SOUL a transaction can escrow for persistent state growth.
+- `maxData` limits the SOUL a structured transaction can escrow for persistent
+  state growth. A script transaction has no `maxData`; it pays the escrow after
+  the script runs.
 
 For storage-specific behavior, see the storage and data escrow page.
 
