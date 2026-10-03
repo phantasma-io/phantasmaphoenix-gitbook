@@ -48,10 +48,10 @@ A Carbon message whose storage growth exceeds its `maxData` ceiling is rejected 
 
 The validator measures storage growth from the transaction's actual before/after state changes. For each charged state row:
 
-1. The validator compares the previous value size with the new value size.
+1. The validator takes the size of the row before and after the transaction.
 2. Key bytes and value bytes are counted together.
-3. The result is rounded to 1024-byte storage rows.
-4. The transaction is charged only for net row growth.
+3. Each size is rounded up to whole 1024-byte quanta.
+4. Only a change in the number of quanta is charged or refunded.
 
 Creating a new row or expanding an existing row can increase data usage. Deleting a row or shrinking a row can create a data escrow refund. Rows whose size does not change do not add storage escrow, although the transaction can still pay KCAL gas for execution and block data.
 
@@ -64,8 +64,10 @@ Some internal chain rows are excluded from data escrow accounting. Contract auth
 The effective charge is:
 
 ```text
-SOUL data escrow = rowsAdded * dataEscrowPerRow
+SOUL data escrow = quantaAdded * dataEscrowPerRow
 ```
+
+`dataEscrowPerRow` is the price of one 1024-byte quantum. A row of up to 1024 bytes is one quantum; a larger row, for example an NFT that carries an image, is charged for every quantum it fills.
 
 `dataEscrowPerRow` is a governance-controlled chain parameter. Tooling and wallets should treat any fixed value as an estimate and confirm the final transaction result from the chain.
 

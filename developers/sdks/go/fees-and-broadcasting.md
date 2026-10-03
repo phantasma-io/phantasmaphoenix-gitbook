@@ -50,13 +50,13 @@ sent as it is.
 ## What The Chain Bills
 
 The chain charges for every byte the transaction puts in the block. It also
-escrows every storage row the transaction creates. A message therefore carries
+escrows SOUL for the storage the transaction adds. A message therefore carries
 two ceilings, and both have to be set before it is signed:
 
 | Field | Meaning |
 | ----- | ------- |
 | `TxMsg.MaxGas` | The gas offer, in KCAL atoms. Unused gas is refunded. A short offer is rejected. |
-| `TxMsg.MaxData` | The storage escrow ceiling, in SOUL atoms. It prices every new row at the current row price. |
+| `TxMsg.MaxData` | The storage escrow ceiling, in SOUL atoms. It prices every new 1024-byte storage quantum at the current `dataEscrowPerRow`. |
 
 ## The Fee Planner
 
