@@ -1,6 +1,6 @@
 # C# RPC Methods
 
-This page documents the `PhantasmaAPI` surface. Use
+The methods of `PhantasmaAPI`. Use
 [Public API Inventory](public-api.md) when you need the complete list of public
 classes, methods, fields, and enum values.
 

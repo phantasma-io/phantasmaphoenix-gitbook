@@ -1,7 +1,7 @@
 # Unity Link Client
 
-This page documents `PhantasmaLinkClient`, the Unity wallet-link component used
-by wallet-facing examples.
+`PhantasmaLinkClient` is the Unity wallet-link component used by the
+wallet-facing examples.
 
 ## Component State
 

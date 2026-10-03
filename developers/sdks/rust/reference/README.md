@@ -1,10 +1,7 @@
 # Rust SDK Complete API Reference
 
-This section documents the public `phantasma_sdk` API at the level needed to
-build and maintain applications without reading the SDK source for ordinary
-usage. Start with setup and task pages for common flows; use this section when
-you need method groups, parameter details, return values, and lower-level
-helpers.
+The public API of `phantasma_sdk`: method groups, parameters, return values
+and lower-level helpers. The setup and task pages cover the common flows.
 
 ## When To Use These Pages
 

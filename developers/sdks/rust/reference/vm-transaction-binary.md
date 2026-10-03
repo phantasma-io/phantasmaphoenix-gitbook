@@ -1,7 +1,6 @@
 # Rust SDK VM and Transaction APIs
 
-This page documents the lower-level `phantasma_sdk` APIs outside the Carbon
-module. Use these APIs for VM scripts, script transaction bytes, local
+The lower-level `phantasma_sdk` APIs outside the Carbon module. Use these APIs for VM scripts, script transaction bytes, local
 transaction signing, key/address handling, and VM object decoding. Use the
 Carbon API instead for Carbon token, series, NFT, transfer, market, and message
 payload flows.

@@ -1,9 +1,8 @@
 # TypeScript SDK Complete API Reference
 
-This section documents the current `phantasma-sdk-ts` public surface for
-application and tooling work. Start with setup and task pages for common flows;
-use this section for method groups, result shapes, wire structures,
-compatibility notes, and lower-level helpers.
+The public API of `phantasma-sdk-ts`: method groups, result shapes, wire
+structures, compatibility notes and lower-level helpers. The setup and task
+pages cover the common flows.
 
 ## Pages
 

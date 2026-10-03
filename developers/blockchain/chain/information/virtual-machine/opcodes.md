@@ -1,6 +1,6 @@
 # Opcodes
 
-This page documents the Phantasma VM opcode set and the base gas cost of each opcode.
+The Phantasma VM opcode set and the base gas cost of each opcode.
 
 ## Gas Cost Model
 

@@ -1,8 +1,7 @@
 # C++ SDK Complete API Reference
 
-This section documents the public C++ SDK API: the RPC client and its result
-structs, the key, VM and transaction types, the Carbon API and the full
-declaration inventory.
+The public API of the C++ SDK: the RPC client and its result structs, the key,
+VM and transaction types, the Carbon API and the full declaration inventory.
 
 ## Pages
 

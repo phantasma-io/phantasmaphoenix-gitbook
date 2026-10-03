@@ -1,8 +1,6 @@
 # Unity SDK Complete API Reference
 
-This section documents the lower-level SDK APIs for developers who
-need method behavior, parameter names, and return shapes beyond setup
-and examples.
+Method behavior, parameter names and return shapes of the Unity SDK.
 
 ## Pages
 

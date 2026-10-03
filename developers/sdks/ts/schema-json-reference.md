@@ -1,6 +1,6 @@
 # Schema JSON Reference (TS SDK)
 
-This page documents the JSON format accepted by `TokenSchemasBuilder.fromJson` in `phantasma-sdk-ts`.
+`TokenSchemasBuilder.fromJson` in `phantasma-sdk-ts` builds token schemas from the JSON format below.
 
 ## JSON shape
 

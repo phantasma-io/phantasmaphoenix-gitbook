@@ -1,6 +1,6 @@
 # Unity RPC Methods
 
-This page documents the `PhantasmaAPI` coroutine surface. Use
+The coroutines of `PhantasmaAPI`. Use
 [Public API Inventory](public-api.md) when you need every public runtime
 symbol.
 
