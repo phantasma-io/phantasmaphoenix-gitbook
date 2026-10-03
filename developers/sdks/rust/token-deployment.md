@@ -17,7 +17,8 @@ Series creation is a separate transaction after the token exists:
 
 1. Build `SeriesInfo`.
 2. Sign and broadcast `CreateTokenSeries`.
-3. Parse the returned Carbon series id and use it when minting.
+3. Parse the returned Carbon series id, which RPC reads take. Mints name the
+   series by the Phantasma series id it was created with.
 
 The SDK does not hide broadcasting. `send_carbon_transaction(...)` sends signed
 bytes to the selected RPC endpoint, so use it only with an intentional endpoint,
@@ -191,7 +192,9 @@ async fn broadcast_create_series(rpc: &PhantasmaRpc, tx_hex: &str) -> Result<u32
 }
 ```
 
-Use the parsed `carbon_series_id` when minting Carbon NFTs.
+RPC reads such as `get_token_nfts` and `get_token_series_by_ids` take the
+parsed Carbon series id. A mint names the series by the Phantasma series id
+passed to `build_series_info`, `1` in the example above.
 
 ## Read Back Deployment State
 

@@ -12,7 +12,7 @@ A token is created by one structured transaction that calls `Token.CreateToken`.
 | --- | --- |
 | Symbol | Uppercase letters `A` to `Z` only, at most 255 characters, not used by another token. `TokenInfoBuilder.Build` applies the same rule and throws on a bad symbol. |
 | Metadata | `name`, `icon`, `url` and `description` are required. `icon` is a base64 data URI of a PNG, JPEG or WebP image. `TokenMetadataBuilder.BuildAndSerialize` checks both. |
-| Owner | The owner signs the creation and becomes the token owner. Mints and new series need the owner's signature. |
+| Owner | The owner signs the creation and becomes the token owner. A new series needs the token owner's signature. A mint needs the signature of the series owner, the account given to `SeriesInfoBuilder.Build`. |
 | Fungible token | `decimals` up to 64, no schemas. |
 | NFT token | `decimals` is `0`. `TokenInfoBuilder.Build` requires the schemas. |
 | Supply | `maxSupply` `0` means no limit. The builder then marks a fungible token as big-fungible, because the chain refuses an unlimited token with 64-bit balances. |

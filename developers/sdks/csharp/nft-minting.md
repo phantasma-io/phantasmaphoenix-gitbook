@@ -54,7 +54,7 @@ var rom = PhantasmaNftRomBuilder.BuildAndSerialize(romSchema, new[]
 var mint = MintPhantasmaNonFungibleTxHelper.BuildTx(new PhantasmaNftMintParams
 {
 	TokenId = tokenId,
-	Sender = owner, // pays the gas and signs; the token owner
+	Sender = owner, // pays the gas and signs; the series owner
 	To = owner,     // receives every instance of this call
 	Tokens = new[]
 	{
