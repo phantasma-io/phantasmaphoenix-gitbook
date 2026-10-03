@@ -101,9 +101,9 @@ async fn main() -> Result<()> {
 
 | API | Purpose and parameters | Returns and failures | Use it when |
 | --- | ---------------------- | -------------------- | ----------- |
-| `get_chains(extended)` | Reads the chain list from the nexus. `extended` controls nested contract and dApp detail. | Returns `Vec<ChainResult>`. Errors if the result is not an array. | Explorer or infrastructure code needs all chain metadata. |
-| `get_chain(chain, extended)` | Reads one chain by name. | Returns `ChainResult`. Errors on node or decode failures. | A page needs metadata for a specific chain. |
-| `get_nexus(extended)` | Reads nexus metadata, including platforms, tokens, chains, governance, and organizations when the node returns them. | Returns `NexusResult`. Errors on node or decode failures. | Tooling needs a topology snapshot for the configured nexus. |
+| `get_chains(extended)` | Reads the chain list from the nexus. | Returns `Vec<ChainResult>`. Errors if the result is not an array. | Not usable: the node method is a stub; see [Stubbed Node Methods](#stubbed-node-methods). |
+| `get_chain(chain, extended)` | Reads one chain by name. | Returns `ChainResult`. Errors on node or decode failures. | Not usable: the node method is a stub; see [Stubbed Node Methods](#stubbed-node-methods). |
+| `get_nexus(extended)` | Reads nexus metadata. | Returns `NexusResult`. Errors on node or decode failures. | Not usable: the node method is a stub; see [Stubbed Node Methods](#stubbed-node-methods). |
 | `get_contract(contract_name, chain)` | Reads a contract by name on a chain. | Returns `ContractResult`, including script, ABI methods, and ABI events when available. Errors on node or decode failures. | Client tooling needs ABI information before constructing a VM call. |
 | `get_contract_by_name(chain, name)` | Chain-first alias that delegates to `get_contract(...)`. | Returns `ContractResult`. Same failures as `get_contract(...)`. | Existing code uses the chain-first spelling. |
 | `get_contract_by_address(chain, address)` | Reads a contract by address instead of name. | Returns `ContractResult`. Errors on node or decode failures. | The caller has a contract address from chain metadata or an event. |
@@ -111,7 +111,7 @@ async fn main() -> Result<()> {
 | `get_organization(organization_id, extended)` | Reads organization metadata by id. | Returns `OrganizationResult`. Errors on node or decode failures. | Governance or validator tooling works with an organization id. |
 | `get_organization_by_name(name, extended)` | Reads organization metadata by name. | Returns `OrganizationResult`. Errors on node or decode failures. | UI or CLI receives a human-readable organization name. |
 | `get_organizations(extended)` | Reads the organization list. | Returns `Vec<OrganizationResult>`. Errors if the result is not an array. | A page needs an organization list; pass `true` only when nested data is needed. |
-| `get_leaderboard(name)` | Reads a leaderboard by name. | Returns `LeaderboardResult`. Errors on node or decode failures. | A dApp or explorer displays leaderboard rows from the chain. |
+| `get_leaderboard(name)` | Reads a leaderboard by name. | Returns `LeaderboardResult`. Errors on node or decode failures. | Not usable: the node method is a stub; see [Stubbed Node Methods](#stubbed-node-methods). |
 
 ## Tokens, Series, And NFT Reads
 
@@ -169,10 +169,10 @@ loop {
 | `get_auctions_count(chain, symbol)` | Reads the number of auctions for a token symbol on a chain. | Returns `u64`; the SDK accepts JSON numbers or integer-compatible strings. | Marketplace pagination needs a total count before reading pages. |
 | `get_auctions(chain, symbol, page, page_size)` | Reads one numeric page of auctions for a token symbol. | Returns `PaginatedResult<Vec<AuctionResult>>`. Errors if the response is not a paginated object. | Marketplace UI lists auctions with page/page-size pagination. |
 | `get_auction(chain, symbol, token_id)` | Reads one auction by chain, token symbol, and token id. | Returns `AuctionResult`. Errors on node or decode failures. | A detail page needs one auction listing. |
-| `get_archive(hash)` | Reads archive metadata by archive hash. | Returns `ArchiveResult`. Errors on node or decode failures. | Storage tooling needs archive size, owners, block count, or missing block data. |
-| `write_archive(hash, block_index, content)` | Base64-encodes raw bytes and writes one archive block. | Returns `bool`; the SDK accepts JSON booleans, 0/1 numbers, or string equivalents. | Storage tooling has raw block bytes to submit. |
-| `write_archive_base64(hash, block_index, content)` | Writes one archive block when `content` is already base64 text. | Returns `bool`. Same failures as `write_archive(...)`. | The caller already stores archive block content as base64 text. |
-| `read_archive(hash, block_index)` | Reads one archive block by archive hash and block index. | Returns `String` exactly as reported by the node. Errors on node failures. | Storage tooling needs archive block content. |
+| `get_archive(hash)` | Reads archive metadata by archive hash. | Returns `ArchiveResult`. Errors on node or decode failures. | Not usable: the node method is a stub; see [Stubbed Node Methods](#stubbed-node-methods). |
+| `write_archive(hash, block_index, content)` | Base64-encodes raw bytes and writes one archive block. | Returns `bool`; the SDK accepts JSON booleans, 0/1 numbers, or string equivalents. | Not usable: the node method is a stub; see [Stubbed Node Methods](#stubbed-node-methods). |
+| `write_archive_base64(hash, block_index, content)` | Writes one archive block when `content` is already base64 text. | Returns `bool`. Same failures as `write_archive(...)`. | Not usable: the node method is a stub; see [Stubbed Node Methods](#stubbed-node-methods). |
+| `read_archive(hash, block_index)` | Reads one archive block by archive hash and block index. | Returns `String` exactly as reported by the node. Errors on node failures. | Not usable: the node method is a stub; see [Stubbed Node Methods](#stubbed-node-methods). |
 | `invoke_raw_script(chain, script_hex)` | Executes a VM script as a read-only invocation on a chain. It does not create or broadcast a transaction. | Returns `ScriptResult`; decode `result` or indexed `results` with model helpers. Errors on node or decode failures. | The caller needs read-only contract output before deciding whether to build a transaction. |
 | `send_raw_transaction(tx_hex)` | Broadcasts a signed VM transaction hex string. | Returns the transaction hash from a string response or response object `hash` field. Errors if the response has an embedded error or no hash. | The caller already has signed VM transaction hex. |
 | `send_transaction(tx)` | Serializes a signed `Transaction` with signatures and delegates to `send_raw_transaction(...)`. | Returns the transaction hash. Same failures as `send_raw_transaction(...)`. | Rust code has a signed `Transaction` object instead of prebuilt hex. |
@@ -188,6 +188,20 @@ if final_tx.state_is_success() {
     println!("{}", final_tx.result);
 }
 ```
+
+## Stubbed Node Methods
+
+The node answers these methods with a fixed value and reads or stores nothing:
+
+| Method | Answer |
+| ------ | ------ |
+| `get_chains` | An empty vector. |
+| `get_chain` | A default chain object. |
+| `get_nexus` | A default nexus object. |
+| `get_leaderboard` | A default leaderboard object. |
+| `get_archive` | A default archive object. |
+| `read_archive` | An empty string. |
+| `write_archive`, `write_archive_base64` | `false`; nothing is stored. |
 
 ## Local Signing Helpers And Carbon Result Parsers
 

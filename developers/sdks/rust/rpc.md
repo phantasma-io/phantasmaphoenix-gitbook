@@ -207,3 +207,7 @@ parameter order expected by current RPC methods.
 | Scripts and Carbon | `invoke_raw_script`, `send_tx_msg`, `send_carbon_transaction`, `send_signed_tx_msg` |
 | Accounts | `get_account_info`, `get_account_infos`. `get_account` and `get_accounts` are deprecated |
 | Fees | `fees()`, `get_gas_config`, `estimate_transaction`, `preflight_transaction`, `control_token_id`, `infused_assets` |
+
+`get_chains`, `get_chain`, `get_nexus`, `get_leaderboard` and the archive
+methods are stubs on the node: they answer an empty or default value. See
+[Stubbed Node Methods](/developers/sdks/rust/reference/rpc-methods.md#stubbed-node-methods).

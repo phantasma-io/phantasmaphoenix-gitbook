@@ -107,9 +107,9 @@ balances = rpc.get_account_fungible_tokens("P...", page_size=100)
 
 | API | Purpose and parameters | Returns and failures | Use it when |
 | --- | ---------------------- | -------------------- | ----------- |
-| `get_chains(*, extended=True)` | Reads the chain list from the nexus. `extended` controls nested contract and dApp detail. | Returns `list[ChainResult]`. Raises `RPCError` if the node does not return an array. | Explorer or infrastructure code needs all chain metadata. |
-| `get_chain(name="main", *, extended=True)` | Reads one chain by name. | Returns `ChainResult`. Raises `RPCError` for node or decode failures. | A page needs metadata for a specific chain. |
-| `get_nexus(*, extended=True)` | Reads nexus metadata, including platforms, tokens, chains, governance, and organizations when the node returns them. | Returns `NexusResult`. Raises `RPCError` for node or decode failures. | Tooling needs a topology snapshot for the configured nexus. |
+| `get_chains(*, extended=True)` | Reads the chain list from the nexus. | Returns `list[ChainResult]`. Raises `RPCError` if the node does not return an array. | Not usable: the node method is a stub; see [Stubbed Node Methods](#stubbed-node-methods). |
+| `get_chain(name="main", *, extended=True)` | Reads one chain by name. | Returns `ChainResult`. Raises `RPCError` for node or decode failures. | Not usable: the node method is a stub; see [Stubbed Node Methods](#stubbed-node-methods). |
+| `get_nexus(*, extended=True)` | Reads nexus metadata. | Returns `NexusResult`. Raises `RPCError` for node or decode failures. | Not usable: the node method is a stub; see [Stubbed Node Methods](#stubbed-node-methods). |
 | `get_contract(contract_name, chain="main")` | Reads a contract by name on a chain. | Returns `ContractResult`, including script, ABI methods, and ABI events when available. Raises `RPCError` for node or decode failures. | Client tooling needs ABI information before constructing a VM call. |
 | `get_contract_by_name(chain, contract_name)` | Chain-first alias that delegates to `get_contract(...)`. | Returns `ContractResult`. Same failures as `get_contract(...)`. | Existing code uses the chain-first spelling. |
 | `get_contract_by_address(chain, contract_address)` | Reads a contract by address instead of name. | Returns `ContractResult`. Raises `RPCError` for node or decode failures. | The caller has a contract address from chain metadata or an event. |
@@ -117,7 +117,7 @@ balances = rpc.get_account_fungible_tokens("P...", page_size=100)
 | `get_organization(organization_id, *, extended=True)` | Reads organization metadata by id. | Returns `OrganizationResult`. Raises `RPCError` for node or decode failures. | Governance or validator tooling works with an organization id. |
 | `get_organization_by_name(name, *, extended=True)` | Reads organization metadata by name. | Returns `OrganizationResult`. Raises `RPCError` for node or decode failures. | UI or CLI receives a human-readable organization name. |
 | `get_organizations(*, extended=False)` | Reads the organization list. | Returns `list[OrganizationResult]`. Raises `RPCError` if the result is not an array. | A page needs a compact organization list; pass `extended=True` only when nested data is needed. |
-| `get_leaderboard(name)` | Reads a leaderboard by name. | Returns `LeaderboardResult`. Raises `RPCError` for node or decode failures. | A dApp or explorer displays leaderboard rows from the chain. |
+| `get_leaderboard(name)` | Reads a leaderboard by name. | Returns `LeaderboardResult`. Raises `RPCError` for node or decode failures. | Not usable: the node method is a stub; see [Stubbed Node Methods](#stubbed-node-methods). |
 
 ## Tokens, Series, And NFT Reads
 
@@ -171,10 +171,10 @@ while True:
 | `get_auctions_count(chain, symbol)` | Reads the number of auctions for a token symbol on a chain. | Returns `int`; raises `RPCError` if the node value cannot be coerced to an integer. | Marketplace pagination needs a total count before reading pages. |
 | `get_auctions(chain, symbol, page, page_size)` | Reads one numeric page of auctions for a token symbol. | Returns `PaginatedResult[list[AuctionResult]]`. Raises `RPCError` if the response is not a paginated object. | Marketplace UI lists auctions with page/page-size pagination. |
 | `get_auction(chain, symbol, token_id)` | Reads one auction by chain, token symbol, and token id. | Returns `AuctionResult`. Raises `RPCError` for node or decode failures. | A detail page needs one auction listing. |
-| `get_archive(archive_hash)` | Reads archive metadata by archive hash. | Returns `ArchiveResult`. Raises `RPCError` for node or decode failures. | Storage tooling needs archive size, owners, block count, or missing block data. |
-| `write_archive(archive_hash, block_index, block_content)` | Writes one archive block. `bytes` content is base64-encoded by the SDK; `str` content is passed as already encoded content. | Returns `bool`; raises `RPCError` if the node value is not boolean-compatible. | Storage tooling has raw block bytes or already encoded block content to submit. |
-| `write_archive_base64(archive_hash, block_index, block_content)` | Alias for `write_archive(...)` when `block_content` is already a base64 string. | Returns `bool`. Same failures as `write_archive(...)`. | The caller already stores archive block content as base64 text. |
-| `read_archive(archive_hash, block_index)` | Reads one archive block by archive hash and block index. | Returns `str` exactly as reported by the node. Raises `RPCError` for node failures. | Storage tooling needs archive block content. |
+| `get_archive(archive_hash)` | Reads archive metadata by archive hash. | Returns `ArchiveResult`. Raises `RPCError` for node or decode failures. | Not usable: the node method is a stub; see [Stubbed Node Methods](#stubbed-node-methods). |
+| `write_archive(archive_hash, block_index, block_content)` | Writes one archive block. `bytes` content is base64-encoded by the SDK; `str` content is passed as already encoded content. | Returns `bool`; raises `RPCError` if the node value is not boolean-compatible. | Not usable: the node method is a stub; see [Stubbed Node Methods](#stubbed-node-methods). |
+| `write_archive_base64(archive_hash, block_index, block_content)` | Alias for `write_archive(...)` when `block_content` is already a base64 string. | Returns `bool`. Same failures as `write_archive(...)`. | Not usable: the node method is a stub; see [Stubbed Node Methods](#stubbed-node-methods). |
+| `read_archive(archive_hash, block_index)` | Reads one archive block by archive hash and block index. | Returns `str` exactly as reported by the node. Raises `RPCError` for node failures. | Not usable: the node method is a stub; see [Stubbed Node Methods](#stubbed-node-methods). |
 | `invoke_raw_script(chain, script_hex)` | Executes a VM script as a read-only invocation on a chain. It does not create or broadcast a transaction. | Returns `ScriptResult`; decode `result` or indexed `results` with model helpers. Raises `RPCError` for node or decode failures. | The caller needs read-only contract output before deciding whether to build a transaction. |
 | `send_raw_transaction(tx)` | Broadcasts a signed VM transaction. `tx` can be a `Transaction`, raw bytes, or hex string; `Transaction` and bytes are converted to hex. | Returns the transaction hash from a string response or response object `hash` field. Raises `RPCError` if the response has an embedded error or no hash. | The caller already has a signed VM transaction or wants the SDK to serialize a signed `Transaction`. |
 | `send_carbon_transaction(tx)` | Broadcasts a serialized signed Carbon transaction. `bytes` are converted to hex; `str` is sent as provided. | Returns the transaction hash from a string response or response object `hash` field. Raises `RPCError` if no hash is returned. | The caller already has signed Carbon transaction bytes or hex. |
@@ -187,6 +187,20 @@ final = rpc.get_transaction(tx_hash)
 if final.state_is_success:
     print(final.result)
 ```
+
+## Stubbed Node Methods
+
+The node answers these methods with a fixed value and reads or stores nothing:
+
+| Method | Answer |
+| ------ | ------ |
+| `get_chains` | An empty list. |
+| `get_chain` | A default chain object. |
+| `get_nexus` | A default nexus object. |
+| `get_leaderboard` | A default leaderboard object. |
+| `get_archive` | A default archive object. |
+| `read_archive` | An empty string. |
+| `write_archive`, `write_archive_base64` | `False`; nothing is stored. |
 
 ## Local Signing Helpers And Carbon Result Parsers
 

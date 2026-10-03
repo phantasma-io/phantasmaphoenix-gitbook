@@ -194,3 +194,7 @@ The current `PhantasmaRPC` class wraps these groups:
 | Account token cursors | `get_account_fungible_tokens`, `get_account_nfts`, `get_account_owned_tokens`, `get_account_owned_token_series` |
 | Auctions and archives | `get_auctions`, `get_auction`, `get_archive`, `read_archive`, `write_archive` |
 | Scripts and Carbon | `invoke_raw_script`, `send_carbon_transaction`, `send_transaction` |
+
+`get_chains`, `get_chain`, `get_nexus`, `get_leaderboard` and the archive
+methods are stubs on the node: they answer an empty or default value. See
+[Stubbed Node Methods](/developers/sdks/python/reference/rpc-methods.md#stubbed-node-methods).

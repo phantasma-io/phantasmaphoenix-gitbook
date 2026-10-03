@@ -78,9 +78,9 @@ The cursor methods accept a `pageSize` of 1 to 100. The NFT methods accept 1 to
 
 | API | Purpose |
 | --- | ------- |
-| `GetChains(ctx, extended)` | Reads all chains. |
-| `GetChain(ctx, name, extended)` | Reads one chain by name. |
-| `GetNexus(ctx, extended)` | Reads nexus metadata. |
+| `GetChains(ctx, extended)` | A stub on the node; see [Stubbed Node Methods](#stubbed-node-methods). |
+| `GetChain(ctx, name, extended)` | A stub on the node; see [Stubbed Node Methods](#stubbed-node-methods). |
+| `GetNexus(ctx, extended)` | A stub on the node; see [Stubbed Node Methods](#stubbed-node-methods). |
 | `GetContracts(ctx, chainAddressOrName, extended)` | Reads contracts on a chain. |
 | `GetContract(ctx, name, chainName)` | Legacy order wrapper for contract by name. |
 | `GetContractByName(ctx, chainAddressOrName, contractName)` | Chain-first contract by name. |
@@ -89,7 +89,7 @@ The cursor methods accept a `pageSize` of 1 to 100. The NFT methods accept 1 to
 | `GetOrganizations(ctx, pageSize, cursor, includeMemberCount)` | Lists organizations with cursor pagination. |
 | `GetOrganizationMembers(ctx, name, pageSize, cursor, includeMemberTime)` | Lists organization members with cursor pagination. |
 | `GetOrganizationMember(ctx, name, address, checkAddressReservedByte, addressType)` | Checks one address's membership in an organization. |
-| `GetLeaderboard(ctx, name)` | Reads leaderboard rows. |
+| `GetLeaderboard(ctx, name)` | A stub on the node; see [Stubbed Node Methods](#stubbed-node-methods). |
 
 ## Tokens, Series, And NFTs
 
@@ -132,10 +132,10 @@ parameter.
 | `GetAuctionsCount(ctx, chainAddressOrName, symbol)` | Reads auction count for a token. |
 | `GetAuctions(ctx, chainAddressOrName, symbol, page, pageSize)` | Reads one page of auctions. |
 | `GetAuction(ctx, chainAddressOrName, symbol, tokenID)` | Reads one auction. |
-| `GetArchive(ctx, hash)` | Reads archive metadata. |
-| `WriteArchive(ctx, hash, blockIndex, blockContent)` | Writes raw archive block bytes. |
-| `WriteArchiveBase64(ctx, hash, blockIndex, blockContent)` | Writes already-base64 archive block content. |
-| `ReadArchive(ctx, hash, blockIndex)` | Reads one archive block. |
+| `GetArchive(ctx, hash)` | A stub on the node; see [Stubbed Node Methods](#stubbed-node-methods). |
+| `WriteArchive(ctx, hash, blockIndex, blockContent)` | A stub on the node; see [Stubbed Node Methods](#stubbed-node-methods). |
+| `WriteArchiveBase64(ctx, hash, blockIndex, blockContent)` | A stub on the node; see [Stubbed Node Methods](#stubbed-node-methods). |
+| `ReadArchive(ctx, hash, blockIndex)` | A stub on the node; see [Stubbed Node Methods](#stubbed-node-methods). |
 | `InvokeRawScript(ctx, chain, scriptHex)` | Executes a read-only VM script. |
 | `SendRawTransaction(ctx, txData)` | Broadcasts signed VM transaction hex. |
 | `SendCarbonTransaction(ctx, txData)` | Broadcasts signed Carbon transaction hex. |
@@ -144,6 +144,20 @@ parameter.
 | `SignAndSendTransactionTextPayload(...)` | VM sign-and-send where payload is provided as text and encoded by the SDK. |
 | `SignAndSendBuiltTransaction(ctx, tx, keys)` | Signs and broadcasts an existing VM transaction. |
 | `SendTransaction(ctx, msg, signers, options)` | Plans, pre-flights, signs and broadcasts a Carbon message. |
+
+## Stubbed Node Methods
+
+The node answers these methods with a fixed value and reads or stores nothing:
+
+| Method | Answer |
+| ------ | ------ |
+| `GetChains` | An empty slice. |
+| `GetChain` | A default chain object. |
+| `GetNexus` | A default nexus object. |
+| `GetLeaderboard` | A default leaderboard object. |
+| `GetArchive` | A default archive object. |
+| `ReadArchive` | An empty string. |
+| `WriteArchive`, `WriteArchiveBase64` | `false`; nothing is stored. |
 
 ## Fees And Gas Configuration
 

@@ -122,9 +122,9 @@ service switched off. The local planner is the fallback.
 
 | API | Purpose |
 | --- | ------- |
-| `getChains(extended?)` | Reads all chains. |
-| `getChain(name, extended?)` | Reads one chain by name. |
-| `getNexus(extended?)` | Reads nexus metadata. |
+| `getChains(extended?)` | A stub on the node; see [Stubbed Node Methods](#stubbed-node-methods). |
+| `getChain(name, extended?)` | A stub on the node; see [Stubbed Node Methods](#stubbed-node-methods). |
+| `getNexus(extended?)` | A stub on the node; see [Stubbed Node Methods](#stubbed-node-methods). |
 | `getContracts(chainAddressOrName?, extended?)` | Reads contracts on a chain. |
 | `getContract(chainAddressOrName, contractName)` | Reads a contract by name. |
 | `getContractByAddress(chainAddressOrName, contractAddress)` | Reads a contract by address. |
@@ -132,7 +132,7 @@ service switched off. The local planner is the fallback.
 | `getOrganizations(pageSize?, cursor?, includeMemberCount?)` | Lists organizations with cursor pagination. |
 | `getOrganizationMembers(name, pageSize?, cursor?, includeMemberTime?)` | Lists organization members with cursor pagination. |
 | `getOrganizationMember(name, address, checkAddressReservedByte?, addressType?)` | Checks one address's membership in an organization. |
-| `getLeaderboard(name)` | Reads leaderboard rows. |
+| `getLeaderboard(name)` | A stub on the node; see [Stubbed Node Methods](#stubbed-node-methods). |
 | `getVersion()` | Reads node build metadata. |
 | `getPhantasmaVmConfig(chainAddressOrName)` | Reads VM gas/config values. |
 
@@ -170,8 +170,21 @@ anything outside the range.
 | `getAuctionsCount(chainAddressOrName, symbol)` | Reads auction count. |
 | `getAuctions(chainAddressOrName, symbol, page, pageSize)` | Reads auction page data. |
 | `getAuction(chainAddressOrName, symbol, IDtext)` | Reads one auction. |
-| `getArchive(hashText)` | Reads archive metadata. |
-| `writeArchive(hashText, blockIndex, blockContent)` | Writes archive block content. |
+| `getArchive(hashText)` | A stub on the node; see [Stubbed Node Methods](#stubbed-node-methods). |
+| `writeArchive(hashText, blockIndex, blockContent)` | A stub on the node; see [Stubbed Node Methods](#stubbed-node-methods). |
 
 `writeArchive(...)` accepts already encoded block content as a string. The
 TypeScript client does not expose a `readArchive` wrapper.
+
+## Stubbed Node Methods
+
+The node answers these methods with a fixed value and reads or stores nothing:
+
+| Method | Answer |
+| ------ | ------ |
+| `getChains` | An empty array. |
+| `getChain` | A default chain object. |
+| `getNexus` | A default nexus object. |
+| `getLeaderboard` | A default leaderboard object. |
+| `getArchive` | A default archive object. |
+| `writeArchive` | `false`; nothing is stored. |

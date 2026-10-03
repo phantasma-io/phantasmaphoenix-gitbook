@@ -74,6 +74,10 @@ The Go SDK exposes the same RPC methods as the other SDKs:
 | Archives and auctions | `GetArchive`, `ReadArchive`, `WriteArchive`, `WriteArchiveBase64`, `GetAuctionsCount`, `GetAuctions`, `GetAuction` |
 | Broadcast | `SendTransaction`, `SendRawTransaction`, `SendCarbonTransaction`, `SignAndSendTransaction` |
 
+`GetChains`, `GetChain`, `GetNexus`, `GetLeaderboard` and the archive methods
+are stubs on the node: they answer an empty or default value. See
+[Stubbed Node Methods](/developers/sdks/go/reference/rpc-methods.md#stubbed-node-methods).
+
 ## Cursor Pagination
 
 ```go
