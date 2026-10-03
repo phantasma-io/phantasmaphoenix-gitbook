@@ -8,6 +8,12 @@ coverY: 0
 
 # Interacting with the chain
 - [High-level API](/developers/sdks/csharp/phantasma-api.md)
+- [Keys And Addresses](/developers/sdks/csharp/keys-and-addresses.md)
+- [Script Transactions](/developers/sdks/csharp/vm-and-transactions.md)
+- [Structured Transactions](/developers/sdks/csharp/carbon.md)
+- [Token Deployment](/developers/sdks/csharp/token-deployment.md)
+- [NFT Minting](/developers/sdks/csharp/nft-minting.md)
+- [Schemas And Metadata](/developers/sdks/csharp/schemas-and-metadata.md)
 - [Fees And Broadcasting](/developers/sdks/csharp/fees-and-broadcasting.md)
 - [Complete API Reference](/developers/sdks/csharp/reference/README.md)
 
