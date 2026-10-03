@@ -25,8 +25,9 @@ The gas bill is the sum of:
   the fees for creating a token or registering a name
 
 The fee multiplier of the gas configuration converts gas units to KCAL. A bill
-below the minimum gas bill is raised to it. After the transaction runs, the
-chain charges the bill and returns the rest of the reservation to the fee payer.
+below the minimum gas bill is raised to it, so a transaction whose `maxGas` is
+below the minimum gas bill is rejected. After the transaction runs, the chain
+charges the bill and returns the rest of the reservation to the fee payer.
 
 VM transactions also include `AllowGas` and `SpendGas` calls in the script. For
 those transactions, gas price multiplied by gas limit must match the
@@ -71,8 +72,8 @@ payer does not hold enough SOUL.
 The chain gas configuration holds the fee values, including:
 
 - the fee multiplier that converts gas units to KCAL
-- the minimum gas offer, the smallest `maxGas` a transaction may state, and the
-  minimum gas bill
+- the minimum gas offer and the minimum gas bill; a `maxGas` below either is
+  rejected
 - the gas units of basic reads and writes, `gasFeeQuery` and `gasFeeTransfer`
 - the operation fees for creating a token and its symbol, for creating a
   series, and for registering a name
