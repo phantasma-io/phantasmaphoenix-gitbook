@@ -1,21 +1,11 @@
 # Exchanges
 
-{% hint style="info" %}
-There's more but the exchanges listed are the main ones.
-{% endhint %}
+SOUL is traded on these exchanges and swaps:
 
-## Kucoin
-
-[SOUL:USDT trading pair on Kucoin](https://trade.kucoin.com/SOUL-USDT)
-
-## Uniswap (not recommended, cross-chain swaps are paused)
-
-[SOUL:ETH trading pair on Uniswap](https://uniswap.info/pair/0x3fabe3d72422db134353ae444891b891f30c8979)
-
-[KCAL:ETH trading pair on Uniswap](https://uniswap.info/pair/0x57db2a0d2231fe522ed5d1cb40458ac152b41e01)
-
-## Pancakeswap (not recommended, cross-chain swaps are paused)
-
-[SOUL:BNB trading pair on Pancakeswap](https://pancakeswap.finance/swap?inputCurrency=0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c\&outputCurrency=0xc3adbf524513863102df6784e1ab5652165c7912)
-
-[KCAL:BNB trading pair on Pancakeswap](https://pancakeswap.finance/swap?inputCurrency=0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c\&outputCurrency=0x76f76055cf24e882d23944de4d8809309ea2a9e6)
+| Exchange | Type | Market |
+| --- | --- | --- |
+| [SaturnX](https://www.saturnx.cc/) | Decentralized exchange on Phantasma | SOUL, KCAL, and other Phantasma tokens |
+| [Gate](https://www.gate.com/trade/SOUL_USDT) | Centralized exchange | SOUL/USDT |
+| [KuCoin](https://www.kucoin.com/trade/SOUL-USDT) | Centralized exchange | SOUL/USDT |
+| [Biconomy](https://www.biconomy.com/exchange/SOUL_USDT) | Centralized exchange | SOUL/USDT |
+| [Houdini Swap](https://app.houdiniswap.com/?tokenOut=SOUL&tokenIn=BTC) | Cross-chain swap | SOUL for assets of other chains, such as BTC |
