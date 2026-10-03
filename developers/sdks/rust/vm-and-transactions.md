@@ -45,7 +45,8 @@ fn main() -> Result<()> {
 
     let script = ScriptBuilder::begin()
         .allow_gas(from, Address::null(), 10_000, 210_000)
-        .call_contract("stake", "GetStake", [ScriptArg::from(from)])
+        // Claims the KCAL that the account's SOUL stake has generated.
+        .call_contract("stake", "Claim", [ScriptArg::from(from), ScriptArg::from(from)])
         .spend_gas(from)
         .end_script()?;
 

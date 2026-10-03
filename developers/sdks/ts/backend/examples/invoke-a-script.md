@@ -20,18 +20,18 @@ const NEXUS_NAME = "testnet"; // For mainnet use this "mainnet"
 
 const rpc = new PhantasmaAPI(NETWORK_API_URL, NETWORK_PEER_URL as any, NEXUS_NAME);
 
-async function getMasterCount() {
+// Returns the KCAL atoms an account can claim from its SOUL stake, as decimal text.
+async function getUnclaimed(address: string) {
   const sb = new ScriptBuilder();
   const script = sb
     .beginScript()
-    .callContract("stake", "GetMasterCount", [])
+    .callContract("stake", "GetUnclaimed", [address])
     .endScript();
 
   const result = await rpc.invokeRawScript(CHAIN_NAME, script);
 
-  // this will return the data in a VMObject in Base16, you need to decode it.
+  // The result is a serialized VM object in hex.
   const decoder = new Decoder(result.result);
-  const value = decoder.readVmObject();
-  return value;
+  return decoder.readVmObject();
 }
 ```

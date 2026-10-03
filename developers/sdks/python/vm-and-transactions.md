@@ -40,7 +40,8 @@ keys = PhantasmaKeys.from_wif("...")
 script = (
     ScriptBuilder.begin()
     .allow_gas(keys.address, Address.null(), gas_price=10_000, gas_limit=210_000)
-    .call_contract("stake", "GetStake", keys.address)
+    # Claims the KCAL that the account's SOUL stake has generated.
+    .call_contract("stake", "Claim", keys.address, keys.address)
     .spend_gas(keys.address)
     .end_script()
 )
