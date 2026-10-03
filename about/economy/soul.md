@@ -72,7 +72,8 @@ or claim. A CROWN that arrived during the interval counts from its arrival, and
 a CROWN that has left the account adds nothing. With more than 20 CROWNs, the 20
 held longest count.
 
-`getToken` returns these parameters as part of the SOUL metadata.
+`getToken` with `extended` set to `true` returns these parameters as part of
+the SOUL metadata.
 `getAccountInfo` returns the KCAL an account has earned and not yet claimed,
 boosters included.
 
@@ -119,8 +120,9 @@ the current and the burned supply.
 APIs usually return SOUL amounts as integer strings in base units. Convert using
 8 decimals when showing user-facing amounts.
 
-`getToken` returns the SOUL metadata, including the staking parameters, and the
-supply. `getTokenBalance` returns the SOUL balance of an account, and
+`getToken` returns the SOUL token data and supply, and with `extended` set to
+`true` also the SOUL metadata, which holds the staking parameters.
+`getTokenBalance` returns the SOUL balance of an account, and
 `getAccountFungibleTokens` all fungible balances of an account. `getAccountInfo`
 returns an account's staked SOUL, its staking timestamp, and the KCAL it has
 earned and not yet claimed. To stake, unstake, and claim, call `Stake`,

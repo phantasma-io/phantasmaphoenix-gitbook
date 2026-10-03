@@ -87,7 +87,7 @@ share of gas fees removes from it; see [Supply And Issuance](inflation.md#kcal-s
 APIs usually return KCAL amounts as integer strings in base units. Convert using
 10 decimals when showing user-facing amounts.
 
-`getToken` returns the KCAL metadata and supply, `getTokenBalance` the KCAL
+`getToken` returns the KCAL token data and supply, `getTokenBalance` the KCAL
 balance of an account, and `getAccountFungibleTokens` all fungible balances of
 an account. `getAccountInfo` returns the KCAL that an account's SOUL stake has
 earned and not yet claimed. For transaction fees, build transactions with
