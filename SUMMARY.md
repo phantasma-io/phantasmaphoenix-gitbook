@@ -64,6 +64,7 @@
       - [Godot](developers/sdks/csharp/godot.md)
       - [High-level API](developers/sdks/csharp/phantasma-api.md)
       - [Fees And Broadcasting](developers/sdks/csharp/fees-and-broadcasting.md)
+      - [Phantasma Link v5 For Wallets](developers/sdks/csharp/wallet-link-v5.md)
       - [Complete API Reference](developers/sdks/csharp/reference/README.md)
         - [RPC Methods](developers/sdks/csharp/reference/rpc-methods.md)
         - [Keys, VM, and Transactions](developers/sdks/csharp/reference/keys-vm-and-transactions.md)

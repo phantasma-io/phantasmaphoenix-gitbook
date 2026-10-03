@@ -11,6 +11,9 @@ coverY: 0
 - [Fees And Broadcasting](/developers/sdks/csharp/fees-and-broadcasting.md)
 - [Complete API Reference](/developers/sdks/csharp/reference/README.md)
 
+# Wallets
+- [Phantasma Link v5 For Wallets](/developers/sdks/csharp/wallet-link-v5.md)
+
 # Examples
 
 - [Generate Key](/developers/sdks/csharp/examples/generate-key.md)

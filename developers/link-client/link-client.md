@@ -53,3 +53,4 @@ Use the SDK pages for the concrete method signatures and examples:
 
 - TypeScript: [Phantasma Link v5](/developers/sdks/ts/frontend/phantasma-link-v5.md), [Phantasma Link](/developers/sdks/ts/shared-methods/phantasmalink.md), [EasyConnect](/developers/sdks/ts/shared-methods/easyconnect.md)
 - Unity: [Unity Link Client](/developers/sdks/unity/reference/link-client.md)
+- C# wallets: [Phantasma Link v5 For Wallets](/developers/sdks/csharp/wallet-link-v5.md), the wallet side of v5
