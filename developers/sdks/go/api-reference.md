@@ -1,8 +1,7 @@
 # Go SDK API Overview
 
-This page summarizes the current Go SDK public surface and links to the deeper
-reference pages for method lists, result fields, wire structures, and low-level
-helpers.
+The packages of the Go SDK and their main types. The reference pages list every
+method, result field, wire structure and low-level helper.
 
 {% content-ref url="reference/README.md" %}
 Go SDK Complete API Reference
@@ -70,12 +69,29 @@ Details: [VM and Transaction APIs](reference/vm-transaction-binary.md).
 | `Bytes16`, `Bytes32`, `Bytes64`, `SmallString`, `IntX` | Checked Carbon primitive types. |
 | `TokenInfo`, `SeriesInfo`, `TokenSchemas`, `TxMsg`, `SignedTxMsg`, `Witness` | Carbon token, schema, transaction, and signing structures. |
 | Lifecycle builders | Create token, create series and Phantasma NFT mint builders. |
-| Native builders | Transfers, fungible mints and burns, which need no VM script. |
+| Native builders | Transfers, mints and burns, which need no VM script. |
+| Schemas and metadata | `PrepareStandardTokenSchemas`, `TokenSchemasFromJSON`, `BuildTokenSchemasFromFields`, `BuildTokenMetadata`, `BuildTokenSeriesMetadata`, `BuildSeriesInfo`, `BuildPhantasmaNFTRom`, `BuildNFTRom`. |
+| NFT addresses | `GetNFTAddress`, `UnpackNFTAddress`, `IsNFTAddress`, `UnpackNFTInstanceID`. |
+| Module calls | Token module argument structs, the market module (`MarketSellTokenArgs` and the rest), the governance module (`RegisterNameArgs`), and the configuration structures `ChainConfig`, `GasConfig`, `TokensConfig`, `MarketConfig`. |
 | Fee planning | `PlanFees`, `FeePlan`, `FeePlanOptions`, `SummarizeFeePlan`, `TxLimits`, `ExpiryWithin`, `BurnedInstances`. |
 | Signing | `TxSigner`, `KeyPairSigners`, `SignTxMsg`, `SignTxMsgWith`. |
 | Result parsers | Create token, create series, NFT mint and Phantasma NFT mint result parsers. |
 
 Details: [Carbon API and Wire Format](reference/carbon-wire.md).
+
+## Other Packages
+
+| Package | Holds |
+| ------- | ----- |
+| `pkg/vm` | Opcodes, `VMType`, and `VMObject`, which decodes the values of a script result. |
+| `pkg/util` | `ConvertDecimals` and `ConvertDecimalsBack` between atoms and decimal text, and the byte forms of big integers. |
+| `pkg/encoding/base58` | Base58 with and without the 4-byte checksum. |
+| `pkg/io` | The binary reader and writer of script transactions and event data, and `Deserialize[T]`. |
+| `pkg/jsonrpc` | The JSON-RPC transport and `RPCError`. |
+| `pkg/domain/event` | Event kinds and the data types of events, such as `TokenEventData`. |
+| `pkg/domain` | `SDKVersion` and `SDKPayload`. |
+| `pkg/domain/contract`, `pkg/domain/token`, `pkg/domain/stake`, `pkg/domain/types` | Models of contract interfaces, token definitions, stakes and timestamps. |
+| `pkg/cryptography/ecdsa`, `pkg/cryptography/proofOfAddress` | secp256k1 and secp256r1 signatures, and the check of a message signed by Phantasma, Ethereum and NEO Legacy keys. |
 
 ## Fees
 

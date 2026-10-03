@@ -1,8 +1,7 @@
 # Go SDK VM And Transaction APIs
 
-This page covers the lower-level Go SDK APIs outside `pkg/carbon`: keys,
-addresses, signatures, hashes, VM script building, VM object decoding, and
-script transactions.
+The Go SDK APIs outside `pkg/carbon`: keys, addresses, signatures, hashes, VM
+script building, VM object decoding, and script transactions.
 
 ## Cryptography
 
@@ -42,11 +41,14 @@ material owned by the SDK.
 | `AllowGas`, `SpendGas`, `MintTokens`, `TransferTokens`, `TransferBalance`, `TransferNFT` | Typed address helpers for common calls. |
 | `CrossTransferToken`, `CrossTransferNFT` | Emit `Runtime.SendTokens` and `Runtime.SendToken`. The chain has no such interops, and a script that calls one faults. |
 | `Stake`, `Unstake`, `CallNFT` | Stake and NFT contract helpers. |
-| `*Text` helpers | Parse Phantasma address text before emitting address bytes. |
+| `*Text` helpers | Parse Phantasma address text, or `NULL`, before emitting address bytes. |
+| `EmitS`, `EmitM`, `EmitLoad...`, `EmitPush`, `EmitPop`, `EmitMove`, `EmitCopy`, `EmitExtCall`, `EmitLabel`, `EmitJump`, `EmitConditionalJump`, `EmitCall`, `EmitThrow`, `EmitRaw`, `EmitVarBytes`, `CurrentSize` | Single instructions and raw bytes; see [Low-Level Script Emission](/developers/sdks/go/vm-and-transactions.md#low-level-script-emission). |
 
-Generic `CallContract` and `CallInterop` encode raw strings as VM strings.
-Pass `cryptography.Address` values or use `*Text` helpers when the ABI expects
-address bytes.
+`CallContract` and `CallInterop` load a `string` argument as a VM string and a
+`cryptography.Address` as address bytes. The chain reads an address argument
+from either form; the `Address` value is checked before the transaction is
+signed. The Go types each argument may have are listed on
+[Arguments](/developers/sdks/go/vm-and-transactions.md#arguments).
 
 ## VM Objects
 
@@ -56,7 +58,7 @@ and lower-level tooling. `response.ScriptResult` helpers decode result hex into
 
 | API | Purpose |
 | --- | ------- |
-| `VMObject.AsNumber()` | Converts number-compatible VM values to `*big.Int`; unsupported shapes may panic because this package mirrors the older Go SDK conversion style. |
+| `VMObject.AsNumber()` | Converts number-compatible VM values to `*big.Int`. A value of another type panics. |
 | `VMObject.AsBytes()` | Converts VM string, byte, bool, number, object, enum, timestamp, or struct values to bytes using SDK rules. |
 | `VMObject.AsBool()` | Converts VM bool, one-byte bytes, or number values to `bool`. |
 | `VMObject.AsString()` | Converts string-compatible values to text; numeric-array structs are decoded as UTF-16 code units. |
@@ -65,8 +67,8 @@ and lower-level tooling. `response.ScriptResult` helpers decode result hex into
 | `VMObject.SetValue(value, vmType)` | Sets a VM object value from bytes and a VM type. |
 | `VMObject.Copy(other)` | Copies another VM object into the receiver. |
 | `VMObject.Serialize(writer)` / `Deserialize(reader)` | Writes or reads the VM object binary format. |
-| `ScriptResult.DecodeResultWithError()` | Decodes the single result hex string into a VM object. |
-| `ScriptResult.DecodeResultsWithError(index)` | Decodes one indexed result from `Results`. |
+| `ScriptResult.DecodeResultWithError()` | Decodes `Result`, the last value the script left, into a VM object. |
+| `ScriptResult.DecodeResultsWithError(index)` | Decodes one value of `Results`, which holds every value the script left. |
 
 ## Binary Helpers
 
@@ -108,5 +110,17 @@ if err := tx.Sign(keys); err != nil {
 hexTx := hex.EncodeToString(tx.Bytes())
 ```
 
-`blockchain.TxStateIsSuccess(state)` and `blockchain.TxStateIsFault(state)`
-mirror the transaction state helpers exposed on RPC `TransactionResult`.
+| API | Purpose |
+| --- | ------- |
+| `NewTransaction(nexus, chain, script, expiration, payload)` | Builds a transaction that expires at `expiration`, in Unix seconds, and computes `Hash`. |
+| `Sign(keyPair)` | Signs the unsigned bytes and appends the signature. |
+| `Bytes()`, `BytesEx(withSignatures)` | The serialized transaction, with or without the signatures. |
+| `Hash` | The hash of the unsigned bytes, set when the transaction is built, decoded or mined. |
+| `HasSignatures()`, `IsSignedBy(addresses)` | Whether it carries signatures, and whether one belongs to one of the addresses. |
+| `Mine(difficulty)` | Replaces the payload with a 4-byte counter and raises it until the hash reaches the difficulty. Run it before signing. |
+| `Serialize(writer)`, `Deserialize(reader)` | The binary form. Decoding reads only Ed25519 signatures and at most `MaxTransactionSignatureCount` (1024) of them. |
+
+`blockchain.TxStateIsSuccess(state)` is `true` for `HALT`, and
+`blockchain.TxStateIsFault(state)` for `FAULT` and `BREAK`. The RPC
+`TransactionResult` has the same checks as `StateIsSuccess()` and
+`StateIsFault()`.

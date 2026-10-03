@@ -1,7 +1,7 @@
 # Go SDK Complete API Reference
 
-This section documents the public Go SDK API at the level needed for ordinary
-application and tooling work without reading source for every call.
+The public API of the Go SDK, by area: RPC methods, result models, VM and
+transactions, Carbon.
 
 ## Pages
 

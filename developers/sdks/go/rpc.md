@@ -13,9 +13,9 @@ testnet := rpc.NewRPCTestnet()
 mainnetSet := rpc.NewRPCSetMainnet()
 ```
 
-Use `client.Call(ctx, method, params...)` only when a node method is needed
-before the SDK has a typed wrapper. Typed wrappers perform response decoding and
-should be preferred for application code.
+`client.Call(ctx, method, params...)` calls a node method that has no typed
+wrapper; see [Custom Calls](#custom-calls). The typed methods decode the answer
+into the models of `pkg/rpc/response`.
 
 For nodes that require an API key, use `rpc.NewRPCWithApiKey(endpoint, apiKey)`.
 The key is sent in the `X-Api-Key` header on every request; an empty key behaves
@@ -62,12 +62,13 @@ The Go SDK exposes the same RPC methods as the other SDKs:
 
 | Area | Methods |
 | ---- | ------- |
-| Build and chain config | `GetVersion`, `GetPhantasmaVMConfig`, `GetChains`, `GetChain`, `GetNexus` |
-| Blocks and transactions | `GetBlockByHash`, `GetLatestBlock`, `GetBlockTransactionCountByHashOnChain`, `GetTransactionByBlockHashAndIndexOnChain` |
-| Contracts and organizations | `GetContracts`, `GetContractByName`, `GetContractByAddress`, `GetOrganization`, `GetOrganizations`, `GetOrganizationMembers`, `GetOrganizationMember`, `GetLeaderboard` |
+| Build and chain config | `GetVersion`, `GetPhantasmaVMConfig`, `GetChains`, `GetChain`, `GetNexus`, `GetPlatforms` |
+| Blocks and transactions | `GetBlockHeight`, `GetBlockByHeight`, `GetBlockByHash`, `GetLatestBlock`, `GetBlockTransactionCountByHashOnChain`, `GetTransactionByBlockHashAndIndexOnChain`, `GetTransaction`, `GetAddressTransactions`, `GetAddressTransactionCount` |
+| Contracts and organizations | `GetContract`, `GetContracts`, `GetContractByName`, `GetContractByAddress`, `GetOrganization`, `GetOrganizations`, `GetOrganizationMembers`, `GetOrganizationMember`, `GetLeaderboard` |
+| Scripts | `InvokeRawScript`; see [Read-Only Scripts](/developers/sdks/go/vm-and-transactions.md#read-only-scripts) |
 | Token definitions | `GetTokens`, `GetTokensByOwner`, `GetToken`, `GetTokenWithID`, `GetTokenBalance`. `GetTokenData` is deprecated, and `GetNFT` covers it entirely |
 | Series and NFTs | `GetTokenSeries`, `GetTokenSeriesByID`, `GetTokenNFTs`, `GetTokenNFTsWithSeriesID`, `GetNFT`, `GetNFTs` |
-| Accounts | `GetAccountInfo`, `GetAccountInfos` and their address-type variants. `GetAccount` and `GetAccounts` are deprecated |
+| Accounts | `GetAccountInfo`, `GetAccountInfos` and their address-type variants, `LookupName`. `GetAccount` and `GetAccounts` are deprecated |
 | Account inventory | `GetAccountFungibleTokens`, `GetAccountNFTs`, `GetAccountOwnedTokens`, `GetAccountOwnedTokenSeries` and address-type variants |
 | Fees | `GetGasConfig`, `EstimateTransaction`, `Fees()`, `ControlTokenID`, `InfusedAssets` |
 | Archives and auctions | `GetArchive`, `ReadArchive`, `WriteArchive`, `WriteArchiveBase64`, `GetAuctionsCount`, `GetAuctions`, `GetAuction` |
@@ -102,6 +103,84 @@ auctions and address transaction history.
 `SendCarbonTransaction` broadcasts signed Carbon transaction hex. Neither method
 waits for final execution state; poll `GetTransaction(ctx, hash)` and check
 `TransactionResult.StateIsSuccess()`.
+
+## Transaction Events
+
+`GetTransaction` returns the events of a transaction in `Events`, and
+`GetBlockByHeight` the events of every transaction of a block. A fungible
+transfer emits `TokenSend` for the sender and `TokenReceive` for the receiver:
+`Address` names the account, and `Data` holds the symbol, the amount in atoms
+and the chain name, in hex.
+
+```go
+package main
+
+import (
+    "encoding/hex"
+    "fmt"
+    "log"
+
+    "github.com/phantasma-io/phantasma-sdk-go/pkg/domain/event"
+    "github.com/phantasma-io/phantasma-sdk-go/pkg/io"
+    "github.com/phantasma-io/phantasma-sdk-go/pkg/util"
+)
+
+func main() {
+    // The Data of a TokenReceive event, as GetTransaction returns it.
+    data, err := hex.DecodeString("044B43414C07005039278C0400046D61696E")
+    if err != nil {
+        log.Fatal(err)
+    }
+    transfer := io.Deserialize[*event.TokenEventData](data)
+
+    fmt.Println(transfer.Symbol, transfer.ChainName)          // KCAL main
+    fmt.Println(util.ConvertDecimals(transfer.Value, 10))     // 500, as KCAL has ten decimals
+    fmt.Println(event.TokenReceive.String())                  // the Kind text of such an event
+}
+```
+
+To watch an account for incoming transfers, read the height with
+`GetBlockHeight`, read each new block with `GetBlockByHeight(ctx, "main",
+height)`, skip the transactions whose `StateIsSuccess()` is `false`, and decode
+the `TokenReceive` events whose `Address` is the account. The other event kinds
+and their data types are in `github.com/phantasma-io/phantasma-sdk-go/pkg/domain/event`.
+
+## Custom Calls
+
+```go
+response, err := client.Call(ctx, "getBlockHeight", "main")
+if err != nil {
+    return err
+}
+if response.Error != nil {
+    return response.Error
+}
+
+var height string
+if err := response.GetObject(&height); err != nil {
+    return err
+}
+```
+
+`Call` returns the raw `*jsonrpc.RPCResponse`. Its `GetObject`, `GetString`,
+`GetInt`, `GetFloat` and `GetBool` decode the result.
+
+## Errors
+
+A node that refuses a request answers with a JSON-RPC error. The typed methods
+return it as a `*jsonrpc.RPCError` whose text is `code: message`, for example
+`-32603: Transaction not found`. `errors.As` tells such a refusal from a
+transport failure:
+
+```go
+_, err := client.GetTransaction(ctx, txHash)
+var rpcErr *jsonrpc.RPCError
+if errors.As(err, &rpcErr) {
+    fmt.Println("the node refused:", rpcErr.Code, rpcErr.Message)
+}
+```
+
+`jsonrpc` is the package `github.com/phantasma-io/phantasma-sdk-go/pkg/jsonrpc`.
 
 ## Fee Planning And Sending
 
