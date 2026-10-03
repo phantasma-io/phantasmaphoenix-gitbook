@@ -1,45 +1,73 @@
 # C++ SDK Example: Offline Carbon Transaction
 
-This example shows the Carbon builder shape. It signs locally and does not
-broadcast.
-
-The builder carries no prices, so the message leaves it with a zero gas offer.
-Signing needs the chain's prices, which means the offer has to be planned or set
-by hand. The example sets it by hand through `TxLimits`, which is what an
-offline signer does when it cannot read the chain.
+This example builds an NFT token creation, plans its fee against the chain's
+gas config, and signs it without sending it. The gas config is the only thing
+read from a node; a signer without network access receives a copy of it.
 
 ```cpp
+#define PHANTASMA_IMPLEMENTATION
+#include "Adapters/PhantasmaAPI_rapidjson.h"
+#include "Adapters/PhantasmaAPI_curl.h"
 #include "PhantasmaAPI.h"
 #include "Adapters/PhantasmaAPI_openssl.h"
+#include "Numerics/Base16.h"
 #include "Cryptography/KeyPair.h"
-#include "Carbon/Types.h"
-#include "Carbon/Contracts/Token.h"
+#include "Carbon/Carbon.h"
 #include "Carbon/Tx.h"
+#include "Carbon/Contracts/Token.h"
+#include "Carbon/Contracts/TokenSchemas.h"
+#include "Carbon/FeePlan.h"
+#include <iostream>
 
-int main() {
-    auto keys = phantasma::PhantasmaKeys::Generate();
+using namespace phantasma;
+using namespace phantasma::carbon;
 
-    phantasma::carbon::TokenInfo tokenInfo{};
-    tokenInfo.symbol = phantasma::carbon::SmallString("MYNFT");
-    tokenInfo.flags = phantasma::carbon::TokenFlags_NonFungible;
-    tokenInfo.owner = phantasma::carbon::Bytes32(keys.PublicKeyBytes(), keys.PublicKeyLength());
-    tokenInfo.maxSupply = phantasma::carbon::IntX(0);
+int main()
+{
+    // The chain's prices. They change only through a governance resolution.
+    HttpClient http("https://testnet.phantasma.info");
+    rpc::PhantasmaAPI api(http);
+    rpc::PhantasmaError err{};
+    const Blockchain::GasConfig config = ToGasConfig(api.GetGasConfig(&err).gasConfig);
+    if( err.code != 0 )
+        return 1;
 
-    phantasma::carbon::TxLimits limits{};
-    limits.maxGas = 50000000;   // 0.005 KCAL, stated because no chain is read here
-    limits.maxData = 100000000; // storage escrow ceiling
+    PhantasmaKeys keys = PhantasmaKeys::Generate();
+    const Bytes32 owner(keys.GetPublicKey());
+    std::string error;
 
-    auto env = phantasma::carbon::CreateTokenTxHelper::BuildTx(tokenInfo, tokenInfo.owner, limits);
-    auto signedBytes = phantasma::carbon::SignAndSerialize(env, keys);
+    ByteArray metadata;
+    if( !TokenMetadataBuilder::BuildAndSerialize({
+            { "name", "Example Art" },
+            { "icon", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" },
+            { "url", "https://example.invalid/art" },
+            { "description", "An example NFT collection" },
+        }, metadata, error) )
+        return 1;
 
-    return signedBytes.empty() ? 1 : 0;
+    const TokenSchemasOwned schemas = TokenSchemasBuilder::PrepareStandardTokenSchemas();
+    TokenInfoOwned info;
+    if( !TokenInfoBuilder::Build("EXART", intx((int64_t)0), true, 0, owner, metadata, TokenSchemasBuilder::Serialize(schemas.View()), info, error) )
+        return 1;
+
+    TxEnvelope env = CreateTokenTxHelper::BuildTx(info.View(), owner);
+
+    FeePlanOptions options;
+    options.witnessCount = 1;
+    options.infusionsRead = true; // nothing is burned
+    FeePlan plan;
+    if( !PlanFees(env.msg, config, options, plan) )
+        return 1;
+    env.msg = plan.Apply(env.msg);
+
+    const ByteArray signedTx = SignAndSerialize(env, keys);
+    std::cout << Base16::Encode(signedTx) << std::endl;
+    return 0;
 }
 ```
 
-Real token deployment must also provide token metadata and NFT schemas before
-broadcasting.
-
-A stated offer that is short is rejected by the chain, and a token creation pays
-its base policy fee before the symbol is checked. Plan the message against the
-chain's gas config whenever a node can be reached. See
-[Fees And Broadcasting](/developers/sdks/cpp/fees-and-broadcasting.md).
+The plan covers the two policy fees of a token creation, which the chain takes
+before it looks at the symbol. A signer that sends the result later skips the
+symbol check of `SendTransaction`; run `PreflightTransaction` first. The
+message expires 45 seconds after it was built unless `TxLimits::expiry` says
+otherwise. See [Fees And Broadcasting](/developers/sdks/cpp/fees-and-broadcasting.md).
