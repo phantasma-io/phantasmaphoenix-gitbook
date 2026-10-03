@@ -160,7 +160,7 @@ When the client already holds a session id, `connect()` asks the wallet to resum
 | `methods` | The `pha_*` methods the wallet serves. |
 | `chains` | Chain ids such as `phantasma:mainnet`. |
 | `txFormats` | `script`, `carbon`, or both. |
-| `signatureKinds` | `Ed25519`, `ECDSA`, or both. |
+| `signatureKinds` | `Ed25519`, `ECDSA`, or both. The chain accepts only Ed25519 signatures on transactions. |
 | `features` | Optional feature flags. |
 | `maxPayloadBytes` | Optional per-transport payload limits: `relay`, `deeplink`, `loopback`, `injected`. |
 
@@ -172,7 +172,7 @@ When the client already holds a session id, `connect()` asks the wallet to resum
 | --- | --- |
 | `format` | `script` for a script `Transaction`, `carbon` for a Carbon `TxMsg`. The wallet sends a `script` transaction with `sendRawTransaction` and a `carbon` transaction with `sendCarbonTransaction`. |
 | `tx` | The unsigned transaction bytes, base64. |
-| `signatureKind` | Optional. `Ed25519` selects the Phantasma key, `ECDSA` the secp256k1 key. Carbon witnesses are Ed25519 only, so `ECDSA` with `format: 'carbon'` fails with `5003`. |
+| `signatureKind` | Optional, `Ed25519` by default. The protocol also names `ECDSA`, the secp256k1 key. The chain accepts only Ed25519 signatures on transactions of both formats. |
 | `pow` | Optional proof of work, meaningful only with `format: 'script'`. The protocol does not let the wallet mine proof of work on a transaction the dApp built, because mining would change bytes the dApp already assembled. A transaction that needs proof of work carries it before it is sent. |
 
 A Carbon message must be planned before the wallet signs it, because a builder leaves `maxGas` at `0`. Plan it with the chain's prices and pass the planned copy. See [Fees And Broadcasting](/developers/sdks/ts/fees-and-broadcasting.md).
