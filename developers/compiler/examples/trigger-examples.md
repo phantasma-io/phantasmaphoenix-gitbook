@@ -58,7 +58,7 @@ contract test {
 This method runs when a token is minted.
 {% endhint %}
 
-In this example, the contract validates the symbol and the caller context.
+In this example, the trigger checks the symbol and requires the mint to name the contract itself as the source (`from`).
 
 {% code lineNumbers="true" fullWidth="true" %}
 ```csharp
@@ -73,12 +73,15 @@ token TEST {
         local thisAddr : address = $THIS_ADDRESS;
         Runtime.expect(symbol == contractSymbol, "invalid symbol");
         Runtime.expect(from == thisAddr, "minting failed -> Not Contract");
-        Runtime.expect(Runtime.isWitness(thisAddr), "minting failed -> not Contract");
         return;
     }
 }
 ```
 {% endcode %}
+
+{% hint style="warning" %}
+A contract is never a witness of its own address. `Runtime.isWitness($THIS_ADDRESS)` returns `false` in triggers and in methods, so a check on it rejects every mint.
+{% endhint %}
 
 ## Trigger OnBurn
 
