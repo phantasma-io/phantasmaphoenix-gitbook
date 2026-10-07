@@ -20,6 +20,8 @@ The validator invokes these triggers on token-backed contracts:
 - `onSeries`
 - `onWrite`
 
+The chain runs these triggers only when the operation runs in the VM: in contract code or in a script transaction. A structured transaction that transfers, mints or burns a token does not run `onSend`, `onReceive`, `onMint` or `onBurn`. This covers `TransferFungible`, `TransferNonFungible_Single`, `TransferNonFungible_Multi`, `MintFungible`, `MintNonFungible`, `BurnFungible`, `BurnNonFungible` and the `_GasPayer` forms of the transfers and burns. A trigger therefore cannot ban the transfer or the burn of a token: the holder can send the same operation as a structured transaction.
+
 The compiler also accepts `onWitness`, `onMigrate` and `onKill`. The validator never invokes them: account migration and contract kill are not part of the current chain, so a trigger with one of these names compiles and never runs.
 
 ## Shared trigger signatures

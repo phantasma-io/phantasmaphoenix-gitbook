@@ -80,6 +80,8 @@ Token-backed contracts can expose these trigger methods:
 - `onUpgrade`
 - `onWrite`
 
+These triggers run only for operations inside the VM. A structured transaction that transfers, mints or burns a token calls the token module directly and runs no trigger. [Triggers](/developers/compiler/basics/triggers.md) lists the transaction types.
+
 The runtime invokes them through dedicated trigger paths rather than as ordinary public methods:
 
 - trigger guards prevent unsafe recursive trigger re-entry

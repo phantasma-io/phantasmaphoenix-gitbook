@@ -55,7 +55,7 @@ contract test {
 ## Trigger OnMint
 
 {% hint style="info" %}
-This method runs when a token is minted.
+This method runs when the token is minted in the VM, for example by `Token.mint` or `NFT.mint`. A structured `MintFungible` or `MintNonFungible` transaction does not run it.
 {% endhint %}
 
 In this example, the trigger checks the symbol and requires the mint to name the contract itself as the source (`from`).
@@ -86,16 +86,20 @@ A contract is never a witness of its own address. `Runtime.isWitness($THIS_ADDRE
 ## Trigger OnBurn
 
 {% hint style="info" %}
-This method will be **triggered** when a token is **burned**.
+This method runs when the token is burned in the VM, for example by `Token.burn` or `NFT.burn`. A structured `BurnFungible` or `BurnNonFungible` transaction does not run it, so `onBurn` cannot stop a holder from burning.
 {% endhint %}
 
-In this example, the contract only allows the owner path.
+In this example, a burn made in the VM succeeds only when the address in `owner` signed the transaction.
 
 {% code lineNumbers="true" %}
 ```csharp
-contract test {
+token TEST {
     import Runtime;
+
+    property name: string = "Test";
+
     global owner : address;
+
     trigger onBurn(from:address, to:address, symbol:string, amount:number)
     {
         Runtime.expect(Runtime.isWitness(owner), "Only owner can burn!");
