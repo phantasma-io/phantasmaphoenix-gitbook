@@ -43,8 +43,10 @@ Tool:
 Example:
 
 ```bash
-pha-tomb output:./build protocol:19 debug nativecheck:error my_contract.tomb
+pha-tomb output:./build debug nativecheck:error my_contract.tomb
 ```
+
+The command needs `pha-tomb` 2.2.1 or later. An older version needs `protocol:1` or an update with `dotnet tool update --global pha-tomb`. Without one of them, every constructor fails at deploy. The [compiler quick start](../../compiler/quick-start.md) explains the `protocol:` option.
 
 This generates artifacts under `./build/Output/`.
 
