@@ -93,7 +93,7 @@ If you use [`just`](https://github.com/casey/just), the repo also ships helper r
 ## Requirements
 
 - Node.js `>=22`
-- `pha-tomb >= 2.1.0` for `contract compile`
+- `pha-tomb >= 2.1.0` for `contract compile`. With a version below 2.2.1, pass `--protocol 1`; see the `--protocol` flag below.
 
 `contract compile` resolves `pha-tomb` in this order:
 1. `--compiler <path>`
@@ -355,7 +355,7 @@ Important flags:
 - `--compiler <path>` explicit `pha-tomb` executable
 - `--out <dir>` output directory for the bundle
 - `--contract-name <name>` required only when the compiler emits multiple modules
-- `--protocol <number>` target protocol version; left out, the compiler uses the latest protocol it knows
+- `--protocol <number>` optional; passed to `pha-tomb` unchanged as `protocol:<number>`. Leave it out: `pha-tomb` 2.2.1 and later use 1, the VM version that `Runtime.version()` returns on the current chain. Any value above 1 makes every constructor fail at deploy. A `pha-tomb` below 2.2.1 uses 19 by default, so pass `--protocol 1` with it. The [compiler quick start](../compiler/quick-start.md) explains the option.
 - `--debug`
 - `--nativecheck <off|warn|error>`
 - `--libpath <path>` repeatable library search path
@@ -489,7 +489,7 @@ Example:
 
 ```text
 pha-deploy 0.6.0
-pha-tomb version 2.1.0
+pha-tomb version 2.2.1
 pha-tomb path /usr/local/bin/pha-tomb
 ```
 
