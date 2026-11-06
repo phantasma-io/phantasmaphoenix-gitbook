@@ -77,7 +77,7 @@ Important lifecycle rules:
 
 `Runtime.ReadToken` and the other NFT interops identify an NFT by its public Phantasma NFT id. The internal instance id is a storage detail.
 
-`Runtime.WriteToken` follows the same runtime-visible NFT ID rule. It replaces RAM bytes, accepts empty RAM to clear the RAM flag, does not change owner, ROM, or token supply, and rolls back the RAM update plus trigger storage writes if `onWrite` fails. Native token symbols and dangerous symbols are rejected.
+`Runtime.WriteToken` follows the same runtime-visible NFT ID rule. It replaces RAM bytes, accepts empty RAM to clear the RAM flag, does not change owner, ROM, or token supply, and rolls back the RAM update plus trigger storage writes if `onWrite` fails. Native token symbols and dangerous symbols are rejected. Without an `onWrite` trigger, the token owner must sign the transaction, or the token's own contract must make the call.
 
 ## Token Metadata And Discovery
 

@@ -71,3 +71,4 @@ trigger onMigrate(from: address, to: address)
 - `onAttach` runs when VM code is attached to an existing token; `onUpgrade` runs on a later code update.
 - A token-backed contract must define `onMint`; the validator refuses to create or attach one without it.
 - `onInfuse` and `onWrite` run on `Runtime.InfuseToken` and `Runtime.WriteToken`; a trigger that fails rolls the operation back.
+- Without an `onWrite` trigger, `Runtime.WriteToken` needs the signature of the token owner (the owner of the token, not of the NFT), or a call from the token's own contract. Otherwise it fails with `Writing the RAM of <symbol> needs the token owner's witness`.

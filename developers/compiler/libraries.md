@@ -129,7 +129,7 @@ variable.
 | --- | --- | --- |
 | NFT.transfer(from:Address, to:Address, symbol:String, id:Number) | None | Transfers one NFT by its Phantasma NFT id. |
 | NFT.mint(from:Address, to:Address, symbol:String, rom:Any, ram:Any, seriesID:Number) | None | Mints an NFT with the given ROM and RAM into a series. |
-| NFT.write(from:Address, symbol:String, tokenID:Number, ram:Any) | None | Replaces the RAM of an NFT (`Runtime.WriteToken`). Runs `onWrite` when the token contract defines it. |
+| NFT.write(from:Address, symbol:String, tokenID:Number, ram:Any) | None | Replaces the RAM of an NFT (`Runtime.WriteToken`). Runs `onWrite` when the token contract defines it; without `onWrite`, the token owner must sign or the token's own contract must call. |
 | NFT.burn(from:Address, symbol:String, id:Number) | None | Burns an NFT. |
 | NFT.infuse(from:Address, symbol:String, id:Number, infuseSymbol:String, infuseValue:Number) | None | Moves a fungible amount or one NFT into the NFT. |
 | NFT.getInfusions(symbol:String, id:Number) | Any | Returns what the NFT holds. |
