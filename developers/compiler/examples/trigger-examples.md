@@ -189,23 +189,34 @@ token TEST {
 ## Trigger OnSend
 
 {% hint style="info" %}
-This method will be **triggered** when a token is **sent**.
-
-It's possible to prevent from sending external tokens!
+This method runs on the token's own contract when the token is transferred in the VM, for example by `Token.transfer` or `NFT.transfer`. A structured transfer (`TransferFungible`, `TransferNonFungible_Single`, `TransferNonFungible_Multi`) does not run it, so the check applies only to transfers made in the VM. See [Triggers](../basics/triggers.md).
 {% endhint %}
 
-In this example, this account will only accept transfers of KCAL and reject anything else.
+In this example, the token refuses a transfer from an address that its admin has frozen.
 
 {% code lineNumbers="true" %}
 ```csharp
-contract test {
+token TEST {
+    import Runtime;
+    import Map;
+
+    property name: string = "Test";
+
+    global _admin: address;
+    global frozen: storage_map<address, bool>;
+
+    constructor(owner:address) {
+        _admin = owner;
+    }
+
+    public freeze(target:address) {
+        Runtime.expect(Runtime.isWitness(_admin), "only the admin can freeze");
+        frozen.set(target, true);
+    }
 
     trigger onSend(from:address, to:address, symbol:string, amount:number)
     {
-        if (symbol != "KCAL") {
-            throw "can't send asset: " + symbol;
-        }
-
+        Runtime.expect(!frozen.has(from), "the sender is frozen");
         return;
     }
 }
@@ -215,23 +226,34 @@ contract test {
 ## Trigger OnReceive
 
 {% hint style="info" %}
-This method will be **triggered** when a token is **received**.
-
-It's possible to prevent receiving external tokens!
+This method runs on the token's own contract after `onSend`, for the same transfers. A structured transfer does not run it either. A standalone `contract` gets no trigger call when tokens arrive at its address.
 {% endhint %}
 
-In this example, this account will only accept transfers of KCAL and reject anything else.
+In this example, the token refuses a transfer to an address that its admin has blocked.
 
 {% code lineNumbers="true" %}
 ```csharp
-contract test {
+token TEST {
+    import Runtime;
+    import Map;
+
+    property name: string = "Test";
+
+    global _admin: address;
+    global blocked: storage_map<address, bool>;
+
+    constructor(owner:address) {
+        _admin = owner;
+    }
+
+    public block(target:address) {
+        Runtime.expect(Runtime.isWitness(_admin), "only the admin can block");
+        blocked.set(target, true);
+    }
 
     trigger onReceive(from:address, to:address, symbol:string, amount:number)
     {
-        if (symbol != "KCAL") {
-            throw "can't receive asset: " + symbol;
-        }
-
+        Runtime.expect(!blocked.has(to), "the receiver is blocked");
         return;
     }
 }
