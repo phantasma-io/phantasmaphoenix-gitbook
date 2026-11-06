@@ -21,6 +21,11 @@ emits for each property.
 At least one flag must be set. `isFuel` is reserved for KCAL and `isSwappable`
 cannot be set at creation.
 
+The chain stores the `Transferable` and `Burnable` flags and does not check them.
+A token declared with `isTransferable: false` or `isBurnable: false` can still be
+transferred and burned. A rule on transfers or burns belongs in the token's
+triggers; [Triggers](triggers.md) lists the operations that run them.
+
 ```csharp
 token EXP {
     property name: string = "Example";
