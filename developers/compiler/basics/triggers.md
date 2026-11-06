@@ -20,7 +20,10 @@ The validator invokes these triggers on token-backed contracts:
 - `onSeries`
 - `onWrite`
 
-The chain runs these triggers only when the operation runs in the VM: in contract code or in a script transaction. A structured transaction that transfers, mints or burns a token does not run `onSend`, `onReceive`, `onMint` or `onBurn`. This covers `TransferFungible`, `TransferNonFungible_Single`, `TransferNonFungible_Multi`, `MintFungible`, `MintNonFungible`, `BurnFungible`, `BurnNonFungible` and the `_GasPayer` forms of the transfers and burns. A trigger therefore cannot ban the transfer or the burn of a token: the holder can send the same operation as a structured transaction.
+The chain runs these triggers only when the operation runs in the VM: in contract code or in a script transaction. A structured transaction never runs them, and the chain handles it in one of two ways:
+
+- A structured transfer or mint goes through without `onSend`, `onReceive` or `onMint`. This covers `TransferFungible`, `TransferNonFungible_Single`, `TransferNonFungible_Multi`, their `_GasPayer` forms, `MintFungible` and `MintNonFungible`. A holder can send a transfer this way, so `onSend` and `onReceive` cannot ban a transfer, and `onMint` cannot stop a structured mint.
+- A structured burn (`BurnFungible`, `BurnNonFungible` and their `_GasPayer` forms) of a token whose contract declares `onBurn` is refused with `<symbol> has an onBurn trigger: burn it through the VM`. A transfer into an NFT whose token declares `onInfuse` is refused as well; infuse through `Runtime.InfuseToken` instead. Governance operations are exempt from both checks.
 
 The compiler also accepts `onWitness`, `onMigrate` and `onKill`. The validator never invokes them: account migration and contract kill are not part of the current chain, so a trigger with one of these names compiles and never runs.
 

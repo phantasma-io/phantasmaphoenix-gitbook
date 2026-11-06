@@ -86,10 +86,10 @@ A contract is never a witness of its own address. `Runtime.isWitness($THIS_ADDRE
 ## Trigger OnBurn
 
 {% hint style="info" %}
-This method runs when the token is burned in the VM, for example by `Token.burn` or `NFT.burn`. A structured `BurnFungible` or `BurnNonFungible` transaction does not run it, so `onBurn` cannot stop a holder from burning.
+This method runs when the token is burned in the VM, for example by `Token.burn` or `NFT.burn`. The chain refuses a structured `BurnFungible` or `BurnNonFungible` transaction for a token whose contract declares `onBurn`, so a holder can burn the token only through the VM, where the trigger runs.
 {% endhint %}
 
-In this example, a burn made in the VM succeeds only when the address in `owner` signed the transaction.
+In this example, a burn succeeds only when the address in `owner` signed the transaction.
 
 {% code lineNumbers="true" %}
 ```csharp
@@ -138,7 +138,7 @@ token TEST {
 ## Trigger OnInfuse
 
 {% hint style="info" %}
-This method will be **triggered** when a token is **infused**.
+This method runs when a token is infused into an NFT of this token through `Runtime.InfuseToken`, for example by `NFT.infuse`. The chain refuses a plain transfer into such an NFT, so a transfer cannot skip the trigger.
 {% endhint %}
 
 In this example, the token only accepts infusion with the same symbol.

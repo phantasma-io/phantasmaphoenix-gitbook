@@ -80,7 +80,7 @@ Token-backed contracts can expose these trigger methods:
 - `onUpgrade`
 - `onWrite`
 
-These triggers run only for operations inside the VM. A structured transaction that transfers, mints or burns a token calls the token module directly and runs no trigger. [Triggers](/developers/compiler/basics/triggers.md) lists the transaction types.
+These triggers run only for operations inside the VM, and a structured transaction runs none of them. A structured transfer or mint goes through without its trigger. A structured burn of a token whose contract declares `onBurn` is refused, and so is a transfer into an NFT whose token declares `onInfuse`. [Triggers](/developers/compiler/basics/triggers.md) lists the transaction types.
 
 The runtime invokes them through dedicated trigger paths rather than as ordinary public methods:
 
