@@ -1,0 +1,34 @@
+---
+title: "Burn Tokens"
+weight: 260
+---
+
+This example demonstrates how to burn tokens, permanently removing them from the Phantasma blockchain. A transaction script is created and sent using the `SendTransaction()` method from the `PhantasmaLinkClient` class.
+
+```csharp
+public void BurnTokens()
+{
+    if (!PhantasmaLinkClient.Instance.IsLogged) return;
+
+    ScriptBuilder sb = new ScriptBuilder();
+    var userAddress = Address.Parse(PhantasmaLinkClient.Instance.Address);
+    var symbol = "NSYM";
+    var amount = new BigInteger("1000000000000");
+    var payload = System.Text.Encoding.UTF8.GetBytes("OurDappExample");
+    var script = sb.AllowGas(userAddress, Address.Null, PhantasmaLinkClient.Instance.GasPrice, PhantasmaLinkClient.Instance.GasLimit ).
+        CallInterop("Runtime.BurnTokens", userAddress, symbol, amount).
+        SpendGas(userAddress).
+        EndScript();
+
+    PhantasmaLinkClient.Instance.SendTransaction("main", script, payload, (hash, s) =>
+    {
+        if ( hash.IsNull )
+        {
+            Debug.Log("Transaction failed: " + s);
+            return;
+        }
+
+        Debug.Log("Transaction sent: " + hash);
+    });
+}
+```

@@ -1,0 +1,56 @@
+---
+title: "Invoking a Script"
+weight: 20
+description: "Get some data from the blockchain"
+---
+
+> [!NOTE]
+> Current SDK source exposes the invoke-script methods used below. The call reads chain state and does not submit a transaction.
+
+# Invoking a Script
+
+> [!NOTE]
+> `invokeRawScript` reads chain data without changing state. The arguments go in an array.
+
+To do it using the **PhantasmaAPI** check this example
+
+- [Invoke a Script](../../backend/examples/invoke-a-script.md)
+
+## Using Phantasma Link
+
+This example is using the PhantasmaLink
+
+Invoking a Script doesn't need the user to accept anything.
+
+```ts
+import { PhantasmaLink, ScriptBuilder } from "phantasma-sdk-ts/public";
+
+const CHAIN_NAME = "main"; // This is the name of the chain, please don't change it.
+
+let contractName = "mycontract";
+let contractMethod = "getMyInfo";
+let args = ["arg1", "arg2"]; // this is just a example of arguments.
+
+const Link = new PhantasmaLink("My Dapp", true);
+
+Link.login(
+  (success) => {
+    if (!success) return;
+
+    const sb = new ScriptBuilder();
+    const myScript = sb.beginScript()
+      .callContract(contractName, contractMethod, args)
+      .endScript();
+
+    Link.invokeScript(myScript, (result) => {
+      // Handle the Data returned here.
+    });
+  },
+  (error) => {
+    console.error("Login failed:", error);
+  },
+  4,
+  "phantasma",
+  "poltergeist"
+);
+```

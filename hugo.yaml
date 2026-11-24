@@ -1,0 +1,74 @@
+baseURL: https://docs.phantasma.info/
+title: Phantasma Phoenix documentation
+locale: en-US
+theme: hextra
+
+enableRobotsTXT: true
+disableKinds: [taxonomy, term, rss]
+
+outputs:
+  home: [html, llms]
+  page: [html, markdown]
+  section: [html, markdown]
+
+markup:
+  goldmark:
+    renderer:
+      # Some pages hold HTML tables and anchors.
+      unsafe: true
+  highlight:
+    noClasses: false
+
+privacy:
+  youtube:
+    privacyEnhanced: true
+
+menu:
+  main:
+    - name: Search
+      weight: 1
+      params:
+        type: search
+    - name: GitHub
+      weight: 2
+      url: https://github.com/phantasma-io/phantasmaphoenix-gitbook
+      params:
+        icon: github
+
+params:
+  externalLinkDecoration: true
+
+  navbar:
+    displayTitle: true
+    displayLogo: false
+    width: wide
+
+  page:
+    width: wide
+
+  theme:
+    default: system
+    displayToggle: true
+
+  footer:
+    enable: true
+    displayCopyright: false
+    displayPoweredBy: false
+
+  displayUpdatedDate: false
+
+  search:
+    enable: true
+    type: flexsearch
+    flexsearch:
+      index: content
+      tokenize: forward
+
+  editURL:
+    enable: true
+    base: https://github.com/phantasma-io/phantasmaphoenix-gitbook/edit/main/content
+
+  highlight:
+    copy:
+      enable: true
+      display: hover

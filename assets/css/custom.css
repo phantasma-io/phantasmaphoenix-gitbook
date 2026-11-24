@@ -1,0 +1,12 @@
+/* The SDK sections nest six levels deep. A wider sidebar and a smaller indent per level keep the
+   names of the deepest pages on one or two lines. */
+@media (min-width: 768px) {
+  .hextra-sidebar-container {
+    width: 19rem;
+  }
+}
+
+.hextra-sidebar-children > ul {
+  margin-left: 0.5rem;
+  padding-left: 0.5rem;
+}

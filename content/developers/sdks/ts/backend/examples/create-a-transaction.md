@@ -1,0 +1,46 @@
+---
+title: "Create a Transaction"
+weight: 10
+---
+
+### Creating a Transaction
+
+A transaction wraps a script. The `script` must be the hex string returned by `ScriptBuilder.endScript()`.
+
+```ts
+import { Base16, PhantasmaKeys, Transaction } from "phantasma-sdk-ts/public";
+
+const NexusName = "testnet"; // Could also be simnet or mainnet
+const ChainName = "main"; // Since we only have the main chain, it's always main.
+const payload = Base16.encode("Phantasma-NodeJS"); // This is what going to appear on the explorer and on the wallet.
+const script = "YOUR_SCRIPT_HEX"; // In string format
+
+const expiration: Date = new Date(Date.UTC(
+  new Date().getUTCFullYear(),
+  new Date().getUTCMonth(),
+  new Date().getUTCDate(),
+  new Date().getUTCHours() + 1,
+  new Date().getUTCMinutes() + 10,
+  new Date().getUTCSeconds() + 10
+));
+
+const transaction = new Transaction(
+  NexusName, // Nexus Name
+  ChainName, // Chain
+  script, // In string format
+  expiration, // Date Object
+  payload // Extra Info to attach to Transaction in Serialized Hex
+);
+```
+
+### Sign a Transaction
+
+Now we need to sign the transaction if we want it to be accepted by the blockchain.
+
+```ts
+const wif = "YOUR_WIF"; // REPLACE with WIF of your wallet
+const keys = PhantasmaKeys.fromWIF(wif);
+
+transaction.signWithKeys(keys);
+const transactionSignedHex = transaction.toStringEncoded(true);
+```

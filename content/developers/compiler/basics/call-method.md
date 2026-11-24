@@ -1,0 +1,24 @@
+---
+title: "Call method"
+linkTitle: "Call Method"
+weight: 40
+---
+
+Showcases how a contract method can call other methods.\
+If a method is declared private, it can't be called by anyone except the actual contract that implements it.
+
+```csharp
+contract test {
+	private sum(a:number, b:number): number {
+		return a + b;
+	}
+
+	public calculatePrice(x:number): number
+	{
+		local price: number = 10;
+		price = this.sum(price, x); // here we use 'this' for calling another method
+
+		return price;
+	}
+}
+```

@@ -1,0 +1,51 @@
+---
+title: "TypeScript SDK Complete API Reference"
+linkTitle: "Complete API Reference"
+weight: 70
+---
+
+The public API of `phantasma-sdk-ts`: method groups, result shapes, wire
+structures, compatibility notes and lower-level helpers. The setup and task
+pages cover the common flows.
+
+## Pages
+
+| Page | Use it when |
+| ---- | ----------- |
+| [RPC Client](rpc-methods.md) | You need `PhantasmaAPI` methods, raw JSON-RPC result handling, broadcast helpers, or pagination behavior. |
+| [RPC Result Models](rpc-models.md) | You need result interface fields returned by account, token, block, transaction, NFT, auction, archive, or network calls. |
+| [VM and Transaction APIs](vm-transaction-binary.md) | You need key/address handling, VM scripts, transactions, signatures, event decoding, binary helpers, or compatibility aliases. |
+| [Carbon API and Wire Format](carbon-wire.md) | You need Carbon serializers, schemas, token/series/NFT builders, fee plans, signed messages, or result parsers. |
+| [Public API Inventory](public-api.md) | You need the complete declaration list across package exports and deep-import declaration files. |
+
+## Import Policy
+
+Use `/public` for new code:
+
+```ts
+import { PhantasmaAPI, PhantasmaKeys, ScriptBuilder } from "phantasma-sdk-ts/public";
+```
+
+Lowercase deep imports are also available for stable areas:
+
+```ts
+import { PhantasmaAPI } from "phantasma-sdk-ts/rpc";
+import { Transaction } from "phantasma-sdk-ts/tx";
+import { ScriptBuilder } from "phantasma-sdk-ts/vm";
+```
+
+Use `/types` for the few Carbon helpers that are not runtime exports of
+`/public`:
+
+```ts
+import { getRandomPhantasmaId } from "phantasma-sdk-ts/types";
+```
+
+The package root and `core/**` deep imports remain compatibility paths. New
+code should not add new dependencies on those paths.
+
+## Compatibility Aliases
+
+The SDK keeps legacy PascalCase methods and old typoed aliases where existing
+consumers may still use them. Canonical APIs are camelCase. Deprecated aliases
+are declared with `@deprecated` and are planned for removal at v1.0.
