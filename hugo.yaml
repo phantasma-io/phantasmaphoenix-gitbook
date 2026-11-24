@@ -63,6 +63,9 @@ params:
     flexsearch:
       index: content
       tokenize: forward
+      # The search library is a file of the site. Without this setting the theme downloads it from
+      # cdn.jsdelivr.net at every build.
+      js: js/flexsearch/flexsearch.bundle.min.js
 
   editURL:
     enable: true

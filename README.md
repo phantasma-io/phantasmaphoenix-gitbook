@@ -26,4 +26,5 @@ The source of https://docs.phantasma.info. The site is built with [Hugo](https:/
 The theme in `themes/hextra/` is Hextra v0.13.0 (commit `adf732f8`), unchanged: its `assets`,
 `data`, `i18n`, `layouts` and `static` folders, `hugo.toml`, `theme.toml` and `LICENSE`.
 `layouts/_partials/` replaces two of its partials: the sidebar, which is drawn six levels deep
-instead of four, and the icons.
+instead of four, and the icons. The search library FlexSearch v0.8.143 is the file
+`assets/js/flexsearch/flexsearch.bundle.min.js`, so the build needs no network.
